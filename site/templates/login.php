@@ -46,7 +46,7 @@ if ($login == 'on') {
                     <label for="point">Точка</label>
                     <select class="uk-select" id="point" name="point" required>
                         <option></option>
-                        <option>точка 0</option>
+                        <option>точка 1</option>
                         <option>точка 2</option>
                         <option>точка 3</option>
                     </select>
