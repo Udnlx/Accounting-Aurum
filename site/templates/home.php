@@ -12,6 +12,12 @@ if(isset($_SESSION['point'])){
     $selected_point = 'no_point';
 }
 
+if(isset($_SESSION['id_point'])){
+    $selected_id_point = $_SESSION['id_point'];
+} else {
+    $selected_id_point = 'no_id_point';
+}
+
 $access = '';
 if(isset($_SESSION['access'])){
     $access = $_SESSION['access'];
@@ -28,6 +34,20 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
     </div>
 <?php    
 } else {
+
+//Формирование таблицы с остатками
+$remain_tables_startday = '';
+$startday = $pages->get('id_point=' . $selected_id_point . '_startday');
+$actual = $pages->get('id_point=' . $selected_id_point . '_actual');
+$reserv = $pages->get('id_point=' . $selected_id_point . '_reserv');
+if ($startday == '' || $actual == '' || $reserv == '') {
+    $remain_tables_startday .= '
+    <h2 class="uk-margin-remove uk-card-title" style="color:red;font-weight:700;text-align:center;">Произошла ошибка получения остатков!<br>Пожалуйста обратитесь к разработчику!</h2>
+    ';
+} else {
+    include 'remains_table.php';
+}
+
 ?>
 
 <div id="content">
@@ -46,7 +66,7 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
         
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-                <h3 class="uk-margin-remove uk-card-title">Таблицы остатков</h3>
+                <?php echo $remain_tables_startday; ?>
             </div>
         </div>
         

@@ -10,8 +10,23 @@ if(isset($_SESSION['operator'])){
 
 if(isset($_SESSION['point'])){
     $selected_point = $_SESSION['point'];
+    if ($selected_point == 'точка 1') {
+        $selected_point = 'ул. Ушакова 23';
+    }
+    if ($selected_point == 'точка 2') {
+        $selected_point = 'ул. Пушкина 24';
+    }
+    if ($selected_point == 'точка 3') {
+        $selected_point = 'ул. Московская 35';
+    }
 } else {
     $selected_point = 'no_point';
+}
+
+if(isset($_SESSION['id_point'])){
+    $selected_id_point = $_SESSION['id_point'];
+} else {
+    $selected_id_point = 'no_id_point';
 }
 
 $url = $_SERVER['REQUEST_URI'];
@@ -33,6 +48,7 @@ $menu = '
         <a href="/"><i class="fa-solid fa-house"></i></a>
         <p class="uk-margin-remove uk-text-bold ">Дата: ' . $today . '</p>
         <p class="uk-margin-remove uk-text-bold ">Точка: ' . $selected_point . '</p>
+        <p class="uk-margin-remove uk-text-bold ">ID точки: ' . $selected_id_point . '</p>
         <p class="uk-margin-remove uk-text-bold ">Сотрудник: ' . $operator . '</p>
         <a href="/login/?logout" title="Выход из системы"><i class="fa-solid fa-right-from-bracket"></i></a>
     </div>
