@@ -40,6 +40,13 @@ $remain_tables_startday = '';
 $startday = $pages->get('id_point=' . $selected_id_point . '_startday');
 $actual = $pages->get('id_point=' . $selected_id_point . '_actual');
 $reserv = $pages->get('id_point=' . $selected_id_point . '_reserv');
+
+if ($startday != '' || $actual != '' || $reserv != '') {
+$actual_date = $startday->actual_date;
+include 'remains_table_archive.php';
+$remain_tables_startday .= '<h3 class="uk-card-title uk-margin-remove">Дата таблицы: ' . $actual_date . '</h3><hr>';
+}
+
 if ($startday == '' || $actual == '' || $reserv == '') {
     $remain_tables_startday .= '
     <h2 class="uk-margin-remove uk-card-title" style="color:red;font-weight:700;text-align:center;">Произошла ошибка получения остатков!<br>Пожалуйста обратитесь к разработчику!</h2>

@@ -14,16 +14,27 @@ $remain_tables_startday .= '
         </thead>
         <tbody>
 ';
+
+$in585 = 0;
+foreach ($startday_items as $itm) {
+    if ($itm->title == 'Ag' || $itm->title == 'Pt' || $itm->title == 'Pd') {
+        //Серебро, Платина и Палладий не считаются
+    } else {
+        $in585 = $in585 + ($itm->remain/585*$itm->title);
+    }
+}
+$in585 = round($in585, 2);
+
 $i = 1;
 foreach ($startday_items as $itm) {
     $sum585 = '';
     if ($i == 1) {
-        $sum585 = '<td rowspan="3" align="center">585</td>';
+        $sum585 = '<td rowspan="3" align="center">' . number_format($in585, 2, ',', ' ') . '</td>';
     }
     $remain_tables_startday .= '
     <tr>
         <td>' . $itm->title . '</td>
-        <td>' . $itm->remain . '</td>
+        <td>' . number_format($itm->remain, 2, ',', ' ') . '</td>
         ' . $sum585 . '
     </tr>
     ';
@@ -51,16 +62,27 @@ $remain_tables_startday .= '
         </thead>
         <tbody>
 ';
+
+$in585 = 0;
+foreach ($actual_items as $itm) {
+    if ($itm->title == 'Ag' || $itm->title == 'Pt' || $itm->title == 'Pd') {
+        //Серебро, Платина и Палладий не считаются
+    } else {
+        $in585 = $in585 + ($itm->remain/585*$itm->title);
+    }
+}
+$actual_in585 = round($in585, 2);
+
 $i = 1;
 foreach ($actual_items as $itm) {
     $sum585 = '';
     if ($i == 1) {
-        $sum585 = '<td rowspan="3" align="center">585</td>';
+        $sum585 = '<td rowspan="3" align="center">' . number_format($actual_in585, 2, ',', ' ') . '</td>';
     }
     $remain_tables_startday .= '
     <tr>
         <td>' . $itm->title . '</td>
-        <td>' . $itm->remain . '</td>
+        <td>' . number_format($itm->remain, 2, ',', ' ') . '</td>
         ' . $sum585 . '
     </tr>
     ';
@@ -88,16 +110,27 @@ $remain_tables_startday .= '
         </thead>
         <tbody>
 ';
+
+$in585 = 0;
+foreach ($reserv_items as $itm) {
+    if ($itm->title == 'Ag' || $itm->title == 'Pt' || $itm->title == 'Pd') {
+        //Серебро, Платина и Палладий не считаются
+    } else {
+        $in585 = $in585 + ($itm->remain/585*$itm->title);
+    }
+}
+$reserv_in585 = round($in585, 2);
+
 $i = 1;
 foreach ($reserv_items as $itm) {
     $sum585 = '';
     if ($i == 1) {
-        $sum585 = '<td rowspan="3" align="center">585</td>';
+        $sum585 = '<td rowspan="3" align="center">' . number_format($reserv_in585, 2, ',', ' ') . '</td>';
     }
     $remain_tables_startday .= '
     <tr>
         <td>' . $itm->title . '</td>
-        <td>' . $itm->remain . '</td>
+        <td>' . number_format($itm->remain, 2, ',', ' ') . '</td>
         ' . $sum585 . '
     </tr>
     ';
@@ -137,7 +170,8 @@ foreach ($actual_items as $itm) {
 
     $sum585 = '';
     if ($i == 1) {
-        $sum585 = '<td rowspan="3" align="center">585</td>';
+        $free_in585 = round($actual_in585 - $reserv_in585, 2);
+        $sum585 = '<td rowspan="3" align="center">' . number_format($free_in585, 2, ',', ' ') . '</td>';
     }
 
     $remain_tables_startday .= '
