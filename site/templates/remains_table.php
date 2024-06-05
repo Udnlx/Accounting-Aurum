@@ -177,7 +177,7 @@ foreach ($actual_items as $itm) {
     $remain_tables_startday .= '
     <tr>
         <td>' . $itm->title . '</td>
-        <td>' . $free_metal . '</td>
+        <td>' . number_format($free_metal, 2, ',', ' ') . '</td>
         ' . $sum585 . '
     </tr>
     ';
