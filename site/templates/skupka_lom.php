@@ -72,16 +72,19 @@ if ($startday == '' || $actual == '' || $reserv == '') {
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
                 <form class="uk-flex uk-flex-column" id="select_seat" action="" method="post">
                     <div class="uk-margin-small-top">
-                        <input class="uk-input" id="selected_date" type="text" name="selected_date" value="">
+                        <input class="uk-input" id="selected_date" type="text" name="selected_date" value="<?php echo $today; ?>">
                     </div>
                     <div class="uk-margin-small-top">
-                        <input class="uk-input" id="selected_point" type="text" name="selected_point" value="">
+                        <input class="uk-input" id="selected_point" type="text" name="selected_point" value="<?php echo $selected_point; ?>">
                     </div>
                     <div class="uk-margin-small-top">
-                        <input class="uk-input" id="selected_idpoint" type="text" name="selected_idpoint" value="">
+                        <input class="uk-input" id="selected_idpoint" type="text" name="selected_idpoint" value="<?php echo $selected_id_point; ?>">
                     </div>
                     <div class="uk-margin-small-top">
-                        <input class="uk-input" id="selected_worker" type="text" name="selected_worker" value="">
+                        <input class="uk-input" id="selected_worker" type="text" name="selected_worker" value="<?php echo $operator; ?>">
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input" id="main_price" type="text" name="main_price" value="<?php echo $_SESSION['main_price']; ?>">
                     </div>
 
                     <div class="uk-margin-small-top">
@@ -90,6 +93,21 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                             <option>375</option>
                             <option>333</option>
                             <option>417</option>
+                            <option>500</option>
+                            <option>585</option>
+                            <option>620</option>
+                            <option>750</option>
+                            <option>800</option>
+                            <option>850</option>
+                            <option>875</option>
+                            <option>900</option>
+                            <option>916</option>
+                            <option>958</option>
+                            <option>990</option>
+                            <option>999.9</option>
+                            <option>Ag</option>
+                            <option>Pt</option>
+                            <option>Pd</option>
                         </select>
                     </div>
                     <div class="uk-margin-small-top">

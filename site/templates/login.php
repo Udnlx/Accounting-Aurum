@@ -1,5 +1,8 @@
 <?php namespace ProcessWire;
 
+$main_options = $pages->get('template=main_options');
+$main_price = $main_options->main_price;
+
 if(isset($_GET['logout'])) {
     session_unset();
 }
@@ -28,6 +31,7 @@ if($user_login === 'admin' && $user_password === 'asdasd') {
     $_SESSION['id_point'] = $id_p;
     $_SESSION['operator'] = 'admin';
     $_SESSION['access'] = 'admin';
+    $_SESSION['main_price'] = $main_price;
 }
 
 //echo $login;
