@@ -137,7 +137,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     </div>
                     <div class="uk-margin-small-top">
                         <label for="selected_price">Стоимость</label>
-                        <input class="uk-input readonly" id="selected_price" type="text" name="selected_price" value="00.00" autocomplete="off" required>
+                        <input class="uk-input readonly" id="selected_price" type="text" name="selected_price" value="" autocomplete="off" required>
                     </div>
                     <div class="uk-margin-small-top">
                         <input class="uk-input" id="selected_pay" type="text" name="selected_pay" value="" placeholder="Сколько отдали" autocomplete="off" required>
