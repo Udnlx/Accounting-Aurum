@@ -1,5 +1,8 @@
 <?php namespace ProcessWire;
 
+$main_options = $pages->get('template=main_options');
+$main_price_gold = number_format($main_options->main_price_gold, 2, '.',' ');
+
 $today = date("d-m-Y"); 
 
 if(isset($_SESSION['operator'])){
@@ -29,13 +32,6 @@ if(isset($_SESSION['id_point'])){
     $selected_id_point = 'no_id_point';
 }
 
-if(isset($_SESSION['main_price'])){
-    $main_price = $_SESSION['main_price'];
-    $main_price = '<p class="uk-margin-remove uk-text-bold" style="color:green;">Цена 585: ' . $_SESSION['main_price'] . '</p>';
-} else {
-    $main_price = '<p class="uk-margin-remove uk-text-bold" style="color:red;">Цена 585: errors</p>';
-}
-
 $url = $_SERVER['REQUEST_URI'];
 $url = explode('?', $url);
 $url = $url[0];
@@ -57,7 +53,6 @@ $menu = '
         <p class="uk-margin-remove uk-text-bold">Точка: ' . $selected_point . '</p>
         <p class="uk-margin-remove uk-text-bold">ID точки: ' . $selected_id_point . '</p>
         <p class="uk-margin-remove uk-text-bold">Сотрудник: ' . $operator . '</p>
-        ' . $main_price . '
         <a href="/login/?logout" title="Выход из системы"><i class="fa-solid fa-right-from-bracket"></i></a>
     </div>
    ';

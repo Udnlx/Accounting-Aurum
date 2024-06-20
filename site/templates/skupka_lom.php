@@ -1,5 +1,11 @@
 <?php namespace ProcessWire;
 
+$main_options = $pages->get('template=main_options');
+$main_price_gold = $main_options->main_price_gold;
+$main_price_silver = $main_options->main_price_silver;
+$main_price_platinum = $main_options->main_price_platinum;
+$main_price_palladium = $main_options->main_price_palladium;
+
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
 } else {
@@ -83,9 +89,21 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     <div class="uk-margin-small-top">
                         <input class="uk-input" id="selected_worker" type="text" name="selected_worker" value="<?php echo $operator; ?>">
                     </div>
+
                     <div class="uk-margin-small-top">
-                        <input class="uk-input" id="main_price" type="text" name="main_price" value="<?php echo $_SESSION['main_price']; ?>">
+                        <input class="uk-input" id="main_price_gold" type="text" name="main_price_gold" value="<?php echo $main_price_gold; ?>">
                     </div>
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input" id="main_price_silver" type="text" name="main_price_silver" value="<?php echo $main_price_silver; ?>">
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input" id="main_price_platinum" type="text" name="main_price_platinum" value="<?php echo $main_price_platinum; ?>">
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input" id="main_price_palladium" type="text" name="main_price_palladium" value="<?php echo $main_price_palladium; ?>">
+                    </div>
+
+                    <br>
 
                     <div class="uk-margin-small-top">
                         <label for="selected_proba">Выберите пробу</label>
@@ -115,11 +133,11 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     </div>
                     <div class="uk-margin-small-top">
                         <label for="price_gramm">Цена за грамм</label>
-                        <input class="uk-input readonly" id="price_gramm" type="text" name="price_gramm" value="00,00" autocomplete="off" required>
+                        <input class="uk-input readonly" id="price_gramm" type="text" name="price_gramm" value="<?php echo round(($main_price_gold/585)*375, 2); ?>" autocomplete="off" required>
                     </div>
                     <div class="uk-margin-small-top">
                         <label for="selected_price">Стоимость</label>
-                        <input class="uk-input readonly" id="selected_price" type="text" name="selected_price" value="00,00" autocomplete="off" required>
+                        <input class="uk-input readonly" id="selected_price" type="text" name="selected_price" value="00.00" autocomplete="off" required>
                     </div>
                     <div class="uk-margin-small-top">
                         <input class="uk-input" id="selected_pay" type="text" name="selected_pay" value="" placeholder="Сколько отдали" autocomplete="off" required>

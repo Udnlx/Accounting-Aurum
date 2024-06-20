@@ -32,12 +32,12 @@ $i = 1;
 foreach ($startday_items as $itm) {
     $sum585 = '';
     if ($i == 1) {
-        $sum585 = '<td rowspan="15" align="center">' . number_format($in585, 2, ',', ' ') . '</td>';
+        $sum585 = '<td rowspan="15" align="center">' . number_format($in585, 2, '.', ' ') . '</td>';
     }
     $remain_tables_startday .= '
     <tr>
         <td>' . $itm->title . '</td>
-        <td>' . number_format($itm->remain, 2, ',', ' ') . '</td>
+        <td>' . number_format($itm->remain, 2, '.', ' ') . '</td>
         ' . $sum585 . '
     </tr>
     ';
@@ -81,12 +81,12 @@ $i = 1;
 foreach ($actual_items as $itm) {
     $sum585 = '';
     if ($i == 1) {
-        $sum585 = '<td rowspan="15" align="center">' . number_format($actual_in585, 2, ',', ' ') . '</td>';
+        $sum585 = '<td rowspan="15" align="center">' . number_format($actual_in585, 2, '.', ' ') . '</td>';
     }
     $remain_tables_startday .= '
     <tr>
         <td>' . $itm->title . '</td>
-        <td>' . number_format($itm->remain, 2, ',', ' ') . '</td>
+        <td>' . number_format($itm->remain, 2, '.', ' ') . '</td>
         ' . $sum585 . '
     </tr>
     ';
@@ -130,12 +130,12 @@ $i = 1;
 foreach ($reserv_items as $itm) {
     $sum585 = '';
     if ($i == 1) {
-        $sum585 = '<td rowspan="15" align="center">' . number_format($reserv_in585, 2, ',', ' ') . '</td>';
+        $sum585 = '<td rowspan="15" align="center">' . number_format($reserv_in585, 2, '.', ' ') . '</td>';
     }
     $remain_tables_startday .= '
     <tr>
         <td>' . $itm->title . '</td>
-        <td>' . number_format($itm->remain, 2, ',', ' ') . '</td>
+        <td>' . number_format($itm->remain, 2, '.', ' ') . '</td>
         ' . $sum585 . '
     </tr>
     ';
@@ -177,13 +177,13 @@ foreach ($actual_items as $itm) {
     $sum585 = '';
     if ($i == 1) {
         $free_in585 = round($actual_in585 - $reserv_in585, 2);
-        $sum585 = '<td rowspan="15" align="center">' . number_format($free_in585, 2, ',', ' ') . '</td>';
+        $sum585 = '<td rowspan="15" align="center">' . number_format($free_in585, 2, '.', ' ') . '</td>';
     }
 
     $remain_tables_startday .= '
     <tr>
         <td>' . $itm->title . '</td>
-        <td>' . number_format($free_metal, 2, ',', ' ') . '</td>
+        <td>' . number_format($free_metal, 2, '.', ' ') . '</td>
         ' . $sum585 . '
     </tr>
     ';
