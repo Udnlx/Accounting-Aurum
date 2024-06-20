@@ -44,7 +44,7 @@ $reserv = $pages->get('id_point=' . $selected_id_point . '_reserv');
 if ($startday != '' || $actual != '' || $reserv != '') {
 $actual_date = $startday->actual_date;
 include 'remains_table_archive.php';
-$remain_tables_startday .= '<h3 class="uk-card-title uk-margin-remove">Дата таблицы: ' . $actual_date . '</h3><hr>';
+$remain_tables_startday .= '<h4 class="uk-card-title uk-margin-remove">Дата таблиц: ' . $actual_date . '</h4><hr>';
 }
 
 if ($startday == '' || $actual == '' || $reserv == '') {
@@ -58,15 +58,79 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-heading-hero uk-text-center">Скупка лома</h1>
-	<div class="uk-child-width-1-2@m" uk-grid>
-	    
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Скупка лома</h1>
+	<div>
+
         <div>
-            <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
-		        <h3 class="uk-card-title">Заполните данные скупки лома</h3>
-		        <a class="uk-margin-small uk-button uk-button-default" href="/skupka-tip-skupki/">Выбрать другой тип скупки</a>
-                <a class="uk-margin-small uk-button uk-button-default" href="/">На главную</a>
-		    </div>
+            <div class="pagemenu uk-width-1-1 uk-flex">
+                <a class="menu-link" href="/">На главную</a>
+                <a class="menu-link" href="/skupka-tip-skupki/">Выбрать другой тип скупки</a>
+            </div>
+        </div>
+
+        <div>
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                <form class="uk-flex uk-flex-column" id="select_seat" action="" method="post">
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input" id="selected_date" type="text" name="selected_date" value="">
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input" id="selected_point" type="text" name="selected_point" value="">
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input" id="selected_idpoint" type="text" name="selected_idpoint" value="">
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input" id="selected_worker" type="text" name="selected_worker" value="">
+                    </div>
+
+                    <div class="uk-margin-small-top">
+                        <label for="selected_proba">Выберите пробу</label>
+                        <select class="uk-select" id="selected_proba" name="selected_proba">
+                            <option>375</option>
+                            <option>333</option>
+                            <option>417</option>
+                        </select>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input" id="selected_weight" type="text" name="selected_weight" value="" placeholder="Вес" autocomplete="off" required>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <label for="price_gramm">Цена за грамм</label>
+                        <input class="uk-input readonly" id="price_gramm" type="text" name="price_gramm" value="00,00" autocomplete="off" required>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <label for="selected_price">Стоимость</label>
+                        <input class="uk-input readonly" id="selected_price" type="text" name="selected_price" value="00,00" autocomplete="off" required>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input" id="selected_pay" type="text" name="selected_pay" value="" placeholder="Сколько отдали" autocomplete="off" required>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <label for="selected_proba">Квитанция</label>
+                        <select class="uk-select" id="selected_paytype" name="selected_paytype">
+                            <option>Нет</option>
+                            <option>Да</option>
+                        </select>
+                    </div>
+
+                    <div id="data_client">
+                        <div class="uk-margin-small-top">
+                            <input class="uk-input" id="client_name" type="text" name="client_name" value="" placeholder="ФИО клиента" autocomplete="off" required>
+                        </div>
+                        <div class="uk-margin-small-top">
+                            <input class="uk-input" id="client_passport" type="text" name="client_passport" value="" placeholder="Паспорт клиента" autocomplete="off" required>
+                        </div>
+                        <div class="uk-margin-small-top">
+                            <input class="uk-input" id="client_address" type="text" name="client_address" value="" placeholder="Адрес клиента" autocomplete="off" required>
+                        </div>
+                    </div>
+                    
+                    <div class="uk-margin-small-top uk-flex uk-flex-column">
+                        <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Зарегистрировать</button>
+                    </div>
+                </form>
+            </div>
         </div>
         
         <div>

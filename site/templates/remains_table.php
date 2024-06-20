@@ -1,9 +1,12 @@
 <?php
 
+$remain_tables_startday .= '<div class="uk-grid-medium uk-child-width-1-4@l" uk-grid>';
+
 //Таблица по остаткам на утро
 $startday_items = $startday->children();
 $remain_tables_startday .= '
-<h2 class="uk-margin-remove uk-card-title">Остаток на начало дня</h2>
+<div>
+    <h4 class="uk-margin-remove uk-card-title">Остаток на начало дня</h2>
     <table class="uk-table-striped">
         <thead>
             <tr>
@@ -17,7 +20,7 @@ $remain_tables_startday .= '
 
 $in585 = 0;
 foreach ($startday_items as $itm) {
-    if ($itm->title == 'Ag' || $itm->title == 'Pt' || $itm->title == 'Pd') {
+    if ($itm->title == '999,9' || $itm->title == 'Ag' || $itm->title == 'Pt' || $itm->title == 'Pd') {
         //Серебро, Платина и Палладий не считаются
     } else {
         $in585 = $in585 + ($itm->remain/585*$itm->title);
@@ -29,7 +32,7 @@ $i = 1;
 foreach ($startday_items as $itm) {
     $sum585 = '';
     if ($i == 1) {
-        $sum585 = '<td rowspan="3" align="center">' . number_format($in585, 2, ',', ' ') . '</td>';
+        $sum585 = '<td rowspan="15" align="center">' . number_format($in585, 2, ',', ' ') . '</td>';
     }
     $remain_tables_startday .= '
     <tr>
@@ -43,7 +46,7 @@ foreach ($startday_items as $itm) {
 $remain_tables_startday .= '
         </tbody>
     </table>
-    <br>
+</div>
 ';
 
 
@@ -51,7 +54,8 @@ $remain_tables_startday .= '
 //Таблица по текущим остаткам
 $actual_items = $actual->children();
 $remain_tables_startday .= '
-<h2 class="uk-margin-remove uk-card-title">Текущий остаток</h2>
+<div>
+    <h4 class="uk-margin-remove uk-card-title">Текущий остаток</h2>
     <table class="uk-table-striped">
         <thead>
             <tr>
@@ -77,7 +81,7 @@ $i = 1;
 foreach ($actual_items as $itm) {
     $sum585 = '';
     if ($i == 1) {
-        $sum585 = '<td rowspan="3" align="center">' . number_format($actual_in585, 2, ',', ' ') . '</td>';
+        $sum585 = '<td rowspan="15" align="center">' . number_format($actual_in585, 2, ',', ' ') . '</td>';
     }
     $remain_tables_startday .= '
     <tr>
@@ -91,7 +95,7 @@ foreach ($actual_items as $itm) {
 $remain_tables_startday .= '
         </tbody>
     </table>
-    <br>
+</div>
 ';
 
 
@@ -99,7 +103,8 @@ $remain_tables_startday .= '
 //Таблица резерва
 $reserv_items = $reserv->children();
 $remain_tables_startday .= '
-<h2 class="uk-margin-remove uk-card-title">Резерв</h2>
+<div>
+    <h4 class="uk-margin-remove uk-card-title">Резерв</h2>
     <table class="uk-table-striped">
         <thead>
             <tr>
@@ -125,7 +130,7 @@ $i = 1;
 foreach ($reserv_items as $itm) {
     $sum585 = '';
     if ($i == 1) {
-        $sum585 = '<td rowspan="3" align="center">' . number_format($reserv_in585, 2, ',', ' ') . '</td>';
+        $sum585 = '<td rowspan="15" align="center">' . number_format($reserv_in585, 2, ',', ' ') . '</td>';
     }
     $remain_tables_startday .= '
     <tr>
@@ -139,7 +144,7 @@ foreach ($reserv_items as $itm) {
 $remain_tables_startday .= '
         </tbody>
     </table>
-    <br>
+</div>
 ';
 
 
@@ -148,7 +153,8 @@ $remain_tables_startday .= '
 $actual_items = $actual->children();
 $reserv_items = $reserv->children();
 $remain_tables_startday .= '
-<h2 class="uk-margin-remove uk-card-title">Свободно</h2>
+<div>
+    <h4 class="uk-margin-remove uk-card-title">Свободно</h2>
     <table class="uk-table-striped">
         <thead>
             <tr>
@@ -171,7 +177,7 @@ foreach ($actual_items as $itm) {
     $sum585 = '';
     if ($i == 1) {
         $free_in585 = round($actual_in585 - $reserv_in585, 2);
-        $sum585 = '<td rowspan="3" align="center">' . number_format($free_in585, 2, ',', ' ') . '</td>';
+        $sum585 = '<td rowspan="15" align="center">' . number_format($free_in585, 2, ',', ' ') . '</td>';
     }
 
     $remain_tables_startday .= '
@@ -187,7 +193,9 @@ foreach ($actual_items as $itm) {
 $remain_tables_startday .= '
         </tbody>
     </table>
-    <br>
+</div>
 ';
+
+$remain_tables_startday .= '</div>';
 
 ?>

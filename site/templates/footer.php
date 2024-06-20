@@ -3,7 +3,7 @@
 ?>
     
     <div class="uk-padding-small uk-container uk-flex uk-flex-column uk-flex-middle">
-        <h2 class="uk-margin-remove uk-heading-small">Система учета Aurum</h2>
+        <h2 class="uk-margin-remove uk-heading-small uk-text-center">Система учета Aurum</h2>
         <p class="uk-margin-remove uk-text-small uk-text-center">Программа для ведения учета Aurum</p>
         <p class="uk-margin-remove uk-text-small uk-text-center">© 2024-<?php echo date("Y"); ?> NikiDa (www.nikida.ru)</p>
     </div>

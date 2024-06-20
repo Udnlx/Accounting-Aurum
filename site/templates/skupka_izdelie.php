@@ -44,7 +44,7 @@ $reserv = $pages->get('id_point=' . $selected_id_point . '_reserv');
 if ($startday != '' || $actual != '' || $reserv != '') {
 $actual_date = $startday->actual_date;
 include 'remains_table_archive.php';
-$remain_tables_startday .= '<h3 class="uk-card-title uk-margin-remove">Дата таблицы: ' . $actual_date . '</h3><hr>';
+$remain_tables_startday .= '<h4 class="uk-card-title uk-margin-remove">Дата таблиц: ' . $actual_date . '</h4><hr>';
 }
 
 if ($startday == '' || $actual == '' || $reserv == '') {
@@ -58,15 +58,14 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-heading-hero uk-text-center">Скупка изделия</h1>
-	<div class="uk-child-width-1-2@m" uk-grid>
-	    
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Скупка изделия</h1>
+	<div>
+
         <div>
-            <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
-		        <h3 class="uk-card-title">Заполните данные скупки изделия</h3>
-		        <a class="uk-margin-small uk-button uk-button-default" href="/skupka-tip-skupki/">Выбрать другой тип скупки</a>
-                <a class="uk-margin-small uk-button uk-button-default" href="/">На главную</a>
-		    </div>
+            <div class="pagemenu uk-width-1-1 uk-flex">
+                <a class="menu-link" href="/">На главную</a>
+                <a class="menu-link" href="/skupka-tip-skupki/">Выбрать другой тип скупки</a>
+            </div>
         </div>
         
         <div>

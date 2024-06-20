@@ -44,7 +44,7 @@ $reserv = $pages->get('id_point=' . $selected_id_point . '_reserv');
 if ($startday != '' || $actual != '' || $reserv != '') {
 $actual_date = $startday->actual_date;
 include 'remains_table_archive.php';
-$remain_tables_startday .= '<h3 class="uk-card-title uk-margin-remove">Дата таблицы: ' . $actual_date . '</h3><hr>';
+$remain_tables_startday .= '<h4 class="uk-card-title uk-margin-remove">Дата таблиц: ' . $actual_date . '</h4><hr>';
 }
 
 if ($startday == '' || $actual == '' || $reserv == '') {
@@ -58,16 +58,16 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-heading-hero uk-text-center">Домашняя страница</h1>
-	<div class="uk-child-width-1-2@m" uk-grid>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Домашняя страница</h1>
+<!--     <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Подзаголовок</h4> -->
+	<div>
 	    
         <div>
-            <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
-		        <h3 class="uk-card-title">Выберите действие</h3>
-		        <a class="uk-margin-small uk-button uk-button-default" href="/skupka-tip-skupki/">Скупка</a>
-		        <a class="uk-margin-small uk-button uk-button-default" href="">Продажа</a>
-		        <a class="uk-margin-small uk-button uk-button-default" href="">Аффинаж</a>
-		        <a class="uk-margin-small uk-button uk-button-default" href="">Админ панель</a>
+            <div class="pagemenu uk-width-1-1 uk-flex">
+		        <a class="menu-link" href="/skupka-tip-skupki/">Скупка</a>
+		        <a class="menu-link" href="">Продажа</a>
+		        <a class="menu-link" href="">Аффинаж</a>
+		        <a class="menu-link" href="">Админ панель</a>
 		    </div>
         </div>
         

@@ -1,1 +1,3 @@
-// Example JS file
+$(".readonly").keydown(function(e){
+    e.preventDefault();
+});
