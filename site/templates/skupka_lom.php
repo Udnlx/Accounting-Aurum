@@ -76,7 +76,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-                <form class="uk-flex uk-flex-column" id="select_seat" action="" method="post">
+                <form class="uk-flex uk-flex-column" id="select_seat" action="/skupka-lom-registratciia/" method="post">
                     <div class="uk-margin-small-top">
                         <input class="uk-input" id="selected_date" type="text" name="selected_date" value="<?php echo $today; ?>">
                     </div>
