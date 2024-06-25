@@ -13,15 +13,6 @@ if(isset($_SESSION['operator'])){
 
 if(isset($_SESSION['point'])){
     $selected_point = $_SESSION['point'];
-    if ($selected_point == 'точка 1') {
-        $selected_point = 'ул. Ушакова 23';
-    }
-    if ($selected_point == 'точка 2') {
-        $selected_point = 'ул. Пушкина 24';
-    }
-    if ($selected_point == 'точка 3') {
-        $selected_point = 'ул. Московская 35';
-    }
 } else {
     $selected_point = 'no_point';
 }
