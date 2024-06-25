@@ -14,35 +14,7 @@
     
     <script src="<?php echo $config->urls->templates; ?>scripts/jquery-3.5.1.min.js"></script>
     <script src="<?php echo $config->urls->templates; ?>scripts/main.js?v=<?php echo uniqid(); ?>"></script>
-
-
-
-
-
-	<script>
-	function digits_float(target){
-	val = $(target).val().replace(/[^0-9.]/g, '');
-	if (val.indexOf(".") != '-1') {
-		val = val.substring(0, val.indexOf(".") + 3);
-	} 
-	val = val.replace(/\B(?=(\d{3})+(?!\d))/g, '');
-	$(target).val(val);
-	}
-
-	$(function($){
-	$('body').on('input', '#selected_weight', function(e){
-		digits_float(this);
-	});
-	digits_float('#selected_weight');
-	});
-
-	$(function($){
-	$('body').on('input', '#selected_pay', function(e){
-		digits_float(this);
-	});
-	digits_float('#selected_weight');
-	});
-	</script>
+	
     
     
     

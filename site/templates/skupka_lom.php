@@ -129,7 +129,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                         </select>
                     </div>
                     <div class="uk-margin-small-top">
-                        <input class="uk-input" id="selected_weight" type="text" name="selected_weight" value="" placeholder="Вес" autocomplete="off" required>
+                        <input class="uk-input custom1" id="selected_weight" type="text" name="selected_weight" value="" placeholder="Вес" autocomplete="off" required>
                     </div>
                     <div class="uk-margin-small-top">
                         <label for="price_gramm">Цена за грамм</label>
@@ -150,15 +150,15 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                         </select>
                     </div>
 
-                    <div id="data_client">
+                    <div id="data_client" class="uk-hidden">
                         <div class="uk-margin-small-top">
-                            <input class="uk-input" id="client_name" type="text" name="client_name" value="" placeholder="ФИО клиента" autocomplete="off" required>
+                            <input class="uk-input" id="client_name" type="text" name="client_name" value="" placeholder="ФИО клиента" autocomplete="off">
                         </div>
                         <div class="uk-margin-small-top">
-                            <input class="uk-input" id="client_passport" type="text" name="client_passport" value="" placeholder="Паспорт клиента" autocomplete="off" required>
+                            <input class="uk-input" id="client_passport" type="text" name="client_passport" value="" placeholder="Паспорт клиента" autocomplete="off">
                         </div>
                         <div class="uk-margin-small-top">
-                            <input class="uk-input" id="client_address" type="text" name="client_address" value="" placeholder="Адрес клиента" autocomplete="off" required>
+                            <input class="uk-input" id="client_address" type="text" name="client_address" value="" placeholder="Адрес клиента" autocomplete="off">
                         </div>
                     </div>
                     
