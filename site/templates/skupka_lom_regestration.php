@@ -9,6 +9,7 @@ $weight = !empty($_POST['selected_weight'])?$_POST['selected_weight']:NULL;
 $price_gramm = !empty($_POST['price_gramm'])?$_POST['price_gramm']:NULL;  
 $price = !empty($_POST['selected_price'])?$_POST['selected_price']:NULL;  
 $pay = !empty($_POST['selected_pay'])?$_POST['selected_pay']:NULL;  
+$cash_card = !empty($_POST['cash_card'])?$_POST['cash_card']:NULL;  
 
 $paytype = !empty($_POST['selected_paytype'])?$_POST['selected_paytype']:NULL;  
 $client_name = !empty($_POST['client_name'])?$_POST['client_name']:NULL;  
@@ -21,12 +22,15 @@ if ($paytype == 'Да') {
 	<p class="uk-margin-remove">ФИО клиента: <span style="font-weight: 700;">' . $client_name . '</span></p>
 	<p class="uk-margin-remove">Паспорт клиента: <span style="font-weight: 700;">' . $client_passport . '</span></p>
 	<p class="uk-margin-remove">Адрес клиента: <span style="font-weight: 700;">' . $client_address . '</span></p>
+    <div class="pagemenu uk-width-1-1 uk-flex">
+        <a class="menu-link" href="">Распечатать квитанцию</a>
+    </div>
 	';
 }
 
 $success = 'Регистрация скупки прошла успешно';
-if ($worker && $proba && $weight && $price_gramm && $price && $pay) {
-	//Регестрируем билет
+if ($worker && $proba && $weight && $price_gramm && $price && $pay && $cash_card) {
+	//Регестрируем запись
 } else {
 	$success = 'Регистрация не прошла!<br>Ошибка в данных';
 }
@@ -110,6 +114,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 	        <p class="uk-margin-remove">Цена за грамм: <span style="font-weight: 700;"><?php echo $price_gramm; ?></span></p>
 	        <p class="uk-margin-remove">Итоговая стоимость: <span style="font-weight: 700;"><?php echo $price; ?></span></p>
 	        <p class="uk-margin-remove">Сколько отдали: <span style="font-weight: 700;"><?php echo $pay; ?></span></p>
+            <p class="uk-margin-remove">Вид платежа: <span style="font-weight: 700;"><?php echo $cash_card; ?></span></p>
 	        <br>
 	        <p class="uk-margin-remove">Квитанция: <span style="font-weight: 700;"><?php echo $paytype; ?></span></p>
 	        <?php echo $info_paytype; ?>

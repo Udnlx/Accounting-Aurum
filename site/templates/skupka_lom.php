@@ -77,33 +77,31 @@ if ($startday == '' || $actual == '' || $reserv == '') {
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
                 <form class="uk-flex uk-flex-column" id="select_seat" action="/skupka-lom-registratciia/" method="post">
-                    <div class="uk-margin-small-top">
+                    <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="selected_date" type="text" name="selected_date" value="<?php echo $today; ?>">
                     </div>
-                    <div class="uk-margin-small-top">
+                    <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="selected_point" type="text" name="selected_point" value="<?php echo $selected_point; ?>">
                     </div>
-                    <div class="uk-margin-small-top">
+                    <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="selected_idpoint" type="text" name="selected_idpoint" value="<?php echo $selected_id_point; ?>">
                     </div>
-                    <div class="uk-margin-small-top">
+                    <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="selected_worker" type="text" name="selected_worker" value="<?php echo $operator; ?>">
                     </div>
 
-                    <div class="uk-margin-small-top">
+                    <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="main_price_gold" type="text" name="main_price_gold" value="<?php echo $main_price_gold; ?>">
                     </div>
-                    <div class="uk-margin-small-top">
+                    <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="main_price_silver" type="text" name="main_price_silver" value="<?php echo $main_price_silver; ?>">
                     </div>
-                    <div class="uk-margin-small-top">
+                    <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="main_price_platinum" type="text" name="main_price_platinum" value="<?php echo $main_price_platinum; ?>">
                     </div>
-                    <div class="uk-margin-small-top">
+                    <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="main_price_palladium" type="text" name="main_price_palladium" value="<?php echo $main_price_palladium; ?>">
                     </div>
-
-                    <br>
 
                     <div class="uk-margin-small-top">
                         <label for="selected_proba">Выберите пробу</label>
@@ -137,10 +135,17 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     </div>
                     <div class="uk-margin-small-top">
                         <label for="selected_price">Стоимость</label>
-                        <input class="uk-input readonly" id="selected_price" type="text" name="selected_price" value="" autocomplete="off" required>
+                        <input class="uk-input readonly" id="selected_price" type="text" name="selected_price" value="0.00" autocomplete="off" required>
                     </div>
                     <div class="uk-margin-small-top">
                         <input class="uk-input" id="selected_pay" type="text" name="selected_pay" value="" placeholder="Сколько отдали" autocomplete="off" required>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <label for="cash_card">Вид платежа</label>
+                        <select class="uk-select" id="cash_card" name="cash_card">
+                            <option>Наличный расчет</option>
+                            <option>Безналичный расчет</option>
+                        </select>
                     </div>
                     <div class="uk-margin-small-top">
                         <label for="selected_proba">Квитанция</label>
