@@ -29,10 +29,55 @@ if ($paytype == 'Да') {
 }
 
 $success = 'Регистрация скупки прошла успешно';
-if ($worker && $proba && $weight && $price_gramm && $price && $pay && $cash_card) {
+if ($worker && $proba && $weight && $price_gramm && $price && $pay && $cash_card && $_SESSION['reload'] != 'on') {
 	//Регестрируем запись
+    $pages->add('operation_itm', 1181 , [
+    'title' => date("Y-m-d H:i") . ' Скупка - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point,
+    'type_operation' => 'Скупка',
+    'undertype_operation' => 'Лом',
+    'date' => $date,
+    'point' => $point,
+    'id_point' => $idpoint,
+    'worker' => $worker,
+    'proba' => $proba,
+    'weight' => $weight,
+    'price_gramm' => $price_gramm,
+    'price' => $price,
+    'pay' => $pay,
+    'cash_card' => $cash_card,
+    'paytype' => $paytype,
+    'client_name' => $client_name,
+    'client_passport' => $client_passport,
+    'client_address' => $client_address,
+    ]);
+    $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Скупка - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point . '');
+    $operation_id = $operation_page->id;
+
+    //Записываем регистрацию  в лог
+    $log = '';
+    $log .= date("Y-m-d H:i") . ' Скупка - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point . ' === ';
+    $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $operation_id; 
+    file_put_contents(__DIR__ . '/log_operations.txt', $log . PHP_EOL, FILE_APPEND);
+
+    //Изменяем остатки
+    $point_actual_table = $pages->get('id_point=' . $idpoint . '_actual');
+    $edit_page = $point_actual_table->get('title=' . $proba . '');
+    // echo $edit_page . '<br>';
+    // echo $edit_page->remain . '<br>';
+    // echo $weight . '<br>';
+    $result = $edit_page->remain + $weight;
+    // echo $result;
+    $edit_page->of(false);
+    $edit_page->remain = $result;
+    $edit_page->save();
+
+    //Предотвращаем повторную регистрацию
+    $_SESSION['reload'] = 'on';
 } else {
 	$success = 'Регистрация не прошла!<br>Ошибка в данных';
+    if ($_SESSION['reload'] == 'on') {
+        $success = 'Повторная отправка данных!<br>Запись уже существует, регистрация записи повторно не проведена';
+    }
 }
 
 if(isset($_SESSION['operator'])){

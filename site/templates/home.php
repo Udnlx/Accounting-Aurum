@@ -1,5 +1,7 @@
 <?php namespace ProcessWire;
 
+$_SESSION['reload'] = 'off';
+
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
 } else {
