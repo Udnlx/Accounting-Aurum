@@ -43,17 +43,29 @@ $startday = $pages->get('id_point=' . $selected_id_point . '_startday');
 $actual = $pages->get('id_point=' . $selected_id_point . '_actual');
 $reserv = $pages->get('id_point=' . $selected_id_point . '_reserv');
 
-if ($startday != '' || $actual != '' || $reserv != '') {
-$actual_date = $startday->actual_date;
-include 'remains_table_archive.php';
-$remain_tables_startday .= '<h4 class="uk-card-title uk-margin-remove">Дата таблиц: ' . $actual_date . '</h4><hr>';
-}
-
 if ($startday == '' || $actual == '' || $reserv == '') {
+    $menu = '<br>';
     $remain_tables_startday .= '
     <h2 class="uk-margin-remove uk-card-title" style="color:red;font-weight:700;text-align:center;">Произошла ошибка получения остатков!<br>Пожалуйста обратитесь к разработчику!</h2>
     ';
-} else {
+}
+
+if ($startday != '' || $actual != '' || $reserv != '') {
+    $menu = '
+    <div>
+        <div class="pagemenu uk-width-1-1 uk-flex">
+            <a class="menu-link" href="/skupka-tip-skupki/">Скупка</a>
+            <a class="menu-link" href="">Продажа</a>
+            <a class="menu-link" href="">Аффинаж</a>
+            <a class="menu-link" href="">Админ панель</a>
+        </div>
+    </div>
+    ';
+    $actual_date = $startday->actual_date;
+    include 'remains_table_archive.php';
+    $remain_tables_startday .= '
+    <h4 class="uk-card-title uk-margin-remove">Дата таблиц: ' . $actual_date . '</h4><hr>
+    ';
     include 'remains_table.php';
 }
 
@@ -64,14 +76,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 <!--     <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Подзаголовок</h4> -->
 	<div>
 	    
-        <div>
-            <div class="pagemenu uk-width-1-1 uk-flex">
-		        <a class="menu-link" href="/skupka-tip-skupki/">Скупка</a>
-		        <a class="menu-link" href="">Продажа</a>
-		        <a class="menu-link" href="">Аффинаж</a>
-		        <a class="menu-link" href="">Админ панель</a>
-		    </div>
-        </div>
+        <?php echo $menu; ?>
         
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
