@@ -3,9 +3,9 @@
 $today = date("d-m-Y"); 
 
 if ($actual_date == $today) {
-	//echo 'Дата совпадает, архив не делаем';
+	// echo 'Дата совпадает, архив не делаем';
 } else {
-	//echo 'Дата не совпадает, делаем архив';
+	// echo 'Дата не совпадает, делаем архив';
 	$data_archive = '';
 	$remains_parent = $pages->get('template=remains');
 	$remains_points = $remains_parent->children();
@@ -22,31 +22,25 @@ if ($actual_date == $today) {
     'data_archive' => $data_archive,
     ]);
 
-	$actual = $pages->get('id_point=point1_actual');
-	$startday = $pages->get('id_point=point1_startday');
-	$actual_items = $actual->children();
-	$startday_items = $startday->children();
+	$actual_rew = $pages->get('id_point=point1_actual');
+	$startday_rew = $pages->get('id_point=point1_startday');
+	$actual_items = $actual_rew->children();
+	$startday_items = $startday_rew->children();
 	foreach ($actual_items as $itm) {
-	    $met_act_name = $itm->title;
 	    $met_start_item = $startday_items->get('title=' . $itm->title . '');
-	    $met_act_weight = $itm->remain;
-	    $met_start_weight = $met_start_item->remain;
 	    $met_start_item->of(false);
-	    $met_start_item->remain = $met_act_weight;
+	    $met_start_item->remain = $itm->remain;
 	    $met_start_item->save();
 	}
 
-	$actual = $pages->get('id_point=point2_actual');
-	$startday = $pages->get('id_point=point2_startday');
-	$actual_items = $actual->children();
-	$startday_items = $startday->children();
+	$actual_rew = $pages->get('id_point=point2_actual');
+	$startday_rew = $pages->get('id_point=point2_startday');
+	$actual_items = $actual_rew->children();
+	$startday_items = $startday_rew->children();
 	foreach ($actual_items as $itm) {
-	    $met_act_name = $itm->title;
 	    $met_start_item = $startday_items->get('title=' . $itm->title . '');
-	    $met_act_weight = $itm->remain;
-	    $met_start_weight = $met_start_item->remain;
 	    $met_start_item->of(false);
-	    $met_start_item->remain = $met_act_weight;
+	    $met_start_item->remain = $itm->remain;
 	    $met_start_item->save();
 	}
 
