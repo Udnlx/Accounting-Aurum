@@ -57,7 +57,7 @@ if ($startday != '' || $actual != '' || $reserv != '') {
             <a class="menu-link" href="/skupka-tip-skupki/">Скупка</a>
             <a class="menu-link" href="">Продажа</a>
             <a class="menu-link" href="">Аффинаж</a>
-            <a class="menu-link" href="">Админ панель</a>
+            <a class="menu-link" href="/adminpanel-meniu/">Админ панель</a>
         </div>
     </div>
     ';
