@@ -67,6 +67,68 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                 <a class="menu-link" href="/skupka-tip-skupki/">Выбрать другой тип скупки</a>
             </div>
         </div>
+
+        <div>
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                <form class="uk-flex uk-flex-column" id="select_seat" action="/skupka-izdelie-registratciia/" method="post">
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="selected_date" type="text" name="selected_date" value="<?php echo $today; ?>">
+                    </div>
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="selected_point" type="text" name="selected_point" value="<?php echo $selected_point; ?>">
+                    </div>
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="selected_idpoint" type="text" name="selected_idpoint" value="<?php echo $selected_id_point; ?>">
+                    </div>
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="selected_worker" type="text" name="selected_worker" value="<?php echo $operator; ?>">
+                    </div>
+
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input" id="product" type="text" name="product" value="" placeholder="Изделие" autocomplete="off" required>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input" id="product_description" type="text" name="product_description" value="" placeholder="Описание" autocomplete="off" required>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input custom1" id="selected_weight" type="text" name="selected_weight" value="" placeholder="Вес" autocomplete="off" required>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input" id="selected_pay" type="text" name="selected_pay" value="" placeholder="Сколько отдали" autocomplete="off" required>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <label for="cash_card">Вид платежа</label>
+                        <select class="uk-select" id="cash_card" name="cash_card">
+                            <option>Наличный расчет</option>
+                            <option>Безналичный расчет</option>
+                        </select>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <label for="selected_proba">Квитанция</label>
+                        <select class="uk-select" id="selected_paytype" name="selected_paytype">
+                            <option>Нет</option>
+                            <option>Да</option>
+                        </select>
+                    </div>
+
+                    <div id="data_client" class="uk-hidden">
+                        <div class="uk-margin-small-top">
+                            <input class="uk-input" id="client_name" type="text" name="client_name" value="" placeholder="ФИО клиента" autocomplete="off">
+                        </div>
+                        <div class="uk-margin-small-top">
+                            <input class="uk-input" id="client_passport" type="text" name="client_passport" value="" placeholder="Паспорт клиента" autocomplete="off">
+                        </div>
+                        <div class="uk-margin-small-top">
+                            <input class="uk-input" id="client_address" type="text" name="client_address" value="" placeholder="Адрес клиента" autocomplete="off">
+                        </div>
+                    </div>
+                    
+                    <div class="uk-margin-small-top uk-flex uk-flex-column">
+                        <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Зарегистрировать</button>
+                    </div>
+                </form>
+            </div>
+        </div>
         
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
