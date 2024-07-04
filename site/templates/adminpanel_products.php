@@ -27,6 +27,7 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
     	<h1 class="uk-heading-hero uk-text-center">Панель администратора</h1>
+        <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Все изделия</h4>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title">Потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -34,6 +35,35 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
     </div>
 <?php    
 } else {
+
+//Получение всех изделий в наличии
+$stock_products = '';
+$stock_products_itm = $pages->find('template=product_itm, product_status=в наличии, sort=-publish_date');
+$stock_products .= '<div class="scrolling-list" style="max-height: 700px;">';
+foreach ($stock_products_itm as $itm) {
+    $stock_products .= '
+    <p>' . $itm->title . '</p>
+    <p style="font-size:10px;">' . $itm->product_description . '</p>
+    <p style="font-size:12px; font-weight: 700;">Дата скупки: ' . $itm->product_date_buy . '; Цена скупки: ' . $itm->product_price_buy . '</p>
+    <br>
+    ';
+}
+$stock_products .= '</div>';
+
+//Получение всех проданных изделий
+$sell_products = '';
+$sell_products_itm = $pages->find('template=product_itm, product_status=продано, sort=-publish_date');
+$sell_products .= '<div class="scrolling-list" style="max-height: 700px;">';
+foreach ($sell_products_itm as $itm) {
+    $receipt = $itm->product_price_sell - $itm->product_price_buy;
+    $sell_products .= '
+    <p>' . $itm->title . '</p>
+    <p style="font-size:10px;">' . $itm->product_description . '</p>
+    <p style="font-size:12px; font-weight: 700;">Дата скупки: ' . $itm->product_date_buy . '; Цена скупки: ' . $itm->product_price_buy . '; Дата продажи: ' . $itm->product_date_sell . '; Цена продажи: ' . $itm->product_price_sell . '; Выручка: ' . $receipt . '</p>
+    <br>
+    ';
+}
+$sell_products .= '</div>';
 
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
@@ -59,30 +89,29 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
 <div id="content">
 	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Панель администратора</h1>
+    <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Все изделия</h4>
 	<div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
+                <a class="menu-link" href="/adminpanel-meniu/">Админ панель</a>
             </div>
         </div>
 
         <div>
-            <div class="admpanel uk-card uk-card-default uk-card-body">
-		        <div class="uk-grid-medium uk-child-width-1-2@s" uk-grid>
-		        	<div>
-		        		<a class="admpanel-link" href="/adminpanel-vse-operatcii/">Все операции</a>
-		        		<a class="admpanel-link" href="/adminpanel-vse-izdeliia/">Все изделия</a>
-		        		<a class="admpanel-link" href="">В разработке</a>
-		            </div>
-		            <div>
-		        		<a class="admpanel-link" href="">В разработке</a>
-		        		<a class="admpanel-link" href="">В разработке</a>
-		        		<a class="admpanel-link" href="">В разработке</a>
-		            </div>
-		        </div>
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                <h4 class="uk-margin-remove uk-heading-hero">Изделия в наличии</h4><br>
+		        <?php echo $stock_products; ?>
 		    </div>
 		</div>
+
+        <div>
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                <h4 class="uk-margin-remove uk-heading-hero">Проданные изделия</h4><br>
+                <?php echo $sell_products; ?>
+            </div>
+        </div>
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
