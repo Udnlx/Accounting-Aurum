@@ -29,11 +29,18 @@ $product_page = $pages->get('id=' . $id_product_sell . '');
 $success = 'Регистрация продажи прошла успешно';
 if ($worker && $id_product_sell && $pay && $cash_card && $_SESSION['reload'] != 'on') {
 	//Изменяем запись
-    // $edit_page = $pages->get('template=product_itm, id=' . $product_page->id . '');
-    // $edit_page->of(false);
-    // $edit_page->product_description = $new_product_description;
-    // $edit_page->url_avito = $new_product_url_avito;
-    // $edit_page->save();
+    $edit_page = $pages->get('template=product_itm, id=' . $product_page->id . '');
+    $edit_page->of(false);
+    $edit_page->worker_sell = $worker;
+    $edit_page->product_date_sell = date("Y-m-d");
+    $edit_page->product_status = 'продано';
+    $edit_page->product_price_sell = $pay;
+    $edit_page->cash_card_product_sell = $cash_card;
+    $edit_page->paytype_product_sell = $paytype;
+    $edit_page->client_name_product_sell = $client_name;
+    $edit_page->client_passport_product_sell = $client_passport;
+    $edit_page->client_address_product_sell = $client_address;
+    $edit_page->save();
 
     //Записываем регистрацию  в лог
     $log = '';

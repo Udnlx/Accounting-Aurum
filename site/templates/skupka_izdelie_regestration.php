@@ -31,7 +31,7 @@ $success = 'Регистрация скупки прошла успешно';
 if ($worker && $product && $weight && $pay && $cash_card && $_SESSION['reload'] != 'on') {
 	//Регестрируем запись
     $pages->add('product_itm', 1218 , [
-    'title' => date("Y-m-d H:i") . ' Скупка - Изделие - ' . $product . ' - ' . $weight . 'г - ' . $point,
+    'title' => $product . ' - ' . $weight . 'г - ' . $point . ' - Купленно: ' . date("Y-m-d H:i"),
     'date' => $date,
     'point' => $point,
     'id_point' => $idpoint,
@@ -48,7 +48,7 @@ if ($worker && $product && $weight && $pay && $cash_card && $_SESSION['reload'] 
     'client_passport' => $client_passport,
     'client_address' => $client_address,
     ]);
-    $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Скупка - Изделие - ' . $product . ' - ' . $weight . 'г - ' . $point . '');
+    $operation_page = $pages->get('title=' . $product . ' - ' . $weight . 'г - ' . $point . ' - Купленно: ' . date("Y-m-d H:i") . '');
     $operation_id = $operation_page->id;
 
     //Записываем регистрацию  в лог
