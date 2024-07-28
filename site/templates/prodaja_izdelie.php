@@ -48,7 +48,7 @@ foreach ($stock_products_itm as $itm) {
     <p style="font-size:10px;">URL Авито: ' . $itm->url_avito . '</p>
     <p style="font-size:12px; font-weight: 700;">Дата скупки: ' . $itm->product_date_buy . '; Цена скупки: ' . $itm->product_price_buy . '</p>
     <div class="product-link">
-        <a class="product-link-lnk" href="' . $itm->id . '">Продать</a>
+        <a class="product-link-lnk" href="/prodazha-izdelie-prodat/?prod_id=' . $itm->id . '">Продать</a>
         <a class="product-link-lnk" href="/prodazha-izdelie-vnesti-izmeneniia/?prod_id=' . $itm->id . '">Внести изменения</a>
     </div>
     <br>

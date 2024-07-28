@@ -11,8 +11,13 @@ $new_product_url_avito = !empty($_POST['new_product_url_avito'])?$_POST['new_pro
 $product_page = $pages->get('id=' . $id_product_changes . '');
 
 $success = 'Изменения прошли успешно';
-if ($id_product_changes && $old_product_description && $new_product_description && $_SESSION['reload'] != 'on') {
+if ($worker && $id_product_changes && $old_product_description && $new_product_description && $_SESSION['reload'] != 'on') {
 	//Изменяем запись
+    $edit_page = $pages->get('template=product_itm, id=' . $product_page->id . '');
+    $edit_page->of(false);
+    $edit_page->product_description = $new_product_description;
+    $edit_page->url_avito = $new_product_url_avito;
+    $edit_page->save();
 
     //Записываем регистрацию  в лог
     $log = '';
