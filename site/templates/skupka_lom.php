@@ -148,7 +148,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                         </select>
                     </div>
                     <div class="uk-margin-small-top">
-                        <label for="selected_proba">Квитанция</label>
+                        <label for="selected_paytype">Квитанция</label>
                         <select class="uk-select" id="selected_paytype" name="selected_paytype">
                             <option>Нет</option>
                             <option>Да</option>

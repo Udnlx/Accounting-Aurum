@@ -1,19 +1,60 @@
 <?php namespace ProcessWire;
-
-$worker = !empty($_POST['selected_worker'])?$_POST['selected_worker']:NULL;  
+ 
 $id_operation_changes = !empty($_POST['id_operation_changes'])?$_POST['id_operation_changes']:NULL;  
+$proba_changes = !empty($_POST['proba_changes'])?$_POST['proba_changes']:NULL;
+$weight_changes = !empty($_POST['weight_changes'])?$_POST['weight_changes']:NULL;
+$reason_cancel = !empty($_POST['reason_cancel'])?$_POST['reason_cancel']:NULL;
+
+$date = !empty($_POST['selected_date'])?$_POST['selected_date']:NULL;
+$point = !empty($_POST['selected_point'])?$_POST['selected_point']:NULL;
+$idpoint = !empty($_POST['selected_idpoint'])?$_POST['selected_idpoint']:NULL;
+$worker = !empty($_POST['selected_worker'])?$_POST['selected_worker']:NULL;  
+$proba = !empty($_POST['selected_proba'])?$_POST['selected_proba']:NULL;  
+$weight = !empty($_POST['selected_weight'])?$_POST['selected_weight']:NULL;  
+$price_gramm = !empty($_POST['price_gramm'])?$_POST['price_gramm']:NULL;  
+$price = !empty($_POST['selected_price'])?$_POST['selected_price']:NULL;  
+$pay = !empty($_POST['selected_pay'])?$_POST['selected_pay']:NULL;  
+$cash_card = !empty($_POST['cash_card'])?$_POST['cash_card']:NULL;  
+
+$paytype = !empty($_POST['selected_paytype'])?$_POST['selected_paytype']:NULL;  
+$client_name = !empty($_POST['client_name'])?$_POST['client_name']:NULL;  
+$client_passport = !empty($_POST['client_passport'])?$_POST['client_passport']:NULL;  
+$client_address = !empty($_POST['client_address'])?$_POST['client_address']:NULL; 
+
+$info_paytype = '';
+if ($paytype == 'Да') {
+    $info_paytype = '
+    <p class="uk-margin-remove">ФИО клиента: <span style="font-weight: 700;">' . $client_name . '</span></p>
+    <p class="uk-margin-remove">Паспорт клиента: <span style="font-weight: 700;">' . $client_passport . '</span></p>
+    <p class="uk-margin-remove">Адрес клиента: <span style="font-weight: 700;">' . $client_address . '</span></p>
+    <div class="pagemenu uk-width-1-1 uk-flex">
+        <a class="menu-link" href="">Распечатать квитанцию</a>
+    </div>
+    ';
+}
 
 //Получение страницы продукта
 $operation_page = $pages->get('id=' . $id_operation_changes . '');
 
 $success = 'Изменения прошли успешно';
-if ($worker && $id_operation_changes && $_SESSION['reload'] != 'on') {
-	// //Изменяем запись
- //    $edit_page = $pages->get('template=product_itm, id=' . $operation_page->id . '');
- //    $edit_page->of(false);
- //    $edit_page->product_description = $new_product_description;
- //    $edit_page->url_avito = $new_product_url_avito;
- //    $edit_page->save();
+if ($worker && $proba && $weight && $price_gramm && $price && $pay && $cash_card && $_SESSION['reload'] != 'on') {
+	//Изменяем отмененную запись
+    $edit_page = $pages->get('template=operation_itm, id=' . $operation_page->id . '');
+    $edit_page->of(false);
+    $edit_page->product_status = 'Отменена';
+    $edit_page->reason_cancel = $reason_cancel;
+    $edit_page->new_operation = 'Новая скупка при отмене: ';
+    $edit_page->save();
+
+    //Создание записи о вычете материала
+
+    //Вычет материала
+
+    //Создание новой записи о скупке
+
+    //Прибавка материала
+
+    //Перезапись поля ID созданной операции в замен у отменённой операции
 
     // //Записываем регистрацию  в лог
     // $log = '';
@@ -104,7 +145,29 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <h3 class="uk-card-title"><?php echo $success; ?></h3>
-	        <p class="uk-margin-remove">ID записи операции: <span style="font-weight: 700;"><?php echo $operation_page->id; ?></span></p>
+	        <p class="uk-margin-remove">ID записи отменненой операции: <span style="font-weight: 700;"><?php echo $operation_page->id; ?></span></p>
+            <p class="uk-margin-remove">Проба: <span style="font-weight: 700;"><?php echo $operation_page->proba; ?></span></p>
+            <p class="uk-margin-remove">Вес: <span style="font-weight: 700;"><?php echo $operation_page->weight; ?></span></p>
+            <p class="uk-margin-remove">Причина отмены: <span style="font-weight: 700;"><?php echo $operation_page->reason_cancel; ?></span></p>
+            <p class="uk-margin-remove">Новая скупка при отмене: <span style="font-weight: 700;">000000</span></p>
+            <br>
+            <h3 class="uk-card-title">Данные новой, сформированной операции</h3>
+            <p class="uk-margin-remove">ID записи новой операции: <span style="font-weight: 700;">000000</span></p>
+            <p class="uk-margin-remove">Дата: <span style="font-weight: 700;"><?php echo $date; ?></span></p>
+            <p class="uk-margin-remove">Точка: <span style="font-weight: 700;"><?php echo $point; ?></span></p>
+            <p class="uk-margin-remove">ID точки: <span style="font-weight: 700;"><?php echo $idpoint; ?></span></p>
+            <p class="uk-margin-remove">Сотрудник: <span style="font-weight: 700;"><?php echo $worker; ?></span></p>
+            <p class="uk-margin-remove">Скупка произведена в счет изменений операции: <span style="font-weight: 700;"><?php echo $operation_page->id; ?></span></p>
+            <br>
+            <p class="uk-margin-remove">Проба: <span style="font-weight: 700;"><?php echo $proba; ?></span></p>
+            <p class="uk-margin-remove">Вес: <span style="font-weight: 700;"><?php echo $weight; ?></span></p>
+            <p class="uk-margin-remove">Цена за грамм: <span style="font-weight: 700;"><?php echo $price_gramm; ?></span></p>
+            <p class="uk-margin-remove">Итоговая стоимость: <span style="font-weight: 700;"><?php echo $price; ?></span></p>
+            <p class="uk-margin-remove">Сколько отдали: <span style="font-weight: 700;"><?php echo $pay; ?></span></p>
+            <p class="uk-margin-remove">Вид платежа: <span style="font-weight: 700;"><?php echo $cash_card; ?></span></p>
+            <br>
+            <p class="uk-margin-remove">Квитанция: <span style="font-weight: 700;"><?php echo $paytype; ?></span></p>
+            <?php echo $info_paytype; ?>
         </div>
 
         <br>
