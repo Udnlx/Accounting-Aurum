@@ -1,5 +1,7 @@
 <?php namespace ProcessWire;
 
+$_SESSION['reload'] = 'off';
+
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
 } else {
@@ -26,7 +28,7 @@ if(isset($_SESSION['access'])){
 if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Панель администратора</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Отмена скупки лома</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title">Потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -34,6 +36,22 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
     </div>
 <?php    
 } else {
+
+//Получение всех записей скупки
+$all_skupka = '';
+$all_skupka_itm = $pages->find('template=operation_itm, type_operation=Скупка, sort=-publish_date');
+$all_skupka .= '<div class="scrolling-list" style="max-height: 700px;">';
+foreach ($all_skupka_itm as $itm) {
+    $all_skupka .= '
+    <p>' . $itm->title . '</p>
+    <p style="font-size:12px; font-weight: 700;">Цена скупки: ' . $itm->pay . '; Оператор скупки: ' . $itm->worker . '</p>
+    <div class="product-link">
+        <a class="product-link-lnk" href="/otmena-skupka-lom-vnesti-izmeneniia/?operation_id=' . $itm->id . '">Отменить скупку</a>
+    </div>
+    <br>
+    ';
+}
+$all_skupka .= '</div>';
 
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
@@ -58,7 +76,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Панель администратора</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Отмена скупки лома</h1>
 	<div>
 
         <div>
@@ -68,22 +86,12 @@ if ($startday == '' || $actual == '' || $reserv == '') {
         </div>
 
         <div>
-            <div class="admpanel uk-card uk-card-default uk-card-body">
-		        <div class="uk-grid-medium uk-child-width-1-2@s" uk-grid>
-		        	<div>
-		        		<a class="admpanel-link" href="/adminpanel-vse-operatcii/">Все операции</a>
-		        		<a class="admpanel-link" href="/adminpanel-vse-izdeliia/">Все изделия</a>
-		        		<a class="admpanel-link" href="">В разработке</a>
-		            </div>
-		            <div>
-		        		<a class="admpanel-link" href="">В разработке</a>
-		        		<a class="admpanel-link" href="/otmena-skupka-lom/">Отмена скупки лома</a>
-		        		<a class="admpanel-link" href="">Отмена продажи лома</a>
-		            </div>
-		        </div>
-		    </div>
-		</div>
-
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                <h4 class="uk-margin-remove uk-heading-hero">Выберите скупку для отмены</h4><br>
+                <?php echo $all_skupka; ?>
+            </div>
+        </div>
+        
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
                 <?php echo $remain_tables_startday; ?>

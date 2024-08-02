@@ -1,5 +1,39 @@
 <?php namespace ProcessWire;
 
+$worker = !empty($_POST['selected_worker'])?$_POST['selected_worker']:NULL;  
+$id_operation_changes = !empty($_POST['id_operation_changes'])?$_POST['id_operation_changes']:NULL;  
+
+//Получение страницы продукта
+$operation_page = $pages->get('id=' . $id_operation_changes . '');
+
+$success = 'Изменения прошли успешно';
+if ($worker && $id_operation_changes && $_SESSION['reload'] != 'on') {
+	// //Изменяем запись
+ //    $edit_page = $pages->get('template=product_itm, id=' . $operation_page->id . '');
+ //    $edit_page->of(false);
+ //    $edit_page->product_description = $new_product_description;
+ //    $edit_page->url_avito = $new_product_url_avito;
+ //    $edit_page->save();
+
+    // //Записываем регистрацию  в лог
+    // $log = '';
+    // $log .= date("Y-m-d H:i") . ' Внесены изменения в продукт - ' . $operation_page->title . '; ';
+    // $log .= 'Запись изменена: ' . $worker . ', ID записи: ' . $operation_page->id . '; '; 
+    // $log .= 'Старое описание: ' . $old_product_description . '; '; 
+    // $log .= 'Новое описание: ' . $new_product_description . '; '; 
+    // $log .= 'Старый URL Авито: ' . $old_product_url_avito . '; '; 
+    // $log .= 'Новый URL Авито: ' . $new_product_url_avito . '; '; 
+    // file_put_contents(__DIR__ . '/log_products_changes.txt', $log . PHP_EOL, FILE_APPEND);
+
+    //Предотвращаем повторную регистрацию
+    $_SESSION['reload'] = 'on';
+} else {
+	$success = 'Изменения не прошли!<br>Ошибка в данных';
+    if ($_SESSION['reload'] == 'on') {
+        $success = 'Повторная отправка данных!';
+    }
+}
+
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
 } else {
@@ -26,7 +60,7 @@ if(isset($_SESSION['access'])){
 if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Панель администратора</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Внесение изменений</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title">Потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -58,32 +92,23 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Панель администратора</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Внесение изменений</h1>
 	<div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
+                <a class="menu-link" href="/otmena-skupka-lom/">Выбрать другую скупку</a>
             </div>
         </div>
 
         <div>
-            <div class="admpanel uk-card uk-card-default uk-card-body">
-		        <div class="uk-grid-medium uk-child-width-1-2@s" uk-grid>
-		        	<div>
-		        		<a class="admpanel-link" href="/adminpanel-vse-operatcii/">Все операции</a>
-		        		<a class="admpanel-link" href="/adminpanel-vse-izdeliia/">Все изделия</a>
-		        		<a class="admpanel-link" href="">В разработке</a>
-		            </div>
-		            <div>
-		        		<a class="admpanel-link" href="">В разработке</a>
-		        		<a class="admpanel-link" href="/otmena-skupka-lom/">Отмена скупки лома</a>
-		        		<a class="admpanel-link" href="">Отмена продажи лома</a>
-		            </div>
-		        </div>
-		    </div>
-		</div>
+            <h3 class="uk-card-title"><?php echo $success; ?></h3>
+	        <p class="uk-margin-remove">ID записи операции: <span style="font-weight: 700;"><?php echo $operation_page->id; ?></span></p>
+        </div>
 
+        <br>
+        
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
                 <?php echo $remain_tables_startday; ?>
