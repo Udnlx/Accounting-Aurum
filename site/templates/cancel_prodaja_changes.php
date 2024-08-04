@@ -34,7 +34,7 @@ if(isset($_SESSION['access'])){
 if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Отмена скупки лома - Внести изменения</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Отмена продажи лома - Внести изменения</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title">Потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -69,23 +69,23 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Отмена скупки лома - Внести изменения</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Отмена продажи лома - Внести изменения</h1>
 	<div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
-                <a class="menu-link" href="/otmena-skupka-lom/">Выбрать другую скупку</a>
+                <a class="menu-link" href="/otmena-prodazha-lom/">Выбрать другую продажу</a>
             </div>
         </div>
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
                 <h3 class="uk-margin-remove uk-card-title"><?php echo $operation_page->title; ?></h3>
-                <p style="margin:0; font-size:16px; font-weight: 700;">ID операции: <?php echo $operation_page->id; ?>; Цена скупки: <?php echo $operation_page->pay; ?>; Оператор скупки: <?php echo $operation_page->worker; ?></p>
-                <p class="textwarning">ВНИМАНИЕ! При внесении изменений операция под номером <?php echo $operation_page->id; ?> будет отменена, проба <?php echo $operation_page->proba; ?> в размере <?php echo $operation_page->weight; ?> г. будет вычтена из текущие остатков, в тоже время будет создана новая запись о скупке от текущей даты и с прибавлением выбранной пробы, выбранного размера и указанных параметров, с комментарием, что скупка произведена в счет изменений операции <?php echo $operation_page->id; ?>.</p>
+                <p style="margin:0; font-size:16px; font-weight: 700;">ID операции: <?php echo $operation_page->id; ?>; Цена продажи: <?php echo $operation_page->pay; ?>; Оператор продажи: <?php echo $operation_page->worker; ?></p>
+                <p class="textwarning">ВНИМАНИЕ! При внесении изменений операция под номером <?php echo $operation_page->id; ?> будет отменена, проба <?php echo $operation_page->proba; ?> в размере <?php echo $operation_page->weight; ?> г. будет возвращена в текущие остатки, в тоже время будет создана новая запись о продаже от текущей даты и с вычетом выбранной пробы, выбранного размера и указанных параметров, с комментарием, что скупка произведена в счет изменений операции <?php echo $operation_page->id; ?>.</p>
                 <br>
-                <form class="uk-flex uk-flex-column" id="select_seat" action="/otmena-skupka-lom-registratciia-izmenenii/" method="post">
+                <form class="uk-flex uk-flex-column" id="select_seat" action="/otmena-prodazha-lom-registratciia-izmenenii/" method="post">
                     <p style="margin:0; font-size:20px; font-weight: 700;">Данные отменяемой записи</p>
                     <p style="margin:0; font-size:16px; font-weight: 700;">Проба: <?php echo $operation_page->proba; ?></p>
                     <p style="margin:0; font-size:16px; font-weight: 700;">Вес: <?php echo $operation_page->weight; ?></p>

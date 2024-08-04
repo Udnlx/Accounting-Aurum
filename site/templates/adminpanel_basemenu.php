@@ -78,7 +78,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 		            <div>
 		        		<a class="admpanel-link" href="">В разработке</a>
 		        		<a class="admpanel-link" href="/otmena-skupka-lom/">Отмена скупки лома</a>
-		        		<a class="admpanel-link" href="">Отмена продажи лома</a>
+		        		<a class="admpanel-link" href="/otmena-prodazha-lom/">Отмена продажи лома</a>
 		            </div>
 		        </div>
 		    </div>

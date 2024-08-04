@@ -28,7 +28,7 @@ if(isset($_SESSION['access'])){
 if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Отмена скупки лома</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Отмена продажи лома</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title">Потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -37,21 +37,21 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
 <?php    
 } else {
 
-//Получение всех записей скупки
-$all_skupka = '';
-$all_skupka_itm = $pages->find('template=operation_itm, type_operation=Скупка, product_status= , sort=-publish_date');
-$all_skupka .= '<div class="scrolling-list" style="max-height: 700px;">';
-foreach ($all_skupka_itm as $itm) {
-    $all_skupka .= '
+//Получение всех записей продажи
+$all_prodaja = '';
+$all_prodaja_itm = $pages->find('template=operation_itm, type_operation=Продажа, product_status= , sort=-publish_date');
+$all_prodaja .= '<div class="scrolling-list" style="max-height: 700px;">';
+foreach ($all_prodaja_itm as $itm) {
+    $all_prodaja .= '
     <p>' . $itm->title . '</p>
-    <p style="font-size:12px; font-weight: 700;">Цена скупки: ' . $itm->pay . '; Оператор скупки: ' . $itm->worker . '</p>
+    <p style="font-size:12px; font-weight: 700;">Цена продажи: ' . $itm->pay . '; Оператор продажи: ' . $itm->worker . '</p>
     <div class="product-link">
-        <a class="product-link-lnk" href="/otmena-skupka-lom-vnesti-izmeneniia/?operation_id=' . $itm->id . '">Отменить скупку</a>
+        <a class="product-link-lnk" href="/otmena-prodazha-lom-vnesti-izmeneniia/?operation_id=' . $itm->id . '">Отменить продажу</a>
     </div>
     <br>
     ';
 }
-$all_skupka .= '</div>';
+$all_prodaja .= '</div>';
 
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
@@ -76,7 +76,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Отмена скупки лома</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Отмена продажи лома</h1>
 	<div>
 
         <div>
@@ -88,8 +88,8 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-                <h4 class="uk-margin-remove uk-heading-hero">Выберите скупку для отмены</h4><br>
-                <?php echo $all_skupka; ?>
+                <h4 class="uk-margin-remove uk-heading-hero">Выберите продажу для отмены</h4><br>
+                <?php echo $all_prodaja; ?>
             </div>
         </div>
         
