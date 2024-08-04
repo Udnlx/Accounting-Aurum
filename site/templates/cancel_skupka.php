@@ -39,7 +39,7 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
 
 //Получение всех записей скупки
 $all_skupka = '';
-$all_skupka_itm = $pages->find('template=operation_itm, type_operation=Скупка, sort=-publish_date');
+$all_skupka_itm = $pages->find('template=operation_itm, type_operation=Скупка, product_status= , sort=-publish_date');
 $all_skupka .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($all_skupka_itm as $itm) {
     $all_skupka .= '
