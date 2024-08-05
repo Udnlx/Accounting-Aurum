@@ -120,6 +120,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                 <h4 class="uk-card-title uk-margin-remove">Набранный аффинаж</h4>
                 <hr>
                 <div id="all_affinaj"></div>
+                <div id="edit_messages"></div>
                 <div class="uk-margin-small-top uk-flex uk-flex-column">
                     <button id="affilaj-reg-btn" class="uk-margin-small-top uk-button uk-button-default uk-hidden">Зарегистрировать</button>
                 </div>                

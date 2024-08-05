@@ -113,3 +113,46 @@ $(document).on("click", "p.remove_affinaj_itm", function(){
 		$('#affilaj-reg-btn').addClass('uk-hidden');
 	}
 });
+
+
+
+//Регистрация аффинажа
+$('#affilaj-reg-btn').click(function() {
+	var date = $('#selected_date').val();
+	var point = $('#selected_point').val();
+	var idpoint = $('#selected_idpoint').val();
+	var worker = $('#selected_worker').val();
+	var arr = [];
+	$(document).find('p.affinaj_itm').each(function (){
+        let proba = $(this).attr('proba');
+        let weight = $(this).attr('weight');
+        arr.push(proba + ',' + weight);
+    })
+    //console.log(date, point, idpoint, worker, arr);
+$.ajax({
+    type: "POST",
+    url: '/add_affilaj.php',
+    data: {
+        'date':date, 
+        'point':point, 
+        'idpoint':idpoint,
+        'worker':worker,
+        'arr':arr
+    },
+    beforeSend: function () {
+        $('#edit_messages').html('<p class="messages" style="color: green;">Отправка и обработка данных...</p>');
+    },
+    success: function (data) {
+        $('#edit_messages').html(data);
+    },
+    error: function (jqXHR, text, error) {
+        $('#edit_messages').html(error);
+    }
+});
+$('.add-affilaj').prop('disabled', true);
+$('#affilaj-reg-btn').prop('disabled', true);
+$('.remove_affinaj_itm').prop('disabled', true);
+$('.remove_affinaj_itm').addClass('disabled_remove');
+return false;  
+});
+//Регистрация аффинажа

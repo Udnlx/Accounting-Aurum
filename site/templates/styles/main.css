@@ -154,4 +154,13 @@ table {
     background-color: #ff9984;
     border-radius: 5px;
     color: #000000;
-    font-weight: 700;}    
+    font-weight: 700;} 
+.position_affinaj p.disabled_remove {
+    cursor: default!important;
+    background-color: #cfcfcf!important;
+    border-radius: 5px!important;
+    color: #939393!important;}
+.messages {
+    margin: 10px 0 10px 0;
+    text-align: center;
+    font-weight: 500;}   
