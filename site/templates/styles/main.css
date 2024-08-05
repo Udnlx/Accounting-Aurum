@@ -141,3 +141,17 @@ table {
     font-size: 12px;}
     
     
+
+.position_affinaj {
+    margin: 5px 0 0 0;
+    display: flex;}
+.position_affinaj p {
+    margin: 0;}
+.position_affinaj p.remove_affinaj_itm {
+    cursor: pointer;
+    margin: 0 10px 0 0;
+    padding: 0 10px 3px 10px;
+    background-color: #ff9984;
+    border-radius: 5px;
+    color: #000000;
+    font-weight: 700;}    

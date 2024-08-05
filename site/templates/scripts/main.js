@@ -87,3 +87,29 @@ $('#selected_paytype').change( function() {
 		$('#client_address').attr("required", false);
 	}
 });
+
+
+
+//Набор и удаление аффинажа
+$('button.add-affilaj').click(function() {
+	if ($('#selected_weight_affinaj').val() == '') {
+		alert("Укажите вес");
+	} else {
+		let proba = $('#selected_proba_affinaj').val();
+		let weight = $('#selected_weight_affinaj').val();
+		$('#all_affinaj').append('<div class="position_affinaj"><p class="remove_affinaj_itm">удалить</p><p class="affinaj_itm" proba="' + proba + '" weight="' + weight + '">' + proba + ' - ' + weight + 'г.</p></div>');
+	}
+	if( $('#all_affinaj').is(':empty')) {
+		$('#affilaj-reg-btn').addClass('uk-hidden');
+	} else {
+		$('#affilaj-reg-btn').removeClass('uk-hidden');
+	}
+});
+
+$(document).on("click", "p.remove_affinaj_itm", function(){
+	let removeItm = $(this).parent();
+	removeItm.remove();
+	if( $('#all_affinaj').is(':empty')) {
+		$('#affilaj-reg-btn').addClass('uk-hidden');
+	}
+});
