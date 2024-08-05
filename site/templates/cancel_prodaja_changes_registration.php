@@ -47,97 +47,97 @@ if ($worker && $proba && $weight && $price_gramm && $price && $pay && $cash_card
     $edit_page->new_operation = 'Новая продажа при отмене: ';
     $edit_page->save();
 
-    // //Создание записи о вычете материала
-    // $pages->add('operation_itm', 1181 , [
-    // 'title' => date("Y-m-d H:i") . ' Правка скупки - Лом - ' . $operation_page->proba . ' - ' . $operation_page->weight . 'г - ' . $point,
-    // 'type_operation' => 'Правка скупки',
-    // 'undertype_operation' => 'Лом',
-    // 'date' => $date,
-    // 'point' => $point,
-    // 'id_point' => $idpoint,
-    // 'worker' => $worker,
-    // 'proba' => $operation_page->proba,
-    // 'weight' => $operation_page->weight,
-    // 'note' => 'Правка скупки в счет отмены операции ' . $operation_page->id . ': ' . $operation_page->title,
-    // ]);
-    // $created_page = $pages->get('title=' . date("Y-m-d H:i") . ' Правка скупки - Лом - ' . $operation_page->proba . ' - ' . $operation_page->weight . 'г - ' . $point . '');
-    // $created_page_id = $created_page->id;
+    //Создание записи о возврате материала
+    $pages->add('operation_itm', 1181 , [
+    'title' => date("Y-m-d H:i") . ' Правка продажи - Лом - ' . $operation_page->proba . ' - ' . $operation_page->weight . 'г - ' . $point,
+    'type_operation' => 'Правка продажи',
+    'undertype_operation' => 'Лом',
+    'date' => $date,
+    'point' => $point,
+    'id_point' => $idpoint,
+    'worker' => $worker,
+    'proba' => $operation_page->proba,
+    'weight' => $operation_page->weight,
+    'note' => 'Правка продажи в счет отмены операции ' . $operation_page->id . ': ' . $operation_page->title,
+    ]);
+    $created_page = $pages->get('title=' . date("Y-m-d H:i") . ' Правка продажи - Лом - ' . $operation_page->proba . ' - ' . $operation_page->weight . 'г - ' . $point . '');
+    $created_page_id = $created_page->id;
 
-    // //Записываем Создание записи о вычете материала в лог
-    // $log = '';
-    // $log .= date("Y-m-d H:i") . ' Правка скупки - Лом - ' . $operation_page->proba . ' - ' . $operation_page->weight . 'г - ' . $point . ' === ';
-    // $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $created_page_id . ' '; 
-    // $log .= 'Примечания: Правка скупки в счет отмены операции ' . $operation_page->id . ', ' . $operation_page->title; 
-    // file_put_contents(__DIR__ . '/log_operations.txt', $log . PHP_EOL, FILE_APPEND);
+    //Записываем Создание записи о вычете материала в лог
+    $log = '';
+    $log .= date("Y-m-d H:i") . ' Правка продажи - Лом - ' . $operation_page->proba . ' - ' . $operation_page->weight . 'г - ' . $point . ' === ';
+    $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $created_page_id . ' '; 
+    $log .= 'Примечания: Правка продажи в счет отмены операции ' . $operation_page->id . ', ' . $operation_page->title; 
+    file_put_contents(__DIR__ . '/log_operations.txt', $log . PHP_EOL, FILE_APPEND);
 
-    // //Вычет материала
-    // $point_actual_table = $pages->get('id_point=' . $idpoint . '_actual');
-    // $edit_page = $point_actual_table->get('title=' . $operation_page->proba . '');
-    // // echo $edit_page . '<br>';
-    // // echo $edit_page->remain . '<br>';
-    // // echo $weight . '<br>';
-    // $result = $edit_page->remain - $operation_page->weight;
-    // // echo $result;
-    // $edit_page->of(false);
-    // $edit_page->remain = $result;
-    // $edit_page->save();
+    //Возврат материала
+    $point_actual_table = $pages->get('id_point=' . $idpoint . '_actual');
+    $edit_page = $point_actual_table->get('title=' . $operation_page->proba . '');
+    // echo $edit_page . '<br>';
+    // echo $edit_page->remain . '<br>';
+    // echo $weight . '<br>';
+    $result = $edit_page->remain + $operation_page->weight;
+    // echo $result;
+    $edit_page->of(false);
+    $edit_page->remain = $result;
+    $edit_page->save();
 
-    // //Создание новой записи о Скупка в счет изменений
-    // $pages->add('operation_itm', 1181 , [
-    // 'title' => date("Y-m-d H:i") . ' Скупка в счет изменений - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point,
-    // 'type_operation' => 'Скупка',
-    // 'undertype_operation' => 'Лом',
-    // 'date' => $date,
-    // 'point' => $point,
-    // 'id_point' => $idpoint,
-    // 'worker' => $worker,
-    // 'proba' => $proba,
-    // 'weight' => $weight,
-    // 'price_gramm' => $price_gramm,
-    // 'price' => $price,
-    // 'pay' => $pay,
-    // 'cash_card' => $cash_card,
-    // 'paytype' => $paytype,
-    // 'client_name' => $client_name,
-    // 'client_passport' => $client_passport,
-    // 'client_address' => $client_address,
-    // 'old_operation' => 'Скупка в счет изменений: ' . $operation_page->id,
-    // ]);
-    // $new_operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Скупка в счет изменений - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point . '');
-    // $new_operation_id = $new_operation_page->id;
+    //Создание новой записи о Продаже в счет изменений
+    $pages->add('operation_itm', 1181 , [
+    'title' => date("Y-m-d H:i") . ' Продажа в счет изменений - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point,
+    'type_operation' => 'Продажа',
+    'undertype_operation' => 'Лом',
+    'date' => $date,
+    'point' => $point,
+    'id_point' => $idpoint,
+    'worker' => $worker,
+    'proba' => $proba,
+    'weight' => $weight,
+    'price_gramm' => $price_gramm,
+    'price' => $price,
+    'pay' => $pay,
+    'cash_card' => $cash_card,
+    'paytype' => $paytype,
+    'client_name' => $client_name,
+    'client_passport' => $client_passport,
+    'client_address' => $client_address,
+    'old_operation' => 'Скупка в счет изменений: ' . $operation_page->id,
+    ]);
+    $new_operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Продажа в счет изменений - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point . '');
+    $new_operation_id = $new_operation_page->id;
 
-    // //Создание новой записи о Скупка в счет изменений в лог
-    // $log = '';
-    // $log .= date("Y-m-d H:i") . ' Скупка в счет изменений - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point . ' === ';
-    // $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $new_operation_id . ' '; 
-    // $log .= 'Запись в счет изменений: ' . $operation_page->id . ', ' . $operation_page->title; 
-    // file_put_contents(__DIR__ . '/log_operations.txt', $log . PHP_EOL, FILE_APPEND);
+    //Создание новой записи о Продаже в счет изменений в лог
+    $log = '';
+    $log .= date("Y-m-d H:i") . ' Продажа в счет изменений - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point . ' === ';
+    $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $new_operation_id . ' '; 
+    $log .= 'Запись в счет изменений: ' . $operation_page->id . ', ' . $operation_page->title; 
+    file_put_contents(__DIR__ . '/log_operations.txt', $log . PHP_EOL, FILE_APPEND);
 
-    // //Прибавка материала
-    // $point_actual_table = $pages->get('id_point=' . $idpoint . '_actual');
-    // $edit_page = $point_actual_table->get('title=' . $proba . '');
-    // // echo $edit_page . '<br>';
-    // // echo $edit_page->remain . '<br>';
-    // // echo $weight . '<br>';
-    // $result = $edit_page->remain + $weight;
-    // // echo $result;
-    // $edit_page->of(false);
-    // $edit_page->remain = $result;
-    // $edit_page->save();
+    //Вычет материала
+    $point_actual_table = $pages->get('id_point=' . $idpoint . '_actual');
+    $edit_page = $point_actual_table->get('title=' . $proba . '');
+    // echo $edit_page . '<br>';
+    // echo $edit_page->remain . '<br>';
+    // echo $weight . '<br>';
+    $result = $edit_page->remain - $weight;
+    // echo $result;
+    $edit_page->of(false);
+    $edit_page->remain = $result;
+    $edit_page->save();
 
-    // //Перезапись поля ID созданной операции в замен у отменённой операции
-    // $edit_page = $pages->get('template=operation_itm, id=' . $operation_page->id . '');
-    // $edit_page->of(false);
-    // $edit_page->new_operation = 'Новая скупка при отмене: ' . $new_operation_id;
-    // $edit_page->save();
+    //Перезапись поля ID созданной операции в замен у отменённой операции
+    $edit_page = $pages->get('template=operation_itm, id=' . $operation_page->id . '');
+    $edit_page->of(false);
+    $edit_page->new_operation = 'Новая продажа при отмене: ' . $new_operation_id;
+    $edit_page->save();
 
-    // //Записываем регистрацию  в лог
-    // $log = '';
-    // $log .= date("Y-m-d H:i") . '; ';
-    // $log .= 'Оператор изменений: ' . $worker . '; '; 
-    // $log .= 'Отменена операция: ' . $operation_page->id . ' = ' . $operation_page->title . '; '; 
-    // $log .= 'В счет отмены создана новая запись: ' . $new_operation_page->id . ' = ' . $new_operation_page->title . '; '; 
-    // file_put_contents(__DIR__ . '/log_operations_changes.txt', $log . PHP_EOL, FILE_APPEND);
+    //Записываем регистрацию  в лог
+    $log = '';
+    $log .= date("Y-m-d H:i") . '; ';
+    $log .= 'Оператор изменений: ' . $worker . '; '; 
+    $log .= 'Отменена операция: ' . $operation_page->id . ' = ' . $operation_page->title . '; '; 
+    $log .= 'В счет отмены создана новая запись: ' . $new_operation_page->id . ' = ' . $new_operation_page->title . '; '; 
+    file_put_contents(__DIR__ . '/log_operations_changes.txt', $log . PHP_EOL, FILE_APPEND);
 
     //Предотвращаем повторную регистрацию
     $_SESSION['reload'] = 'on';
