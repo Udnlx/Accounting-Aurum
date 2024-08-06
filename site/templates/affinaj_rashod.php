@@ -128,7 +128,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
         </div>
         
         <div>
-            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+            <div id="remain_tables" class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
                 <?php echo $remain_tables_startday; ?>
             </div>
         </div>

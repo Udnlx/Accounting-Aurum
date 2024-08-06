@@ -129,30 +129,49 @@ $('#affilaj-reg-btn').click(function() {
         arr.push(proba + ',' + weight);
     })
     //console.log(date, point, idpoint, worker, arr);
-$.ajax({
-    type: "POST",
-    url: '/add_affilaj.php',
-    data: {
-        'date':date, 
-        'point':point, 
-        'idpoint':idpoint,
-        'worker':worker,
-        'arr':arr
-    },
-    beforeSend: function () {
-        $('#edit_messages').html('<p class="messages" style="color: green;">Отправка и обработка данных...</p>');
-    },
-    success: function (data) {
-        $('#edit_messages').html(data);
-    },
-    error: function (jqXHR, text, error) {
-        $('#edit_messages').html(error);
-    }
-});
-$('.add-affilaj').prop('disabled', true);
-$('#affilaj-reg-btn').prop('disabled', true);
-$('.remove_affinaj_itm').prop('disabled', true);
-$('.remove_affinaj_itm').addClass('disabled_remove');
-return false;  
+
+	$.ajax({
+	    type: "POST",
+	    url: '/add_affilaj.php',
+	    data: {
+	        'date':date, 
+	        'point':point, 
+	        'idpoint':idpoint,
+	        'worker':worker,
+	        'arr':arr
+	    },
+	    beforeSend: function () {
+	        $('#edit_messages').html('<p class="messages" style="color: green;">Отправка и обработка данных...</p>');
+	    },
+	    success: function (data) {
+	        $('#edit_messages').html(data);
+	    },
+	    error: function (jqXHR, text, error) {
+	        $('#edit_messages').html(error);
+	    }
+	});
+
+	$.ajax({
+	    type: "POST",
+	    url: '/add_affilaj_replace_table.php',
+	    data: {
+	        'idpoint':idpoint,
+	    },
+	    // beforeSend: function () {
+	    //     $('#edit_messages').html('<p class="messages" style="color: green;">Отправка и обработка данных...</p>');
+	    // },
+	    success: function (data) {
+	        $('#remain_tables').html(data);
+	    },
+	    error: function (jqXHR, text, error) {
+	        $('#remain_tables').html(error);
+	    }
+	});
+
+	$('.add-affilaj').prop('disabled', true);
+	$('#affilaj-reg-btn').prop('disabled', true);
+	$('.remove_affinaj_itm').prop('disabled', true);
+	$('.remove_affinaj_itm').addClass('disabled_remove');
+	return false;  
 });
 //Регистрация аффинажа

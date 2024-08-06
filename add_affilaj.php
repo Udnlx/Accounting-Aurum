@@ -8,7 +8,7 @@ require_once 'index.php';
 
 
 
-$affinaj_id = date("YmdHi");
+$affinaj_id = date("YmdHis");
 $date = $_POST['date'];
 $point = $_POST['point'];
 $idpoint = $_POST['idpoint'];
