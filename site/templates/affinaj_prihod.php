@@ -26,7 +26,7 @@ if(isset($_SESSION['access'])){
 if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Аффинаж расход</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Аффинаж приход</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title">Потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -34,6 +34,15 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
     </div>
 <?php    
 } else {
+
+//Формирование открытого аффинажа
+$all_open_affinaj = '';
+$all_open_affinaj_itm = $pages->find('template=affinaj_itm, product_status= , sort=affinaj_id');
+$all_open_affinaj .= '<div class="scrolling-list" style="max-height: 700px;">';
+foreach ($all_open_affinaj_itm as $itm) {
+    $all_open_affinaj .= '<p class="affinaj_id" affinaj_id="' . $itm->affinaj_id . '">' . $itm->affinaj_id . ' - ' . $itm->title . '</p>';
+}
+$all_open_affinaj .= '</div>';
 
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
@@ -58,7 +67,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Аффинаж расход</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Аффинаж приход</h1>
 	<div>
 
         <div>
@@ -70,7 +79,17 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-                <div class="uk-flex uk-flex-column" id="select_affinaj">
+                <h4 class="uk-card-title uk-margin-remove">Открытый аффинаж</h4>
+                <hr>
+                <div id="all_open_affinaj">
+                    <?php echo $all_open_affinaj; ?>
+                </div>             
+            </div>
+        </div>
+
+        <div>
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                <form class="uk-flex uk-flex-column" id="select_seat" action="/affinazh-prikhod-registratciia-prikhoda/" method="post">
                     <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="selected_date" type="text" name="selected_date" value="<?php echo $today; ?>">
                     </div>
@@ -85,6 +104,9 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     </div>
 
                     <div class="uk-margin-small-top">
+                        <input class="uk-input readonly" id="affinaj_id" type="text" name="affinaj_id" value="" placeholder="Идентификатор открытого аффинажа" autocomplete="off" required>
+                    </div>
+                    <div class="uk-margin-small-top">
                         <label for="selected_proba_affinaj">Выберите пробу</label>
                         <select class="uk-select" id="selected_proba_affinaj" name="selected_proba_affinaj">
                             <option>999.9</option>
@@ -93,23 +115,11 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     <div class="uk-margin-small-top">
                         <input class="uk-input custom1" id="selected_weight_affinaj" type="text" name="selected_weight_affinaj" value="" placeholder="Вес" autocomplete="off" required>
                     </div>
-                    
-                    <div class="uk-margin-small-top uk-flex uk-flex-column">
-                        <button class="add-affilaj uk-margin-small-top uk-button uk-button-default">Добавить</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div>
-            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-                <h4 class="uk-card-title uk-margin-remove">Набранный аффинаж</h4>
-                <hr>
-                <div id="all_affinaj"></div>
-                <div id="edit_messages"></div>
-                <div class="uk-margin-small-top uk-flex uk-flex-column">
-                    <button id="affilaj-reg-btn" class="uk-margin-small-top uk-button uk-button-default uk-hidden">Зарегистрировать</button>
-                </div>                
+                    <div class="uk-margin-small-top uk-flex uk-flex-column">
+                        <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Зарегистрировать</button>
+                    </div>
+                </form>
             </div>
         </div>
         

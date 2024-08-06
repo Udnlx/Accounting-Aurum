@@ -90,6 +90,20 @@ $('#selected_paytype').change( function() {
 
 
 
+//Правка инпута Weight
+$('#selected_weight_affinaj').bind('input', function(){
+	this.value = this.value.replace(/[^0-9\.]/g, '');
+	let count = this.value.split(".").length-1;
+	if (count > 1) {
+		this.value = this.value.substr(0, this.value.lastIndexOf("."));
+	}
+	if (this.value.indexOf(".") != '-1') {
+		this.value = this.value.substring(0, this.value.indexOf(".") + 3);
+	}
+});
+
+
+
 //Набор и удаление аффинажа
 $('button.add-affilaj').click(function() {
 	if ($('#selected_weight_affinaj').val() == '') {
@@ -116,7 +130,7 @@ $(document).on("click", "p.remove_affinaj_itm", function(){
 
 
 
-//Регистрация аффинажа
+//Регистрация аффинажа расход
 $('#affilaj-reg-btn').click(function() {
 	var date = $('#selected_date').val();
 	var point = $('#selected_point').val();
@@ -174,4 +188,12 @@ $('#affilaj-reg-btn').click(function() {
 	$('.remove_affinaj_itm').addClass('disabled_remove');
 	return false;  
 });
-//Регистрация аффинажа
+//Регистрация аффинажа расход
+
+
+
+//Выбор открытого аффинажа
+$('p.affinaj_id').click(function() {
+    let edited_affinaj = $(this).attr('affinaj_id');;
+    $('#affinaj_id').val(edited_affinaj);
+});

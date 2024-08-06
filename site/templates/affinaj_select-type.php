@@ -65,7 +65,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
                 <a class="menu-link" href="/affinazh-raskhod/">Аффинаж расход</a>
-                <a class="menu-link" href="">Аффинаж приход</a>
+                <a class="menu-link" href="/affinazh-prikhod/">Аффинаж приход</a>
             </div>
         </div>
         
