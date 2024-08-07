@@ -26,7 +26,7 @@ if ($date == '' || $point == '' || $idpoint == '' || $worker == '' || $arr == ''
 
 		//Регестрируем запись
 		$pages->add('affinaj_itm', 1266 , [
-	    'title' => date("Y-m-d H:i") . ' Аффинаж - Расход - ' . $proba . ' - ' . $weight . 'г - ' . $point,
+	    'title' => date("Y-m-d H:i") . ' Аффинаж - Расход - ' . $proba . ' - ' . $weight . 'г - ' . $point . ' - ' . $affinaj_id,
 	    'affinaj_id' => $affinaj_id,
 	    'type_operation' => 'Аффинаж',
 	    'undertype_operation' => 'Расход',
@@ -37,14 +37,14 @@ if ($date == '' || $point == '' || $idpoint == '' || $worker == '' || $arr == ''
 	    'proba' => $proba,
 	    'weight' => $weight
 	    ]);
-	    $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Аффинаж - Расход - ' . $proba . ' - ' . $weight . 'г - ' . $point . '');
+	    $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Аффинаж - Расход - ' . $proba . ' - ' . $weight . 'г - ' . $point . ' - ' . $affinaj_id . '');
 	    $operation_id = $operation_page->id;
 	    $all_operation .= $operation_page->title . '<br>';
 
 		//Записываем регистрацию в лог
 	    $log = '';
 	    $log .= date("Y-m-d H:i") . ' Аффинаж - Расход - ' . $proba . ' - ' . $weight . 'г - ' . $point . ' === ';
-	    $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $operation_id; 
+	    $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $operation_id . ', Идентификатор аффинажа: ' . $affinaj_id; 
 	    file_put_contents(__DIR__ . '/site/templates/log_affinaj.txt', $log . PHP_EOL, FILE_APPEND);
 
 		//Изменяем остатки

@@ -26,7 +26,8 @@ if(isset($_SESSION['access'])){
 if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Панель администратора</h1>
+        <h1 class="uk-heading-hero uk-text-center">Панель администратора</h1>
+        <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Весь аффинаж</h4>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title">Потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -34,6 +35,15 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
     </div>
 <?php    
 } else {
+
+//Получение всех операций
+$all_operations = '';
+$all_operations_itm = $pages->find('template=affinaj_itm, sort=-publish_date');
+$all_operations .= '<div class="scrolling-list" style="max-height: 700px;">';
+foreach ($all_operations_itm as $itm) {
+    $all_operations .= '<p>' . $itm->title . '</p>';
+}
+$all_operations .= '</div>';
 
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
@@ -58,31 +68,22 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Панель администратора</h1>
-	<div>
+    <h1 class="uk-margin-remove uk-heading-hero uk-text-center">Панель администратора</h1>
+    <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Весь аффинаж</h4>
+    <div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
+                <a class="menu-link" href="/adminpanel-meniu/">Админ панель</a>
             </div>
         </div>
 
         <div>
-            <div class="admpanel uk-card uk-card-default uk-card-body">
-		        <div class="uk-grid-medium uk-child-width-1-2@s" uk-grid>
-		        	<div>
-		        		<a class="admpanel-link" href="/adminpanel-vse-operatcii/">Все операции</a>
-		        		<a class="admpanel-link" href="/adminpanel-vse-izdeliia/">Все изделия</a>
-		        		<a class="admpanel-link" href="/adminpanel-ves-affinazh/">Весь аффинаж</a>
-		            </div>
-		            <div>
-		        		<a class="admpanel-link" href="">В разработке</a>
-		        		<a class="admpanel-link" href="/otmena-skupka-lom/">Отмена скупки лома</a>
-		        		<a class="admpanel-link" href="/otmena-prodazha-lom/">Отмена продажи лома</a>
-		            </div>
-		        </div>
-		    </div>
-		</div>
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                <?php echo $all_operations; ?>
+            </div>
+        </div>
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">

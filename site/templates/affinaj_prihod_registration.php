@@ -10,46 +10,49 @@ $weight = !empty($_POST['selected_weight_affinaj'])?$_POST['selected_weight_affi
 
 $success = 'Регистрация прихода аффинажа прошла успешно';
 if ($worker && $affinaj_id && $proba && $weight && $_SESSION['reload'] != 'on') {
-	// //Регестрируем запись
- //    $pages->add('operation_itm', 1181 , [
- //    'title' => date("Y-m-d H:i") . ' Скупка - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point,
- //    'type_operation' => 'Скупка',
- //    'undertype_operation' => 'Лом',
- //    'date' => $date,
- //    'point' => $point,
- //    'id_point' => $idpoint,
- //    'worker' => $worker,
- //    'proba' => $proba,
- //    'weight' => $weight,
- //    'price_gramm' => $price_gramm,
- //    'price' => $price,
- //    'pay' => $pay,
- //    'cash_card' => $cash_card,
- //    'paytype' => $paytype,
- //    'client_name' => $client_name,
- //    'client_passport' => $client_passport,
- //    'client_address' => $client_address,
- //    ]);
- //    $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Скупка - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point . '');
- //    $operation_id = $operation_page->id;
+    //Закрываем открытые аффинажы
+    $edit_pages = $pages->find('template=affinaj_itm, affinaj_id=' . $affinaj_id . '');
+    foreach ($edit_pages as $edit_page) {
+        $edit_page->of(false);
+        $edit_page->title = $edit_page->title . ' - Закрыт';
+        $edit_page->product_status = 'Закрыт';
+        $edit_page->save();
+    }
 
-    // //Записываем регистрацию  в лог
-    // $log = '';
-    // $log .= date("Y-m-d H:i") . ' Скупка - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point . ' === ';
-    // $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $operation_id; 
-    // file_put_contents(__DIR__ . '/log_operations.txt', $log . PHP_EOL, FILE_APPEND);
+    //Регестрируем запись
+    $pages->add('affinaj_itm', 1266 , [
+    'title' => date("Y-m-d H:i") . ' Аффинаж - Приход - ' . $proba . ' - ' . $weight . 'г - ' . $point . ' - ' . $affinaj_id,
+    'affinaj_id' => $affinaj_id,
+    'product_status' => 'Закрыт',    
+    'type_operation' => 'Аффинаж',
+    'undertype_operation' => 'Приход',
+    'date' => $date,
+    'point' => $point,
+    'id_point' => $idpoint,
+    'worker' => $worker,
+    'proba' => $proba,
+    'weight' => $weight
+    ]);
+    $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Аффинаж - Приход - ' . $proba . ' - ' . $weight . 'г - ' . $point . ' - ' . $affinaj_id . '');
+    $operation_id = $operation_page->id;
 
-    // //Изменяем остатки
-    // $point_actual_table = $pages->get('id_point=' . $idpoint . '_actual');
-    // $edit_page = $point_actual_table->get('title=' . $proba . '');
-    // // echo $edit_page . '<br>';
-    // // echo $edit_page->remain . '<br>';
-    // // echo $weight . '<br>';
-    // $result = $edit_page->remain + $weight;
-    // // echo $result;
-    // $edit_page->of(false);
-    // $edit_page->remain = $result;
-    // $edit_page->save();
+    //Записываем регистрацию в лог
+    $log = '';
+    $log .= date("Y-m-d H:i") . ' Аффинаж - Приход - ' . $proba . ' - ' . $weight . 'г - ' . $point . ' === ';
+    $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $operation_id . ', Идентификатор аффинажа: ' . $affinaj_id; 
+    file_put_contents(__DIR__ . '/log_affinaj.txt', $log . PHP_EOL, FILE_APPEND);
+
+    //Изменяем остатки
+    $point_actual_table = $pages->get('id_point=' . $idpoint . '_actual');
+    $edit_page = $point_actual_table->get('title=' . $proba . '');
+    // echo $edit_page . '<br>';
+    // echo $edit_page->remain . '<br>';
+    // echo $weight . '<br>';
+    $result = $edit_page->remain + $weight;
+    // echo $result;
+    $edit_page->of(false);
+    $edit_page->remain = $result;
+    $edit_page->save();
 
     //Предотвращаем повторную регистрацию
     $_SESSION['reload'] = 'on';
