@@ -66,7 +66,7 @@ if ($worker && $proba && $weight && $price_gramm && $price && $pay && $cash_card
     //Записываем Создание записи о вычете материала в лог
     $log = '';
     $log .= date("Y-m-d H:i") . ' Правка скупки - Лом - ' . $operation_page->proba . ' - ' . $operation_page->weight . 'г - ' . $point . ' === ';
-    $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $created_page_id . ' '; 
+    $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $created_page_id . ', Причина отмены: ' . $reason_cancel . ' '; 
     $log .= 'Примечания: Правка скупки в счет отмены операции ' . $operation_page->id . ', ' . $operation_page->title; 
     file_put_contents(__DIR__ . '/log_operations.txt', $log . PHP_EOL, FILE_APPEND);
 
