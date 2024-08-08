@@ -168,3 +168,10 @@ table {
     cursor: pointer;} 
 .affinaj_id:hover {
     color: #000000;}
+.reserv_id {
+    cursor: pointer;} 
+.reserv_id:hover {
+    color: #000000;}
+.reserv_id_note {
+    margin: 0 0 10px 0!important;
+    font-size: 10px;}

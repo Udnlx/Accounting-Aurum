@@ -197,3 +197,15 @@ $('p.affinaj_id').click(function() {
     let edited_affinaj = $(this).attr('affinaj_id');;
     $('#affinaj_id').val(edited_affinaj);
 });
+
+
+
+//Выбор открытого резерва
+$('p.reserv_id').click(function() {
+    let edited_reserv = $(this).attr('reserv_id');
+    let proba_reserv = $(this).attr('proba');
+    let weight_reserv = $(this).attr('weight');
+    $('#reserv_id').val(edited_reserv);
+    $('#selected_proba').val(proba_reserv);
+    $('#selected_weight').val(weight_reserv);
+});

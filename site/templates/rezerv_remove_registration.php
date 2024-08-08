@@ -3,33 +3,25 @@
 $date = !empty($_POST['selected_date'])?$_POST['selected_date']:NULL;  
 $point = !empty($_POST['selected_point'])?$_POST['selected_point']:NULL;  
 $idpoint = !empty($_POST['selected_idpoint'])?$_POST['selected_idpoint']:NULL;  
-$worker = !empty($_POST['selected_worker'])?$_POST['selected_worker']:NULL;  
+$worker = !empty($_POST['selected_worker'])?$_POST['selected_worker']:NULL;
+$reserv_id = !empty($_POST['reserv_id'])?$_POST['reserv_id']:NULL;    
 $proba = !empty($_POST['selected_proba'])?$_POST['selected_proba']:NULL;  
-$weight = !empty($_POST['selected_weight'])?$_POST['selected_weight']:NULL;  
-$reserv_note = !empty($_POST['reserv_note'])?$_POST['reserv_note']:NULL;  
+$weight = !empty($_POST['selected_weight'])?$_POST['selected_weight']:NULL;   
 
-$success = 'Добавление резерва прошло успешно';
-if ($worker && $proba && $weight  && $reserv_note && $_SESSION['reload'] != 'on') {
-	//Регестрируем запись
-    $pages->add('reserv_itm', 1300 , [
-    'title' => date("Y-m-d H:i") . ' Резерв - Добавление - ' . $proba . ' - ' . $weight . 'г - ' . $point,
-    'type_operation' => 'Резерв',
-    'undertype_operation' => 'Добавление',
-    'date' => $date,
-    'point' => $point,
-    'id_point' => $idpoint,
-    'worker' => $worker,
-    'proba' => $proba,
-    'weight' => $weight,
-    'reserv_note' => $reserv_note,
-    ]);
-    $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Резерв - Добавление - ' . $proba . ' - ' . $weight . 'г - ' . $point . '');
-    $operation_id = $operation_page->id;
+$success = 'Закрытие резерва прошло успешно';
+if ($worker && $reserv_id && $proba && $weight && $_SESSION['reload'] != 'on') {
+    //Закрываем открытые аффинажы
+    $edit_page = $pages->get('template=reserv_itm, id=' . $reserv_id . '');
+    $reserv_note = $edit_page->reserv_note;
+    $edit_page->of(false);
+    $edit_page->title = $edit_page->title . ' - Закрыт';
+    $edit_page->product_status = 'Закрыт';
+    $edit_page->save();
 
-    //Записываем добавление в лог
+    //Записываем закрытие в лог
     $log = '';
-    $log .= date("Y-m-d H:i") . ' Резерв - Добавление - ' . $proba . ' - ' . $weight . 'г - ' . $point . ' === ';
-    $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $operation_id . ', Комментарий: ' . $reserv_note; 
+    $log .= date("Y-m-d H:i") . ' Резерв - Закрытие - ' . $proba . ' - ' . $weight . 'г - ' . $point . ' === ';
+    $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $reserv_id . ', Комментарий: ' . $reserv_note; 
     file_put_contents(__DIR__ . '/log_reserv.txt', $log . PHP_EOL, FILE_APPEND);
 
     //Изменяем остатки
@@ -38,7 +30,7 @@ if ($worker && $proba && $weight  && $reserv_note && $_SESSION['reload'] != 'on'
     // echo $edit_page . '<br>';
     // echo $edit_page->remain . '<br>';
     // echo $weight . '<br>';
-    $result = $edit_page->remain + $weight;
+    $result = $edit_page->remain - $weight;
     // echo $result;
     $edit_page->of(false);
     $edit_page->remain = $result;
@@ -47,7 +39,7 @@ if ($worker && $proba && $weight  && $reserv_note && $_SESSION['reload'] != 'on'
     //Предотвращаем повторную регистрацию
     $_SESSION['reload'] = 'on';
 } else {
-	$success = 'Добавление резерва не прошло!<br>Ошибка в данных';
+	$success = 'Закрытие резерва не прошло!<br>Ошибка в данных';
     if ($_SESSION['reload'] == 'on') {
         $success = 'Повторная отправка данных!<br>Запись уже существует, регистрация записи повторно не проведена';
     }
@@ -79,7 +71,7 @@ if(isset($_SESSION['access'])){
 if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Добавление резерва - Регистрация</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Закрытие резерва - Регистрация</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title">Потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -111,7 +103,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Добавление резерва - Регистрация</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Закрытие резерва - Регистрация</h1>
 	<div>
 
         <div>
@@ -127,6 +119,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 	        <p class="uk-margin-remove">ID точки: <span style="font-weight: 700;"><?php echo $idpoint; ?></span></p>
 	        <p class="uk-margin-remove">Сотрудник: <span style="font-weight: 700;"><?php echo $worker; ?></span></p>
 	        <br>
+            <p class="uk-margin-remove">Идентификатор открытого резерва: <span style="font-weight: 700;"><?php echo $reserv_id; ?></span></p>
 	        <p class="uk-margin-remove">Проба: <span style="font-weight: 700;"><?php echo $proba; ?></span></p>
 	        <p class="uk-margin-remove">Вес: <span style="font-weight: 700;"><?php echo $weight; ?></span></p>
             <p class="uk-margin-remove">Комментарий: <span style="font-weight: 700;"><?php echo $reserv_note; ?></span></p>
