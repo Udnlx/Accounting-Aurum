@@ -279,6 +279,144 @@ $doc = '
 </div>
 ';
 
+//echo $doc;
+
+$receipt = '
+<style type="text/css">
+* {
+  /*font-family: Helvetica, sans-serif;*/
+  font-family: "DejaVu Sans", sans-serif;
+  font-size: 13px;}
+tr:nth-child(even) {
+    background: #e1e1e1;}
+
+.doc__header {
+    display: flex;
+    justify-content: space-between;}
+.doc__header-text {
+    width: 80%;}
+.doc__header-text p {
+    margin: 0;
+    font-size: 17px;
+    color: #000000;}
+.doc__header-code {
+    width: 20%;}
+.doc__header-code-itm {
+    display: flex;
+    align-items: center;
+    justify-content: end;}
+.doc__header-code-itm p.doc__header-code-itm-txt {
+    margin: 0 10px 0 0;
+    font-size: 17px;
+    color: #000000;}
+.doc__header-code-itm p.doc__header-code-itm-type {
+    width: 100px;
+    margin: 0;
+    padding: 3px 10px;
+    font-size: 17px;
+    color: #000000;
+    border-top: 3px solid #000000;
+    border-right: 3px solid #000000;
+    border-left: 3px solid #000000;
+    text-align: center;}
+.doc__header-code-itm p.doc__header-code-itm-date {
+    width: 100px;
+    margin: 0;
+    padding: 3px 10px;
+    font-size: 17px;
+    color: #000000;
+    border-top: 1px solid #000000;
+    border-right: 3px solid #000000;
+    border-left: 3px solid #000000;
+    text-align: center;}
+.doc__header-code-itm p.doc__header-code-itm-okpo {
+    width: 100px;
+    margin: 0;
+    padding: 3px 10px;
+    font-size: 17px;
+    color: #000000;
+    border-top: 3px solid #000000;
+    border-right: 3px solid #000000;
+    border-left: 3px solid #000000;
+    border-bottom: 3px solid #000000;
+    text-align: center;}
+
+.doc__body {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0 0 0;}
+.doc__body-itm {
+    display: flex;}
+.doc__body-itm p.doc__body-itm-title {
+    margin: 0;
+    font-size: 17px;
+    color: #000000;
+    min-width: 150px;}
+.doc__body-itm p.doc__body-itm-text {
+    margin: 0;
+    font-size: 17px;
+    color: #000000;}
+
+.doc__table table {
+    margin: 20px 0 0 0;
+    border: 3px solid #000000;
+    font-size: 17px;}
+
+.doc__footer {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0 0 0;}
+.doc__footer-itm {
+    display: flex;}
+.doc__footer-itm p.doc__footer-itm-title {
+    margin: 0;
+    font-size: 17px;
+    color: #000000;
+    min-width: 150px;}
+.doc__footer-itm p.doc__footer-itm-text {
+    margin: 0;
+    font-size: 17px;
+    color: #000000;}
+.doc__footer-itm p.doc__footer-itm-ultext {
+    padding: 0 10px;
+    width: 100%;
+    border-bottom: 1px solid #000000;
+    margin: 0;
+    font-size: 17px;
+    color: #000000;}
+.doc__footer-helpitm {
+    display: flex;
+    justify-content: space-between;}
+.doc__footer-helpitm p.doc__footer-itm-helptitle {
+    margin: 0;
+    font-size: 17px;
+    color: #000000;
+    min-width: 150px;}
+.doc__footer-helpitm p.doc__footer-itm-helptext {
+    padding: 0 10px;
+    margin: 0 0 7px 0;
+    font-size: 14px;
+    color: #000000;}
+.signatures {
+    display: flex;
+    justify-content: space-between;}
+.signature_itm {
+    width: 47%;}
+</style>';
+$receipt .= $doc;
+
+//echo $receipt;
+
+include_once __DIR__ . '/dompdf/autoload.inc.php';
+$dompdf = new Dompdf\Dompdf();
+$dompdf->set_option('isRemoteEnabled', TRUE);
+//$dompdf->setPaper('A4', 'portrait');
+$dompdf->setPaper('A4', 'landscape');
+$dompdf->loadHtml($receipt, 'UTF-8');
+$dompdf->render();
+ 
+// Вывод файла в браузер:
+//$dompdf->stream('Квитанция - ' . $date . ' - ' . $client_name . ''); 
 ?>
 
 <div id="content">

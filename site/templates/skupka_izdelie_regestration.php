@@ -56,40 +56,40 @@ if ($worker && $product && $weight && $pay && $cash_card && $_SESSION['reload'] 
         <p class="uk-margin-remove">Паспорт клиента: <span style="font-weight: 700;">' . $client_passport . '</span></p>
         <p class="uk-margin-remove">Адрес клиента: <span style="font-weight: 700;">' . $client_address . '</span></p>
         <form class="uk-flex uk-flex-column" id="print_receipt" action="/raspechatka-kvitantcii/" method="post">
-            <div class="uk-margin-small-top">
+            <div class="uk-margin-small-top uk-hidden">
                 <input class="uk-input" id="operation_id" type="text" name="operation_id" value="' . $operation_id . '">
             </div>
-            <div class="uk-margin-small-top">
+            <div class="uk-margin-small-top uk-hidden">
                 <input class="uk-input" id="print_type" type="text" name="print_type" value="Скупка">
             </div>
-            <div class="uk-margin-small-top">
+            <div class="uk-margin-small-top uk-hidden">
                 <input class="uk-input" id="print_undertype" type="text" name="print_undertype" value="Изделие - ' . $product . ' - ' . $product_description . '">
             </div>
-            <div class="uk-margin-small-top">
+            <div class="uk-margin-small-top uk-hidden">
                 <input class="uk-input" id="print_date" type="text" name="print_date" value="' . $date . '">
             </div>
-            <div class="uk-margin-small-top">
+            <div class="uk-margin-small-top uk-hidden">
                 <input class="uk-input" id="print_point" type="text" name="print_point" value="' . $point . '">
             </div>
-            <div class="uk-margin-small-top">
+            <div class="uk-margin-small-top uk-hidden">
                 <input class="uk-input" id="print_client_name" type="text" name="print_client_name" value="' . $client_name . '">
             </div>
-            <div class="uk-margin-small-top">
+            <div class="uk-margin-small-top uk-hidden">
                 <input class="uk-input" id="print_client_passport" type="text" name="print_client_passport" value="' . $client_passport . '">
             </div>
-            <div class="uk-margin-small-top">
+            <div class="uk-margin-small-top uk-hidden">
                 <input class="uk-input" id="print_client_address" type="text" name="print_client_address" value="' . $client_address . '">
             </div>
-            <div class="uk-margin-small-top">
+            <div class="uk-margin-small-top uk-hidden">
                 <input class="uk-input" id="print_pay" type="text" name="print_pay" value="' . $pay . '">
             </div>
-            <div class="uk-margin-small-top">
+            <div class="uk-margin-small-top uk-hidden">
                 <input class="uk-input" id="print_proba" type="text" name="print_proba" value="">
             </div>
-            <div class="uk-margin-small-top">
+            <div class="uk-margin-small-top uk-hidden">
                 <input class="uk-input" id="print_weight" type="text" name="print_weight" value="' . $weight . '">
             </div>
-            <div class="uk-margin-small-top">
+            <div class="uk-margin-small-top uk-hidden">
                 <input class="uk-input" id="print_worker" type="text" name="print_worker" value="' . $worker . '">
             </div>
             
