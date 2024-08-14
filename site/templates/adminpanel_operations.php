@@ -41,7 +41,7 @@ $all_operations = '';
 $all_operations_itm = $pages->find('template=operation_itm, sort=-publish_date');
 $all_operations .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($all_operations_itm as $itm) {
-    $all_operations .= '<p>' . $itm->title . '</p>';
+    $all_operations .= '<a class="admin-link-itm" href="/prosmotr-operatcii/?operation_id=' . $itm->id . '">' . $itm->title . '</a><br>';
 }
 $all_operations .= '</div>';
 

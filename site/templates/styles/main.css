@@ -107,6 +107,14 @@ h4 {
 .admpanel a.admpanel-link:hover {
     background-color: #a7a7a7;
     transition: 0.5s;}
+.admin-link-itm {
+    text-decoration: none;
+    margin: 0;
+    color: #666;}
+.admin-link-itm:hover {
+    text-decoration: none;
+    margin: 0;
+    color: #000000;}
     
     
     
