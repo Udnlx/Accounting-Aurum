@@ -16,18 +16,6 @@ $client_name = !empty($_POST['client_name'])?$_POST['client_name']:NULL;
 $client_passport = !empty($_POST['client_passport'])?$_POST['client_passport']:NULL;  
 $client_address = !empty($_POST['client_address'])?$_POST['client_address']:NULL;  
 
-$info_paytype = '';
-if ($paytype == 'Да') {
-	$info_paytype = '
-	<p class="uk-margin-remove">ФИО клиента: <span style="font-weight: 700;">' . $client_name . '</span></p>
-	<p class="uk-margin-remove">Паспорт клиента: <span style="font-weight: 700;">' . $client_passport . '</span></p>
-	<p class="uk-margin-remove">Адрес клиента: <span style="font-weight: 700;">' . $client_address . '</span></p>
-    <div class="pagemenu uk-width-1-1 uk-flex">
-        <a class="menu-link" href="">Распечатать квитанцию</a>
-    </div>
-	';
-}
-
 $success = 'Регистрация продажи прошла успешно';
 if ($worker && $proba && $weight && $price_gramm && $price && $pay && $cash_card && $_SESSION['reload'] != 'on') {
 	//Регестрируем запись
@@ -73,11 +61,64 @@ if ($worker && $proba && $weight && $price_gramm && $price && $pay && $cash_card
 
     //Предотвращаем повторную регистрацию
     $_SESSION['reload'] = 'on';
+
+    //Функционал распечатки квитанции
+    $info_paytype = '';
+    if ($paytype == 'Да') {
+        $info_paytype = '
+        <p class="uk-margin-remove">ФИО клиента: <span style="font-weight: 700;">' . $client_name . '</span></p>
+        <p class="uk-margin-remove">Паспорт клиента: <span style="font-weight: 700;">' . $client_passport . '</span></p>
+        <p class="uk-margin-remove">Адрес клиента: <span style="font-weight: 700;">' . $client_address . '</span></p>
+        <form class="uk-flex uk-flex-column" id="print_receipt" action="/raspechatka-kvitantcii/" method="post">
+            <div class="uk-margin-small-top">
+                <input class="uk-input" id="operation_id" type="text" name="operation_id" value="' . $operation_id . '">
+            </div>
+            <div class="uk-margin-small-top">
+                <input class="uk-input" id="print_type" type="text" name="print_type" value="Продажа">
+            </div>
+            <div class="uk-margin-small-top">
+                <input class="uk-input" id="print_undertype" type="text" name="print_undertype" value="Лом">
+            </div>
+            <div class="uk-margin-small-top">
+                <input class="uk-input" id="print_date" type="text" name="print_date" value="' . $date . '">
+            </div>
+            <div class="uk-margin-small-top">
+                <input class="uk-input" id="print_point" type="text" name="print_point" value="' . $point . '">
+            </div>
+            <div class="uk-margin-small-top">
+                <input class="uk-input" id="print_client_name" type="text" name="print_client_name" value="' . $client_name . '">
+            </div>
+            <div class="uk-margin-small-top">
+                <input class="uk-input" id="print_client_passport" type="text" name="print_client_passport" value="' . $client_passport . '">
+            </div>
+            <div class="uk-margin-small-top">
+                <input class="uk-input" id="print_client_address" type="text" name="print_client_address" value="' . $client_address . '">
+            </div>
+            <div class="uk-margin-small-top">
+                <input class="uk-input" id="print_pay" type="text" name="print_pay" value="' . $pay . '">
+            </div>
+            <div class="uk-margin-small-top">
+                <input class="uk-input" id="print_proba" type="text" name="print_proba" value="' . $proba . '">
+            </div>
+            <div class="uk-margin-small-top">
+                <input class="uk-input" id="print_weight" type="text" name="print_weight" value="' . $weight . '">
+            </div>
+            <div class="uk-margin-small-top">
+                <input class="uk-input" id="print_worker" type="text" name="print_worker" value="' . $worker . '">
+            </div>
+            
+            <div class="pagemenu uk-width-1-1 uk-flex">
+                <button class="menu-link" type="submit">Распечатать квитанцию</button>
+            </div>
+        </form>
+        ';
+    }
 } else {
 	$success = 'Регистрация не прошла!<br>Ошибка в данных';
     if ($_SESSION['reload'] == 'on') {
         $success = 'Повторная отправка данных!<br>Запись уже существует, регистрация записи повторно не проведена';
     }
+    $info_paytype = '';
 }
 
 if(isset($_SESSION['operator'])){
