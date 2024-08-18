@@ -66,7 +66,7 @@ if ($paytype == 'Да') {
     <p class="uk-margin-remove">ФИО клиента: <span style="font-weight: 700;">' . $client_name . '</span></p>
     <p class="uk-margin-remove">Паспорт клиента: <span style="font-weight: 700;">' . $client_passport . '</span></p>
     <p class="uk-margin-remove">Адрес клиента: <span style="font-weight: 700;">' . $client_address . '</span></p>
-    <form class="uk-flex uk-flex-column" id="print_receipt" action="/raspechatka-kvitantcii/" method="post">
+    <form target="_blank" class="uk-flex uk-flex-column" id="print_receipt" action="/raspechatka-kvitantcii/" method="post">
         <div class="uk-margin-small-top uk-hidden">
             <input class="uk-input" id="operation_id" type="text" name="operation_id" value="' . $operation_id . '">
         </div>
