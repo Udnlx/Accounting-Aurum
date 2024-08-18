@@ -38,7 +38,7 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
 
 //Получение всех операций
 $all_operations = '';
-$all_operations_itm = $pages->find('template=affinaj_itm, sort=-publish_date');
+$all_operations_itm = $pages->find('template=affinaj_itm, sort=-sort');
 $all_operations .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($all_operations_itm as $itm) {
     $all_operations .= '<p>' . $itm->title . '</p>';

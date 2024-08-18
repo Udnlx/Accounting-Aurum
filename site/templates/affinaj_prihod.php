@@ -37,7 +37,7 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
 
 //Формирование открытого аффинажа
 $all_open_affinaj = '';
-$all_open_affinaj_itm = $pages->find('template=affinaj_itm, product_status= , sort=affinaj_id');
+$all_open_affinaj_itm = $pages->find('template=affinaj_itm, product_status= , sort=-affinaj_id');
 $all_open_affinaj .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($all_open_affinaj_itm as $itm) {
     $all_open_affinaj .= '<p class="affinaj_id" affinaj_id="' . $itm->affinaj_id . '">' . $itm->affinaj_id . ' - ' . $itm->title . '</p>';

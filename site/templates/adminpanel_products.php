@@ -38,7 +38,7 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
 
 //Получение всех изделий в наличии
 $stock_products = '';
-$stock_products_itm = $pages->find('template=product_itm, product_status=в наличии, sort=-publish_date');
+$stock_products_itm = $pages->find('template=product_itm, product_status=в наличии, sort=-sort');
 $stock_products .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($stock_products_itm as $itm) {
     $stock_products .= '
@@ -53,7 +53,7 @@ $stock_products .= '</div>';
 
 //Получение всех проданных изделий
 $sell_products = '';
-$sell_products_itm = $pages->find('template=product_itm, product_status=продано, sort=-publish_date');
+$sell_products_itm = $pages->find('template=product_itm, product_status=продано, sort=-sort');
 $sell_products .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($sell_products_itm as $itm) {
     $receipt = $itm->product_price_sell - $itm->product_price_buy;
