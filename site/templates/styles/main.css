@@ -7,6 +7,11 @@ body {
     font-weight: 700;
     color: red;}
 
+.uk-table-striped tbody tr:nth-of-type(odd), .uk-table-striped>tr:nth-of-type(odd) {
+    background: #e5e5e5;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;}
+
 
 
 .uk-offcanvas-bar {

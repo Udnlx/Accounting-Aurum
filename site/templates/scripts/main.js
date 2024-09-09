@@ -72,6 +72,20 @@ $('#selected_pay').bind('input', function(){
 
 
 
+//При выборе вида платежа
+$('#cash_card').change( function() {
+	let cash_card = $('#cash_card option:selected').text();
+	if (cash_card== 'Безналичный расчет') {
+		$('#selected_paytype option:contains("Да")').prop('selected', true);
+		$('#data_client').removeClass('uk-hidden');
+		$('#client_name').attr("required", true);
+		$('#client_passport').attr("required", true);
+		$('#client_address').attr("required", true);
+	}
+});
+
+
+
 //Квитанция ДА-НЕТ
 $('#selected_paytype').change( function() {
 	let selected_paytype = $('#selected_paytype option:selected').text();
