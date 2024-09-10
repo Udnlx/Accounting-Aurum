@@ -127,6 +127,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                         </select>
                     </div>
                     <div class="uk-margin-small-top">
+                        <label id="label_free_for_sale" for="selected_weight" style="color:green;font-weight:700;">Доступно для продажи: </label>
                         <input class="uk-input custom1" id="selected_weight" type="text" name="selected_weight" value="" placeholder="Вес" autocomplete="off" required>
                     </div>
                     <div class="uk-margin-small-top">

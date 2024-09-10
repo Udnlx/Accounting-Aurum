@@ -4,7 +4,20 @@ $(".readonly").keydown(function(e){
 
 
 
-//Получение цены при выборе пробы
+$(window).on('load', function() {
+
+	//Получение свободного металла при загрузке страницы по продаже лома
+	let url = window.location.pathname;
+	if (url == '/prodazha-lom/') {
+		let free = $('#free_375').text();
+		$('#label_free_for_sale').text('Доступно для продажи: '+ free +' грамм');
+	}
+
+});
+
+
+
+//Получение цены и свободного металла для продажи при выборе пробы
 $('#selected_proba').change( function() {
 	let selected_proba = $('#selected_proba option:selected').text();
 
@@ -32,6 +45,9 @@ $('#selected_proba').change( function() {
 	}
 	$('#selected_weight').val('');
 	$('#selected_price').val('');
+
+	let free = $('#free_'+selected_proba).text();
+	$('#label_free_for_sale').text('Доступно для продажи: '+ free +' грамм');
 });
 
 
