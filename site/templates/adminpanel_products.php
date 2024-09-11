@@ -43,6 +43,7 @@ $stock_products .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($stock_products_itm as $itm) {
     $stock_products .= '
     <p>' . $itm->title . '</p>
+    <p style="font-size:10px;">Порядковый номер: ' . $itm->serial_number . '</p>
     <p style="font-size:10px;">' . $itm->product_description . '</p>
     <p style="font-size:10px;">URL Авито: ' . $itm->url_avito . '</p>
     <p style="font-size:12px; font-weight: 700;">Дата скупки: ' . $itm->product_date_buy . '; Цена скупки: ' . $itm->product_price_buy . '</p>
@@ -59,6 +60,7 @@ foreach ($sell_products_itm as $itm) {
     $receipt = $itm->product_price_sell - $itm->product_price_buy;
     $sell_products .= '
     <p>' . $itm->title . '</p>
+    <p style="font-size:10px;">Порядковый номер: ' . $itm->serial_number . '</p>
     <p style="font-size:10px;">' . $itm->product_description . '</p>
     <p style="font-size:10px;">URL Авито: ' . $itm->url_avito . '</p>
     <p style="font-size:12px; font-weight: 700;">Дата скупки: ' . $itm->product_date_buy . '; Цена скупки: ' . $itm->product_price_buy . '; Дата продажи: ' . $itm->product_date_sell . '; Цена продажи: ' . $itm->product_price_sell . '; Выручка: ' . $receipt . '</p>

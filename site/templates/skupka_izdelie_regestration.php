@@ -17,9 +17,12 @@ $client_address = !empty($_POST['client_address'])?$_POST['client_address']:NULL
 
 $success = 'Регистрация скупки прошла успешно';
 if ($worker && $product && $weight && $pay && $cash_card && $_SESSION['reload'] != 'on') {
+    $all_product_itm = count($pages->find('template=product_itm'));
+    $serial_number = $all_product_itm + 1;
 	//Регестрируем запись
     $pages->add('product_itm', 1218 , [
     'title' => $product . ' - ' . $weight . 'г - ' . $point . ' - Купленно: ' . date("Y-m-d H:i"),
+    'serial_number' => $serial_number,
     'date' => $date,
     'point' => $point,
     'id_point' => $idpoint,
@@ -42,7 +45,7 @@ if ($worker && $product && $weight && $pay && $cash_card && $_SESSION['reload'] 
     //Записываем регистрацию  в лог
     $log = '';
     $log .= date("Y-m-d H:i") . ' Скупка - Изделие - ' . $product . ' - ' . $weight . 'г - ' . $point . ' === ';
-    $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $operation_id; 
+    $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $operation_id . ', Порядковый номер: ' . $serial_number; 
     file_put_contents(__DIR__ . '/log_products.txt', $log . PHP_EOL, FILE_APPEND);
 
     //Предотвращаем повторную регистрацию
