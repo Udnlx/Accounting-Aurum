@@ -52,7 +52,8 @@ $weight = $operation_page->weight;
 $price_gramm = $operation_page->price_gramm;  
 $price = $operation_page->price;  
 $pay = $operation_page->pay;  
-$cash_card = $operation_page->cash_card;  
+$cash_card = $operation_page->cash_card; 
+$description_operation = $operation_page->description_operation; 
 
 $paytype = $operation_page->paytype;  
 $client_name = $operation_page->client_name;  
@@ -157,6 +158,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 	        <p class="uk-margin-remove">Итоговая стоимость: <span style="font-weight: 700;"><?php echo $price; ?></span></p>
 	        <p class="uk-margin-remove">Сколько отдали: <span style="font-weight: 700;"><?php echo $pay; ?></span></p>
             <p class="uk-margin-remove">Вид платежа: <span style="font-weight: 700;"><?php echo $cash_card; ?></span></p>
+            <p class="uk-margin-remove">Описание операции: <span style="font-weight: 700;"><?php echo $description_operation; ?></span></p>
 	        <br>
 	        <p class="uk-margin-remove">Квитанция: <span style="font-weight: 700;"><?php echo $paytype; ?></span></p>
 	        <?php echo $info_paytype; ?>
