@@ -35,6 +35,18 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
 <?php    
 } else {
 
+//Формирование открытого резерва
+$all_open_reserv = '';
+$all_open_reserv_itm = $pages->find('template=reserv_itm, product_status= , sort=-sort');
+$all_open_reserv .= '<div class="scrolling-list" style="max-height: 700px;">';
+foreach ($all_open_reserv_itm as $itm) {
+    $all_open_reserv .= '
+    <p class="reserv_id" reserv_id="' . $itm->id . '" proba="' . $itm->proba . '" weight="' . $itm->weight . '">' . $itm->id . ' - ' . $itm->title . '</p>
+    <p class="reserv_id_note">' . $itm->reserv_note . '</p>
+    ';
+}
+$all_open_reserv .= '</div>';
+
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
 $startday = $pages->get('id_point=' . $selected_id_point . '_startday');
@@ -66,6 +78,16 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                 <a class="menu-link" href="/">На главную</a>
                 <a class="menu-link" href="/rezerv-dobavit/">Добавить</a>
                 <a class="menu-link" href="/rezerv-zakrytie/">Закрыть</a>
+            </div>
+        </div>
+
+        <div>
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                <h4 class="uk-card-title uk-margin-remove">Открытый резерв</h4>
+                <hr>
+                <div id="all_open_reserv">
+                    <?php echo $all_open_reserv; ?>
+                </div>             
             </div>
         </div>
         
