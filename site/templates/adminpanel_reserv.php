@@ -43,6 +43,7 @@ $all_operations .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($all_operations_itm as $itm) {
     $all_operations .= '
         <p>' . $itm->title . '</p>
+        <p class="reserv_id_note" style="margin:0!important;">Для кого резерв: ' . $itm->description_operation . '</p>
         <p class="reserv_id_note">' . $itm->reserv_note . '</p>
     ';
 }

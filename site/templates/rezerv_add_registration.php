@@ -6,6 +6,7 @@ $idpoint = !empty($_POST['selected_idpoint'])?$_POST['selected_idpoint']:NULL;
 $worker = !empty($_POST['selected_worker'])?$_POST['selected_worker']:NULL;  
 $proba = !empty($_POST['selected_proba'])?$_POST['selected_proba']:NULL;  
 $weight = !empty($_POST['selected_weight'])?$_POST['selected_weight']:NULL;  
+$description_operation = !empty($_POST['description_operation'])?$_POST['description_operation']:NULL;  
 $reserv_note = !empty($_POST['reserv_note'])?$_POST['reserv_note']:NULL;  
 
 $success = 'Добавление резерва прошло успешно';
@@ -21,6 +22,7 @@ if ($worker && $proba && $weight  && $reserv_note && $_SESSION['reload'] != 'on'
     'worker' => $worker,
     'proba' => $proba,
     'weight' => $weight,
+    'description_operation' => $description_operation,
     'reserv_note' => $reserv_note,
     ]);
     $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Резерв - Добавление - ' . $proba . ' - ' . $weight . 'г - ' . $point . '');
@@ -29,7 +31,7 @@ if ($worker && $proba && $weight  && $reserv_note && $_SESSION['reload'] != 'on'
     //Записываем добавление в лог
     $log = '';
     $log .= date("Y-m-d H:i") . ' Резерв - Добавление - ' . $proba . ' - ' . $weight . 'г - ' . $point . ' === ';
-    $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $operation_id . ', Комментарий: ' . $reserv_note; 
+    $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $operation_id . ', Для кого резерв: ' . $description_operation . ', Комментарий: ' . $reserv_note;
     file_put_contents(__DIR__ . '/log_reserv.txt', $log . PHP_EOL, FILE_APPEND);
 
     //Изменяем остатки
@@ -130,6 +132,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 	        <p class="uk-margin-remove">Проба: <span style="font-weight: 700;"><?php echo $proba; ?></span></p>
 	        <p class="uk-margin-remove">Вес: <span style="font-weight: 700;"><?php echo $weight; ?></span></p>
             <p class="uk-margin-remove">Комментарий: <span style="font-weight: 700;"><?php echo $reserv_note; ?></span></p>
+            <p class="uk-margin-remove">Для кого резерв: <span style="font-weight: 700;"><?php echo $description_operation; ?></span></p>
         </div>
 
         <br>

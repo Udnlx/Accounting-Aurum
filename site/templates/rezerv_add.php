@@ -111,6 +111,10 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                         <input class="uk-input custom1" id="selected_weight" type="text" name="selected_weight" value="" placeholder="Вес" autocomplete="off" required>
                     </div>
                     <div class="uk-margin-small-top">
+                        <label for="description_operation">Для кого резерв</label>
+                        <input class="uk-input" id="description_operation" type="text" name="description_operation" autocomplete="off">
+                    </div>
+                    <div class="uk-margin-small-top">
                         <label for="reserv_note">Комментарий</label>
                         <input class="uk-input" id="reserv_note" type="text" name="reserv_note" value="" autocomplete="off" required>
                     </div>
