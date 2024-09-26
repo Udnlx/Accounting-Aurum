@@ -70,60 +70,11 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-                <div class="uk-flex uk-flex-column" id="select_affinaj">
-                    <div class="uk-margin-small-top uk-hidden">
-                        <input class="uk-input" id="selected_date" type="text" name="selected_date" value="<?php echo $today; ?>">
-                    </div>
-                    <div class="uk-margin-small-top uk-hidden">
-                        <input class="uk-input" id="selected_point" type="text" name="selected_point" value="<?php echo $selected_point; ?>">
-                    </div>
-                    <div class="uk-margin-small-top uk-hidden">
-                        <input class="uk-input" id="selected_idpoint" type="text" name="selected_idpoint" value="<?php echo $selected_id_point; ?>">
-                    </div>
-                    <div class="uk-margin-small-top uk-hidden">
-                        <input class="uk-input" id="selected_worker" type="text" name="selected_worker" value="<?php echo $operator; ?>">
-                    </div>
-
-                    <div class="uk-margin-small-top">
-                        <label for="selected_proba_affinaj">Выберите пробу</label>
-                        <select class="uk-select" id="selected_proba_affinaj" name="selected_proba_affinaj">
-                            <option>375</option>
-                            <option>333</option>
-                            <option>417</option>
-                            <option>500</option>
-                            <option>585</option>
-                            <option>620</option>
-                            <option>750</option>
-                            <option>800</option>
-                            <option>850</option>
-                            <option>875</option>
-                            <option>900</option>
-                            <option>916</option>
-                            <option>958</option>
-                            <option>990</option>
-                            <option>999.9</option>
-                        </select>
-                    </div>
-                    <div class="uk-margin-small-top">
-                        <input class="uk-input custom1" id="selected_weight_affinaj" type="text" name="selected_weight_affinaj" value="" placeholder="Вес" autocomplete="off" required>
-                    </div>
-                    
-                    <div class="uk-margin-small-top uk-flex uk-flex-column">
-                        <button class="add-affilaj uk-margin-small-top uk-button uk-button-default">Добавить</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div>
-            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
                 <h4 class="uk-card-title uk-margin-remove">Набранный аффинаж</h4>
                 <hr>
-                <div id="all_affinaj"></div>
-                <div id="edit_messages"></div>
-                <div class="uk-margin-small-top uk-flex uk-flex-column">
-                    <button id="affilaj-reg-btn" class="uk-margin-small-top uk-button uk-button-default uk-hidden">Зарегистрировать</button>
-                </div>                
+                <div id="all_open_affinaj">
+                    ДАННЫЕ
+                </div>             
             </div>
         </div>
         

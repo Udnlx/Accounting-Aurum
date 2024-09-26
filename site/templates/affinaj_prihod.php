@@ -35,15 +35,6 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
 <?php    
 } else {
 
-//Формирование открытого аффинажа
-$all_open_affinaj = '';
-$all_open_affinaj_itm = $pages->find('template=affinaj_itm, product_status= , sort=-affinaj_id');
-$all_open_affinaj .= '<div class="scrolling-list" style="max-height: 700px;">';
-foreach ($all_open_affinaj_itm as $itm) {
-    $all_open_affinaj .= '<p class="affinaj_id" affinaj_id="' . $itm->affinaj_id . '">' . $itm->affinaj_id . ' - ' . $itm->title . '</p>';
-}
-$all_open_affinaj .= '</div>';
-
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
 $startday = $pages->get('id_point=' . $selected_id_point . '_startday');
@@ -82,44 +73,8 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                 <h4 class="uk-card-title uk-margin-remove">Открытый аффинаж</h4>
                 <hr>
                 <div id="all_open_affinaj">
-                    <?php echo $all_open_affinaj; ?>
+                    ДАННЫЕ
                 </div>             
-            </div>
-        </div>
-
-        <div>
-            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-                <form class="uk-flex uk-flex-column" id="select_seat" action="/affinazh-prikhod-registratciia-prikhoda/" method="post">
-                    <div class="uk-margin-small-top uk-hidden">
-                        <input class="uk-input" id="selected_date" type="text" name="selected_date" value="<?php echo $today; ?>">
-                    </div>
-                    <div class="uk-margin-small-top uk-hidden">
-                        <input class="uk-input" id="selected_point" type="text" name="selected_point" value="<?php echo $selected_point; ?>">
-                    </div>
-                    <div class="uk-margin-small-top uk-hidden">
-                        <input class="uk-input" id="selected_idpoint" type="text" name="selected_idpoint" value="<?php echo $selected_id_point; ?>">
-                    </div>
-                    <div class="uk-margin-small-top uk-hidden">
-                        <input class="uk-input" id="selected_worker" type="text" name="selected_worker" value="<?php echo $operator; ?>">
-                    </div>
-
-                    <div class="uk-margin-small-top">
-                        <input class="uk-input readonly" id="affinaj_id" type="text" name="affinaj_id" value="" placeholder="Идентификатор открытого аффинажа" autocomplete="off" required>
-                    </div>
-                    <div class="uk-margin-small-top">
-                        <label for="selected_proba_affinaj">Выберите пробу</label>
-                        <select class="uk-select" id="selected_proba_affinaj" name="selected_proba_affinaj">
-                            <option>999.9</option>
-                        </select>
-                    </div>
-                    <div class="uk-margin-small-top">
-                        <input class="uk-input custom1" id="selected_weight_affinaj" type="text" name="selected_weight_affinaj" value="" placeholder="Вес" autocomplete="off" required>
-                    </div>
-
-                    <div class="uk-margin-small-top uk-flex uk-flex-column">
-                        <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Зарегистрировать</button>
-                    </div>
-                </form>
             </div>
         </div>
         
