@@ -198,4 +198,65 @@ $remain_tables_startday .= '
 
 $remain_tables_startday .= '</div>';
 
+
+
+//Таблица свободного металла для аффинажа
+$affinaj_table_start = '';
+$actual_items = $actual->children();
+$reserv_items = $reserv->children();
+$affinaj_table_start .= '
+<div>
+    <table class="uk-table-striped">
+        <thead>
+            <tr>
+                <th style="width:20%">По пробам</th>
+                <th style="width:20%">Должно быть</th>
+                <th style="width:20%">По факту</th>
+                <th style="width:20%">В 585 должно быть</th>
+                <th style="width:20%">В 585 по факту</th>
+            </tr>
+        </thead>
+        <tbody>
+';
+
+$i = 1;
+foreach ($actual_items as $itm) {
+    if ($itm->title=='999.9' || $itm->title=='Ag' || $itm->title=='Pt' || $itm->title=='Pd') {
+    //echo 'Не выводим значения';
+    } else {
+    $met_act_name = $itm->title;
+    $met_res_item = $reserv_items->get('title=' . $itm->title . '');
+    $met_act_weight = $itm->remain;
+    $met_res_weight = $met_res_item->remain;
+    $free_metal = $met_act_weight - $met_res_weight;
+
+    $sum585 = '';
+    if ($i == 1) {
+        $free_in585 = round($actual_in585 - $reserv_in585, 2);
+        $sum585 = '
+        <td rowspan="14" align="center">' . number_format($free_in585, 2, '.', ' ') . '</td>
+        <td rowspan="14" align="center">При формировании аффинажа не расчитывается</td>
+        ';
+    }
+
+    $affinaj_table_start .= '
+    <tr>
+        <td>' . $itm->title . '</td>
+        <td id="free_for_affinaj_' . $itm->title . '">' . number_format($free_metal, 2, '.', ' ') . '</td>
+        <td id="edit_for_affinaj_' . $itm->title . '">
+            <input class="uk-input selected_weight_affinaj" id="weight_affinaj_' . $itm->title . '" type="text" name="weight_for_affinaj_' . $itm->title . '" value="' . number_format($free_metal, 2, '.', ' ') . '">
+        </td>
+        ' . $sum585 . '
+    </tr>
+    ';
+    $i++;
+    }
+}
+
+$affinaj_table_start .= '
+        </tbody>
+    </table>
+</div>
+';
+
 ?>

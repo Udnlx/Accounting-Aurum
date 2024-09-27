@@ -121,7 +121,7 @@ $('#selected_paytype').change( function() {
 
 
 //Правка инпута Weight
-$('#selected_weight_affinaj').bind('input', function(){
+$('.selected_weight_affinaj').bind('input', function(){
 	this.value = this.value.replace(/[^0-9\.]/g, '');
 	let count = this.value.split(".").length-1;
 	if (count > 1) {
@@ -131,6 +131,93 @@ $('#selected_weight_affinaj').bind('input', function(){
 		this.value = this.value.substring(0, this.value.indexOf(".") + 3);
 	}
 });
+
+
+
+//Добавление нового аффинажа
+$('#reg_new_affinaj').click(function() {
+    var p375 = $('#weight_affinaj_375').val();
+    var p333 = $('#weight_affinaj_333').val();
+    var p417 = $('#weight_affinaj_417').val();
+    var p500 = $('#weight_affinaj_500').val();
+    var p585 = $('#weight_affinaj_585').val();
+    var p620 = $('#weight_affinaj_620').val();
+    var p750 = $('#weight_affinaj_750').val();
+    var p800 = $('#weight_affinaj_800').val();
+    var p850 = $('#weight_affinaj_850').val();
+    var p875 = $('#weight_affinaj_875').val();
+    var p900 = $('#weight_affinaj_900').val();
+    var p916 = $('#weight_affinaj_916').val();
+    var p958 = $('#weight_affinaj_958').val();
+    var p990 = $('#weight_affinaj_990').val();
+    //console.log(p375,p333,p417,p500,p585,p620,p750,p800,p850,p875,p900,p916,p958,p990);
+$.ajax({
+    type: "POST",
+    url: '/add_new_affinaj.php',
+    data: {
+        'p375':p375, 
+        'p333':p333,
+        'p417':p417,
+        'p500':p500,
+        'p585':p585,
+        'p620':p620,
+        'p750':p750,
+        'p800':p800,
+        'p850':p850,
+        'p875':p875,
+        'p900':p900,
+        'p916':p916,
+        'p958':p958,
+        'p990':p990,
+    },
+    beforeSend: function () {
+        $('#result_new_affinaj').html('<p class="messages" style="color: green;">Отправка и обработка данных...</p>');
+    },
+    success: function (data) {
+        $('#result_new_affinaj').html(data);
+        let result_add = $('#result_add').text();
+        if (result_add == 'Аффинаж зарегестрирован') {
+        	$('#reg_new_affinaj').addClass('uk-hidden');
+        	$('#weight_affinaj_375').attr("disabled", true);
+        	$('#weight_affinaj_333').attr("disabled", true);
+        	$('#weight_affinaj_417').attr("disabled", true);
+        	$('#weight_affinaj_500').attr("disabled", true);
+        	$('#weight_affinaj_585').attr("disabled", true);
+        	$('#weight_affinaj_620').attr("disabled", true);
+        	$('#weight_affinaj_750').attr("disabled", true);
+        	$('#weight_affinaj_800').attr("disabled", true);
+        	$('#weight_affinaj_850').attr("disabled", true);
+        	$('#weight_affinaj_875').attr("disabled", true);
+        	$('#weight_affinaj_900').attr("disabled", true);
+        	$('#weight_affinaj_916').attr("disabled", true);
+        	$('#weight_affinaj_958').attr("disabled", true);
+        	$('#weight_affinaj_990').attr("disabled", true);
+        	// var a = 0;
+        	// a = a + ($('#weight_affinaj_375').val()/585*375);
+        	// a = a + ($('#weight_affinaj_333').val()/585*333);
+        	// a = a + ($('#weight_affinaj_417').val()/585*417);
+        	// a = a + ($('#weight_affinaj_500').val()/585*500);
+        	// a = a + ($('#weight_affinaj_585').val()/585*585);
+        	// a = a + ($('#weight_affinaj_620').val()/585*620);
+        	// a = a + ($('#weight_affinaj_750').val()/585*750);
+        	// a = a + ($('#weight_affinaj_800').val()/585*800);
+        	// a = a + ($('#weight_affinaj_850').val()/585*850);
+        	// a = a + ($('#weight_affinaj_875').val()/585*875);
+        	// a = a + ($('#weight_affinaj_900').val()/585*900);
+        	// a = a + ($('#weight_affinaj_916').val()/585*916);
+        	// a = a + ($('#weight_affinaj_958').val()/585*958);
+        	// a = a + ($('#weight_affinaj_990').val()/585*990);
+        	// console.log (a);
+        }
+        
+    },
+    error: function (jqXHR, text, error) {
+        $('#result_new_affinaj').html(error);
+    }
+});
+return false;    
+});
+//Добавление нового аффинажа
 
 
 

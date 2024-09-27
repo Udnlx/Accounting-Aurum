@@ -26,7 +26,7 @@ if(isset($_SESSION['access'])){
 if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Аффинаж расход</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Новый аффинаж</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title">Потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -58,25 +58,25 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Аффинаж расход</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Новый аффинаж</h1>
 	<div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
                 <a class="menu-link" href="/affinazh-tip-affinazha/">Выбрать другой тип аффинажа</a>
+                <a class="menu-link" href="/affinazh-raskhod/">Выбрать другой аффинаж</a>
             </div>
         </div>
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-                <h4 class="uk-card-title uk-margin-remove">Открытые и отправленные аффинажи</h4>
-                <hr>
-                <div id="all_open_affinaj">
-                    ДАННЫЕ
-                </div> 
-                <hr>
-                <a class="uk-margin-small uk-button uk-button-default" href="/affinazh-raskhod-sozdanie-novogo/">Новый аффинаж</a>      
+                <h4 class="uk-card-title uk-margin-remove">Формирование аффинажа</h4>  
+                <?php echo $affinaj_table_start; ?>
+                <a id="reg_new_affinaj" class="uk-margin-small uk-button uk-button-default" href="">Зарегестрировать новый аффинаж</a>
+            </div>
+            <div id="result_new_affinaj" class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column" style="padding: 0 40px;">
+                <p id="result_add" class="messages" style="color: green;"></p>
             </div>
         </div>
         
@@ -88,6 +88,13 @@ if ($startday == '' || $actual == '' || $reserv == '') {
         
     </div>
 </div>
+
+<!-- <script>
+document.onkeydown = function (e) {
+    if (e.keyCode === 116) {
+    return false;
+}};
+</script> -->
 
 <?php   
 }
