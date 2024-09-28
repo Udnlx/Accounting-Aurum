@@ -72,6 +72,18 @@ if ($startday == '' || $actual == '' || $reserv == '') {
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
                 <h4 class="uk-card-title uk-margin-remove">Формирование аффинажа</h4>  
+                <div class="uk-margin-small-top uk-hidden">
+                    <input class="uk-input" id="affinaj_date" type="text" name="affinaj_date" value="<?php echo $today; ?>">
+                </div>
+                <div class="uk-margin-small-top uk-hidden">
+                    <input class="uk-input" id="affinaj_point" type="text" name="affinaj_point" value="<?php echo $selected_point; ?>">
+                </div>
+                <div class="uk-margin-small-top uk-hidden">
+                 <input class="uk-input" id="affinaj_idpoint" type="text" name="affinaj_idpoint" value="<?php echo $selected_id_point; ?>">
+                </div>
+                <div class="uk-margin-small-top uk-hidden">
+                    <input class="uk-input" id="affinaj_worker" type="text" name="affinaj_worker" value="<?php echo $operator; ?>">
+                </div>
                 <?php echo $affinaj_table_start; ?>
                 <a id="reg_new_affinaj" class="uk-margin-small uk-button uk-button-default" href="">Зарегестрировать новый аффинаж</a>
             </div>

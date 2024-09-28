@@ -136,6 +136,10 @@ $('.selected_weight_affinaj').bind('input', function(){
 
 //Добавление нового аффинажа
 $('#reg_new_affinaj').click(function() {
+	var affinaj_date = $('#affinaj_date').val();
+	var affinaj_point = $('#affinaj_point').val();
+	var affinaj_idpoint = $('#affinaj_idpoint').val();
+	var affinaj_worker = $('#affinaj_worker').val();
     var p375 = $('#weight_affinaj_375').val();
     var p333 = $('#weight_affinaj_333').val();
     var p417 = $('#weight_affinaj_417').val();
@@ -154,7 +158,11 @@ $('#reg_new_affinaj').click(function() {
 $.ajax({
     type: "POST",
     url: '/add_new_affinaj.php',
-    data: {
+    data: { 
+    	'affinaj_date':affinaj_date, 
+    	'affinaj_point':affinaj_point, 
+    	'affinaj_idpoint':affinaj_idpoint, 
+    	'affinaj_worker':affinaj_worker, 
         'p375':p375, 
         'p333':p333,
         'p417':p417,

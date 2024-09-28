@@ -244,7 +244,7 @@ foreach ($actual_items as $itm) {
         <td>' . $itm->title . '</td>
         <td id="free_for_affinaj_' . $itm->title . '">' . number_format($free_metal, 2, '.', ' ') . '</td>
         <td id="edit_for_affinaj_' . $itm->title . '">
-            <input class="uk-input selected_weight_affinaj" id="weight_affinaj_' . $itm->title . '" type="text" name="weight_for_affinaj_' . $itm->title . '" value="' . number_format($free_metal, 2, '.', ' ') . '">
+            <input class="uk-input selected_weight_affinaj" id="weight_affinaj_' . $itm->title . '" type="text" name="weight_for_affinaj_' . $itm->title . '" value="1">
         </td>
         ' . $sum585 . '
     </tr>
