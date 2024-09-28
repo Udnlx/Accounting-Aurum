@@ -140,6 +140,23 @@ $('#reg_new_affinaj').click(function() {
 	var affinaj_point = $('#affinaj_point').val();
 	var affinaj_idpoint = $('#affinaj_idpoint').val();
 	var affinaj_worker = $('#affinaj_worker').val();
+
+	var f375 = $('#free_for_affinaj_375').text();
+	var f333 = $('#free_for_affinaj_333').text();
+	var f417 = $('#free_for_affinaj_417').text();
+	var f500 = $('#free_for_affinaj_500').text();
+	var f585 = $('#free_for_affinaj_585').text();
+	var f620 = $('#free_for_affinaj_620').text();
+	var f750 = $('#free_for_affinaj_750').text();
+	var f800 = $('#free_for_affinaj_800').text();
+	var f850 = $('#free_for_affinaj_850').text();
+	var f875 = $('#free_for_affinaj_875').text();
+	var f900 = $('#free_for_affinaj_900').text();
+	var f916 = $('#free_for_affinaj_916').text();
+	var f958 = $('#free_for_affinaj_958').text();
+	var f990 = $('#free_for_affinaj_990').text();
+	//console.log(f375,f333,f417,f500,f585,f620,f750,f800,f850,f875,f900,f916,f958,f990);
+
     var p375 = $('#weight_affinaj_375').val();
     var p333 = $('#weight_affinaj_333').val();
     var p417 = $('#weight_affinaj_417').val();
@@ -163,6 +180,22 @@ $.ajax({
     	'affinaj_point':affinaj_point, 
     	'affinaj_idpoint':affinaj_idpoint, 
     	'affinaj_worker':affinaj_worker, 
+
+    	'f375':f375, 
+        'f333':f333,
+        'f417':f417,
+        'f500':f500,
+        'f585':f585,
+        'f620':f620,
+        'f750':f750,
+        'f800':f800,
+        'f850':f850,
+        'f875':f875,
+        'f900':f900,
+        'f916':f916,
+        'f958':f958,
+        'f990':f990,
+
         'p375':p375, 
         'p333':p333,
         'p417':p417,
@@ -200,24 +233,10 @@ $.ajax({
         	$('#weight_affinaj_916').attr("disabled", true);
         	$('#weight_affinaj_958').attr("disabled", true);
         	$('#weight_affinaj_990').attr("disabled", true);
-        	// var a = 0;
-        	// a = a + ($('#weight_affinaj_375').val()/585*375);
-        	// a = a + ($('#weight_affinaj_333').val()/585*333);
-        	// a = a + ($('#weight_affinaj_417').val()/585*417);
-        	// a = a + ($('#weight_affinaj_500').val()/585*500);
-        	// a = a + ($('#weight_affinaj_585').val()/585*585);
-        	// a = a + ($('#weight_affinaj_620').val()/585*620);
-        	// a = a + ($('#weight_affinaj_750').val()/585*750);
-        	// a = a + ($('#weight_affinaj_800').val()/585*800);
-        	// a = a + ($('#weight_affinaj_850').val()/585*850);
-        	// a = a + ($('#weight_affinaj_875').val()/585*875);
-        	// a = a + ($('#weight_affinaj_900').val()/585*900);
-        	// a = a + ($('#weight_affinaj_916').val()/585*916);
-        	// a = a + ($('#weight_affinaj_958').val()/585*958);
-        	// a = a + ($('#weight_affinaj_990').val()/585*990);
-        	// console.log (a);
+        	let operation_id = $('#operation_id').text();
+        	console.log (operation_id);
+        	window.location.replace("/affinazh-raskhod-uspeshnaia-registratciia/?id=" + operation_id);
         }
-        
     },
     error: function (jqXHR, text, error) {
         $('#result_new_affinaj').html(error);
