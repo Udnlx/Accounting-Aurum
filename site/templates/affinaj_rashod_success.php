@@ -68,15 +68,8 @@ $actual_in585 = round($in585, 2);
 
 $i = 1;
 foreach ($affinaj_page->affinaj_table as $itm) {
-    //$met_act_name = $itm->title;
-    //$met_res_item = $reserv_items->get('title=' . $itm->title . '');
-    //$met_act_weight = $itm->remain;
-    //$met_res_weight = $met_res_item->remain;
-    //$free_metal = $met_act_weight - $met_res_weight;
-
     $sum585 = '';
     if ($i == 1) {
-        //$free_in585 = round($actual_in585 - $reserv_in585, 2);
         $sum585 = '
         <td rowspan="14" align="center">' . $actual_fin585 . '</td>
         <td rowspan="14" align="center">' . $actual_in585 . '</td>
