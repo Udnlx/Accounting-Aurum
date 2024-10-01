@@ -88,15 +88,29 @@ if ($p375 == '' || $p333 == '' || $p417 == '' || $p500 == '' || $p585 == '' || $
     $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Аффинаж - Расход - ' . $point . '');
     $operation_id = $operation_page->id;
 
+    //Добавляем позиции в запись и вычитаем материал из остатков
 	foreach ($array as $key => $value) {
 		$data_array = explode("||", $value);
-		$promo = $pages->get('id=' . $operation_id . '')->affinaj_table->getNew();
-		$promo->proba = $key;
-		$promo->fweight = $data_array[0];
-		$promo->weight = $data_array[1];
-		$promo->save();
-		$pages->get('id=' . $operation_id . '')->affinaj_table->add($promo);
+		$affadd = $pages->get('id=' . $operation_id . '')->affinaj_table->getNew();
+		$affadd->proba = $key;
+		$affadd->fweight = $data_array[0];
+		$affadd->weight = $data_array[1];
+			//Изменяем остатки
+		    $point_actual_table = $pages->get('id_point=' . $idpoint . '_actual');
+		    $edit_page = $point_actual_table->get('title=' . $affadd->proba . '');
+		    $result = $edit_page->remain - $affadd->weight;
+		    $edit_page->of(false);
+		    $edit_page->remain = $result;
+		    $edit_page->save();
+		$affadd->save();
+		$pages->get('id=' . $operation_id . '')->affinaj_table->add($affadd);
 	}
+
+	//Записываем регистрацию в лог
+	$log = '';
+    $log .= date("Y-m-d H:i") . ' Аффинаж - Расход - ' . $point . ' === ';
+    $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $operation_id; 
+    file_put_contents(__DIR__ . '/site/templates/log_affinaj.txt', $log . PHP_EOL, FILE_APPEND);
 
 	//Сообщение для пользователя
 	echo '<p id="result_add" class="messages" style="color: green;">Аффинаж зарегестрирован</p>';

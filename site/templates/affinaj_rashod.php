@@ -35,6 +35,33 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
 <?php    
 } else {
 
+//Получение всех открытых и отпраленных аффинажей
+$all_notend_affinaj = '';
+$all_notend_affinaj_itm = $pages->find('template=affinaj_itm, sort=-sort');
+$all_notend_affinaj .= '<div class="scrolling-list" style="max-height: 700px;">';
+foreach ($all_notend_affinaj_itm as $itm) {
+    if ($itm->product_status == 'Открыт') {
+        $all_notend_affinaj .= '<p>' . $itm->title . '</p>';
+        $all_notend_affinaj .= '<p style="font-size:14px;font-weight:700;">Статус: ' . $itm->product_status . '</p>';
+        $all_notend_affinaj .= '
+        <div class="affinaj-link">
+            <a class="affinaj-link-lnk" href="">Отрпавить</a>
+            <a class="affinaj-link-lnk" href="">Внести изменения</a>
+        </div><hr>
+        ';
+    }
+    if ($itm->product_status == 'Отправлен') {
+        $all_notend_affinaj .= '<p>' . $itm->title . '</p>';
+        $all_notend_affinaj .= '<p style="font-size:14px;font-weight:700;">Статус: ' . $itm->product_status . '</p>';
+        $all_notend_affinaj .= '
+        <div class="affinaj-link">
+            <a class="affinaj-link-lnk" href="">Закрыть</a>
+        </div><hr>
+        ';
+    }
+}
+$all_notend_affinaj .= '</div>';
+
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
 $startday = $pages->get('id_point=' . $selected_id_point . '_startday');
@@ -73,9 +100,8 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                 <h4 class="uk-card-title uk-margin-remove">Открытые и отправленные аффинажи</h4>
                 <hr>
                 <div id="all_open_affinaj">
-                    ДАННЫЕ
+                    <?php echo $all_notend_affinaj; ?>
                 </div> 
-                <hr>
                 <a class="uk-margin-small uk-button uk-button-default" href="/affinazh-raskhod-sozdanie-novogo/">Новый аффинаж</a>      
             </div>
         </div>
