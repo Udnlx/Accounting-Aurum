@@ -46,7 +46,7 @@ foreach ($all_notend_affinaj_itm as $itm) {
         $all_notend_affinaj .= '<p style="font-size:14px;font-weight:700;">Статус: ' . $itm->product_status . '</p>';
         $all_notend_affinaj .= '
         <div class="affinaj-link">
-            <a class="affinaj-link-lnk" href="">Отрпавить</a>
+            <a class="affinaj-link-lnk" href="">Отправить</a>
             <a class="affinaj-link-lnk" href="/affinazh-raskhod-vnesti-izmeneniia/?prod_id=' . $itm->id . '">Внести изменения</a>
         </div><hr>
         ';

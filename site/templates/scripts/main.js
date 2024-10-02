@@ -303,76 +303,77 @@ $('#edit_affinaj').click(function() {
     var n958 = $('#new_weight_affinaj_958').val();
     var n990 = $('#new_weight_affinaj_990').val();
     console.log(n375,n333,n417,n500,n585,n620,n750,n800,n850,n875,n900,n916,n958,n990);
-// $.ajax({
-//     type: "POST",
-//     url: '/add_new_affinaj.php',
-//     data: { 
-//     	'affinaj_date':affinaj_date, 
-//     	'affinaj_point':affinaj_point, 
-//     	'affinaj_idpoint':affinaj_idpoint, 
-//     	'affinaj_worker':affinaj_worker, 
+$.ajax({
+    type: "POST",
+    url: '/edit_affinaj.php',
+    data: { 
+    	'affinaj_date':affinaj_date, 
+    	'affinaj_point':affinaj_point, 
+    	'affinaj_idpoint':affinaj_idpoint, 
+    	'affinaj_worker':affinaj_worker, 
+    	'affinaj_id':affinaj_id,
 
-//     	'f375':f375, 
-//         'f333':f333,
-//         'f417':f417,
-//         'f500':f500,
-//         'f585':f585,
-//         'f620':f620,
-//         'f750':f750,
-//         'f800':f800,
-//         'f850':f850,
-//         'f875':f875,
-//         'f900':f900,
-//         'f916':f916,
-//         'f958':f958,
-//         'f990':f990,
+    	'o375':o375, 
+        'o333':o333,
+        'o417':o417,
+        'o500':o500,
+        'o585':o585,
+        'o620':o620,
+        'o750':o750,
+        'o800':o800,
+        'o850':o850,
+        'o875':o875,
+        'o900':o900,
+        'o916':o916,
+        'o958':o958,
+        'o990':o990,
 
-//         'p375':p375, 
-//         'p333':p333,
-//         'p417':p417,
-//         'p500':p500,
-//         'p585':p585,
-//         'p620':p620,
-//         'p750':p750,
-//         'p800':p800,
-//         'p850':p850,
-//         'p875':p875,
-//         'p900':p900,
-//         'p916':p916,
-//         'p958':p958,
-//         'p990':p990,
-//     },
-//     beforeSend: function () {
-//         $('#result_new_affinaj').html('<p class="messages" style="color: green;">Отправка и обработка данных...</p>');
-//     },
-//     success: function (data) {
-//         $('#result_new_affinaj').html(data);
-//         let result_add = $('#result_add').text();
-//         if (result_add == 'Аффинаж зарегестрирован') {
-//         	$('#reg_new_affinaj').addClass('uk-hidden');
-//         	$('#weight_affinaj_375').attr("disabled", true);
-//         	$('#weight_affinaj_333').attr("disabled", true);
-//         	$('#weight_affinaj_417').attr("disabled", true);
-//         	$('#weight_affinaj_500').attr("disabled", true);
-//         	$('#weight_affinaj_585').attr("disabled", true);
-//         	$('#weight_affinaj_620').attr("disabled", true);
-//         	$('#weight_affinaj_750').attr("disabled", true);
-//         	$('#weight_affinaj_800').attr("disabled", true);
-//         	$('#weight_affinaj_850').attr("disabled", true);
-//         	$('#weight_affinaj_875').attr("disabled", true);
-//         	$('#weight_affinaj_900').attr("disabled", true);
-//         	$('#weight_affinaj_916').attr("disabled", true);
-//         	$('#weight_affinaj_958').attr("disabled", true);
-//         	$('#weight_affinaj_990').attr("disabled", true);
-//         	let operation_id = $('#operation_id').text();
-//         	console.log (operation_id);
-//         	window.location.replace("/affinazh-raskhod-uspeshnaia-registratciia/?id=" + operation_id);
-//         }
-//     },
-//     error: function (jqXHR, text, error) {
-//         $('#result_new_affinaj').html(error);
-//     }
-// });
+        'n375':n375, 
+        'n333':n333,
+        'n417':n417,
+        'n500':n500,
+        'n585':n585,
+        'n620':n620,
+        'n750':n750,
+        'n800':n800,
+        'n850':n850,
+        'n875':n875,
+        'n900':n900,
+        'n916':n916,
+        'n958':n958,
+        'n990':n990,
+    },
+    beforeSend: function () {
+        $('#result_edit_affinaj').html('<p class="messages" style="color: green;">Отправка и обработка данных...</p>');
+    },
+    success: function (data) {
+        $('#result_edit_affinaj').html(data);
+        let result_add = $('#result_add').text();
+        if (result_add == 'Аффинаж изменен') {
+        	$('#edit_affinaj').addClass('uk-hidden');
+        	$('#new_weight_affinaj_375').attr("disabled", true);
+        	$('#new_weight_affinaj_333').attr("disabled", true);
+        	$('#new_weight_affinaj_417').attr("disabled", true);
+        	$('#new_weight_affinaj_500').attr("disabled", true);
+        	$('#new_weight_affinaj_585').attr("disabled", true);
+        	$('#new_weight_affinaj_620').attr("disabled", true);
+        	$('#new_weight_affinaj_750').attr("disabled", true);
+        	$('#new_weight_affinaj_800').attr("disabled", true);
+        	$('#new_weight_affinaj_850').attr("disabled", true);
+        	$('#new_weight_affinaj_875').attr("disabled", true);
+        	$('#new_weight_affinaj_900').attr("disabled", true);
+        	$('#new_weight_affinaj_916').attr("disabled", true);
+        	$('#new_weight_affinaj_958').attr("disabled", true);
+        	$('#new_weight_affinaj_990').attr("disabled", true);
+        	let affinaj_id = $('#affinaj_id').val();
+        	console.log (affinaj_id);
+        	//window.location.replace("/affinazh-raskhod-uspeshnaia-registratciia/?id=" + affinaj_id);
+        }
+    },
+    error: function (jqXHR, text, error) {
+        $('#result_edit_affinaj').html(error);
+    }
+});
 return false;    
 });
 //Редактирование аффинажа
