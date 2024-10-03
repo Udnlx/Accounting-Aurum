@@ -101,13 +101,6 @@ if ($startday == '' || $actual == '' || $reserv == '') {
     </div>
 </div>
 
-<!-- <script>
-document.onkeydown = function (e) {
-    if (e.keyCode === 116) {
-    return false;
-}};
-</script> -->
-
 <?php   
 }
 ?>

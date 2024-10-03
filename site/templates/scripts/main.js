@@ -367,7 +367,7 @@ $.ajax({
         	$('#new_weight_affinaj_990').attr("disabled", true);
         	let affinaj_id = $('#affinaj_id').val();
         	console.log (affinaj_id);
-        	//window.location.replace("/affinazh-raskhod-uspeshnaia-registratciia/?id=" + affinaj_id);
+        	window.location.replace("/affinazh-raskhod-vnesti-izmeneniia-uspeshno/?id=" + affinaj_id);
         }
     },
     error: function (jqXHR, text, error) {
