@@ -26,7 +26,7 @@ if(isset($_SESSION['access'])){
 if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Аффинаж внесение изменений</h1>
+        <h1 class="uk-heading-hero uk-text-center">Аффинаж закрыт</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title">Потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -35,21 +35,20 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
 <?php    
 } else {
 
-//Формирование таблицы для редактирования
-$prod_id = !empty($_GET['prod_id'])?$_GET['prod_id']:NULL;  
-$affinaj_page = $pages->get('id=' . $prod_id . '');
+//Формирование данных аффинажа
+$id = $_GET['id'];
+$affinaj_page = $pages->get('id=' . $id . '');
 $affinaj_table = '';
-$affinaj_table .= '
+$affinaj_table = '
 <div>
     <table class="uk-table-striped">
         <thead>
             <tr>
-                <th style="width:16,6%">По пробам</th>
-                <th style="width:16,6%">Должно быть</th>
-                <th style="width:16,6%">По факту<br>старое значение</th>
-                <th style="width:16,6%">По факту<br>новое значение</th>
-                <th style="width:16,6%">В 585 должно быть</th>
-                <th style="width:16,6%">В 585 по факту<br>старое значение</th>
+                <th style="width:20%">По пробам</th>
+                <th style="width:20%">Должно быть</th>
+                <th style="width:20%">По факту</th>
+                <th style="width:20%">В 585 должно быть</th>
+                <th style="width:20%">В 585 по факту</th>
             </tr>
         </thead>
         <tbody>
@@ -76,24 +75,24 @@ foreach ($affinaj_page->affinaj_table as $itm) {
         <td rowspan="14" align="center">' . $actual_in585 . '</td>
         ';
     }
+
     $affinaj_table .= '
     <tr>
         <td>' . $itm->proba . '</td>
-        <td id="free_for_affinaj_' . $itm->proba . '">' . $itm->fweight . '</td>
-        <td id="old_for_affinaj_' . $itm->proba . '">' . $itm->weight . '</td>
-        <td id="new_for_affinaj_' . $itm->proba . '">
-            <input class="uk-input edit_weight_affinaj" id="new_weight_affinaj_' . $itm->proba . '" type="text" name="new_weight_for_affinaj_' . $itm->proba . '" value="' . $itm->weight . '">
-        </td>
+        <td>' . $itm->fweight . '</td>
+        <td>' . $itm->weight . '</td>
         ' . $sum585 . '
     </tr>
     ';
     $i++;
 }
+
 $affinaj_table .= '
         </tbody>
     </table>
 </div>
 ';
+
 
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
@@ -118,41 +117,27 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Аффинаж внесение изменений</h1>
-	<div>
+    <h1 class="uk-margin-remove uk-heading-hero uk-text-center">Аффинаж закрыт</h1>
+    <div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
-                <a class="menu-link" href="/affinazh-raskhod/">Выбрать другой аффинаж</a>
+                <a class="menu-link" href="/affinazh-raskhod/">Открытые и отправленные аффинажи</a>
             </div>
         </div>
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-                <h4 class="uk-card-title uk-margin-remove">Внесение изменений</h4>
-                <p class="uk-margin-remove"><strong>Аффинаж: </strong><?php echo $affinaj_page->title; ?></p>
-                <p class="uk-margin-remove"><strong>ID аффинажа: </strong><?php echo $prod_id; ?></p>
-                <div class="uk-margin-small-top uk-hidden">
-                    <input class="uk-input" id="affinaj_date" type="text" name="affinaj_date" value="<?php echo $today; ?>">
-                </div>
-                <div class="uk-margin-small-top uk-hidden">
-                    <input class="uk-input" id="affinaj_point" type="text" name="affinaj_point" value="<?php echo $selected_point; ?>">
-                </div>
-                <div class="uk-margin-small-top uk-hidden">
-                 <input class="uk-input" id="affinaj_idpoint" type="text" name="affinaj_idpoint" value="<?php echo $selected_id_point; ?>">
-                </div>
-                <div class="uk-margin-small-top uk-hidden">
-                    <input class="uk-input" id="affinaj_worker" type="text" name="affinaj_worker" value="<?php echo $operator; ?>">
-                </div>
-                <div class="uk-margin-small-top uk-hidden">
-                    <input class="uk-input" id="affinaj_id" type="text" name="affinaj_id" value="<?php echo $prod_id; ?>">
-                </div>
+                <h4 class="uk-card-title uk-margin-remove">Данные аффинажа</h4>  
+                <p class="uk-margin-remove" style="color: green;"><strong>Аффинаж успешно закрыт</strong></p>
+                <p class="uk-margin-remove"><strong>ID: </strong><?php echo $id; ?></p>
+                <p class="uk-margin-remove"><strong>Дата: </strong><?php echo $affinaj_page->date; ?></p>
+                <p class="uk-margin-remove"><strong>Точка: </strong><?php echo $affinaj_page->point; ?></p>
+                <p class="uk-margin-remove"><strong>Оператор: </strong><?php echo $affinaj_page->worker; ?></p>
+                <p class="uk-margin-remove"><strong>Cтатус: </strong><?php echo $affinaj_page->product_status; ?></p>
                 <?php echo $affinaj_table; ?>
-                <a id="edit_affinaj" class="uk-margin-small uk-button uk-button-default">Внести изменения</a>
-            </div>
-            <div id="result_edit_affinaj" class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column" style="padding: 0 40px;">
-                <p id="result_add" class="messages" style="color: green;"></p>
+                <a class="uk-margin-small uk-button uk-button-default" href="/affinazh-raskhod/">Открытые и отправленные аффинажи</a>
             </div>
         </div>
         

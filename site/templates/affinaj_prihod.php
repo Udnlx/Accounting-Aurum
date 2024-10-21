@@ -26,7 +26,7 @@ if(isset($_SESSION['access'])){
 if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Аффинаж приход</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Аффинаж расход</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title">Потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -34,6 +34,19 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
     </div>
 <?php    
 } else {
+
+//Получение всех открытых и отпраленных аффинажей
+$all_close_affinaj = '';
+$all_close_affinaj_itm = $pages->find('template=affinaj_itm, product_status=Закрыт, sort=-id');
+$all_close_affinaj .= '<div class="scrolling-list" style="max-height: 700px;">';
+foreach ($all_close_affinaj_itm as $itm) {
+    $all_close_affinaj .= '<p>' . $itm->title . '</p>';
+    $all_close_affinaj .= '<p style="font-size:10px;">ID аффинажа: ' . $itm->id . '</p>';
+    $all_close_affinaj .= '<p style="font-size:14px;font-weight:700;">Статус: ' . $itm->product_status . '</p>';
+    $all_close_affinaj .= '<p>Приход по 999.9 пробе: ' . $itm->weight . '</p>';
+    $all_close_affinaj .= '<hr>';
+}
+$all_close_affinaj .= '</div>';
 
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
@@ -70,11 +83,11 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-                <h4 class="uk-card-title uk-margin-remove">Открытый аффинаж</h4>
+                <h4 class="uk-card-title uk-margin-remove">Закрытые аффинажи</h4>
                 <hr>
                 <div id="all_open_affinaj">
-                    ДАННЫЕ
-                </div>             
+                    <?php echo $all_close_affinaj; ?>
+                </div> 
             </div>
         </div>
         

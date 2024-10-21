@@ -85,7 +85,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     <input class="uk-input" id="affinaj_worker" type="text" name="affinaj_worker" value="<?php echo $operator; ?>">
                 </div>
                 <?php echo $affinaj_table_start; ?>
-                <a id="reg_new_affinaj" class="uk-margin-small uk-button uk-button-default" href="">Зарегестрировать новый аффинаж</a>
+                <a id="reg_new_affinaj" class="uk-margin-small uk-button uk-button-default">Зарегестрировать новый аффинаж</a>
             </div>
             <div id="result_new_affinaj" class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column" style="padding: 0 40px;">
                 <p id="result_add" class="messages" style="color: green;"></p>

@@ -380,6 +380,67 @@ return false;
 
 
 
+//Правка инпута Weight при закрытии аффинажа
+$('.close_weight_affinaj').bind('input', function(){
+	this.value = this.value.replace(/[^0-9\.]/g, '');
+	let count = this.value.split(".").length-1;
+	if (count > 1) {
+		this.value = this.value.substr(0, this.value.lastIndexOf("."));
+	}
+	if (this.value.indexOf(".") != '-1') {
+		this.value = this.value.substring(0, this.value.indexOf(".") + 3);
+	}
+});
+
+
+
+//Закрытие аффинажа
+$('#close_affinaj').click(function() {
+	var affinaj_date = $('#affinaj_date').val();
+	var affinaj_point = $('#affinaj_point').val();
+	var affinaj_idpoint = $('#affinaj_idpoint').val();
+	var affinaj_worker = $('#affinaj_worker').val();
+	var affinaj_id = $('#affinaj_id').val();
+	console.log(affinaj_date,affinaj_point,affinaj_idpoint,affinaj_worker,affinaj_id);
+
+	var proba999 = $('#close_weight_affinaj').val();
+	console.log(proba999);
+	$.ajax({
+	    type: "POST",
+	    url: '/close_affinaj.php',
+	    data: { 
+	    	'affinaj_date':affinaj_date, 
+	    	'affinaj_point':affinaj_point, 
+	    	'affinaj_idpoint':affinaj_idpoint, 
+	    	'affinaj_worker':affinaj_worker, 
+	    	'affinaj_id':affinaj_id,
+
+	    	'proba999':proba999, 
+	    },
+	    beforeSend: function () {
+	        $('#result_close_affinaj').html('<p class="messages" style="color: green;">Отправка и обработка данных...</p>');
+	    },
+	    success: function (data) {
+	        $('#result_close_affinaj').html(data);
+	        let result_add = $('#result_add').text();
+	        if (result_add == 'Аффинаж закрыт') {
+	        	$('#close_affinaj').addClass('uk-hidden');
+	        	$('#close_weight_affinaj').attr("disabled", true);
+	        	let affinaj_id = $('#affinaj_id').val();
+	        	console.log (affinaj_id);
+	        	window.location.replace("/affinazh-prikhod-zakrytie-uspeshno/?id=" + affinaj_id);
+	        }
+	    },
+	    error: function (jqXHR, text, error) {
+	        $('#result_close_affinaj').html(error);
+	    }
+	});
+	return false;  
+});
+//Закрытие аффинажа
+
+
+
 //Выбор открытого резерва
 $('p.reserv_id').click(function() {
     let edited_reserv = $(this).attr('reserv_id');

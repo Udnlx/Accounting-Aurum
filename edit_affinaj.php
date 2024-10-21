@@ -102,44 +102,6 @@ if ($n375 == '' || $n333 == '' || $n417 == '' || $n500 == '' || $n585 == '' || $
 		$pages->get('id=' . $affinaj_id . '')->affinaj_table->add($affedt);
 	}
 
-	// //Регестрируем запись
-	// $pages->add('affinaj_itm', 1266 , [
-    // 'title' => date("Y-m-d H:i") . ' Аффинаж - Расход - ' . $point . '',
-    // 'product_status' => 'Открыт',
-    // 'type_operation' => 'Аффинаж',
-    // 'undertype_operation' => 'Расход',
-    // 'date' => $date,
-    // 'point' => $point,
-    // 'id_point' => $idpoint,
-    // 'worker' => $worker,
-    // ]);
-    // $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Аффинаж - Расход - ' . $point . '');
-    // $affinaj_id = $operation_page->id;
-
-    // //Добавляем позиции в запись и вычитаем материал из остатков
-	// foreach ($array as $key => $value) {
-	// 	$data_array = explode("||", $value);
-	// 	$affadd = $pages->get('id=' . $affinaj_id . '')->affinaj_table->getNew();
-	// 	$affadd->proba = $key;
-	// 	$affadd->fweight = $data_array[0];
-	// 	$affadd->weight = $data_array[1];
-	// 		//Изменяем остатки
-	// 	    $point_actual_table = $pages->get('id_point=' . $idpoint . '_actual');
-	// 	    $edit_page = $point_actual_table->get('title=' . $affadd->proba . '');
-	// 	    $result = $edit_page->remain - $affadd->weight;
-	// 	    $edit_page->of(false);
-	// 	    $edit_page->remain = $result;
-	// 	    $edit_page->save();
-	// 	$affadd->save();
-	// 	$pages->get('id=' . $affinaj_id . '')->affinaj_table->add($affadd);
-	// }
-
-	// //Записываем регистрацию в лог
-	// $log = '';
-    // $log .= date("Y-m-d H:i") . ' Аффинаж - Расход - ' . $point . ' === ';
-    // $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $affinaj_id; 
-    // file_put_contents(__DIR__ . '/site/templates/log_affinaj.txt', $log . PHP_EOL, FILE_APPEND);
-
 	//Сообщение для пользователя
 	echo '<p id="result_add" class="messages" style="color: green;">Аффинаж изменен</p>';
 	echo '<p id="affinaj_id" class="messages uk-margin-remove">' . $affinaj_id . '</p>';
