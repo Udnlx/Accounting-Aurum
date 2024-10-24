@@ -25,11 +25,21 @@ if(isset($_SESSION['id_point'])){
 
 $page_cash = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
 $cash = number_format($page_cash->sum, 2, '.',' ');
+
+$cash_point1 = $pages->get('template=cash_itm, id_point=point1_cash');
+$cash_point2 = $pages->get('template=cash_itm, id_point=point2_cash');
 $all_page_cash = $pages->get('template=cash_itm, id_point=all_cash');
+$total_sum = $all_page_cash->sum + $cash_point1->sum + $cash_point2->sum;
+
+$title = '';
+$title .= $cash_point1->title . ' - ' . number_format($cash_point1->sum, 2, '.',' ') . '; ';
+$title .= $cash_point2->title . ' - ' . number_format($cash_point2->sum, 2, '.',' ') . '; ';
+$title .= $all_page_cash->title . ' - ' . number_format($all_page_cash->sum, 2, '.',' ') . '; ';
+
 $all_cash = '';
 if ($operator == 'admin') {
     $all_cash = '
-    <p class="uk-margin-remove uk-text-bold">Общая касса: ' . number_format($all_page_cash->sum, 2, '.',' ') . ';</p>
+    <p class="uk-margin-remove uk-text-bold" style="cursor: help;" title="' . $title . '">Общая касса: ' . number_format($total_sum, 2, '.',' ') . ';</p>
     ';
 }
 
