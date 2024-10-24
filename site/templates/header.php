@@ -23,6 +23,16 @@ if(isset($_SESSION['id_point'])){
     $selected_id_point = 'no_id_point';
 }
 
+$page_cash = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
+$cash = number_format($page_cash->sum, 2, '.',' ');
+$all_page_cash = $pages->get('template=cash_itm, id_point=all_cash');
+$all_cash = '';
+if ($operator == 'admin') {
+    $all_cash = '
+    <p class="uk-margin-remove uk-text-bold">Общая касса: ' . number_format($all_page_cash->sum, 2, '.',' ') . ';</p>
+    ';
+}
+
 $url = $_SERVER['REQUEST_URI'];
 $url = explode('?', $url);
 $url = $url[0];
@@ -40,10 +50,12 @@ $menu = '
         </div>
 
         <a href="/"><i class="fa-solid fa-house"></i></a>
-        <p class="uk-margin-remove uk-text-bold">Дата: ' . $today . '</p>
-        <p class="uk-margin-remove uk-text-bold">Точка: ' . $selected_point . '</p>
-        <p class="uk-margin-remove uk-text-bold">ID точки: ' . $selected_id_point . '</p>
-        <p class="uk-margin-remove uk-text-bold">Сотрудник: ' . $operator . '</p>
+        <p class="uk-margin-remove uk-text-bold">Дата: ' . $today . ';</p>
+        <p class="uk-margin-remove uk-text-bold">Точка: ' . $selected_point . ';</p>
+        <p class="uk-margin-remove uk-text-bold">ID точки: ' . $selected_id_point . ';</p>
+        <p class="uk-margin-remove uk-text-bold">Сотрудник: ' . $operator . ';</p>
+        <p class="uk-margin-remove uk-text-bold">Касса точки: ' . $cash . ';</p>
+        ' . $all_cash . '
         <a href="/login/?logout" title="Выход из системы"><i class="fa-solid fa-right-from-bracket"></i></a>
     </div>
    ';

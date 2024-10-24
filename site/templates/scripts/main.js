@@ -450,3 +450,17 @@ $('p.reserv_id').click(function() {
     $('#selected_proba').val(proba_reserv);
     $('#selected_weight').val(weight_reserv);
 });
+
+
+
+//Ввод суммы
+$('#selected_sum').bind('input', function(){
+	this.value = this.value.replace(/[^0-9\.]/g, '');
+	let count = this.value.split(".").length-1;
+	if (count > 1) {
+		this.value = this.value.substr(0, this.value.lastIndexOf("."));
+	}
+	if (this.value.indexOf(".") != '-1') {
+		this.value = this.value.substring(0, this.value.indexOf(".") + 3);
+	}
+});

@@ -25,6 +25,13 @@ if(isset($_SESSION['access'])){
     $access = $_SESSION['access'];
 }
 
+$all_cash_btn = '';
+if ($operator == 'admin') {
+    $all_cash_btn = '
+    <a class="menu-link" href="">Общая касса</a>
+    ';
+}
+
 if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
@@ -59,6 +66,8 @@ if ($startday != '' || $actual != '' || $reserv != '') {
             <a class="menu-link" href="/rezerv-tip-rezerva/">Резерв</a>
             <a class="menu-link" href="/affinazh-tip-affinazha/">Аффинаж</a>
             <a class="menu-link" href="/adminpanel-meniu/">Админ панель</a>
+            <a class="menu-link" href="/kassa-tip-operatcii/">Касса</a>
+            ' . $all_cash_btn . '
         </div>
     </div>
     ';
