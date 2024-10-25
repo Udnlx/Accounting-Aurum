@@ -30,13 +30,13 @@ $worker = !empty($_POST['selected_worker'])?$_POST['selected_worker']:NULL;
 $sum = !empty($_POST['selected_sum'])?$_POST['selected_sum']:NULL;  
 $description = !empty($_POST['cash_description'])?$_POST['cash_description']:NULL;  
 
-$success = 'Операция расхода проведена';
+$success = 'Операция прихода проведена';
 if ($worker && $sum && $description && $_SESSION['reload'] != 'on') {
 	//Регестрируем запись
     $page_cash = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
     $pages->add('cash_operation', $page_cash , [
-    'title' => date("Y-m-d H:i") . ' Расход - ' . $sum . ' - ' . $point,
-    'type_operation' => 'Расход',
+    'title' => date("Y-m-d H:i") . ' Приход - ' . $sum . ' - ' . $point,
+    'type_operation' => 'Приход',
     'date' => $date,
     'point' => $point,
     'id_point' => $idpoint,
@@ -44,18 +44,18 @@ if ($worker && $sum && $description && $_SESSION['reload'] != 'on') {
     'sum' => $sum,
     'note' => $description,
     ]);
-    $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Расход - ' . $sum . ' - ' . $point . '');
+    $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Приход - ' . $sum . ' - ' . $point . '');
     $operation_id = $operation_page->id;
 
     //Записываем добавление в лог
     $log = '';
-    $log .= date("Y-m-d H:i") . ' Расход - ' . $sum . ' - ' . $point . ' === ';
+    $log .= date("Y-m-d H:i") . ' Приход - ' . $sum . ' - ' . $point . ' === ';
     $log .= 'Операция проведена: ' . $worker . ', ID записи: ' . $operation_id . ', Сумма: ' . $sum . ', Описание: ' . $description;
     file_put_contents(__DIR__ . '/log_cash.txt', $log . PHP_EOL, FILE_APPEND);
 
     //Изменяем остатки
     $edit_page = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
-    $result = $edit_page->sum - $sum;
+    $result = $edit_page->sum + $sum;
     // echo $result;
     $edit_page->of(false);
     $edit_page->sum = $result;
@@ -64,7 +64,7 @@ if ($worker && $sum && $description && $_SESSION['reload'] != 'on') {
     //Предотвращаем повторную регистрацию
     $_SESSION['reload'] = 'on';
 } else {
-	$success = 'Операция расхода не проведена!<br>Ошибка в данных';
+	$success = 'Операция прихода не проведена!<br>Ошибка в данных';
     if ($_SESSION['reload'] == 'on') {
         $success = 'Повторная отправка данных!<br>Запись уже существует, операция повторно не проведена';
     }
@@ -73,7 +73,7 @@ if ($worker && $sum && $description && $_SESSION['reload'] != 'on') {
 if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Операция расхода - Регистрация</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Операция прихода - Регистрация</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title">Потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -105,7 +105,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Операция расхода - Регистрация</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Операция прихода - Регистрация</h1>
 	<div>
 
         <div>
@@ -122,7 +122,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 	        <p class="uk-margin-remove">ID точки: <span style="font-weight: 700;"><?php echo $idpoint; ?></span></p>
 	        <p class="uk-margin-remove">Сотрудник: <span style="font-weight: 700;"><?php echo $worker; ?></span></p>
 	        <br>
-            <p class="uk-margin-remove">Тип операции: <span style="font-weight: 700;">Расход</span></p>
+            <p class="uk-margin-remove">Тип операции: <span style="font-weight: 700;">Приход</span></p>
 	        <p class="uk-margin-remove">Сумма: <span style="font-weight: 700;"><?php echo $sum; ?></span></p>
 	        <p class="uk-margin-remove">Описание: <span style="font-weight: 700;"><?php echo $description; ?></span></p>
         </div>

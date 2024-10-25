@@ -28,7 +28,7 @@ if(isset($_SESSION['access'])){
 if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
-        <h1 class="uk-heading-hero uk-text-center">Новая операция расхода</h1>
+        <h1 class="uk-heading-hero uk-text-center">Новая операция прихода</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title">Потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -43,7 +43,7 @@ $cash = number_format($page_cash->sum, 2, '.',' ');
 //Получение всех операций по кассе
 $all_cash_operation = '';
 $all_cash_operation_itm = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
-$all_operation = $all_cash_operation_itm->children('sort=-id, type_operation=Расход, limit=20');
+$all_operation = $all_cash_operation_itm->children('sort=-id, type_operation=Приход, limit=20');
 
 $all_cash_operation .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($all_operation as $itm) {
@@ -79,7 +79,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-    <h1 class="uk-margin-remove uk-heading-hero uk-text-center">Новая операция расхода</h1>
+    <h1 class="uk-margin-remove uk-heading-hero uk-text-center">Новая операция прихода</h1>
     <h3 class="uk-margin-remove uk-heading-hero uk-text-center">Касса точки</h3>
     <div>
 
@@ -93,7 +93,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
                 <h2 class="uk-card-title uk-margin-remove" style="color: green;font-weight: 700;">В Кассе: <?php echo $cash; ?></h2>
-                <h4 class="uk-card-title uk-margin-remove">Последние 20 операций расхода по кассе</h4>
+                <h4 class="uk-card-title uk-margin-remove">Последние 20 операций прихода по кассе</h4>
                 <hr>
                 <div id="all_cash_operation">
                     <?php echo $all_cash_operation; ?>
@@ -103,7 +103,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column" style="padding: 0 40px 40px 40px;">
-                <form class="uk-flex uk-flex-column" id="select_seat" action="/kassa-raskhod-registratciia/" method="post">
+                <form class="uk-flex uk-flex-column" id="select_seat" action="/kassa-prikhod-registratciia/" method="post">
                     <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="selected_date" type="text" name="selected_date" value="<?php echo $today; ?>">
                     </div>

@@ -49,7 +49,7 @@ foreach ($all_operation as $itm) {
         <p>' . $itm->title . '</p>
         <p style="font-size:10px;">ID операции: ' . $itm->id . '</p>
         <p style="font-size:10px;">Оператор: ' . $itm->worker . '</p>
-        <p style="font-size:14px;font-weight:700;">Тип операции: ' . $itm->type_operation . '</p>
+        <p style="font-size:14px;font-weight:700;">Тип операции: ' . $itm->type_operation . ' - ' . $itm->sum . '</p>
         <hr>
     ';
 }
@@ -86,7 +86,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
                 <a class="menu-link" href="/kassa-raskhod/">Касса расход</a>
-                <a class="menu-link" href="">Касса приход</a>
+                <a class="menu-link" href="/kassa-prikhod/">Касса приход</a>
             </div>
         </div>
 
