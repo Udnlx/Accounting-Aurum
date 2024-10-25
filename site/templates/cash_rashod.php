@@ -1,5 +1,7 @@
 <?php namespace ProcessWire;
 
+$_SESSION['reload'] = 'off';
+
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
 } else {
@@ -40,8 +42,8 @@ $cash = number_format($page_cash->sum, 2, '.',' ');
 
 //Получение всех операций по кассе
 $all_cash_operation = '';
-$all_cash_operation_itm = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash, type_operation=Расход');
-$all_operation = $all_cash_operation_itm->children('sort=-id, limit=20');
+$all_cash_operation_itm = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
+$all_operation = $all_cash_operation_itm->children('sort=-id, type_operation=Расход, limit=20');
 
 $all_cash_operation .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($all_operation as $itm) {
@@ -101,7 +103,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column" style="padding: 0 40px 40px 40px;">
-                <form class="uk-flex uk-flex-column" id="select_seat" action="" method="post">
+                <form class="uk-flex uk-flex-column" id="select_seat" action="/kassa-raskhod-registratciia/" method="post">
                     <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="selected_date" type="text" name="selected_date" value="<?php echo $today; ?>">
                     </div>
