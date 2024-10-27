@@ -28,7 +28,7 @@ if(isset($_SESSION['access'])){
 $all_cash_btn = '';
 if ($operator == 'admin') {
     $all_cash_btn = '
-    <a class="menu-link" href="">Общая касса</a>
+    <a class="menu-link" href="/obshchaia-kassa-tip-operatcii/">Общая касса</a>
     ';
 }
 
