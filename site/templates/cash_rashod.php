@@ -50,6 +50,7 @@ foreach ($all_operation as $itm) {
     $all_cash_operation .= '
         <p>' . $itm->title . '</p>
         <p style="font-size:10px;">ID операции: ' . $itm->id . '</p>
+        <p style="font-size:10px;">Оператор: ' . $itm->worker . '</p>
         <p style="font-size:14px;font-weight:700;">Тип операции: ' . $itm->type_operation . ' - ' . $itm->sum . '</p>
         <hr>
     ';

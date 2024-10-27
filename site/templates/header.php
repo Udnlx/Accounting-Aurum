@@ -39,7 +39,7 @@ $title .= $all_page_cash->title . ' - ' . number_format($all_page_cash->sum, 2, 
 $all_cash = '';
 if ($operator == 'admin') {
     $all_cash = '
-    <p class="uk-margin-remove uk-text-bold" style="cursor: help;" title="' . $title . '">Общая касса: ' . number_format($total_sum, 2, '.',' ') . ';</p>
+    <p class="uk-margin-remove uk-text-bold" style="cursor: help;" title="' . $title . '">Всего средств: ' . number_format($total_sum, 2, '.',' ') . ';</p>
     ';
 }
 

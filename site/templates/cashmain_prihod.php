@@ -50,6 +50,7 @@ foreach ($all_operation as $itm) {
     $all_cash_operation .= '
         <p>' . $itm->title . '</p>
         <p style="font-size:10px;">ID операции: ' . $itm->id . '</p>
+        <p style="font-size:10px;">Оператор: ' . $itm->worker . '</p>
         <p style="font-size:14px;font-weight:700;">Тип операции: ' . $itm->type_operation . ' - ' . $itm->sum . '</p>
         <hr>
     ';
@@ -103,7 +104,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column" style="padding: 0 40px 40px 40px;">
-                <form class="uk-flex uk-flex-column" id="select_seat" action="" method="post">
+                <form class="uk-flex uk-flex-column" id="select_seat" action="/obshchaia-kassa-prikhod-registratciia/" method="post">
                     <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="selected_date" type="text" name="selected_date" value="<?php echo $today; ?>">
                     </div>
