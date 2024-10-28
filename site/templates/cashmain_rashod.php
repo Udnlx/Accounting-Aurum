@@ -52,6 +52,7 @@ foreach ($all_operation as $itm) {
         <p style="font-size:10px;">ID операции: ' . $itm->id . '</p>
         <p style="font-size:10px;">Оператор: ' . $itm->worker . '</p>
         <p style="font-size:14px;font-weight:700;">Тип операции: ' . $itm->type_operation . ' - ' . $itm->sum . '</p>
+        <p style="font-size:10px;">Описание: ' . $itm->note . '</p>
         <hr>
     ';
 }

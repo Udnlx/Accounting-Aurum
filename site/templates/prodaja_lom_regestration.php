@@ -61,6 +61,35 @@ if ($worker && $proba && $weight && $price_gramm && $price && $pay && $cash_card
     $edit_page->remain = $result;
     $edit_page->save();
 
+                //Регестрируем операцию прихода в кассу
+                $page_cash = $pages->get('template=cash_itm, id_point=' . $idpoint . '_cash');
+                $pages->add('cash_operation', $page_cash , [
+                'title' => date("Y-m-d H:i") . ' Приход - ' . $pay . ' - ' . $point,
+                'type_operation' => 'Приход',
+                'date' => $date,
+                'point' => $point,
+                'id_point' => $idpoint,
+                'worker' => $worker,
+                'sum' => $pay,
+                'note' => 'Приход при продаже лома по операции ID: ' . $operation_id . '',
+                ]);
+                $cash_operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Приход - ' . $pay . ' - ' . $point . '');
+                $cash_operation_id = $cash_operation_page->id;
+
+                //Записываем операцию прихода в кассу в лог
+                $log = '';
+                $log .= date("Y-m-d H:i") . ' Приход - ' . $pay . ' - ' . $point . ' === ';
+                $log .= 'Операция проведена: ' . $worker . ', ID записи: ' . $cash_operation_id . ', Сумма: ' . $pay . ', Описание: Приход при продаже лома по операции ID: ' . $operation_id;
+                file_put_contents(__DIR__ . '/log_cash.txt', $log . PHP_EOL, FILE_APPEND);
+
+                //Изменяем остатки в кассе
+                $edit_page = $pages->get('template=cash_itm, id_point=' . $idpoint . '_cash');
+                $result = $edit_page->sum + $pay;
+                // echo $result;
+                $edit_page->of(false);
+                $edit_page->sum = $result;
+                $edit_page->save();
+
     //Предотвращаем повторную регистрацию
     $_SESSION['reload'] = 'on';
 
