@@ -48,6 +48,35 @@ if ($worker && $product && $weight && $pay && $cash_card && $_SESSION['reload'] 
     $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $operation_id . ', Порядковый номер: ' . $serial_number; 
     file_put_contents(__DIR__ . '/log_products.txt', $log . PHP_EOL, FILE_APPEND);
 
+                //Регестрируем операцию расхода в кассу
+                $page_cash = $pages->get('template=cash_itm, id_point=' . $idpoint . '_cash');
+                $pages->add('cash_operation', $page_cash , [
+                'title' => date("Y-m-d H:i") . ' Расход - ' . $pay . ' - ' . $point,
+                'type_operation' => 'Расход',
+                'date' => $date,
+                'point' => $point,
+                'id_point' => $idpoint,
+                'worker' => $worker,
+                'sum' => $pay,
+                'note' => 'Расход при скупке изделия по операции ID: ' . $operation_id . '',
+                ]);
+                $cash_operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Расход - ' . $pay . ' - ' . $point . '');
+                $cash_operation_id = $cash_operation_page->id;
+
+                //Записываем операцию расхода в кассу в лог
+                $log = '';
+                $log .= date("Y-m-d H:i") . ' Расход - ' . $pay . ' - ' . $point . ' === ';
+                $log .= 'Операция проведена: ' . $worker . ', ID записи: ' . $cash_operation_id . ', Сумма: ' . $pay . ', Описание: Расход при скупке изделия по операции ID: ' . $operation_id;
+                file_put_contents(__DIR__ . '/log_cash.txt', $log . PHP_EOL, FILE_APPEND);
+
+                //Изменяем остатки в кассе
+                $edit_page = $pages->get('template=cash_itm, id_point=' . $idpoint . '_cash');
+                $result = $edit_page->sum - $pay;
+                // echo $result;
+                $edit_page->of(false);
+                $edit_page->sum = $result;
+                $edit_page->save();
+
     //Предотвращаем повторную регистрацию
     $_SESSION['reload'] = 'on';
 

@@ -1,5 +1,17 @@
 <?php namespace ProcessWire;
 
+$date = date("Y-m-d");  
+if(isset($_SESSION['point'])){
+    $point = $_SESSION['point'];
+} else {
+    $point = 'no_point';
+}
+if(isset($_SESSION['id_point'])){
+    $idpoint = $_SESSION['id_point'];
+} else {
+    $idpoint = 'no_id_point';
+}
+
 $worker = !empty($_POST['worker'])?$_POST['worker']:NULL;  
 $id_product_sell = !empty($_POST['id_product_sell'])?$_POST['id_product_sell']:NULL;  
 
@@ -37,6 +49,35 @@ if ($worker && $id_product_sell && $pay && $cash_card && $_SESSION['reload'] != 
     $log .= 'Цена изделия: ' . $product_page->product_price_buy . '; '; 
     $log .= 'Цена продажи: ' . $pay . '; '; 
     file_put_contents(__DIR__ . '/log_products_sell.txt', $log . PHP_EOL, FILE_APPEND);
+
+                //Регестрируем операцию прихода в кассу
+                $page_cash = $pages->get('template=cash_itm, id_point=' . $idpoint . '_cash');
+                $pages->add('cash_operation', $page_cash , [
+                'title' => date("Y-m-d H:i") . ' Приход - ' . $pay . ' - ' . $point,
+                'type_operation' => 'Приход',
+                'date' => $date,
+                'point' => $point,
+                'id_point' => $idpoint,
+                'worker' => $worker,
+                'sum' => $pay,
+                'note' => 'Приход при продаже изделия по операции ID: ' . $product_page->id . '',
+                ]);
+                $cash_operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Приход - ' . $pay . ' - ' . $point . '');
+                $cash_operation_id = $cash_operation_page->id;
+
+                //Записываем операцию прихода в кассу в лог
+                $log = '';
+                $log .= date("Y-m-d H:i") . ' Приход - ' . $pay . ' - ' . $point . ' === ';
+                $log .= 'Операция проведена: ' . $worker . ', ID записи: ' . $cash_operation_id . ', Сумма: ' . $pay . ', Описание: Приход при продаже изделия по операции ID: ' . $product_page->id;
+                file_put_contents(__DIR__ . '/log_cash.txt', $log . PHP_EOL, FILE_APPEND);
+
+                //Изменяем остатки в кассе
+                $edit_page = $pages->get('template=cash_itm, id_point=' . $idpoint . '_cash');
+                $result = $edit_page->sum + $pay;
+                // echo $result;
+                $edit_page->of(false);
+                $edit_page->sum = $result;
+                $edit_page->save();
 
     //Предотвращаем повторную регистрацию
     $_SESSION['reload'] = 'on';
