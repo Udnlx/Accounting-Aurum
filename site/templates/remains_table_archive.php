@@ -3,9 +3,9 @@
 $today = date("d-m-Y"); 
 
 if ($actual_date == $today) {
-	// echo 'Дата совпадает, архив не делаем';
+	// echo 'Дата совпадает, архивы не делаем';
 } else {
-	// echo 'Дата не совпадает, делаем архив';
+	// echo 'Дата не совпадает, делаем архив по таблицам';
 	$data_archive = '';
 	$remains_parent = $pages->get('template=remains');
 	$remains_points = $remains_parent->children();
@@ -53,6 +53,28 @@ if ($actual_date == $today) {
 	}
 
 	$actual_date = $today;
+
+	//echo 'Дата не совпадает, делаем архив по кассам';
+	$cash_data_archive = '';
+	$cash_remains_parent = $pages->get('template=cash');
+	$cash_remains_points = $cash_remains_parent->children();
+	foreach ($cash_remains_points as $cash_remains_point) {
+		$cash_data_archive .= ':::' . $cash_remains_point->title . '::: ===' . $cash_remains_point->sum . '===';
+	}
+
+	$pages->add('remains_archive_itm', 1550 , [
+    'title' => $actual_date,
+    'data_archive' => $cash_data_archive,
+    ]);
+
+    $cash_remains_parent = $pages->get('template=cash');
+	$cash_remains_points = $cash_remains_parent->children();
+	foreach ($cash_remains_points as $cash_remains_point) {
+		$sum_on_startday = $cash_remains_point->sum;
+		$cash_remains_point->of(false);
+	    $cash_remains_point->cash_remain_startday = $sum_on_startday;
+	    $cash_remains_point->save();
+	}
 }
 
 ?>

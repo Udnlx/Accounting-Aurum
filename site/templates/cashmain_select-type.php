@@ -37,6 +37,7 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $access != 'a
 
 $page_cash = $pages->get('template=cash_itm, id_point=all_cash');
 $cash = number_format($page_cash->sum, 2, '.',' ');
+$cash_startday = number_format($page_cash->cash_remain_startday, 2, '.',' ');
 
 //Получение всех операций по общей кассе
 $all_cash_operation = '';
@@ -93,6 +94,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                <p class="uk-margin-remove">Касса на начало дня: <?php echo $cash_startday; ?></p>
                 <h2 class="uk-card-title uk-margin-remove" style="color: green;font-weight: 700;">В Кассе: <?php echo $cash; ?></h2>
                 <h4 class="uk-card-title uk-margin-remove">Последние 20 операций по общей кассе</h4>
                 <hr>
