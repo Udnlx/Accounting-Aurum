@@ -1,5 +1,7 @@
 <?php namespace ProcessWire;
 
+$day_for_report = date("d-m-Y");
+
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
 } else {
@@ -36,14 +38,140 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $access != 'a
 <?php    
 } else {
 
-// //Получение всех операций
-// $all_operations = '';
-// $all_operations_itm = $pages->find('template=operation_itm, sort=-sort');
-// $all_operations .= '<div class="scrolling-list" style="max-height: 700px;">';
-// foreach ($all_operations_itm as $itm) {
-//     $all_operations .= '<a class="admin-link-itm" href="/prosmotr-operatcii/?operation_id=' . $itm->id . '">' . $itm->title . '</a><br>';
-// }
-// $all_operations .= '</div>';
+//Денег на утро
+$cash_on_morning = '';
+$total_cash = 0;
+$page_cash = $pages->get('template=cash');
+$all_cash = $page_cash->children();
+foreach ($all_cash as $item) {
+    $cash_on_morning .= '
+        <p class="card-report__info">' . $item->title . ' - <span style="font-weight:700;">' . number_format($item->cash_remain_startday, 2, '.',' ') . '</span></p>
+    ';
+    $total_cash = $total_cash + $item->cash_remain_startday;
+}
+$cash_on_morning .= '
+<p class="card-report__info">Всего средств на утро - <span style="color:green;font-weight:700;">' . number_format($total_cash, 2, '.',' ') . '</span></p>
+';
+
+//Получение операций дохода по кассам
+$income = '';
+//ул. Ушакова 23
+$page_cash = $pages->get('template=cash_itm, id_point=point1_cash');
+$all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Приход, date=' . $day_for_report . '');
+$income .= '<div class="report-table">';
+$income .= '<p class="card-report__title_cash">ул. Ушакова 23</p>';
+$income .= '
+    <table class="uk-table-striped">
+        <thead>
+            <tr>
+                <th style="width:50%">СУММА</th>
+                <th style="width:50%">ОПИСАНИЕ</th>
+            </tr>
+        </thead>
+        <tbody>
+';
+foreach ($all_operation_cash_ondate as $item) {
+    $income .= '
+    <tr>
+        <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
+        <td>' . $item->note . '</td>
+    </tr>
+    ';
+}
+$income .= '
+        </tbody>
+    </table>
+';
+$income .= '</div>';
+
+//ул. Пушкина 24
+$page_cash = $pages->get('template=cash_itm, id_point=point2_cash');
+$all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Приход, date=' . $day_for_report . '');
+$income .= '<div class="report-table">';
+$income .= '<p class="card-report__title_cash">ул. Пушкина 24</p>';
+$income .= '
+    <table class="uk-table-striped">
+        <thead>
+            <tr>
+                <th style="width:50%">СУММА</th>
+                <th style="width:50%">ОПИСАНИЕ</th>
+            </tr>
+        </thead>
+        <tbody>
+';
+foreach ($all_operation_cash_ondate as $item) {
+    $income .= '
+    <tr>
+        <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
+        <td>' . $item->note . '</td>
+    </tr>
+    ';
+}
+$income .= '
+        </tbody>
+    </table>
+';
+$income .= '</div>';
+
+//Получение операций расхода по кассам
+$expenses = '';
+//ул. Ушакова 23
+$page_cash = $pages->get('template=cash_itm, id_point=point1_cash');
+$all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Расход, date=' . $day_for_report . '');
+$expenses .= '<div class="report-table">';
+$expenses .= '<p class="card-report__title_cash">ул. Ушакова 23</p>';
+$expenses .= '
+    <table class="uk-table-striped">
+        <thead>
+            <tr>
+                <th style="width:50%">СУММА</th>
+                <th style="width:50%">ОПИСАНИЕ</th>
+            </tr>
+        </thead>
+        <tbody>
+';
+foreach ($all_operation_cash_ondate as $item) {
+    $expenses .= '
+    <tr>
+        <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
+        <td>' . $item->note . '</td>
+    </tr>
+    ';
+}
+$expenses .= '
+        </tbody>
+    </table>
+';
+$expenses .= '</div>';
+
+//ул. Пушкина 24
+$page_cash = $pages->get('template=cash_itm, id_point=point2_cash');
+$all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Расход, date=' . $day_for_report . '');
+$expenses .= '<div class="report-table">';
+$expenses .= '<p class="card-report__title_cash">ул. Пушкина 24</p>';
+$expenses .= '
+    <table class="uk-table-striped">
+        <thead>
+            <tr>
+                <th style="width:50%">СУММА</th>
+                <th style="width:50%">ОПИСАНИЕ</th>
+            </tr>
+        </thead>
+        <tbody>
+';
+foreach ($all_operation_cash_ondate as $item) {
+    $expenses .= '
+    <tr>
+        <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
+        <td>' . $item->note . '</td>
+    </tr>
+    ';
+}
+$expenses .= '
+        </tbody>
+    </table>
+';
+$expenses .= '</div>';
 
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
@@ -69,7 +197,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
 <div id="content">
 	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Отчет</h1>
-    <!-- <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Все операции</h4> -->
+    <h4 class="uk-margin-remove uk-heading-hero uk-text-center">На дату <?php echo $day_for_report; ?></h4>
 	<div>
 
         <div>
@@ -79,13 +207,29 @@ if ($startday == '' || $actual == '' || $reserv == '') {
         </div>
 
         <div>
-            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-		        ТАБЛИЦЫ
+            <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
+                <h4 class="uk-card-title uk-margin-remove">Денег на утро</h4>
+                <?php echo $cash_on_morning; ?>
 		    </div>
 		</div>
 
         <div>
-            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+            <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
+                <h4 class="uk-card-title uk-margin-remove">Доходы</h4>
+                <?php echo $income; ?>
+            </div>
+        </div>
+
+        <div>
+            <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
+                <h4 class="uk-card-title uk-margin-remove">Расходы</h4>
+                <?php echo $expenses; ?>
+            </div>
+        </div>
+
+        <div>
+            <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
+                <h4 class="uk-card-title uk-margin-remove">Металл</h4>
                 <?php echo $remain_tables_startday; ?>
             </div>
         </div>
