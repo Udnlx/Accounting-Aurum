@@ -1,6 +1,7 @@
 <?php namespace ProcessWire;
 
-$day_for_report = date("d-m-Y");
+//$day_for_report = date("d-m-Y");
+$day_for_report = '01-11-2024';
 
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
@@ -38,6 +39,8 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $access != 'a
 <?php    
 } else {
 
+
+
 //Денег на утро
 $cash_on_morning = '';
 $total_cash = 0;
@@ -53,125 +56,369 @@ $cash_on_morning .= '
 <p class="card-report__info">Всего средств на утро - <span style="color:green;font-weight:700;">' . number_format($total_cash, 2, '.',' ') . '</span></p>
 ';
 
+
+
 //Получение операций дохода по кассам
 $income = '';
-//ул. Ушакова 23
-$page_cash = $pages->get('template=cash_itm, id_point=point1_cash');
-$all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Приход, date=' . $day_for_report . '');
-$income .= '<div class="report-table">';
-$income .= '<p class="card-report__title_cash">ул. Ушакова 23</p>';
-$income .= '
-    <table class="uk-table-striped">
-        <thead>
-            <tr>
-                <th style="width:50%">СУММА</th>
-                <th style="width:50%">ОПИСАНИЕ</th>
-            </tr>
-        </thead>
-        <tbody>
-';
-foreach ($all_operation_cash_ondate as $item) {
-    $income .= '
-    <tr>
-        <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
-        <td>' . $item->note . '</td>
-    </tr>
-    ';
-}
-$income .= '
-        </tbody>
-    </table>
-';
-$income .= '</div>';
+$total_income = 0;
 
-//ул. Пушкина 24
-$page_cash = $pages->get('template=cash_itm, id_point=point2_cash');
-$all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Приход, date=' . $day_for_report . '');
-$income .= '<div class="report-table">';
-$income .= '<p class="card-report__title_cash">ул. Пушкина 24</p>';
-$income .= '
-    <table class="uk-table-striped">
-        <thead>
-            <tr>
-                <th style="width:50%">СУММА</th>
-                <th style="width:50%">ОПИСАНИЕ</th>
-            </tr>
-        </thead>
-        <tbody>
-';
-foreach ($all_operation_cash_ondate as $item) {
+    //ул. Ушакова 23
+    $page_cash = $pages->get('template=cash_itm, id_point=point1_cash');
+    $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Приход, date=' . $day_for_report . '');
+    $income .= '<div class="report-table">';
+    $income .= '<p class="card-report__title_cash">ул. Ушакова 23</p>';
     $income .= '
-    <tr>
-        <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
-        <td>' . $item->note . '</td>
-    </tr>
+        <table class="uk-table-striped">
+            <thead>
+                <tr>
+                    <th style="width:50%">СУММА</th>
+                    <th style="width:50%">ОПИСАНИЕ</th>
+                </tr>
+            </thead>
+            <tbody>
     ';
-}
-$income .= '
-        </tbody>
-    </table>
-';
-$income .= '</div>';
+    $total_income_point1 = 0;
+    foreach ($all_operation_cash_ondate as $item) {
+        $total_income_point1 = $total_income_point1 + $item->sum;
+        $income .= '
+        <tr>
+            <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
+            <td>' . $item->note . '</td>
+        </tr>
+        ';
+    }
+    $income .= '
+            </tbody>
+        </table>
+    ';
+    $income .= '</div>';
+    $income .= '<p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ: <span style="color: green;">' . number_format($total_income_point1, 2, '.', ' ') . '</span></p><br>';
+    //ул. Ушакова 23
+
+    //ул. Пушкина 24
+    $page_cash = $pages->get('template=cash_itm, id_point=point2_cash');
+    $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Приход, date=' . $day_for_report . '');
+    $income .= '<div class="report-table">';
+    $income .= '<p class="card-report__title_cash">ул. Пушкина 24</p>';
+    $income .= '
+        <table class="uk-table-striped">
+            <thead>
+                <tr>
+                    <th style="width:50%">СУММА</th>
+                    <th style="width:50%">ОПИСАНИЕ</th>
+                </tr>
+            </thead>
+            <tbody>
+    ';
+    $total_income_point2 = 0;
+    foreach ($all_operation_cash_ondate as $item) {
+        $total_income_point2 = $total_income_point2 + $item->sum;
+        $income .= '
+        <tr>
+            <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
+            <td>' . $item->note . '</td>
+        </tr>
+        ';
+    }
+    $income .= '
+            </tbody>
+        </table>
+    ';
+    $income .= '</div>';
+    $income .= '<p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ: <span style="color: green;">' . number_format($total_income_point2, 2, '.', ' ') . '</span></p><br>';
+    //ул. Пушкина 24
+
+$total_income = $total_income_point1 + $total_income_point2;
+$income .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД ПО ВСЕМ ТОЧКАМ: <span style="color: green;">' . number_format($total_income, 2, '.', ' ') . '</span></p>';
+
+
 
 //Получение операций расхода по кассам
 $expenses = '';
-//ул. Ушакова 23
-$page_cash = $pages->get('template=cash_itm, id_point=point1_cash');
-$all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Расход, date=' . $day_for_report . '');
-$expenses .= '<div class="report-table">';
-$expenses .= '<p class="card-report__title_cash">ул. Ушакова 23</p>';
-$expenses .= '
-    <table class="uk-table-striped">
-        <thead>
-            <tr>
-                <th style="width:50%">СУММА</th>
-                <th style="width:50%">ОПИСАНИЕ</th>
-            </tr>
-        </thead>
-        <tbody>
-';
-foreach ($all_operation_cash_ondate as $item) {
-    $expenses .= '
-    <tr>
-        <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
-        <td>' . $item->note . '</td>
-    </tr>
-    ';
-}
-$expenses .= '
-        </tbody>
-    </table>
-';
-$expenses .= '</div>';
+$total_expenses = 0;
 
-//ул. Пушкина 24
-$page_cash = $pages->get('template=cash_itm, id_point=point2_cash');
-$all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Расход, date=' . $day_for_report . '');
-$expenses .= '<div class="report-table">';
-$expenses .= '<p class="card-report__title_cash">ул. Пушкина 24</p>';
-$expenses .= '
-    <table class="uk-table-striped">
-        <thead>
-            <tr>
-                <th style="width:50%">СУММА</th>
-                <th style="width:50%">ОПИСАНИЕ</th>
-            </tr>
-        </thead>
-        <tbody>
-';
-foreach ($all_operation_cash_ondate as $item) {
+    //ул. Ушакова 23
+    $page_cash = $pages->get('template=cash_itm, id_point=point1_cash');
+    $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Расход, date=' . $day_for_report . '');
+    $expenses .= '<div class="report-table">';
+    $expenses .= '<p class="card-report__title_cash">ул. Ушакова 23</p>';
     $expenses .= '
-    <tr>
-        <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
-        <td>' . $item->note . '</td>
-    </tr>
+        <table class="uk-table-striped">
+            <thead>
+                <tr>
+                    <th style="width:50%">СУММА</th>
+                    <th style="width:50%">ОПИСАНИЕ</th>
+                </tr>
+            </thead>
+            <tbody>
     ';
-}
-$expenses .= '
-        </tbody>
-    </table>
-';
-$expenses .= '</div>';
+    $total_expenses_point1 = 0;
+    foreach ($all_operation_cash_ondate as $item) {
+        $total_expenses_point1 = $total_expenses_point1 + $item->sum;
+        $expenses .= '
+        <tr>
+            <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
+            <td>' . $item->note . '</td>
+        </tr>
+        ';
+    }
+    $expenses .= '
+            </tbody>
+        </table>
+    ';
+    $expenses .= '</div>';
+    $expenses .= '<p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ: <span style="color: red;">' . number_format($total_expenses_point1, 2, '.', ' ') . '</span></p><br>';
+    //ул. Ушакова 23
+
+    //ул. Пушкина 24
+    $page_cash = $pages->get('template=cash_itm, id_point=point2_cash');
+    $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Расход, date=' . $day_for_report . '');
+    $expenses .= '<div class="report-table">';
+    $expenses .= '<p class="card-report__title_cash">ул. Пушкина 24</p>';
+    $expenses .= '
+        <table class="uk-table-striped">
+            <thead>
+                <tr>
+                    <th style="width:50%">СУММА</th>
+                    <th style="width:50%">ОПИСАНИЕ</th>
+                </tr>
+            </thead>
+            <tbody>
+    ';
+    $total_expenses_point2 = 0;
+    foreach ($all_operation_cash_ondate as $item) {
+        $total_expenses_point2 = $total_expenses_point2 + $item->sum;
+        $expenses .= '
+        <tr>
+            <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
+            <td>' . $item->note . '</td>
+        </tr>
+        ';
+    }
+    $expenses .= '
+            </tbody>
+        </table>
+    ';
+    $expenses .= '</div>';
+    $expenses .= '<p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ: <span style="color: red;">' . number_format($total_expenses_point2, 2, '.', ' ') . '</span></p><br>';
+    //ул. Пушкина 24
+
+$total_expenses = $total_expenses_point1 + $total_expenses_point2;
+$expenses .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД ПО ВСЕМ ТОЧКАМ: <span style="color: red;">' . number_format($total_expenses, 2, '.', ' ') . '</span></p>';
+
+
+
+//Получение операций по продажам металла
+$income_lom = '';
+$total_income_lom_sum = 0;
+$total_income_lom_in585 = 0;
+
+    //ул. Ушакова 23
+    $all_operation_lom_ondate = $pages->find('template=operation_itm, type_operation=Продажа, date=' . $day_for_report . '');
+    $all_operation_lom_onpoint = $all_operation_lom_ondate->find('id_point=point1');
+    $income_lom .= '<div class="report-table">';
+    $income_lom .= '<p class="card-report__title_cash">ул. Ушакова 23</p>';
+    $income_lom .= '
+        <table class="uk-table-striped">
+            <thead>
+                <tr>
+                    <th style="width:14%">ОПЕРАТОР</th>
+                    <th style="width:14%">ПРОБА</th>
+                    <th style="width:14%">ВЕС</th>
+                    <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
+                    <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
+                    <th style="width:14%">СКОЛЬКО ОТДАЛИ</th>
+                    <th style="width:14%">В 585</th>
+                </tr>
+            </thead>
+            <tbody>
+    ';
+    $total_income_lom_sum_point1 = 0;
+    $total_income_lom_in585_point1 = 0;
+    foreach ($all_operation_lom_onpoint as $item) {
+        $total_income_lom_sum_point1 = $total_income_lom_sum_point1 + $item->pay;
+        $in585 = ($item->weight/585*$item->proba);
+        $total_income_lom_in585_point1 = $total_income_lom_in585_point1 + $in585;
+        $income_lom .= '
+        <tr>
+            <td>' . $item->worker . '</td>
+            <td>' . $item->proba . '</td>
+            <td>' . number_format($item->weight, 2, '.', ' ') . '</td>
+            <td>' . number_format($item->price_gramm, 2, '.', ' ') . '</td>
+            <td>' . number_format($item->price, 2, '.', ' ') . '</td>
+            <td>' . number_format($item->pay, 2, '.', ' ') . '</td>
+            <td>' . number_format($in585, 2, '.', ' ') . '</td>
+        </tr>
+        ';
+    }
+    $income_lom .= '
+            </tbody>
+        </table>
+    ';
+    $income_lom .= '</div>';
+    $income_lom .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ: <span style="color: green;">' . number_format($total_income_lom_sum_point1, 2, '.', ' ') . '</span></p>';
+    $income_lom .= '<p class="card-report__title_cash">ПРОДАННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: green;">' . number_format($total_income_lom_in585_point1, 2, '.', ' ') . '</span></p><br>';
+    //ул. Ушакова 23
+
+    //ул. Пушкина 24
+    $all_operation_lom_ondate = $pages->find('template=operation_itm, type_operation=Продажа, date=' . $day_for_report . '');
+    $all_operation_lom_onpoint = $all_operation_lom_ondate->find('id_point=point2');
+    $income_lom .= '<div class="report-table">';
+    $income_lom .= '<p class="card-report__title_cash">ул. Пушкина 24</p>';
+    $income_lom .= '
+        <table class="uk-table-striped">
+            <thead>
+                <tr>
+                    <th style="width:14%">ОПЕРАТОР</th>
+                    <th style="width:14%">ПРОБА</th>
+                    <th style="width:14%">ВЕС</th>
+                    <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
+                    <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
+                    <th style="width:14%">СКОЛЬКО ОТДАЛИ</th>
+                    <th style="width:14%">В 585</th>
+                </tr>
+            </thead>
+            <tbody>
+    ';
+    $total_income_lom_sum_point2 = 0;
+    $total_income_lom_in585_point2 = 0;
+    foreach ($all_operation_lom_onpoint as $item) {
+        $total_income_lom_sum_point2 = $total_income_lom_sum_point2 + $item->pay;
+        $in585 = ($item->weight/585*$item->proba);
+        $total_income_lom_in585_point2 = $total_income_lom_in585_point2 + $in585;
+        $income_lom .= '
+        <tr>
+            <td>' . $item->worker . '</td>
+            <td>' . $item->proba . '</td>
+            <td>' . number_format($item->weight, 2, '.', ' ') . '</td>
+            <td>' . number_format($item->price_gramm, 2, '.', ' ') . '</td>
+            <td>' . number_format($item->price, 2, '.', ' ') . '</td>
+            <td>' . number_format($item->pay, 2, '.', ' ') . '</td>
+            <td>' . number_format($in585, 2, '.', ' ') . '</td>
+        </tr>
+        ';
+    }
+    $income_lom .= '
+            </tbody>
+        </table>
+    ';
+    $income_lom .= '</div>';
+    $income_lom .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ: <span style="color: green;">' . number_format($total_income_lom_sum_point2, 2, '.', ' ') . '</span></p>';
+    $income_lom .= '<p class="card-report__title_cash">ПРОДАННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: green;">' . number_format($total_income_lom_in585_point2, 2, '.', ' ') . '</span></p><br>';
+    //ул. Пушкина 24
+
+$total_income_lom_sum = $total_income_lom_sum_point1 + $total_income_lom_sum_point2;
+$total_income_lom_in585 = $total_income_lom_in585_point1 + $total_income_lom_in585_point2;
+$income_lom .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ВСЕМ ТОЧКАМ: <span style="color: green;">' . number_format($total_income_lom_sum, 2, '.', ' ') . '</span></p>';
+$income_lom .= '<p class="card-report__title_cash">ОБЩАЯ ПРОДАЖА МЕТАЛЛА ПО ВСЕМ ТОЧКАМ В 585 ПРОБЕ: <span style="color: green;">' . number_format($total_income_lom_in585, 2, '.', ' ') . '</span></p>';
+
+
+
+//Получение операций по скупкам металла
+$expenses_lom = '';
+$total_expenses_lom_sum = 0;
+$total_expenses_lom_in585 = 0;
+
+    //ул. Ушакова 23
+    $all_operation_lom_ondate = $pages->find('template=operation_itm, type_operation=Скупка, date=' . $day_for_report . '');
+    $all_operation_lom_onpoint = $all_operation_lom_ondate->find('id_point=point1');
+    $expenses_lom .= '<div class="report-table">';
+    $expenses_lom .= '<p class="card-report__title_cash">ул. Ушакова 23</p>';
+    $expenses_lom .= '
+        <table class="uk-table-striped">
+            <thead>
+                <tr>
+                    <th style="width:14%">ОПЕРАТОР</th>
+                    <th style="width:14%">ПРОБА</th>
+                    <th style="width:14%">ВЕС</th>
+                    <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
+                    <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
+                    <th style="width:14%">СКОЛЬКО ОТДАЛИ</th>
+                    <th style="width:14%">В 585</th>
+                </tr>
+            </thead>
+            <tbody>
+    ';
+    $total_expenses_lom_sum_point1 = 0;
+    $total_expenses_lom_in585_point1 = 0;
+    foreach ($all_operation_lom_onpoint as $item) {
+        $total_expenses_lom_sum_point1 = $total_expenses_lom_sum_point1 + $item->pay;
+        $in585 = ($item->weight/585*$item->proba);
+        $total_expenses_lom_in585_point1 = $total_expenses_lom_in585_point1 + $in585;
+        $expenses_lom .= '
+        <tr>
+            <td>' . $item->worker . '</td>
+            <td>' . $item->proba . '</td>
+            <td>' . number_format($item->weight, 2, '.', ' ') . '</td>
+            <td>' . number_format($item->price_gramm, 2, '.', ' ') . '</td>
+            <td>' . number_format($item->price, 2, '.', ' ') . '</td>
+            <td>' . number_format($item->pay, 2, '.', ' ') . '</td>
+            <td>' . number_format($in585, 2, '.', ' ') . '</td>
+        </tr>
+        ';
+    }
+    $expenses_lom .= '
+            </tbody>
+        </table>
+    ';
+    $expenses_lom .= '</div>';
+    $expenses_lom .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ: <span style="color: red;">' . number_format($total_expenses_lom_sum_point1, 2, '.', ' ') . '</span></p>';
+    $expenses_lom .= '<p class="card-report__title_cash">КУПЛЕННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: red;">' . number_format($total_expenses_lom_in585_point1, 2, '.', ' ') . '</span></p><br>';
+    //ул. Ушакова 23
+
+    //ул. Пушкина 24
+    $all_operation_lom_ondate = $pages->find('template=operation_itm, type_operation=Скупка, date=' . $day_for_report . '');
+    $all_operation_lom_onpoint = $all_operation_lom_ondate->find('id_point=point2');
+    $expenses_lom .= '<div class="report-table">';
+    $expenses_lom .= '<p class="card-report__title_cash">ул. Пушкина 24</p>';
+    $expenses_lom .= '
+        <table class="uk-table-striped">
+            <thead>
+                <tr>
+                    <th style="width:14%">ОПЕРАТОР</th>
+                    <th style="width:14%">ПРОБА</th>
+                    <th style="width:14%">ВЕС</th>
+                    <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
+                    <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
+                    <th style="width:14%">СКОЛЬКО ОТДАЛИ</th>
+                    <th style="width:14%">В 585</th>
+                </tr>
+            </thead>
+            <tbody>
+    ';
+    $total_expenses_lom_sum_point2 = 0;
+    $total_expenses_lom_in585_point2 = 0;
+    foreach ($all_operation_lom_onpoint as $item) {
+        $total_expenses_lom_sum_point2 = $total_expenses_lom_sum_point2 + $item->pay;
+        $in585 = ($item->weight/585*$item->proba);
+        $total_expenses_lom_in585_point2 = $total_expenses_lom_in585_point2 + $in585;
+        $expenses_lom .= '
+        <tr>
+            <td>' . $item->worker . '</td>
+            <td>' . $item->proba . '</td>
+            <td>' . number_format($item->weight, 2, '.', ' ') . '</td>
+            <td>' . number_format($item->price_gramm, 2, '.', ' ') . '</td>
+            <td>' . number_format($item->price, 2, '.', ' ') . '</td>
+            <td>' . number_format($item->pay, 2, '.', ' ') . '</td>
+            <td>' . number_format($in585, 2, '.', ' ') . '</td>
+        </tr>
+        ';
+    }
+    $expenses_lom .= '
+            </tbody>
+        </table>
+    ';
+    $expenses_lom .= '</div>';
+    $expenses_lom .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ: <span style="color: red;">' . number_format($total_expenses_lom_sum_point2, 2, '.', ' ') . '</span></p>';
+    $expenses_lom .= '<p class="card-report__title_cash">КУПЛЕННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: red;">' . number_format($total_expenses_lom_in585_point2, 2, '.', ' ') . '</span></p><br>';
+    //ул. Пушкина 24
+
+$total_expenses_lom_sum = $total_expenses_lom_sum_point1 + $total_expenses_lom_sum_point2;
+$total_expenses_lom_in585 = $total_expenses_lom_in585_point1 + $total_expenses_lom_in585_point2;
+$expenses_lom .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ВСЕМ ТОЧКАМ: <span style="color: red;">' . number_format($total_expenses_lom_sum, 2, '.', ' ') . '</span></p>';
+$expenses_lom .= '<p class="card-report__title_cash">ОБЩАЯ СКУПКА МЕТАЛЛА ПО ВСЕМ ТОЧКАМ В 585 ПРОБЕ: <span style="color: red;">' . number_format($total_expenses_lom_in585, 2, '.', ' ') . '</span></p>';
+
+
 
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
@@ -208,28 +455,42 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
-                <h4 class="uk-card-title uk-margin-remove">Денег на утро</h4>
+                <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Денег на утро</h2>
                 <?php echo $cash_on_morning; ?>
 		    </div>
 		</div>
 
         <div>
             <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
-                <h4 class="uk-card-title uk-margin-remove">Доходы</h4>
+                <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Доходы</h2>
                 <?php echo $income; ?>
             </div>
         </div>
 
         <div>
             <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
-                <h4 class="uk-card-title uk-margin-remove">Расходы</h4>
+                <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Расходы</h2>
                 <?php echo $expenses; ?>
             </div>
         </div>
 
         <div>
             <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
-                <h4 class="uk-card-title uk-margin-remove">Металл</h4>
+                <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Продажи металла</h2>
+                <?php echo $income_lom; ?>
+            </div>
+        </div>
+
+        <div>
+            <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
+                <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Скупки металла</h2>
+                <?php echo $expenses_lom; ?>
+            </div>
+        </div>
+
+        <div>
+            <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
+                <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Металл</h2>
                 <?php echo $remain_tables_startday; ?>
             </div>
         </div>

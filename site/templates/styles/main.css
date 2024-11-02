@@ -333,6 +333,12 @@ table {
 .card-report__title_cash {
     margin: 0;
     font-weight: 700;}
+.title-table-mainreport {
+    font-size: 30px;
+    background-color: #969696;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-align: center;}
 .report-table {
     border: 1px solid #b5b5b5;
     padding: 10px;
