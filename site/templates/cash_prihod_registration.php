@@ -28,6 +28,7 @@ $point = !empty($_POST['selected_point'])?$_POST['selected_point']:NULL;
 $idpoint = !empty($_POST['selected_idpoint'])?$_POST['selected_idpoint']:NULL;  
 $worker = !empty($_POST['selected_worker'])?$_POST['selected_worker']:NULL;  
 $sum = !empty($_POST['selected_sum'])?$_POST['selected_sum']:NULL;  
+$cash_card = !empty($_POST['cash_card'])?$_POST['cash_card']:NULL; 
 $description = !empty($_POST['cash_description'])?$_POST['cash_description']:NULL;  
 
 $success = 'Операция прихода проведена';
@@ -42,6 +43,7 @@ if ($worker && $sum && $description && $_SESSION['reload'] != 'on') {
     'id_point' => $idpoint,
     'worker' => $worker,
     'sum' => $sum,
+    'cash_card' => $cash_card,
     'note' => $description,
     ]);
     $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Приход - ' . $sum . ' - ' . $point . '');
@@ -50,16 +52,25 @@ if ($worker && $sum && $description && $_SESSION['reload'] != 'on') {
     //Записываем добавление в лог
     $log = '';
     $log .= date("Y-m-d H:i") . ' Приход - ' . $sum . ' - ' . $point . ' === ';
-    $log .= 'Операция проведена: ' . $worker . ', ID записи: ' . $operation_id . ', Сумма: ' . $sum . ', Описание: ' . $description;
+    $log .= 'Операция проведена: ' . $worker . ', ID записи: ' . $operation_id . ', Сумма: ' . $sum . ', Вид платежа: ' . $cash_card . ', Описание: ' . $description;
     file_put_contents(__DIR__ . '/log_cash.txt', $log . PHP_EOL, FILE_APPEND);
 
     //Изменяем остатки
     $edit_page = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
-    $result = $edit_page->sum + $sum;
-    // echo $result;
-    $edit_page->of(false);
-    $edit_page->sum = $result;
-    $edit_page->save();
+    if ($cash_card == 'Наличный расчет') {
+        $result = $edit_page->sum + $sum;
+        // echo $result;
+        $edit_page->of(false);
+        $edit_page->sum = $result;
+        $edit_page->save();
+    }
+    if ($cash_card == 'Безналичный расчет') {
+        $result = $edit_page->bn_sum + $sum;
+        // echo $result;
+        $edit_page->of(false);
+        $edit_page->bn_sum = $result;
+        $edit_page->save();
+    }
 
     //Предотвращаем повторную регистрацию
     $_SESSION['reload'] = 'on';
@@ -123,6 +134,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 	        <p class="uk-margin-remove">Сотрудник: <span style="font-weight: 700;"><?php echo $worker; ?></span></p>
 	        <br>
             <p class="uk-margin-remove">Тип операции: <span style="font-weight: 700;">Приход</span></p>
+            <p class="uk-margin-remove">Тип платежа: <span style="font-weight: 700;"><?php echo $cash_card; ?></span></p>
 	        <p class="uk-margin-remove">Сумма: <span style="font-weight: 700;"><?php echo $sum; ?></span></p>
 	        <p class="uk-margin-remove">Описание: <span style="font-weight: 700;"><?php echo $description; ?></span></p>
         </div>

@@ -102,11 +102,6 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                 <p class="uk-margin-remove">Касса безнал на начало дня: <?php echo $bn_cash_startday; ?></p>
                 <h2 class="uk-card-title uk-margin-remove" style="color: green;font-weight: 700;">В Кассе наличка: <?php echo $cash; ?></h2>
                 <h2 class="uk-card-title uk-margin-remove" style="color: green;font-weight: 700;">В Кассе безнал: <?php echo $bn_cash; ?></h2>
-                <h4 class="uk-card-title uk-margin-remove">Последние 20 операций прихода по кассе</h4>
-                <hr>
-                <div id="all_cash_operation">
-                    <?php echo $all_cash_operation; ?>
-                </div>
             </div>
         </div>
 
@@ -130,6 +125,13 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                         <input class="uk-input" id="selected_sum" type="text" name="selected_sum" value="" placeholder="Сумма" autocomplete="off" required>
                     </div>
                     <div class="uk-margin-small-top">
+                        <label for="cash_card">Вид платежа</label>
+                        <select class="uk-select" id="cash_card" name="cash_card">
+                            <option>Наличный расчет</option>
+                            <option>Безналичный расчет</option>
+                        </select>
+                    </div>
+                    <div class="uk-margin-small-top">
                         <input class="uk-input" id="cash_description" type="text" name="cash_description" value="" placeholder="Описание" autocomplete="off" required>
                     </div>
                     
@@ -137,6 +139,16 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                         <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Зарегистрировать</button>
                     </div>
                 </form>
+            </div>
+        </div>
+
+        <div>
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                <h4 class="uk-card-title uk-margin-remove">Последние 20 операций прихода по кассе</h4>
+                <hr>
+                <div id="all_cash_operation">
+                    <?php echo $all_cash_operation; ?>
+                </div>
             </div>
         </div>
         

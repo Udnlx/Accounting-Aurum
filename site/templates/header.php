@@ -39,7 +39,7 @@ $title .= $all_page_cash->title . ' - ' . number_format($all_page_cash->sum, 2, 
 $all_cash = '';
 if ($operator == 'admin') {
     $all_cash = '
-    <p class="uk-margin-remove uk-text-bold" style="cursor: help;" title="' . $title . '">Всего средств: ' . number_format($total_sum, 2, '.',' ') . ';</p>
+    <p class="uk-margin-remove uk-text-bold" style="cursor: help;" title="' . $title . '">Всего налички: ' . number_format($total_sum, 2, '.',' ') . ';</p>
     ';
 }
 
@@ -64,7 +64,7 @@ $menu = '
         <p class="uk-margin-remove uk-text-bold">Точка: ' . $selected_point . ';</p>
         <p class="uk-margin-remove uk-text-bold">ID точки: ' . $selected_id_point . ';</p>
         <p class="uk-margin-remove uk-text-bold">Сотрудник: ' . $operator . ';</p>
-        <p class="uk-margin-remove uk-text-bold">Касса точки: ' . $cash . ';</p>
+        <p class="uk-margin-remove uk-text-bold">Наличка в точке: ' . $cash . ';</p>
         ' . $all_cash . '
         <a href="/login/?logout" title="Выход из системы"><i class="fa-solid fa-right-from-bracket"></i></a>
     </div>
