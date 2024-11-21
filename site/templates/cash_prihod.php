@@ -40,6 +40,8 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
 $page_cash = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
 $cash = number_format($page_cash->sum, 2, '.',' ');
 $cash_startday = number_format($page_cash->cash_remain_startday, 2, '.',' ');
+$bn_cash = number_format($page_cash->bn_sum, 2, '.',' ');
+$bn_cash_startday = number_format($page_cash->bn_cash_remain_startday, 2, '.',' ');
 
 //Получение всех операций по кассе
 $all_cash_operation = '';
@@ -52,6 +54,7 @@ foreach ($all_operation as $itm) {
         <p>' . $itm->title . '</p>
         <p style="font-size:10px;">ID операции: ' . $itm->id . '</p>
         <p style="font-size:10px;">Оператор: ' . $itm->worker . '</p>
+        <p style="font-size:10px;">Тип платежа: ' . $itm->cash_card . '</p>
         <p style="font-size:14px;font-weight:700;">Тип операции: ' . $itm->type_operation . ' - ' . $itm->sum . '</p>
         <p style="font-size:10px;">Описание: ' . $itm->note . '</p>
         <hr>
@@ -95,8 +98,10 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-                <p class="uk-margin-remove">Касса на начало дня: <?php echo $cash_startday; ?></p>
-                <h2 class="uk-card-title uk-margin-remove" style="color: green;font-weight: 700;">В Кассе: <?php echo $cash; ?></h2>
+                <p class="uk-margin-remove">Касса наличка на начало дня: <?php echo $cash_startday; ?></p>
+                <p class="uk-margin-remove">Касса безнал на начало дня: <?php echo $bn_cash_startday; ?></p>
+                <h2 class="uk-card-title uk-margin-remove" style="color: green;font-weight: 700;">В Кассе наличка: <?php echo $cash; ?></h2>
+                <h2 class="uk-card-title uk-margin-remove" style="color: green;font-weight: 700;">В Кассе безнал: <?php echo $bn_cash; ?></h2>
                 <h4 class="uk-card-title uk-margin-remove">Последние 20 операций прихода по кассе</h4>
                 <hr>
                 <div id="all_cash_operation">
