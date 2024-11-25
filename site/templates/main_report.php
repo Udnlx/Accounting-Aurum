@@ -1,7 +1,7 @@
 <?php namespace ProcessWire;
 
 //$day_for_report = date("d-m-Y");
-$day_for_report = '01-11-2024';
+$day_for_report = '25-11-2024';
 
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
@@ -44,16 +44,20 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $access != 'a
 //Денег на утро
 $cash_on_morning = '';
 $total_cash = 0;
+$bn_total_cash = 0;
 $page_cash = $pages->get('template=cash');
 $all_cash = $page_cash->children();
 foreach ($all_cash as $item) {
     $cash_on_morning .= '
-        <p class="card-report__info">' . $item->title . ' - <span style="font-weight:700;">' . number_format($item->cash_remain_startday, 2, '.',' ') . '</span></p>
+        <p class="card-report__info">' . $item->title . ' наличка - <span style="font-weight:700;">' . number_format($item->cash_remain_startday, 2, '.',' ') . '</span></p>
+        <p class="card-report__info">' . $item->title . ' безнал - <span style="font-weight:700;">' . number_format($item->bn_cash_remain_startday, 2, '.',' ') . '</span></p>
     ';
     $total_cash = $total_cash + $item->cash_remain_startday;
+    $bn_total_cash = $bn_total_cash + $item->bn_cash_remain_startday;
 }
 $cash_on_morning .= '
-<p class="card-report__info">Всего средств на утро - <span style="color:green;font-weight:700;">' . number_format($total_cash, 2, '.',' ') . '</span></p>
+<p class="card-report__info">Всего средств на утро наличка - <span style="color:green;font-weight:700;">' . number_format($total_cash, 2, '.',' ') . '</span></p>
+<p class="card-report__info">Всего средств на утро безнал - <span style="color:green;font-weight:700;">' . number_format($bn_total_cash, 2, '.',' ') . '</span></p>
 ';
 
 
@@ -61,6 +65,7 @@ $cash_on_morning .= '
 //Получение операций дохода по кассам
 $income = '';
 $total_income = 0;
+$bn_total_income = 0;
 
     //ул. Ушакова 23
     $page_cash = $pages->get('template=cash_itm, id_point=point1_cash');
@@ -78,8 +83,14 @@ $total_income = 0;
             <tbody>
     ';
     $total_income_point1 = 0;
+    $bn_total_income_point1 = 0;
     foreach ($all_operation_cash_ondate as $item) {
-        $total_income_point1 = $total_income_point1 + $item->sum;
+        if ($item->cash_card == 'Наличный расчет') {
+            $total_income_point1 = $total_income_point1 + $item->sum;
+        }
+        if ($item->cash_card == 'Безналичный расчет') {
+            $bn_total_income_point1 = $bn_total_income_point1 + $item->sum;
+        }
         $income .= '
         <tr>
             <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
@@ -92,7 +103,11 @@ $total_income = 0;
         </table>
     ';
     $income .= '</div>';
-    $income .= '<p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ: <span style="color: green;">' . number_format($total_income_point1, 2, '.', ' ') . '</span></p><br>';
+    $income .= '
+        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_point1, 2, '.', ' ') . '</span></p>
+        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_point1, 2, '.', ' ') . '</span></p>
+        <br>
+        ';
     //ул. Ушакова 23
 
     //ул. Пушкина 24
@@ -111,8 +126,14 @@ $total_income = 0;
             <tbody>
     ';
     $total_income_point2 = 0;
+    $bn_total_income_point2 = 0;
     foreach ($all_operation_cash_ondate as $item) {
-        $total_income_point2 = $total_income_point2 + $item->sum;
+        if ($item->cash_card == 'Наличный расчет') {
+            $total_income_point2 = $total_income_point2 + $item->sum;
+        }
+        if ($item->cash_card == 'Безналичный расчет') {
+            $bn_total_income_point2 = $bn_total_income_point2 + $item->sum;
+        }
         $income .= '
         <tr>
             <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
@@ -125,17 +146,24 @@ $total_income = 0;
         </table>
     ';
     $income .= '</div>';
-    $income .= '<p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ: <span style="color: green;">' . number_format($total_income_point2, 2, '.', ' ') . '</span></p><br>';
+    $income .= '
+        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_point2, 2, '.', ' ') . '</span></p>
+        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_point2, 2, '.', ' ') . '</span></p>
+        <br>
+        ';
     //ул. Пушкина 24
 
 $total_income = $total_income_point1 + $total_income_point2;
-$income .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД ПО ВСЕМ ТОЧКАМ: <span style="color: green;">' . number_format($total_income, 2, '.', ' ') . '</span></p>';
+$bn_total_income = $bn_total_income_point1 + $bn_total_income_point2;
+$income .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД ПО ВСЕМ ТОЧКАМ НАЛИЧКА: <span style="color: green;">' . number_format($total_income, 2, '.', ' ') . '</span></p>';
+$income .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income, 2, '.', ' ') . '</span></p>';
 
 
 
 //Получение операций расхода по кассам
 $expenses = '';
 $total_expenses = 0;
+$bn_total_expenses = 0;
 
     //ул. Ушакова 23
     $page_cash = $pages->get('template=cash_itm, id_point=point1_cash');
@@ -153,8 +181,14 @@ $total_expenses = 0;
             <tbody>
     ';
     $total_expenses_point1 = 0;
+    $bn_total_expenses_point1 = 0;
     foreach ($all_operation_cash_ondate as $item) {
-        $total_expenses_point1 = $total_expenses_point1 + $item->sum;
+        if ($item->cash_card == 'Наличный расчет') {
+            $total_expenses_point1 = $total_expenses_point1 + $item->sum;
+        }
+        if ($item->cash_card == 'Безналичный расчет') {
+            $bn_total_expenses_point1 = $bn_total_expenses_point1 + $item->sum;
+        }
         $expenses .= '
         <tr>
             <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
@@ -167,7 +201,11 @@ $total_expenses = 0;
         </table>
     ';
     $expenses .= '</div>';
-    $expenses .= '<p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ: <span style="color: red;">' . number_format($total_expenses_point1, 2, '.', ' ') . '</span></p><br>';
+    $expenses .= '
+        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_point1, 2, '.', ' ') . '</span></p>
+        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_point1, 2, '.', ' ') . '</span></p>
+        <br>
+        ';
     //ул. Ушакова 23
 
     //ул. Пушкина 24
@@ -186,8 +224,14 @@ $total_expenses = 0;
             <tbody>
     ';
     $total_expenses_point2 = 0;
+    $bn_total_expenses_point2 = 0;
     foreach ($all_operation_cash_ondate as $item) {
-        $total_expenses_point2 = $total_expenses_point2 + $item->sum;
+        if ($item->cash_card == 'Наличный расчет') {
+            $total_expenses_point2 = $total_expenses_point2 + $item->sum;
+        }
+        if ($item->cash_card == 'Безналичный расчет') {
+            $bn_total_expenses_point2 = $bn_total_expenses_point2 + $item->sum;
+        }
         $expenses .= '
         <tr>
             <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
@@ -200,17 +244,24 @@ $total_expenses = 0;
         </table>
     ';
     $expenses .= '</div>';
-    $expenses .= '<p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ: <span style="color: red;">' . number_format($total_expenses_point2, 2, '.', ' ') . '</span></p><br>';
+    $expenses .= '
+        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_point2, 2, '.', ' ') . '</span></p>
+        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_point2, 2, '.', ' ') . '</span></p>
+        <br>
+        ';
     //ул. Пушкина 24
 
 $total_expenses = $total_expenses_point1 + $total_expenses_point2;
-$expenses .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД ПО ВСЕМ ТОЧКАМ: <span style="color: red;">' . number_format($total_expenses, 2, '.', ' ') . '</span></p>';
+$bn_total_expenses = $bn_total_expenses_point1 + $bn_total_expenses_point2;
+$expenses .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД ПО ВСЕМ ТОЧКАМ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses, 2, '.', ' ') . '</span></p>';
+$expenses .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses, 2, '.', ' ') . '</span></p>';
 
 
 
 //Получение операций по продажам металла
 $income_lom = '';
 $total_income_lom_sum = 0;
+$bn_total_income_lom_sum = 0;
 $total_income_lom_in585 = 0;
 
     //ул. Ушакова 23
@@ -234,9 +285,15 @@ $total_income_lom_in585 = 0;
             <tbody>
     ';
     $total_income_lom_sum_point1 = 0;
+    $bn_total_income_lom_sum_point1 = 0;
     $total_income_lom_in585_point1 = 0;
     foreach ($all_operation_lom_onpoint as $item) {
-        $total_income_lom_sum_point1 = $total_income_lom_sum_point1 + $item->pay;
+        if ($item->cash_card == 'Наличный расчет') {
+            $total_income_lom_sum_point1 = $total_income_lom_sum_point1 + $item->pay;
+        }
+        if ($item->cash_card == 'Безналичный расчет') {
+            $bn_total_income_lom_sum_point1 = $bn_total_income_lom_sum_point1 + $item->pay;
+        }
         $in585 = ($item->weight/585*$item->proba);
         $total_income_lom_in585_point1 = $total_income_lom_in585_point1 + $in585;
         $income_lom .= '
@@ -256,7 +313,8 @@ $total_income_lom_in585 = 0;
         </table>
     ';
     $income_lom .= '</div>';
-    $income_lom .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ: <span style="color: green;">' . number_format($total_income_lom_sum_point1, 2, '.', ' ') . '</span></p>';
+    $income_lom .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_lom_sum_point1, 2, '.', ' ') . '</span></p>';
+    $income_lom .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_lom_sum_point1, 2, '.', ' ') . '</span></p>';
     $income_lom .= '<p class="card-report__title_cash">ПРОДАННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: green;">' . number_format($total_income_lom_in585_point1, 2, '.', ' ') . '</span></p><br>';
     //ул. Ушакова 23
 
@@ -281,9 +339,15 @@ $total_income_lom_in585 = 0;
             <tbody>
     ';
     $total_income_lom_sum_point2 = 0;
+    $bn_total_income_lom_sum_point2 = 0;
     $total_income_lom_in585_point2 = 0;
     foreach ($all_operation_lom_onpoint as $item) {
-        $total_income_lom_sum_point2 = $total_income_lom_sum_point2 + $item->pay;
+        if ($item->cash_card == 'Наличный расчет') {
+            $total_income_lom_sum_point2 = $total_income_lom_sum_point2 + $item->pay;
+        }
+        if ($item->cash_card == 'Безналичный расчет') {
+            $bn_total_income_lom_sum_point2 = $bn_total_income_lom_sum_point2 + $item->pay;
+        }
         $in585 = ($item->weight/585*$item->proba);
         $total_income_lom_in585_point2 = $total_income_lom_in585_point2 + $in585;
         $income_lom .= '
@@ -303,13 +367,16 @@ $total_income_lom_in585 = 0;
         </table>
     ';
     $income_lom .= '</div>';
-    $income_lom .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ: <span style="color: green;">' . number_format($total_income_lom_sum_point2, 2, '.', ' ') . '</span></p>';
+    $income_lom .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_lom_sum_point2, 2, '.', ' ') . '</span></p>';
+    $income_lom .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_lom_sum_point2, 2, '.', ' ') . '</span></p>';
     $income_lom .= '<p class="card-report__title_cash">ПРОДАННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: green;">' . number_format($total_income_lom_in585_point2, 2, '.', ' ') . '</span></p><br>';
     //ул. Пушкина 24
 
 $total_income_lom_sum = $total_income_lom_sum_point1 + $total_income_lom_sum_point2;
+$bn_total_income_lom_sum = $bn_total_income_lom_sum_point1 + $bn_total_income_lom_sum_point2;
 $total_income_lom_in585 = $total_income_lom_in585_point1 + $total_income_lom_in585_point2;
-$income_lom .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ВСЕМ ТОЧКАМ: <span style="color: green;">' . number_format($total_income_lom_sum, 2, '.', ' ') . '</span></p>';
+$income_lom .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ВСЕМ ТОЧКАМ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_lom_sum, 2, '.', ' ') . '</span></p>';
+$income_lom .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_lom_sum, 2, '.', ' ') . '</span></p>';
 $income_lom .= '<p class="card-report__title_cash">ОБЩАЯ ПРОДАЖА МЕТАЛЛА ПО ВСЕМ ТОЧКАМ В 585 ПРОБЕ: <span style="color: green;">' . number_format($total_income_lom_in585, 2, '.', ' ') . '</span></p>';
 
 
@@ -317,6 +384,7 @@ $income_lom .= '<p class="card-report__title_cash">ОБЩАЯ ПРОДАЖА М�
 //Получение операций по скупкам металла
 $expenses_lom = '';
 $total_expenses_lom_sum = 0;
+$bn_total_expenses_lom_sum = 0;
 $total_expenses_lom_in585 = 0;
 
     //ул. Ушакова 23
@@ -340,9 +408,15 @@ $total_expenses_lom_in585 = 0;
             <tbody>
     ';
     $total_expenses_lom_sum_point1 = 0;
+    $bn_total_expenses_lom_sum_point1 = 0;
     $total_expenses_lom_in585_point1 = 0;
     foreach ($all_operation_lom_onpoint as $item) {
-        $total_expenses_lom_sum_point1 = $total_expenses_lom_sum_point1 + $item->pay;
+        if ($item->cash_card == 'Наличный расчет') {
+            $total_expenses_lom_sum_point1 = $total_expenses_lom_sum_point1 + $item->pay;
+        }
+        if ($item->cash_card == 'Безналичный расчет') {
+            $bn_total_expenses_lom_sum_point1 = $bn_total_expenses_lom_sum_point1 + $item->pay;
+        }
         $in585 = ($item->weight/585*$item->proba);
         $total_expenses_lom_in585_point1 = $total_expenses_lom_in585_point1 + $in585;
         $expenses_lom .= '
@@ -362,7 +436,8 @@ $total_expenses_lom_in585 = 0;
         </table>
     ';
     $expenses_lom .= '</div>';
-    $expenses_lom .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ: <span style="color: red;">' . number_format($total_expenses_lom_sum_point1, 2, '.', ' ') . '</span></p>';
+    $expenses_lom .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_lom_sum_point1, 2, '.', ' ') . '</span></p>';
+    $expenses_lom .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_lom_sum_point1, 2, '.', ' ') . '</span></p>';
     $expenses_lom .= '<p class="card-report__title_cash">КУПЛЕННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: red;">' . number_format($total_expenses_lom_in585_point1, 2, '.', ' ') . '</span></p><br>';
     //ул. Ушакова 23
 
@@ -387,9 +462,15 @@ $total_expenses_lom_in585 = 0;
             <tbody>
     ';
     $total_expenses_lom_sum_point2 = 0;
+    $bn_total_expenses_lom_sum_point2 = 0;
     $total_expenses_lom_in585_point2 = 0;
     foreach ($all_operation_lom_onpoint as $item) {
-        $total_expenses_lom_sum_point2 = $total_expenses_lom_sum_point2 + $item->pay;
+        if ($item->cash_card == 'Наличный расчет') {
+            $total_expenses_lom_sum_point2 = $total_expenses_lom_sum_point2 + $item->pay;
+        }
+        if ($item->cash_card == 'Безналичный расчет') {
+            $bn_total_expenses_lom_sum_point2 = $bn_total_expenses_lom_sum_point2 + $item->pay;
+        }
         $in585 = ($item->weight/585*$item->proba);
         $total_expenses_lom_in585_point2 = $total_expenses_lom_in585_point2 + $in585;
         $expenses_lom .= '
@@ -409,13 +490,16 @@ $total_expenses_lom_in585 = 0;
         </table>
     ';
     $expenses_lom .= '</div>';
-    $expenses_lom .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ: <span style="color: red;">' . number_format($total_expenses_lom_sum_point2, 2, '.', ' ') . '</span></p>';
+    $expenses_lom .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_lom_sum_point2, 2, '.', ' ') . '</span></p>';
+    $expenses_lom .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_lom_sum_point2, 2, '.', ' ') . '</span></p>';
     $expenses_lom .= '<p class="card-report__title_cash">КУПЛЕННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: red;">' . number_format($total_expenses_lom_in585_point2, 2, '.', ' ') . '</span></p><br>';
     //ул. Пушкина 24
 
 $total_expenses_lom_sum = $total_expenses_lom_sum_point1 + $total_expenses_lom_sum_point2;
+$bn_total_expenses_lom_sum = $bn_total_expenses_lom_sum_point1 + $bn_total_expenses_lom_sum_point2;
 $total_expenses_lom_in585 = $total_expenses_lom_in585_point1 + $total_expenses_lom_in585_point2;
-$expenses_lom .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ВСЕМ ТОЧКАМ: <span style="color: red;">' . number_format($total_expenses_lom_sum, 2, '.', ' ') . '</span></p>';
+$expenses_lom .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ВСЕМ ТОЧКАМ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_lom_sum, 2, '.', ' ') . '</span></p>';
+$expenses_lom .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_lom_sum, 2, '.', ' ') . '</span></p>';
 $expenses_lom .= '<p class="card-report__title_cash">ОБЩАЯ СКУПКА МЕТАЛЛА ПО ВСЕМ ТОЧКАМ В 585 ПРОБЕ: <span style="color: red;">' . number_format($total_expenses_lom_in585, 2, '.', ' ') . '</span></p>';
 
 
@@ -423,6 +507,7 @@ $expenses_lom .= '<p class="card-report__title_cash">ОБЩАЯ СКУПКА М�
 //Получение операций по продажам изделий
 $income_izdelie = '';
 $total_income_izdelie_sum = 0;
+$bn_total_income_izdelie_sum = 0;
 
     //ул. Ушакова 23
     $all_operation_izdelie_ondate = $pages->find('template=product_itm, product_status=продано, product_date_sell=' . $day_for_report . '');
@@ -443,8 +528,14 @@ $total_income_izdelie_sum = 0;
             <tbody>
     ';
     $total_income_izdelie_sum_point1 = 0;
+    $bn_total_income_izdelie_sum_point1 = 0;
     foreach ($all_operation_izdelie_onpoint as $item) {
-        $total_income_izdelie_sum_point1 = $total_income_izdelie_sum_point1 + $item->product_price_sell;
+        if ($item->cash_card_product_sell == 'Наличный расчет') {
+            $total_income_izdelie_sum_point1 = $total_income_izdelie_sum_point1 + $item->product_price_sell;
+        }
+        if ($item->cash_card_product_sell == 'Безналичный расчет') {
+            $bn_total_income_izdelie_sum_point1 = $bn_total_income_izdelie_sum_point1 + $item->product_price_sell;
+        }
         $income_izdelie .= '
         <tr>
             <td>' . $item->worker_sell . '</td>
@@ -460,7 +551,11 @@ $total_income_izdelie_sum = 0;
         </table>
     ';
     $income_izdelie .= '</div>';
-    $income_izdelie .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ ИЗДЕЛИЙ ПО ТОЧКЕ: <span style="color: green;">' . number_format($total_income_izdelie_sum_point1, 2, '.', ' ') . '</span></p><br>';
+    $income_izdelie .= '
+        <p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ ИЗДЕЛИЙ ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_izdelie_sum_point1, 2, '.', ' ') . '</span></p>
+        <p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ ИЗДЕЛИЙ ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_izdelie_sum_point1, 2, '.', ' ') . '</span></p>
+        <br>
+        ';
     //ул. Ушакова 23
 
     //ул. Пушкина 24
@@ -482,8 +577,14 @@ $total_income_izdelie_sum = 0;
             <tbody>
     ';
     $total_income_izdelie_sum_point2 = 0;
+    $bn_total_income_izdelie_sum_point2 = 0;
     foreach ($all_operation_izdelie_onpoint as $item) {
-        $total_income_izdelie_sum_point2 = $total_income_izdelie_sum_point2 + $item->product_price_sell;
+        if ($item->cash_card_product_sell == 'Наличный расчет') {
+            $total_income_izdelie_sum_point2 = $total_income_izdelie_sum_point2 + $item->product_price_sell;
+        }
+        if ($item->cash_card_product_sell == 'Безналичный расчет') {
+            $bn_total_income_izdelie_sum_point2 = $bn_total_income_izdelie_sum_point2 + $item->product_price_sell;
+        }
         $income_izdelie .= '
         <tr>
             <td>' . $item->worker_sell . '</td>
@@ -499,17 +600,24 @@ $total_income_izdelie_sum = 0;
         </table>
     ';
     $income_izdelie .= '</div>';
-    $income_izdelie .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ ИЗДЕЛИЙ ПО ТОЧКЕ: <span style="color: green;">' . number_format($total_income_izdelie_sum_point2, 2, '.', ' ') . '</span></p><br>';
+    $income_izdelie .= '
+        <p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ ИЗДЕЛИЙ ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_izdelie_sum_point2, 2, '.', ' ') . '</span></p>
+        <p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ ИЗДЕЛИЙ ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_izdelie_sum_point2, 2, '.', ' ') . '</span></p>
+        <br>
+        ';
     //ул. Пушкина 24
 
 $total_income_izdelie_sum = $total_income_izdelie_sum_point1 + $total_income_izdelie_sum_point2;
-$income_izdelie .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД НА ПРОДАЖАХ ИЗДЕЛИЙ ПО ВСЕМ ТОЧКАМ: <span style="color: green;">' . number_format($total_income_izdelie_sum, 2, '.', ' ') . '</span></p>';
+$bn_total_income_izdelie_sum = $bn_total_income_izdelie_sum_point1 + $bn_total_income_izdelie_sum_point2;
+$income_izdelie .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД НА ПРОДАЖАХ ИЗДЕЛИЙ ПО ВСЕМ ТОЧКАМ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_izdelie_sum, 2, '.', ' ') . '</span></p>';
+$income_izdelie .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД НА ПРОДАЖАХ ИЗДЕЛИЙ ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_izdelie_sum, 2, '.', ' ') . '</span></p>';
 
 
 
 //Получение операций по скупкам изделий
 $expenses_izdelie = '';
 $total_expenses_izdelie_sum = 0;
+$bn_total_expenses_izdelie_sum = 0;
 
     //ул. Ушакова 23
     $all_operation_izdelie_ondate = $pages->find('template=product_itm, product_date_buy=' . $day_for_report . '');
@@ -531,8 +639,14 @@ $total_expenses_izdelie_sum = 0;
             <tbody>
     ';
     $total_expenses_izdelie_sum_point1 = 0;
+    $bn_total_expenses_izdelie_sum_point1 = 0;
     foreach ($all_operation_izdelie_onpoint as $item) {
-        $total_expenses_izdelie_sum_point1 = $total_expenses_izdelie_sum_point1 + $item->product_price_buy;
+        if ($item->cash_card == 'Наличный расчет') {
+            $total_expenses_izdelie_sum_point1 = $total_expenses_izdelie_sum_point1 + $item->product_price_buy;
+        }
+        if ($item->cash_card == 'Безналичный расчет') {
+            $bn_total_expenses_izdelie_sum_point1 = $bn_total_expenses_izdelie_sum_point1 + $item->product_price_buy;
+        }
         $expenses_izdelie .= '
         <tr>
             <td>' . $item->worker . '</td>
@@ -549,7 +663,10 @@ $total_expenses_izdelie_sum = 0;
         </table>
     ';
     $expenses_izdelie .= '</div>';
-    $expenses_izdelie .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ ИЗДЕЛИЙ ПО ТОЧКЕ: <span style="color: red;">' . number_format($total_expenses_izdelie_sum_point1, 2, '.', ' ') . '</span></p><br>';
+    $expenses_izdelie .= '
+        <p class="card-report__title_cash">РАСХОД НА СКУПКАХ ИЗДЕЛИЙ ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_izdelie_sum_point1, 2, '.', ' ') . '</span></p>
+        <p class="card-report__title_cash">РАСХОД НА СКУПКАХ ИЗДЕЛИЙ ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_izdelie_sum_point1, 2, '.', ' ') . '</span></p>
+        <br>';
     //ул. Ушакова 23
 
     //ул. Пушкина 24
@@ -572,8 +689,14 @@ $total_expenses_izdelie_sum = 0;
             <tbody>
     ';
     $total_expenses_izdelie_sum_point2 = 0;
+    $bn_total_expenses_izdelie_sum_point2 = 0;
     foreach ($all_operation_izdelie_onpoint as $item) {
-        $total_expenses_izdelie_sum_point2 = $total_expenses_izdelie_sum_point2 + $item->product_price_buy;
+        if ($item->cash_card == 'Наличный расчет') {
+            $total_expenses_izdelie_sum_point2 = $total_expenses_izdelie_sum_point2 + $item->product_price_buy;
+        }
+        if ($item->cash_card == 'Безналичный расчет') {
+            $bn_total_expenses_izdelie_sum_point2 = $bn_total_expenses_izdelie_sum_point2 + $item->product_price_buy;
+        }
         $expenses_izdelie .= '
         <tr>
             <td>' . $item->worker . '</td>
@@ -590,11 +713,16 @@ $total_expenses_izdelie_sum = 0;
         </table>
     ';
     $expenses_izdelie .= '</div>';
-    $expenses_izdelie .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ ИЗДЕЛИЙ ПО ТОЧКЕ: <span style="color: red;">' . number_format($total_expenses_izdelie_sum_point2, 2, '.', ' ') . '</span></p><br>';
+    $expenses_izdelie .= '
+        <p class="card-report__title_cash">РАСХОД НА СКУПКАХ ИЗДЕЛИЙ ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_izdelie_sum_point2, 2, '.', ' ') . '</span></p>
+        <p class="card-report__title_cash">РАСХОД НА СКУПКАХ ИЗДЕЛИЙ ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_izdelie_sum_point2, 2, '.', ' ') . '</span></p>
+        <br>';
     //ул. Пушкина 24
 
 $total_expenses_izdelie_sum = $total_expenses_izdelie_sum_point1 + $total_expenses_izdelie_sum_point2;
-$expenses_izdelie .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД НА СКУПКАХ ИЗДЕЛИЙ ПО ВСЕМ ТОЧКАМ: <span style="color: red;">' . number_format($total_expenses_izdelie_sum, 2, '.', ' ') . '</span></p>';
+$bn_total_expenses_izdelie_sum = $bn_total_expenses_izdelie_sum_point1 + $bn_total_expenses_izdelie_sum_point2;
+$expenses_izdelie .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД НА СКУПКАХ ИЗДЕЛИЙ ПО ВСЕМ ТОЧКАМ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_izdelie_sum, 2, '.', ' ') . '</span></p>';
+$expenses_izdelie .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД НА СКУПКАХ ИЗДЕЛИЙ ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_izdelie_sum, 2, '.', ' ') . '</span></p>';
 
 
 

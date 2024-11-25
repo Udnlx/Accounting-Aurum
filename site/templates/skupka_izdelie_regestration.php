@@ -30,6 +30,7 @@ if ($worker && $product && $weight && $pay && $cash_card && $_SESSION['reload'] 
     'product_date_buy' => $date,
     'product_status' => 'в наличии',
     'product_price_buy' => $pay,
+    'product_price_sell' => 0,
     'product_name' => $product,
     'product_description' => $product_description,
     'weight' => $weight,
