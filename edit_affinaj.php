@@ -78,7 +78,7 @@ if ($n375 == '' || $n333 == '' || $n417 == '' || $n500 == '' || $n585 == '' || $
 	//Записываем изменения в лог
 	$affedt = $pages->get('id=' . $affinaj_id . '');
 	$log = '';
-    $log .= date("Y-m-d H:i") . ' Был изменен аффинаж: ' . $affedt->title . ' === ';
+    $log .= date("Y-m-d H:i") . ' Был изменен аффинаж: ' . $affedt->title . ', со статусом - ' . $affedt->product_status . ' === ';
     $log .= 'Запись изменил: ' . $worker . ', ID записи: ' . $affinaj_id; 
     file_put_contents(__DIR__ . '/site/templates/log_affinaj_edit.txt', $log . PHP_EOL, FILE_APPEND);
 
