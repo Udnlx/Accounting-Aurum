@@ -200,6 +200,10 @@ $remain_tables_startday .= '</div>';
 
 
 
+include 'remains_table_sending_affinaj.php';
+
+
+
 //Таблица свободного металла для аффинажа
 $affinaj_table_start = '';
 $actual_items = $actual->children();

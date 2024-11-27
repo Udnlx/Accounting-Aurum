@@ -152,6 +152,20 @@ table {
     width: 100%;
     color: #000000;
     font-size: 12px;}
+
+
+
+.list-items {
+    margin: 5px 0 5px 0;}
+.list-items-title {
+    margin: 0;}
+.list-items-options {
+    margin: 0;
+    font-size: 12px;}
+.list-items-bold-options {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 700;}
     
     
 

@@ -41,7 +41,10 @@ $all_operations = '';
 $all_operations_itm = $pages->find('template=affinaj_itm, sort=-sort');
 $all_operations .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($all_operations_itm as $itm) {
-    $all_operations .= '<p>' . $itm->title . '</p>';
+    $all_operations .= '
+        <p>' . $itm->title . '</p>
+        <p class="reserv_id_note">Оператор: ' . $itm->worker . '</p>
+    ';
 }
 $all_operations .= '</div>';
 
