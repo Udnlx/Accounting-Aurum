@@ -173,17 +173,17 @@ table {
     justify-content: space-between;
     align-items: center;}
 .list-product-itm-image {
-    width: 100px;
+    height: 100px;
     margin: 0 20px 0 0;}
 .list-product-itm-image-img {
-    width: 100%;
-    height: auto;}
+    height: 100%;
+    width: auto;}
 @media (max-width: 550px) {
 .list-product-itm {
     display: flex;
     flex-direction: column-reverse;}
 .list-product-itm-image {
-    width: 150px;
+    height: 150px;
     margin: 0;}}
     
     
