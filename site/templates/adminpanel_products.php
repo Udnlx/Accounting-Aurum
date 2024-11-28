@@ -42,12 +42,19 @@ $stock_products_itm = $pages->find('template=product_itm, product_status=в на
 $stock_products .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($stock_products_itm as $itm) {
     $stock_products .= '
-    <p>' . $itm->title . '</p>
-    <p style="font-size:10px;">Порядковый номер: ' . $itm->serial_number . '</p>
-    <p style="font-size:10px;">' . $itm->product_description . '</p>
-    <p style="font-size:10px;">URL Авито: ' . $itm->url_avito . '</p>
-    <p style="font-size:10px;">Оператор скупки: ' . $itm->worker . '</p>
-    <p style="font-size:12px; font-weight: 700;">Дата скупки: ' . $itm->product_date_buy . '; Цена скупки: ' . $itm->product_price_buy . '</p>
+    <div class="list-product-itm">
+        <div class="list-product-itm-text">
+            <p>' . $itm->title . '</p>
+            <p style="font-size:10px;">Порядковый номер: ' . $itm->serial_number . '</p>
+            <p style="font-size:10px;">' . $itm->product_description . '</p>
+            <p style="font-size:10px;">URL Авито: ' . $itm->url_avito . '</p>
+            <p style="font-size:10px;">Оператор скупки: ' . $itm->worker . '</p>
+            <p style="font-size:12px; font-weight: 700;">Дата скупки: ' . $itm->product_date_buy . '; Цена скупки: ' . $itm->product_price_buy . '</p>
+        </div>
+        <div class="list-product-itm-image">
+            <img class="list-product-itm-image-img" src="' . $itm->url_image . '" alt="">
+        </div>
+    </div>
     <br>
     ';
 }
@@ -60,12 +67,19 @@ $sell_products .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($sell_products_itm as $itm) {
     $receipt = $itm->product_price_sell - $itm->product_price_buy;
     $sell_products .= '
-    <p>' . $itm->title . '</p>
-    <p style="font-size:10px;">Порядковый номер: ' . $itm->serial_number . '</p>
-    <p style="font-size:10px;">' . $itm->product_description . '</p>
-    <p style="font-size:10px;">URL Авито: ' . $itm->url_avito . '</p>
-    <p style="font-size:10px;">Оператор продажи: ' . $itm->worker_sell . '</p>
-    <p style="font-size:12px; font-weight: 700;">Дата скупки: ' . $itm->product_date_buy . '; Цена скупки: ' . $itm->product_price_buy . '; Дата продажи: ' . $itm->product_date_sell . '; Цена продажи: ' . $itm->product_price_sell . '; Выручка: ' . $receipt . '</p>
+    <div class="list-product-itm">
+        <div class="list-product-itm-text">
+            <p>' . $itm->title . '</p>
+            <p style="font-size:10px;">Порядковый номер: ' . $itm->serial_number . '</p>
+            <p style="font-size:10px;">' . $itm->product_description . '</p>
+            <p style="font-size:10px;">URL Авито: ' . $itm->url_avito . '</p>
+            <p style="font-size:10px;">Оператор скупки: ' . $itm->worker_sell . '</p>
+            <p style="font-size:12px; font-weight: 700;">Дата скупки: ' . $itm->product_date_buy . '; Цена скупки: ' . $itm->product_price_buy . '; Дата продажи: ' . $itm->product_date_sell . '; Цена продажи: ' . $itm->product_price_sell . '; Выручка: ' . $receipt . '</p>
+        </div>
+        <div class="list-product-itm-image">
+            <img class="list-product-itm-image-img" src="' . $itm->url_image . '" alt="">
+        </div>
+    </div>
     <br>
     ';
 }
