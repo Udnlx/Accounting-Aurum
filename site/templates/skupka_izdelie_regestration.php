@@ -15,6 +15,9 @@ $client_name = !empty($_POST['client_name'])?$_POST['client_name']:NULL;
 $client_passport = !empty($_POST['client_passport'])?$_POST['client_passport']:NULL;  
 $client_address = !empty($_POST['client_address'])?$_POST['client_address']:NULL;  
 
+$url_avito = !empty($_POST['url_avito'])?$_POST['url_avito']:NULL;  
+$url_image = !empty($_POST['url_image'])?$_POST['url_image']:NULL;  
+
 $success = 'Регистрация скупки прошла успешно';
 if ($worker && $product && $weight && $pay && $cash_card && $_SESSION['reload'] != 'on') {
     $all_product_itm = count($pages->find('template=product_itm'));
@@ -39,6 +42,8 @@ if ($worker && $product && $weight && $pay && $cash_card && $_SESSION['reload'] 
     'client_name' => $client_name,
     'client_passport' => $client_passport,
     'client_address' => $client_address,
+    'url_avito' => $url_avito,
+    'url_image' => $url_image,
     ]);
     $operation_page = $pages->get('title=' . $product . ' - ' . $weight . 'г - ' . $point . ' - Купленно: ' . date("Y-m-d H:i") . '');
     $operation_id = $operation_page->id;

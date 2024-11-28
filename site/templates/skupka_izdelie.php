@@ -122,6 +122,13 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                             <input class="uk-input" id="client_address" type="text" name="client_address" value="" placeholder="Адрес клиента" autocomplete="off">
                         </div>
                     </div>
+
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input" id="url_avito" type="text" name="url_avito" value="" placeholder="URL объявления на Авито" autocomplete="off">
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input" id="url_image" type="text" name="url_image" value="" placeholder="URL изображения" autocomplete="off">
+                    </div>
                     
                     <div class="uk-margin-small-top uk-flex uk-flex-column">
                         <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Зарегистрировать</button>

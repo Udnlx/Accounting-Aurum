@@ -99,6 +99,14 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     	<label for="new_product_url_avito">URL Авито</label>
                         <input class="uk-input" id="new_product_url_avito" type="text" name="new_product_url_avito" value="<?php echo $product_page->url_avito; ?>">
                     </div>
+
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="old_product_url_image" type="text" name="old_product_url_image" value="<?php echo $product_page->url_image; ?>">
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <label for="new_product_url_avito">URL изображения</label>
+                        <input class="uk-input" id="new_product_url_image" type="text" name="new_product_url_image" value="<?php echo $product_page->url_image; ?>">
+                    </div>
                     
                     <div class="uk-margin-small-top uk-flex uk-flex-column">
                         <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Внести изменения</button>

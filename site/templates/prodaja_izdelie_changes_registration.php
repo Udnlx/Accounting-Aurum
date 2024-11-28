@@ -6,6 +6,8 @@ $old_product_description = !empty($_POST['old_product_description'])?$_POST['old
 $new_product_description = !empty($_POST['new_product_description'])?$_POST['new_product_description']:NULL;  
 $old_product_url_avito = !empty($_POST['old_product_url_avito'])?$_POST['old_product_url_avito']:NULL;  
 $new_product_url_avito = !empty($_POST['new_product_url_avito'])?$_POST['new_product_url_avito']:NULL; 
+$old_product_url_image = !empty($_POST['old_product_url_image'])?$_POST['old_product_url_image']:NULL;  
+$new_product_url_image = !empty($_POST['new_product_url_image'])?$_POST['new_product_url_image']:NULL; 
 
 //Получение страницы продукта
 $product_page = $pages->get('id=' . $id_product_changes . '');
@@ -17,6 +19,7 @@ if ($worker && $id_product_changes && $old_product_description && $new_product_d
     $edit_page->of(false);
     $edit_page->product_description = $new_product_description;
     $edit_page->url_avito = $new_product_url_avito;
+    $edit_page->url_image = $new_product_url_image;
     $edit_page->save();
 
     //Записываем регистрацию  в лог
@@ -27,6 +30,9 @@ if ($worker && $id_product_changes && $old_product_description && $new_product_d
     $log .= 'Новое описание: ' . $new_product_description . '; '; 
     $log .= 'Старый URL Авито: ' . $old_product_url_avito . '; '; 
     $log .= 'Новый URL Авито: ' . $new_product_url_avito . '; '; 
+    if ($old_product_url_image != $new_product_url_image) {
+        $log .= 'Была замена изображения; ';
+    }
     file_put_contents(__DIR__ . '/log_products_changes.txt', $log . PHP_EOL, FILE_APPEND);
 
     //Предотвращаем повторную регистрацию
@@ -113,6 +119,8 @@ if ($startday == '' || $actual == '' || $reserv == '') {
             <p class="uk-margin-remove">Новое описание: <span style="font-weight: 700;"><?php echo $new_product_description; ?></span></p>
             <p class="uk-margin-remove">Старое URL Авито: <span style="font-weight: 700;"><?php echo $old_product_url_avito; ?></span></p>
             <p class="uk-margin-remove">Новое URL Авито: <span style="font-weight: 700;"><?php echo $new_product_url_avito; ?></span></p>
+            <p class="uk-margin-remove">Старое URL изображения: <span style="font-weight: 700;"><?php echo $old_product_url_image; ?></span></p>
+            <p class="uk-margin-remove">Новое URL изображения: <span style="font-weight: 700;"><?php echo $new_product_url_image; ?></span></p>
         </div>
 
         <br>

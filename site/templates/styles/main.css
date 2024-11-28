@@ -155,6 +155,7 @@ table {
 
 
 
+/*Стили для списков*/
 .list-items {
     margin: 5px 0 5px 0;}
 .list-items-title {
@@ -166,6 +167,24 @@ table {
     margin: 0;
     font-size: 12px;
     font-weight: 700;}
+
+.list-product-itm {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;}
+.list-product-itm-image {
+    width: 100px;
+    margin: 0 20px 0 0;}
+.list-product-itm-image-img {
+    width: 100%;
+    height: auto;}
+@media (max-width: 550px) {
+.list-product-itm {
+    display: flex;
+    flex-direction: column-reverse;}
+.list-product-itm-image {
+    width: 150px;
+    margin: 0;}}
     
     
 
