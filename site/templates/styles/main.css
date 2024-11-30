@@ -178,6 +178,7 @@ table {
 .list-product-itm-image-img {
     height: 100%;
     width: auto;}
+
 @media (max-width: 550px) {
 .list-product-itm {
     display: flex;
@@ -358,6 +359,13 @@ table {
 
 
 /*Стили для общего отчета*/
+.filtermenu {
+    margin: 10px 0;}
+.filtermenu-input {
+    margin: 0 5px 0 0;}
+.form-select-date {
+    display: flex;
+    align-items: center;}
 .card-report {
     margin: 0 0 20px 0;
     padding: 20px;}
@@ -377,3 +385,16 @@ table {
     padding: 10px;
     border-radius: 10px;
     margin: 10px 0 10px 0;}
+
+@media (max-width: 550px) {
+.filtermenu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;}
+.filtermenu-input {
+    margin: 5px 0 5px 0;}
+.form-select-date {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;}}

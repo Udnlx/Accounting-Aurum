@@ -760,6 +760,22 @@ if ($startday == '' || $actual == '' || $reserv == '') {
         </div>
 
         <div>
+            <div class="filtermenu uk-width-1-1 uk-flex">
+                <form class="form-select-date" id="select_period_date" action="" method="post">
+                    <div class="filtermenu-input">
+                        <input class="uk-input" id="selected_start_date" type="date" name="selected_start_date" required>
+                    </div>
+                    <div class="filtermenu-input">
+                        <input class="uk-input" id="selected_finish_date" type="date" name="selected_finish_date" required>
+                    </div>
+                    <div class="uk-margin-remove">
+                        <button class="uk-margin-remove uk-button uk-button-default" type="submit">Отчет на период в разработке</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
             <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
                 <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Денег на утро</h2>
                 <?php echo $cash_on_morning; ?>
