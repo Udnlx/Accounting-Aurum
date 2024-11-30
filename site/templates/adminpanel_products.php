@@ -121,6 +121,14 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                ФИЛЬТР ДЛЯ ВСЕХ ИЗДЕЛИЙ В РАЗРАБОТКЕ<br>
+                ВЫБОР ПЕРИОДА ПО ДАТАМ<br>
+                ВЫБОР ТОЧКИ
+            </div>
+        </div>
+
+        <div>
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
                 <h4 class="uk-margin-remove uk-heading-hero">Изделия в наличии</h4><br>
 		        <?php echo $stock_products; ?>
 		    </div>

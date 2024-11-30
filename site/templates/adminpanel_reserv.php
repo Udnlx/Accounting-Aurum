@@ -86,6 +86,14 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                ФИЛЬТР ДЛЯ ВСЕГО РЕЗЕРВА В РАЗРАБОТКЕ<br>
+                ВЫБОР ПЕРИОДА ПО ДАТАМ<br>
+                ВЫБОР ТОЧКИ
+            </div>
+        </div>
+
+        <div>
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
                 <?php echo $all_operations; ?>
             </div>
         </div>
