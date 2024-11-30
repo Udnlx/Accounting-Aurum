@@ -37,7 +37,7 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
 
 //Формирование открытого резерва
 $all_open_reserv = '';
-$all_open_reserv_itm = $pages->find('template=reserv_itm, product_status= , sort=-sort');
+$all_open_reserv_itm = $pages->find('template=reserv_itm, id_point=' . $selected_id_point . ', product_status= , sort=-sort');
 $all_open_reserv .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($all_open_reserv_itm as $itm) {
     $all_open_reserv .= '

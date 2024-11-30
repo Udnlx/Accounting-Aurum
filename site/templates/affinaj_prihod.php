@@ -37,7 +37,7 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
 
 //Получение всех открытых и отпраленных аффинажей
 $all_close_affinaj = '';
-$all_close_affinaj_itm = $pages->find('template=affinaj_itm, product_status=Закрыт, sort=-id');
+$all_close_affinaj_itm = $pages->find('template=affinaj_itm, id_point=' . $selected_id_point . ', product_status=Закрыт, sort=-id');
 $all_close_affinaj .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($all_close_affinaj_itm as $itm) {
     $all_close_affinaj .= '<p>' . $itm->title . '</p>';
