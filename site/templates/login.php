@@ -22,13 +22,27 @@ if ($point == 'ул. Московская 35') {
 $user_login = !empty($_POST['user_login'])?$_POST['user_login']:NULL;  
 $user_password = !empty($_POST['user_password'])?$_POST['user_password']:NULL;
 
-if($user_login === 'admin' && $user_password === 'asdasd') {
-    $login = 'on';
-    $_SESSION['point'] = $point;
-    $_SESSION['id_point'] = $id_p;
-    $_SESSION['operator'] = 'admin';
-    $_SESSION['access'] = 'admin';
+$all_users_folder = $pages->get('template=users_system');
+if (count($all_users_folder->children()) > 0) {
+    $all_users = $all_users_folder->children();
+    foreach ($all_users as $user) {
+        if($user_login === $user->title && $user_password === $user->password) {
+            $login = 'on';
+            $_SESSION['point'] = $point;
+            $_SESSION['id_point'] = $id_p;
+            $_SESSION['operator'] = $user->title;
+            $_SESSION['access'] = $user->access->title;
+        }
+    }
 }
+
+// if($user_login === 'admin' && $user_password === 'asdasd') {
+//     $login = 'on';
+//     $_SESSION['point'] = $point;
+//     $_SESSION['id_point'] = $id_p;
+//     $_SESSION['operator'] = 'admin';
+//     $_SESSION['access'] = 'admin';
+// }
 
 //echo $login;
 

@@ -29,6 +29,7 @@ $admin_btn = '';
 if ($operator == 'admin') {
     $admin_btn = '
     <a class="menu-link" href="/obshchaia-kassa-tip-operatcii/">Общая касса</a>
+    <a class="menu-link" href="/adminpanel-meniu/">Админ панель</a>
     <a class="menu-link" href="/osnovnoi-otchet/">Отчет</a>
     ';
 }
@@ -66,7 +67,6 @@ if ($startday != '' || $actual != '' || $reserv != '') {
             <a class="menu-link" href="/prodazha-tip-prodazhi/">Продажа</a>
             <a class="menu-link" href="/rezerv-tip-rezerva/">Резерв</a>
             <a class="menu-link" href="/affinazh-tip-affinazha/">Аффинаж</a>
-            <a class="menu-link" href="/adminpanel-meniu/">Админ панель</a>
             <a class="menu-link" href="/kassa-tip-operatcii/">Касса</a>
             ' . $admin_btn . '
         </div>
