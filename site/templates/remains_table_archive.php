@@ -44,6 +44,28 @@ if ($actual_date == $today) {
 	    $met_start_item->save();
 	}
 
+	$actual_rew = $pages->get('id_point=point3_actual');
+	$startday_rew = $pages->get('id_point=point3_startday');
+	$actual_items = $actual_rew->children();
+	$startday_items = $startday_rew->children();
+	foreach ($actual_items as $itm) {
+	    $met_start_item = $startday_items->get('title=' . $itm->title . '');
+	    $met_start_item->of(false);
+	    $met_start_item->remain = $itm->remain;
+	    $met_start_item->save();
+	}
+
+	$actual_rew = $pages->get('id_point=point4_actual');
+	$startday_rew = $pages->get('id_point=point4_startday');
+	$actual_items = $actual_rew->children();
+	$startday_items = $startday_rew->children();
+	foreach ($actual_items as $itm) {
+	    $met_start_item = $startday_items->get('title=' . $itm->title . '');
+	    $met_start_item->of(false);
+	    $met_start_item->remain = $itm->remain;
+	    $met_start_item->save();
+	}
+
 	$remains_parent = $pages->get('template=remains');
 	$remains_points = $remains_parent->children();
 	foreach ($remains_points as $remains_point) {

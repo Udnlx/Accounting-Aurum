@@ -1,6 +1,6 @@
 <?php
 
-$all_sending_affinaj = $pages->find('template=affinaj_itm, product_status=Отправлен, sort=-sort');
+$all_sending_affinaj = $pages->find('template=affinaj_itm, id_point=' . $selected_id_point . ', product_status=Отправлен, sort=-sort');
 
 $remain_tables_startday .= '<br><h4 class="uk-card-title uk-margin-remove">Текущий отправленный аффинаж</h4><hr>';
 

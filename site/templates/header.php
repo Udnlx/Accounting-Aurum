@@ -28,12 +28,16 @@ $cash = number_format($page_cash->sum, 2, '.',' ');
 
 $cash_point1 = $pages->get('template=cash_itm, id_point=point1_cash');
 $cash_point2 = $pages->get('template=cash_itm, id_point=point2_cash');
+$cash_point3 = $pages->get('template=cash_itm, id_point=point3_cash');
+$cash_point4 = $pages->get('template=cash_itm, id_point=point4_cash');
 $all_page_cash = $pages->get('template=cash_itm, id_point=all_cash');
-$total_sum = $all_page_cash->sum + $cash_point1->sum + $cash_point2->sum;
+$total_sum = $all_page_cash->sum + $cash_point1->sum + $cash_point2->sum + $cash_point3->sum + $cash_point4->sum;
 
 $title = '';
 $title .= $cash_point1->title . ' - ' . number_format($cash_point1->sum, 2, '.',' ') . '; ';
 $title .= $cash_point2->title . ' - ' . number_format($cash_point2->sum, 2, '.',' ') . '; ';
+$title .= $cash_point3->title . ' - ' . number_format($cash_point3->sum, 2, '.',' ') . '; ';
+$title .= $cash_point4->title . ' - ' . number_format($cash_point4->sum, 2, '.',' ') . '; ';
 $title .= $all_page_cash->title . ' - ' . number_format($all_page_cash->sum, 2, '.',' ') . '; ';
 
 $all_cash = '';

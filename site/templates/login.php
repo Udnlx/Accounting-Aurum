@@ -10,14 +10,17 @@ $_SESSION['operator'] = 'no_operator';
 
 $point = !empty($_POST['point'])?$_POST['point']:NULL;  
 $id_p = '';
-if ($point == 'ул. Ушакова 23') {
+if ($point == 'Тверская 20') {
     $id_p = 'point1';
 }
-if ($point == 'ул. Пушкина 24') {
+if ($point == 'Тверская 14') {
     $id_p = 'point2';
 }
-if ($point == 'ул. Московская 35') {
+if ($point == 'Таганка') {
     $id_p = 'point3';
+}
+if ($point == 'Комсомолка') {
+    $id_p = 'point4';
 }
 $user_login = !empty($_POST['user_login'])?$_POST['user_login']:NULL;  
 $user_password = !empty($_POST['user_password'])?$_POST['user_password']:NULL;
@@ -71,9 +74,10 @@ if ($login == 'on') {
                     <label for="point">Точка</label>
                     <select class="uk-select" id="point" name="point" required>
                         <option></option>
-                        <option value="ул. Ушакова 23">ул. Ушакова 23</option>
-                        <option value="ул. Пушкина 24">ул. Пушкина 24</option>
-                        <option value="ул. Московская 35">ул. Московская 35</option>
+                        <option value="Тверская 20">Тверская 20</option>
+                        <option value="Тверская 14">Тверская 14</option>
+                        <option value="Таганка">Таганка</option>
+                        <option value="Комсомолка">Комсомолка</option>
                     </select>
                 </div>
                 <div class="uk-margin-small-top">
