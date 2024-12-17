@@ -34,6 +34,21 @@ if ($operator == 'admin') {
     ';
 }
 
+$menu_btn = '';
+if ($selected_id_point == 'point1') {
+    $menu_btn = '
+        <a class="menu-link" href="/skupka-tip-skupki/">Скупка</a>
+        <a class="menu-link" href="/prodazha-tip-prodazhi/">Продажа</a>
+        <a class="menu-link" href="/rezerv-tip-rezerva/">Резерв</a>
+        <a class="menu-link" href="/affinazh-tip-affinazha/">Аффинаж</a>
+        <a class="menu-link" href="/kassa-tip-operatcii/">Касса</a>
+    ';
+} else {
+    $menu_btn = '
+        <a class="menu-link" href="/skupka-tip-skupki/">Скупка</a>
+    ';
+}
+
 if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
@@ -63,11 +78,7 @@ if ($startday != '' || $actual != '' || $reserv != '') {
     $menu = '
     <div>
         <div class="pagemenu uk-width-1-1 uk-flex">
-            <a class="menu-link" href="/skupka-tip-skupki/">Скупка</a>
-            <a class="menu-link" href="/prodazha-tip-prodazhi/">Продажа</a>
-            <a class="menu-link" href="/rezerv-tip-rezerva/">Резерв</a>
-            <a class="menu-link" href="/affinazh-tip-affinazha/">Аффинаж</a>
-            <a class="menu-link" href="/kassa-tip-operatcii/">Касса</a>
+            ' . $menu_btn . '
             ' . $admin_btn . '
         </div>
     </div>
