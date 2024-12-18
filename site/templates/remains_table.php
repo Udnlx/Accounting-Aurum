@@ -225,7 +225,7 @@ $affinaj_table_start .= '
 
 $i = 1;
 foreach ($actual_items as $itm) {
-    if ($itm->title=='999.9' || $itm->title=='Ag' || $itm->title=='Pt' || $itm->title=='Pd') {
+    if ($itm->title=='999' || $itm->title=='Ag' || $itm->title=='Pt' || $itm->title=='Pd') {
     //echo 'Не выводим значения';
     } else {
     $met_act_name = $itm->title;

@@ -120,7 +120,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                             <option>916</option>
                             <option>958</option>
                             <option>990</option>
-                            <option>999.9</option>
+                            <option>999</option>
                             <option>Ag</option>
                             <option>Pt</option>
                             <option>Pd</option>

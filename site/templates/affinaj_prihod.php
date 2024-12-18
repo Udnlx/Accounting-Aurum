@@ -43,7 +43,7 @@ foreach ($all_close_affinaj_itm as $itm) {
     $all_close_affinaj .= '<p>' . $itm->title . '</p>';
     $all_close_affinaj .= '<p style="font-size:10px;">ID аффинажа: ' . $itm->id . '</p>';
     $all_close_affinaj .= '<p style="font-size:14px;font-weight:700;">Статус: ' . $itm->product_status . '</p>';
-    $all_close_affinaj .= '<p>Приход по 999.9 пробе: ' . $itm->weight . '</p>';
+    $all_close_affinaj .= '<p>Приход по 999 пробе: ' . $itm->weight . '</p>';
     $all_close_affinaj .= '<hr>';
 }
 $all_close_affinaj .= '</div>';

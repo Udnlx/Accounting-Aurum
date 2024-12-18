@@ -36,7 +36,7 @@ if ($proba999 <= 0) {
 
     //Изменяем остатки
     $point_actual_table = $pages->get('id_point=' . $idpoint . '_actual');
-    $edit_page = $point_actual_table->get('title=999.9');
+    $edit_page = $point_actual_table->get('title=999');
     // echo $edit_page . '<br>';
     // echo $edit_page->remain . '<br>';
     // echo $weight . '<br>';
