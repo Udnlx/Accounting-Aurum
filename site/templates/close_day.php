@@ -128,6 +128,11 @@ $metal_close .= '
 </div>
 ';
 
+//Данные о кассе
+$cash_page = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
+$cash = $cash_page->sum;
+$bn_cash = $cash_page->bn_sum;
+
 ?>
 
 <div id="content">
@@ -160,7 +165,14 @@ $metal_close .= '
                     <?php echo $metal_close; ?>
                     <br>
                     <h4 class="uk-card-title uk-margin-remove">Данные по кассе</h4>
-                    ДАННЫЕ ПО КАССЕ
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="close_cash" type="text" name="close_cash" value="<?php echo $cash; ?>">
+                    </div>
+                    <h2 class="uk-card-title uk-margin-remove" style="color: green;font-weight: 700;">В Кассе наличка: <?php echo $cash; ?></h2>
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="close_bn_cash" type="text" name="close_bn_cash" value="<?php echo $bn_cash; ?>">
+                    </div>
+                    <h2 class="uk-card-title uk-margin-remove" style="color: green;font-weight: 700;">В Кассе безнал: <?php echo $bn_cash; ?></h2>
                     <div class="uk-margin-small-top uk-flex uk-flex-column">
                         <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Закрыть смену</button>
                     </div>

@@ -47,6 +47,9 @@ $array = array(
 
 //echo $p375 . $p333 . $p417 . $p500 . $p585 . $p620 . $p750 . $p800 . $p850 . $p875 . $p900 . $p916 . $p958 . $p990 . $p999 . $pag . $ppt . $ppd;
 
+$close_cash = $_POST['close_cash'];
+$close_bn_cash = $_POST['close_bn_cash'];
+
 $success = 'Регистрация данных прошла успешно';
 if ($p375 == '' || $p333 == '' || $p417 == '' || $p500 == '' || $p585 == '' || $p620 == '' || $p750 == '' || $p800 == '' || $p850 == '' || $p875 == '' || $p900 == '' || $p916 == '' || $p958 == '' || $p990 == '' || $p999 == '' || $pag == '' || $ppt == '' || $ppd == '' || $_SESSION['reload'] == 'on') {
     $success = 'Регистрация не прошла!<br>Ошибка в данных';
@@ -62,6 +65,8 @@ if ($p375 == '' || $p333 == '' || $p417 == '' || $p500 == '' || $p585 == '' || $
     'point' => $point,
     'id_point' => $idpoint,
     'worker' => $worker,
+    'sum' => $close_cash,
+    'bn_sum' => $close_bn_cash,
     ]);
     $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Закрытие смены ' . $date . ' - ' . $point . '');
     $operation_id = $operation_page->id;
@@ -81,6 +86,13 @@ if ($p375 == '' || $p333 == '' || $p417 == '' || $p500 == '' || $p585 == '' || $
         $closeadd->save();
         $pages->get('id=' . $operation_id . '')->close_table->add($closeadd);
     }
+
+    //Обнуляем кассу
+    $cash_page = $pages->get('template=cash_itm, id_point=' . $idpoint . '_cash');
+    $cash_page->of(false);
+    $cash_page->sum = 0;
+    $cash_page->bn_sum = 0;
+    $cash_page->save();
 
     //Записываем регистрацию в лог
     $log = '';
