@@ -57,6 +57,38 @@ if ($p375 == '' || $p333 == '' || $p417 == '' || $p500 == '' || $p585 == '' || $
         $success = 'Повторная отправка данных!<br>Запись уже существует, регистрация записи повторно не проведена';
     }    
 } else {
+    //Создаем архив данных по металлу
+    $data_archive = '';
+    $remains_parent = $pages->get('template=remains');
+    $remains_points = $remains_parent->children('template=remains_point, id_point*=' . $idpoint . '');
+    foreach ($remains_points as $remains_point) {
+        $data_archive .= ':::' . $remains_point->title . '===' . $remains_point->type_remains . '===';
+        $ramains_items = $remains_point->children();
+        foreach ($ramains_items as $ramains_item) {
+        $data_archive .= '/' . $ramains_item->title . '-' . $ramains_item->remain . '';
+        }
+    }
+
+    $archive_group = $pages->get('template=remains_archive_group, id_point=' . $idpoint . '');
+    $archive_group_id = $archive_group->id;
+    $pages->add('remains_archive_itm', $archive_group_id , [
+    'title' => $date,
+    'data_archive' => $data_archive,
+    ]);
+
+    //Создаем архив данных по кассам';
+    $cash_data_archive = '';
+    $cash_remains_parent = $pages->get('template=cash');
+    $cash_remains_point = $cash_remains_parent->get('template=cash_itm, id_point=' . $idpoint . '_cash');
+    $cash_data_archive .= '' . $cash_remains_point->title . '===' . $cash_remains_point->sum . '===' . $cash_remains_point->bn_sum . '===';
+
+    $cash_archive_group = $pages->get('template=cash_archive_group, id_point=' . $idpoint . '');
+    $cash_archive_group_id = $cash_archive_group->id;
+    $pages->add('remains_archive_itm', $cash_archive_group_id , [
+    'title' => $date,
+    'data_archive' => $cash_data_archive,
+    ]);
+
     //Регестрируем запись
     $pages->add('close_day_request_itm', 1755 , [
     'title' => date("Y-m-d H:i") . ' Закрытие смены ' . $date . ' - ' . $point . '',
