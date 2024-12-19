@@ -46,8 +46,8 @@ if ($selected_id_point == 'point1') {
 } else {
     $menu_btn = '
         <a class="menu-link" href="/skupka-tip-skupki/">Скупка</a>
-        <a class="menu-link" href="/kassa-tip-operatcii/">Касса</a>
         <a class="menu-link" href="/zakrytie-smeny/">Закрытие смены</a>
+        <a class="menu-link" href="/kassa-tip-operatcii/">Касса</a>
     ';
 }
 
