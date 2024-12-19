@@ -3,102 +3,25 @@
 $today = date("d-m-Y"); 
 
 if ($actual_date == $today) {
-	// echo 'Дата совпадает, архивы не делаем';
+	// echo 'Дата совпадает, актуальную дату не перезаписываем';
 } else {
-	// // echo 'Дата не совпадает, делаем архив по таблицам';
-	// $data_archive = '';
-	// $remains_parent = $pages->get('template=remains');
-	// $remains_points = $remains_parent->children();
-	// foreach ($remains_points as $remains_point) {
-	// 	$data_archive .= ':::' . $remains_point->title . '::: ===' . $remains_point->type_remains . '===';
-	// 	$ramains_items = $remains_point->children();
-	// 	foreach ($ramains_items as $ramains_item) {
-	// 	$data_archive .= '/' . $ramains_item->title . '-' . $ramains_item->remain . '/';
-	// 	}
-	// }
+	// echo 'Дата не совпадает, актуальную дату перезаписываем';
+	$remains_point_startday = $pages->get('template=remains_point, id_point=' . $selected_id_point . '_startday');
+	$remains_point_startday->of(false);
+	$remains_point_startday->actual_date = $today;
+	$remains_point_startday->save();
 
-	// $pages->add('remains_archive_itm', 1045 , [
-    // 'title' => $actual_date,
-    // 'data_archive' => $data_archive,
-    // ]);
+	$remains_point_startday = $pages->get('template=remains_point, id_point=' . $selected_id_point . '_actual');
+	$remains_point_startday->of(false);
+	$remains_point_startday->actual_date = $today;
+	$remains_point_startday->save();
 
-	// $actual_rew = $pages->get('id_point=point1_actual');
-	// $startday_rew = $pages->get('id_point=point1_startday');
-	// $actual_items = $actual_rew->children();
-	// $startday_items = $startday_rew->children();
-	// foreach ($actual_items as $itm) {
-	//     $met_start_item = $startday_items->get('title=' . $itm->title . '');
-	//     $met_start_item->of(false);
-	//     $met_start_item->remain = $itm->remain;
-	//     $met_start_item->save();
-	// }
+	$remains_point_startday = $pages->get('template=remains_point, id_point=' . $selected_id_point . '_reserv');
+	$remains_point_startday->of(false);
+	$remains_point_startday->actual_date = $today;
+	$remains_point_startday->save();
 
-	// $actual_rew = $pages->get('id_point=point2_actual');
-	// $startday_rew = $pages->get('id_point=point2_startday');
-	// $actual_items = $actual_rew->children();
-	// $startday_items = $startday_rew->children();
-	// foreach ($actual_items as $itm) {
-	//     $met_start_item = $startday_items->get('title=' . $itm->title . '');
-	//     $met_start_item->of(false);
-	//     $met_start_item->remain = $itm->remain;
-	//     $met_start_item->save();
-	// }
-
-	// $actual_rew = $pages->get('id_point=point3_actual');
-	// $startday_rew = $pages->get('id_point=point3_startday');
-	// $actual_items = $actual_rew->children();
-	// $startday_items = $startday_rew->children();
-	// foreach ($actual_items as $itm) {
-	//     $met_start_item = $startday_items->get('title=' . $itm->title . '');
-	//     $met_start_item->of(false);
-	//     $met_start_item->remain = $itm->remain;
-	//     $met_start_item->save();
-	// }
-
-	// $actual_rew = $pages->get('id_point=point4_actual');
-	// $startday_rew = $pages->get('id_point=point4_startday');
-	// $actual_items = $actual_rew->children();
-	// $startday_items = $startday_rew->children();
-	// foreach ($actual_items as $itm) {
-	//     $met_start_item = $startday_items->get('title=' . $itm->title . '');
-	//     $met_start_item->of(false);
-	//     $met_start_item->remain = $itm->remain;
-	//     $met_start_item->save();
-	// }
-
-	// $remains_parent = $pages->get('template=remains');
-	// $remains_points = $remains_parent->children();
-	// foreach ($remains_points as $remains_point) {
-	// 	$remains_point->of(false);
-	//     $remains_point->actual_date = $today;
-	//     $remains_point->save();
-	// }
-
-	// $actual_date = $today;
-
-	// //echo 'Дата не совпадает, делаем архив по кассам';
-	// $cash_data_archive = '';
-	// $cash_remains_parent = $pages->get('template=cash');
-	// $cash_remains_points = $cash_remains_parent->children();
-	// foreach ($cash_remains_points as $cash_remains_point) {
-	// 	$cash_data_archive .= ':::' . $cash_remains_point->title . '::: ===' . $cash_remains_point->sum . '===' . $cash_remains_point->bn_sum . '===';
-	// }
-
-	// $pages->add('remains_archive_itm', 1550 , [
-    // 'title' => $actual_date,
-    // 'data_archive' => $cash_data_archive,
-    // ]);
-
-    // $cash_remains_parent = $pages->get('template=cash');
-	// $cash_remains_points = $cash_remains_parent->children();
-	// foreach ($cash_remains_points as $cash_remains_point) {
-	// 	$sum_on_startday = $cash_remains_point->sum;
-	// 	$bn_sum_on_startday = $cash_remains_point->bn_sum;
-	// 	$cash_remains_point->of(false);
-	//     $cash_remains_point->cash_remain_startday = $sum_on_startday;
-	//     $cash_remains_point->bn_cash_remain_startday = $bn_sum_on_startday;
-	//     $cash_remains_point->save();
-	// }
+	$actual_date = $today;
 }
 
 ?>
