@@ -34,6 +34,12 @@ if ($operator == 'admin') {
     ';
 }
 
+$marker = '';
+$open_request = $pages->find('template=close_day_request_itm, product_status=Открыта');
+if (count($open_request) > 0) {
+    $marker = '<div class="marker"></div>';
+}
+
 $menu_btn = '';
 if ($selected_id_point == 'point1') {
     $menu_btn = '
@@ -41,6 +47,8 @@ if ($selected_id_point == 'point1') {
         <a class="menu-link" href="/prodazha-tip-prodazhi/">Продажа</a>
         <a class="menu-link" href="/rezerv-tip-rezerva/">Резерв</a>
         <a class="menu-link" href="/affinazh-tip-affinazha/">Аффинаж</a>
+        <a class="menu-link" style="margin: 0;border-radius: 5px 0 0 5px;" href="/zakrytie-smeny-osnovnaia-otkrytye-zaiavki/">Заявки' . $marker . '</a>
+        <a class="menu-link" style="border-radius: 0 5px 5px 0;" href="">Закрытие смены</a>
         <a class="menu-link" href="/kassa-tip-operatcii/">Касса</a>
     ';
 } else {

@@ -90,6 +90,12 @@ h4 {
 .product-link a.product-link-lnk:hover {
     background-color: #a7a7a7;
     transition: 0.5s;}
+.marker {
+    margin: 0 0 0 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: red;}
 
 
 
