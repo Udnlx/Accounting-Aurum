@@ -48,7 +48,7 @@ if ($selected_id_point == 'point1') {
         <a class="menu-link" href="/rezerv-tip-rezerva/">Резерв</a>
         <a class="menu-link" href="/affinazh-tip-affinazha/">Аффинаж</a>
         <a class="menu-link" style="margin: 0;border-radius: 5px 0 0 5px;" href="/zakrytie-smeny-osnovnaia-otkrytye-zaiavki/">Заявки' . $marker . '</a>
-        <a class="menu-link" style="border-radius: 0 5px 5px 0;" href="">Закрытие смены</a>
+        <a class="menu-link" style="border-radius: 0 5px 5px 0;" href="/zakrytie-smeny-osnovnaia/">Закрытие смены</a>
         <a class="menu-link" href="/kassa-tip-operatcii/">Касса</a>
     ';
 } else {
