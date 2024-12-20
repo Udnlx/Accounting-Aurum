@@ -63,7 +63,7 @@ foreach ($all_requests_itm as $itm) {
         <p class="uk-margin-remove">' . $itm->title . '</p>
         <p class="reserv_id_note">Оператор: ' . $itm->worker . '</p>
         <div class="affinaj-link">
-            <a class="affinaj-link-lnk" href="/zakrytie-smeny-osnovnaia-podtverzhdenie-na-zakrytie/?id=' . $itm->id . '">Закрыть</a>
+            <a class="affinaj-link-lnk" href="/zakrytie-smeny-osnovnaia-zaiavka-proverka/?id=' . $itm->id . '">Проверить и закрыть</a>
         </div><hr>
     ';
 }
