@@ -111,8 +111,11 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                 <p class="uk-margin-remove"><strong>Оператор заявки: </strong><?php echo $close_request_page->worker; ?></p>
                 <p class="uk-margin-remove"><strong>ID заявки: </strong><?php echo $id; ?></p>
                 <br>
-                <form class="uk-flex uk-flex-column" id="select_seat" action="" method="post">
+                <form class="uk-flex uk-flex-column" id="select_seat" action="/zakrytie-smeny-osnovnaia-zaiavka-zakrytie/" method="post">
                     <h4 class="uk-card-title uk-margin-remove">Данные по металлу</h4>
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="id_request" type="text" name="id_request" value="<?php echo $id; ?>">
+                    </div>
                     <?php echo $metal_close; ?>
                     <br>
                     <h4 class="uk-card-title uk-margin-remove">Данные по кассе</h4>
@@ -125,7 +128,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                         <input class="uk-input" id="close_bn_cash" type="text" name="close_bn_cash" value="<?php echo $close_request_page->bn_sum; ?>">
                     </div>
                     <div class="uk-margin-small-top uk-flex uk-flex-column">
-                        <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Подтвердить</button>
+                        <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Подтвердить и закрыть</button>
                     </div>
                 </form>
             </div>
