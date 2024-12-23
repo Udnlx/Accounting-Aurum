@@ -133,6 +133,40 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                 </form>
             </div>
         </div>
+
+        <div>
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                <h4 class="uk-card-title uk-margin-remove">Записать в долг</h4>  
+                <div class="uk-margin-small-top uk-hidden">
+                    <input class="uk-input" id="arrear_date" type="text" name="arrear_date" value="<?php echo $today; ?>">
+                </div>
+                <div class="uk-margin-small-top uk-hidden">
+                    <input class="uk-input" id="arrear_point" type="text" name="arrear_point" value="<?php echo $selected_point; ?>">
+                </div>
+                <div class="uk-margin-small-top uk-hidden">
+                 <input class="uk-input" id="arrear_idpoint" type="text" name="arrear_idpoint" value="<?php echo $selected_id_point; ?>">
+                </div>
+                <div class="uk-margin-small-top uk-hidden">
+                    <input class="uk-input" id="arrear_worker" type="text" name="arrear_worker" value="<?php echo $operator; ?>">
+                </div>
+                <div class="uk-margin-small-top">
+                    <label for="arrear_person">На кого долг</label>
+                    <input class="uk-input" id="arrear_person" type="text" name="arrear_person" value="">
+                </div>
+                <div class="uk-margin-small-top">
+                    <label for="arrear_sum">Сумма долга</label>
+                    <input class="uk-input" id="arrear_sum" type="text" name="arrear_sum" value="">
+                </div>
+                <div class="uk-margin-small-top">
+                    <label for="arrear_descript">Описание</label>
+                    <input class="uk-input" id="arrear_descript" type="text" name="arrear_descript" value="">
+                </div>
+                <a id="reg_new_arrear" class="uk-margin-small uk-button uk-button-default">Зарегестрировать новый долг</a>
+            </div>
+            <div id="result_new_arrear" class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column" style="padding: 0 40px;">
+                <p id="result_arrear_add" class="messages" style="color: green;"></p>
+            </div>
+        </div>
         
         <div>
             <div id="remain_tables" class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">

@@ -503,3 +503,63 @@ $('#close_bn_cash').bind('input', function(){
 		this.value = this.value.substring(0, this.value.indexOf(".") + 3);
 	}
 });
+
+
+
+//Ввод суммы при регистрации долга
+$('#arrear_sum').bind('input', function(){
+	this.value = this.value.replace(/[^0-9\.]/g, '');
+	let count = this.value.split(".").length-1;
+	if (count > 1) {
+		this.value = this.value.substr(0, this.value.lastIndexOf("."));
+	}
+	if (this.value.indexOf(".") != '-1') {
+		this.value = this.value.substring(0, this.value.indexOf(".") + 3);
+	}
+});
+
+
+
+//Регистрация нового долга
+$('#reg_new_arrear').click(function() {
+	var arrear_date = $('#arrear_date').val();
+	var arrear_point = $('#arrear_point').val();
+	var arrear_idpoint = $('#arrear_idpoint').val();
+	var arrear_worker = $('#arrear_worker').val();
+	var arrear_person = $('#arrear_person').val();
+	var arrear_sum = $('#arrear_sum').val();
+	var arrear_descript = $('#arrear_descript').val();
+	//console.log(arrear_date,arrear_point,arrear_idpoint,arrear_worker,arrear_person,arrear_sum,arrear_descript);
+
+	if (arrear_person == '' || arrear_sum == '' || arrear_descript == '') {
+		alert('Заполните пожалуйста все поля при регистрации долга');
+	} else {
+		$.ajax({
+		    type: "POST",
+		    url: '/add_new_arrear.php',
+		    data: { 
+		    	'arrear_date':arrear_date, 
+		    	'arrear_point':arrear_point, 
+		    	'arrear_idpoint':arrear_idpoint, 
+		    	'arrear_worker':arrear_worker, 
+		    	'arrear_person':arrear_person,
+		    	'arrear_sum':arrear_sum,
+		    	'arrear_descript':arrear_descript, 
+		    },
+		    beforeSend: function () {
+		        $('#result_new_arrear').html('<p class="messages" style="color: green;">Отправка и обработка данных...</p>');
+		    },
+		    success: function (data) {
+		        $('#result_new_arrear').html(data);
+		        $('#arrear_person').val('');
+		        $('#arrear_sum').val('');
+		        $('#arrear_descript').val('');
+		    },
+		    error: function (jqXHR, text, error) {
+		        $('#result_new_arrear').html(error);
+		    }
+		});
+	return false;  
+	}
+});
+//Закрытие аффинажа
