@@ -25,9 +25,9 @@ if(isset($_SESSION['access'])){
     $access = $_SESSION['access'];
 }
 
-$success = 'Регистрация данных прошла успешно';
+$success = 'Закрытие смены прошло успешно';
 if ($_SESSION['reload'] == 'on') {
-    $success = 'Повторная отправка данных!<br>Запись уже существует, регистрация записи повторно не проведена';   
+    $success = 'Повторная отправка данных!<br>Закрытие смены повторно не проведено';   
 } else {
     //Создаем архив данных по металлу
     $data_archive = '';
@@ -109,6 +109,12 @@ if ($_SESSION['reload'] == 'on') {
     $log .= date("Y-m-d H:i") . ' Закрытие смены ' . $date . ' - ' . $selected_point . ' === ';
     $log .= 'Смену закрыл: ' . $operator . ''; 
     file_put_contents(__DIR__ . '/log_main_close.txt', $log . PHP_EOL, FILE_APPEND);
+
+    //Устананвливаем статус закрытия смены
+    $shift_status_page = $pages->get('id_point=' . $selected_id_point . '_startday');
+    $shift_status_page->of(false);
+    $shift_status_page->shift_status = 'Закрыта';
+    $shift_status_page->save();
 
     //Предотвращаем повторную регистрацию
     $_SESSION['reload'] = 'on';

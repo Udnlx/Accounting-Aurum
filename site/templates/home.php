@@ -25,40 +25,6 @@ if(isset($_SESSION['access'])){
     $access = $_SESSION['access'];
 }
 
-$admin_btn = '';
-if ($operator == 'admin') {
-    $admin_btn = '
-    <a class="menu-link" href="/obshchaia-kassa-tip-operatcii/">Общая касса</a>
-    <a class="menu-link" href="/adminpanel-meniu/">Админ панель</a>
-    <a class="menu-link" href="/osnovnoi-otchet/">Отчет</a>
-    ';
-}
-
-$marker = '';
-$open_request = $pages->find('template=close_day_request_itm, product_status=Открыта');
-if (count($open_request) > 0) {
-    $marker = '<div class="marker"></div>';
-}
-
-$menu_btn = '';
-if ($selected_id_point == 'point1') {
-    $menu_btn = '
-        <a class="menu-link" href="/skupka-tip-skupki/">Скупка</a>
-        <a class="menu-link" href="/prodazha-tip-prodazhi/">Продажа</a>
-        <a class="menu-link" href="/rezerv-tip-rezerva/">Резерв</a>
-        <a class="menu-link" href="/affinazh-tip-affinazha/">Аффинаж</a>
-        <a class="menu-link" style="margin: 0;border-radius: 5px 0 0 5px;" href="/zakrytie-smeny-osnovnaia-otkrytye-zaiavki/">Заявки' . $marker . '</a>
-        <a class="menu-link" style="border-radius: 0 5px 5px 0;" href="/zakrytie-smeny-osnovnaia/">Закрытие смены</a>
-        <a class="menu-link" href="/kassa-tip-operatcii/">Касса</a>
-    ';
-} else {
-    $menu_btn = '
-        <a class="menu-link" href="/skupka-tip-skupki/">Скупка</a>
-        <a class="menu-link" href="/zakrytie-smeny/">Закрытие смены</a>
-        <a class="menu-link" href="/kassa-tip-operatcii/">Касса</a>
-    ';
-}
-
 if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
@@ -70,7 +36,6 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
     </div>
 <?php    
 } else {
-
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
 $startday = $pages->get('id_point=' . $selected_id_point . '_startday');
@@ -85,20 +50,65 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 }
 
 if ($startday != '' || $actual != '' || $reserv != '') {
-    $menu = '
-    <div>
-        <div class="pagemenu uk-width-1-1 uk-flex">
-            ' . $menu_btn . '
-            ' . $admin_btn . '
-        </div>
-    </div>
-    ';
     $actual_date = $startday->actual_date;
     include 'remains_table_archive.php';
     $remain_tables_startday .= '
     <h4 class="uk-card-title uk-margin-remove">Дата таблиц: ' . $actual_date . '</h4><hr>
     ';
     include 'remains_table.php';
+
+    //Формирование меню
+    $shift_close = '';
+    $shift_message = '';
+    $shift_status_page = $pages->get('id_point=' . $selected_id_point . '_startday');
+    if ($shift_status_page->shift_status == 'Закрыта') {
+        $shift_close = 'no-click';
+        $shift_message = '<p class="shift_message">● Смена на точке закрыта, доступ к операциям откроется завтра</p>';
+    }
+
+    $admin_btn = '';
+    if ($operator == 'admin') {
+        $admin_btn = '
+        <a class="menu-link ' . $shift_close . '" href="/obshchaia-kassa-tip-operatcii/">Общая касса</a>
+        <a class="menu-link" href="/adminpanel-meniu/">Админ панель</a>
+        <a class="menu-link" href="/osnovnoi-otchet/">Отчет</a>
+        ';
+    }
+
+    $marker = '';
+    $open_request = $pages->find('template=close_day_request_itm, product_status=Открыта');
+    if (count($open_request) > 0) {
+        $marker = '<div class="marker"></div>';
+    }
+
+    $menu_btn = '';
+    if ($selected_id_point == 'point1') {
+        $menu_btn = '
+            <a class="menu-link ' . $shift_close . '" href="/skupka-tip-skupki/">Скупка</a>
+            <a class="menu-link ' . $shift_close . '" href="/prodazha-tip-prodazhi/">Продажа</a>
+            <a class="menu-link ' . $shift_close . '" href="/rezerv-tip-rezerva/">Резерв</a>
+            <a class="menu-link ' . $shift_close . '" href="/affinazh-tip-affinazha/">Аффинаж</a>
+            <a class="menu-link ' . $shift_close . '" style="margin: 0;border-radius: 5px 0 0 5px;" href="/zakrytie-smeny-osnovnaia-otkrytye-zaiavki/">Заявки' . $marker . '</a>
+            <a class="menu-link ' . $shift_close . '" style="border-radius: 0 5px 5px 0;" href="/zakrytie-smeny-osnovnaia/">Закрытие смены</a>
+            <a class="menu-link ' . $shift_close . '" href="/kassa-tip-operatcii/">Касса</a>
+        ';
+    } else {
+        $menu_btn = '
+            <a class="menu-link ' . $shift_close . '" href="/skupka-tip-skupki/">Скупка</a>
+            <a class="menu-link ' . $shift_close . '" href="/zakrytie-smeny/">Закрытие смены</a>
+            <a class="menu-link ' . $shift_close . '" href="/kassa-tip-operatcii/">Касса</a>
+        ';
+    }
+
+    $menu = '
+    <div>
+        <div class="pagemenu uk-width-1-1 uk-flex">
+            ' . $menu_btn . '
+            ' . $admin_btn . '
+        </div>
+        ' . $shift_message . '
+    </div>
+    ';
 }
 
 ?>

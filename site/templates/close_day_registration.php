@@ -50,11 +50,11 @@ $array = array(
 $close_cash = $_POST['close_cash'];
 $close_bn_cash = $_POST['close_bn_cash'];
 
-$success = 'Регистрация данных прошла успешно';
+$success = 'Закрытие смены прошло успешно';
 if ($p375 == '' || $p333 == '' || $p417 == '' || $p500 == '' || $p585 == '' || $p620 == '' || $p750 == '' || $p800 == '' || $p850 == '' || $p875 == '' || $p900 == '' || $p916 == '' || $p958 == '' || $p990 == '' || $p999 == '' || $pag == '' || $ppt == '' || $ppd == '' || $_SESSION['reload'] == 'on') {
-    $success = 'Регистрация не прошла!<br>Ошибка в данных';
+    $success = 'Закрытие смены не прошло!<br>Ошибка в данных';
     if ($_SESSION['reload'] == 'on') {
-        $success = 'Повторная отправка данных!<br>Запись уже существует, регистрация записи повторно не проведена';
+        $success = 'Повторная отправка данных!<br>Закрытие смены повторно не проведено';
     }    
 } else {
     //Создаем архив данных по металлу
@@ -131,6 +131,12 @@ if ($p375 == '' || $p333 == '' || $p417 == '' || $p500 == '' || $p585 == '' || $
     $log .= date("Y-m-d H:i") . ' Закрытие смены ' . $date . ' - ' . $point . ' === ';
     $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $operation_id; 
     file_put_contents(__DIR__ . '/log_close.txt', $log . PHP_EOL, FILE_APPEND);
+
+    //Устананвливаем статус закрытия смены
+    $shift_status_page = $pages->get('id_point=' . $idpoint . '_startday');
+    $shift_status_page->of(false);
+    $shift_status_page->shift_status = 'Закрыта';
+    $shift_status_page->save();
 
     //Предотвращаем повторную регистрацию
     $_SESSION['reload'] = 'on';

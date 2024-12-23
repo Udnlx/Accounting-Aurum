@@ -6,6 +6,16 @@ body {
     font-size:16px; 
     font-weight: 700;
     color: red;}
+.no-click {
+    pointer-events: none;
+    cursor: default;
+    color: #a2a2a2 !important;}
+.shift_message {
+    margin: 0;
+    position: absolute;
+    top: 103px;
+    font-size: 13px;
+    color: red;}
 
 .uk-table-striped tbody tr:nth-of-type(odd), .uk-table-striped>tr:nth-of-type(odd) {
     background: #e5e5e5;
