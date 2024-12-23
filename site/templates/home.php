@@ -70,6 +70,7 @@ if ($startday != '' || $actual != '' || $reserv != '') {
     if ($operator == 'admin') {
         $admin_btn = '
         <a class="menu-link ' . $shift_close . '" href="/obshchaia-kassa-tip-operatcii/">Общая касса</a>
+        <a class="menu-link ' . $shift_close . '" href="/dolgi/">Долги</a>
         <a class="menu-link" href="/adminpanel-meniu/">Админ панель</a>
         <a class="menu-link" href="/osnovnoi-otchet/">Отчет</a>
         ';

@@ -554,6 +554,10 @@ $('#reg_new_arrear').click(function() {
 		        $('#arrear_person').val('');
 		        $('#arrear_sum').val('');
 		        $('#arrear_descript').val('');
+		        let currentUrl = $(location).attr('href');
+		        if (currentUrl == 'http://accounting-aurum/dolgi/') {
+		        	window.location.replace("http://accounting-aurum/dolgi/");
+		        }
 		    },
 		    error: function (jqXHR, text, error) {
 		        $('#result_new_arrear').html(error);
