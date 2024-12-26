@@ -1,7 +1,7 @@
 <?php namespace ProcessWire;
 
-//$day_for_report = date("d-m-Y");
-$day_for_report = '25-11-2024';
+$day_for_report = date("d-m-Y");
+//$day_for_report = '26-12-2024';
 
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
@@ -1312,6 +1312,24 @@ $expenses_izdelie .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД
 
 
 
+//Долги
+$arrears = '';
+$total_arrears = 0;
+$page_arrears = $pages->get('template=arrears');
+$all_arrears = $page_arrears->children('date=' . $day_for_report . '');
+foreach ($all_arrears as $item) {
+    $arrears .= '
+    <p class="card-report__info">' . $item->date . ' - ' . $item->client_name . ' - <span style="font-weight:700;">' . number_format($item->sum, 2, '.',' ') . '</span></p>
+    <p class="card-report__info" style="margin: -5px 0 7px 0;font-size: 12px;">Оператор: ' . $item->worker . '; Статус: ' . $item->product_status . '; Описание: ' . $item->description_operation . '</p>
+    ';
+    $total_arrears = $total_arrears + $item->sum;
+}
+$arrears .= '
+<p class="card-report__info">Всего долгов - <span style="color:green;font-weight:700;">' . number_format($total_arrears, 2, '.',' ') . '</span></p>
+';
+
+
+
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
 $startday = $pages->get('id_point=' . $selected_id_point . '_startday');
@@ -1335,6 +1353,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
+    <div id="start"></div>
 	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Отчет</h1>
     <h4 class="uk-margin-remove uk-heading-hero uk-text-center">На дату <?php echo $day_for_report; ?></h4>
 	<div>
@@ -1375,6 +1394,19 @@ if ($startday == '' || $actual == '' || $reserv == '') {
             </div>
         </div>
 
+        <div uk-sticky="sel-target: .flipmenu; cls-active: uk-navbar-sticky; offset: 0;">
+            <div class="flipmenu pagemenu uk-width-1-1 uk-flex">
+                <a class="menu-link" href="#start">Начало</a>
+                <a class="menu-link" href="#income">Доходы</a>
+                <a class="menu-link" href="#expenses">Расходы</a>
+                <a class="menu-link" href="#income_lom">Продажи металла</a>
+                <a class="menu-link" href="#expenses_lom">Скупки металла</a>
+                <a class="menu-link" href="#income_izdelie">Продажа изделий</a>
+                <a class="menu-link" href="#expenses_izdelie">Скупки изделий</a>
+                <a class="menu-link" href="#arrears">Долги</a>
+            </div>
+        </div>
+
         <div>
             <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
                 <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Денег на утро</h2>
@@ -1382,6 +1414,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 		    </div>
 		</div>
 
+        <div class="anchor"><span id="income"></span></div>
         <div>
             <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
                 <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Доходы</h2>
@@ -1389,6 +1422,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
             </div>
         </div>
 
+        <div class="anchor"><span id="expenses"></span></div>
         <div>
             <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
                 <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Расходы</h2>
@@ -1396,6 +1430,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
             </div>
         </div>
 
+        <div class="anchor"><span id="income_lom"></span></div>
         <div>
             <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
                 <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Продажи металла</h2>
@@ -1403,6 +1438,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
             </div>
         </div>
 
+        <div class="anchor"><span id="expenses_lom"></span></div>
         <div>
             <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
                 <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Скупки металла</h2>
@@ -1410,6 +1446,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
             </div>
         </div>
 
+        <div class="anchor"><span id="income_izdelie"></span></div>
         <div>
             <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
                 <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Продажи изделий</h2>
@@ -1417,10 +1454,19 @@ if ($startday == '' || $actual == '' || $reserv == '') {
             </div>
         </div>
 
+        <div class="anchor"><span id="expenses_izdelie"></span></div>
         <div>
             <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
                 <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Скупки изделий</h2>
                 <?php echo $expenses_izdelie; ?>
+            </div>
+        </div>
+
+        <div class="anchor"><span id="arrears"></span></div>
+        <div>
+            <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
+                <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Долги</h2>
+                <?php echo $arrears; ?>
             </div>
         </div>
 

@@ -16,6 +16,19 @@ body {
     top: 103px;
     font-size: 13px;
     color: red;}
+.flipmenu {
+    margin: 0;
+    padding: 10px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid;}
+/* Отступы якорей */
+.anchor {
+    position: relative;}
+.anchor span {
+    position:absolute; 
+    top:-40px;}
 
 .uk-table-striped tbody tr:nth-of-type(odd), .uk-table-striped>tr:nth-of-type(odd) {
     background: #e5e5e5;
