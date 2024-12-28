@@ -92,12 +92,14 @@ if ($startday != '' || $actual != '' || $reserv != '') {
             <a class="menu-link ' . $shift_close . '" style="margin: 0;border-radius: 5px 0 0 5px;" href="/zakrytie-smeny-osnovnaia-otkrytye-zaiavki/">Заявки' . $marker . '</a>
             <a class="menu-link ' . $shift_close . '" style="border-radius: 0 5px 5px 0;" href="/zakrytie-smeny-osnovnaia/">Закрытие смены</a>
             <a class="menu-link ' . $shift_close . '" href="/kassa-tip-operatcii/">Касса</a>
+            <a class="menu-link ' . $shift_close . '" href="" uk-toggle="target: #modal-help">Техподдержка</a>
         ';
     } else {
         $menu_btn = '
             <a class="menu-link ' . $shift_close . '" href="/skupka-tip-skupki/">Скупка</a>
             <a class="menu-link ' . $shift_close . '" href="/zakrytie-smeny/">Закрытие смены</a>
             <a class="menu-link ' . $shift_close . '" href="/kassa-tip-operatcii/">Касса</a>
+            <a class="menu-link ' . $shift_close . '" href="" uk-toggle="target: #modal-help">Техподдержка</a>
         ';
     }
 
@@ -124,6 +126,37 @@ if ($startday != '' || $actual != '' || $reserv != '') {
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
                 <?php echo $remain_tables_startday; ?>
+            </div>
+        </div>
+
+        <!-- Модальное окно техподдержки-->
+        <div id="modal-help" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <button class="uk-modal-close-default" type="button" uk-close></button>
+                <h2 class="uk-modal-title">Техподдержка</h2>
+                <div id="help_messages" class="messages-block">
+                    <p class="messages" style="color: green;"></p>
+                </div>
+                      
+                <form class="uk-flex uk-flex-column" id="help_form" action="/tekhpodderzhka/" method="post" enctype="multipart/form-data">        
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input" id="name_operator" type="text" name="name_operator" value="<?php echo $operator; ?>" placeholder="Имя оператора" autocomplete="off" required>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input" id="contact_operator" type="text" name="contact_operator" value="" placeholder="Укажите почту или телефон для связи" required>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <textarea class="uk-textarea" rows="7" id="message" name="message" value="" placeholder="Опишите проблему" required></textarea>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <p class="uk-input-label" style="margin:0;">Прикрепите скриншоты при необходимости:</p>
+                        <input class="uk-input" id="files" type="file" name="file[]" value="" multiple>
+                    </div>
+                    <br>
+                    <div class="uk-margin-small-top uk-flex uk-flex-column">
+                        <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Отправить</button>
+                    </div>
+                </form>
             </div>
         </div>
         
