@@ -1,5 +1,7 @@
 <?php namespace ProcessWire;
 
+$_SESSION['reload'] = 'off';
+
 $prod_id = !empty($_GET['prod_id'])?$_GET['prod_id']:NULL;  
 
 if(isset($_SESSION['operator'])){
@@ -49,7 +51,7 @@ if (count($product_page->addw_table) > 0) {
         <div class="addw_item">
             <p class="uk-margin-remove">' . $itm->description_operation . ' - ' . number_format($itm->sum, 2, '.',' ') . '</p>
             <div class="product-link">
-                <a class="product-link-lnk" href="/addw_del.php?prod_id=' . $product_page->id . '&addw_id=' . $itm->id . '">Удалить</a>
+                <a class="product-link-lnk" href="/udalenie-raboty-u-izdeliia/?prod_id=' . $product_page->id . '&addw_id=' . $itm->id . '&addw_worker=' . $operator . '&addw_sum=' . $itm->sum . '">Удалить</a>
             </div>
         </div>
         ';
@@ -139,7 +141,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                 <h3 class="uk-margin-remove uk-card-title">Добавленные работы к изделию</h3>
                 <p class="uk-margin-remove" style="font-weight: 700;">Текущая цена изделия: <?php echo $product_page->product_price_buy; ?></p>
                 <?php echo $addw_table; ?>
-                <form class="uk-flex uk-flex-column" id="select_seat" action="/addw_new.php" method="post">
+                <form class="uk-flex uk-flex-column" id="select_seat" action="/dobavlenie-raboty-k-izdeliiu/" method="post">
                     <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="addw_worker" type="text" name="addw_worker" value="<?php echo $operator; ?>">
                     </div>
@@ -154,7 +156,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
                     <div class="uk-margin-small-top">
                         <label for="new_product_description">Сколько отдали</label>
-                        <input class="uk-input" id="addw_pay" type="text" name="addw_pay" value="" autocomplete="off" required>
+                        <input class="uk-input" id="addw_sum" type="text" name="addw_sum" value="" autocomplete="off" required>
                     </div>
                     
                     <div class="uk-margin-small-top uk-flex uk-flex-column">
