@@ -40,6 +40,22 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
 //Получение страницы продукта
 $product_page = $pages->get('id=' . $prod_id . '');
 
+//Формирование таблицы дополнительных работ
+$addw_table = '';
+if (count($product_page->addw_table) > 0) {
+    $addw_table = '<p class="uk-margin-remove">Дополнительные работы:</p>';
+    foreach ($product_page->addw_table as $itm) {
+        $addw_table .= '
+        <div class="addw_item">
+            <p class="uk-margin-remove">' . $itm->description_operation . ' - ' . number_format($itm->sum, 2, '.',' ') . '</p>
+            <div class="product-link">
+                <a class="product-link-lnk" href="/addw_del.php?prod_id=' . $product_page->id . '&addw_id=' . $itm->id . '">Удалить</a>
+            </div>
+        </div>
+        ';
+        }
+}
+
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
 $startday = $pages->get('id_point=' . $selected_id_point . '_startday');
@@ -114,6 +130,45 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                 </form>
             </div>
         </div>
+
+
+
+
+        <div>
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                <h3 class="uk-margin-remove uk-card-title">Добавленные работы к изделию</h3>
+                <p class="uk-margin-remove" style="font-weight: 700;">Текущая цена изделия: <?php echo $product_page->product_price_buy; ?></p>
+                <?php echo $addw_table; ?>
+                <form class="uk-flex uk-flex-column" id="select_seat" action="/addw_new.php" method="post">
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="addw_worker" type="text" name="addw_worker" value="<?php echo $operator; ?>">
+                    </div>
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="addw_id_product" type="text" name="addw_id_product" value="<?php echo $product_page->id; ?>">
+                    </div>
+
+                    <div class="uk-margin-small-top">
+                        <label for="new_product_description">Описание работы</label>
+                        <input class="uk-input" id="addw_description" type="text" name="addw_description" value="" autocomplete="off" required>
+                    </div>
+
+                    <div class="uk-margin-small-top">
+                        <label for="new_product_description">Сколько отдали</label>
+                        <input class="uk-input" id="addw_pay" type="text" name="addw_pay" value="" autocomplete="off" required>
+                    </div>
+                    
+                    <div class="uk-margin-small-top uk-flex uk-flex-column">
+                        <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Добавить работу</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+
+
+
+
         
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
