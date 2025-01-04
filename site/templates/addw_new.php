@@ -7,39 +7,6 @@ $addw_id_product = !empty($_POST['addw_id_product'])?$_POST['addw_id_product']:N
 $addw_description = !empty($_POST['addw_description'])?$_POST['addw_description']:NULL; 
 $addw_sum = !empty($_POST['addw_sum'])?$_POST['addw_sum']:NULL; 
 
-//Получение страницы продукта
-$product_page = $pages->get('id=' . $addw_id_product . '');
-
-$success = 'Работа к изделию добавлена успешно';
-if ($addw_worker && $addw_id_product && $addw_description && $addw_sum && $_SESSION['reload'] != 'on') {
-	//Изменяем запись
-    $edit_page = $pages->get('template=product_itm, id=' . $addw_id_product . '');
-    $edit_page->of(false);
-    $edit_page->product_price_buy = $edit_page->product_price_buy + $addw_sum;
-    $edit_page->save();
-
-    $addw_add = $pages->get('template=product_itm, id=' . $addw_id_product . '')->addw_table->getNew();
-    $addw_add->description_operation = $addw_description;
-    $addw_add->sum = $addw_sum;
-    $addw_add->save();
-
-    //Записываем регистрацию  в лог
-    $log = '';
-    $log .= date("Y-m-d H:i") . ' Внесены изменения в продукт - ' . $product_page->title . '; ';
-    $log .= 'Запись изменена: ' . $addw_worker . ', ID записи: ' . $product_page->id . '; '; 
-    $log .= 'К изделию добавлена работа: ' . $addw_description . '; '; 
-    $log .= 'Сумма добавленной работы: ' . $addw_sum . '; '; 
-    file_put_contents(__DIR__ . '/log_addw_changes.txt', $log . PHP_EOL, FILE_APPEND);
-
-    //Предотвращаем повторную регистрацию
-    $_SESSION['reload'] = 'on';
-} else {
-	$success = 'Работа не добавленна!<br>Ошибка в данных';
-    if ($_SESSION['reload'] == 'on') {
-        $success = 'Повторная отправка данных!';
-    }
-}
-
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
 } else {
@@ -61,6 +28,69 @@ if(isset($_SESSION['id_point'])){
 $access = '';
 if(isset($_SESSION['access'])){
     $access = $_SESSION['access'];
+}
+
+//Получение страницы продукта
+$product_page = $pages->get('id=' . $addw_id_product . '');
+
+$success = 'Работа к изделию добавлена успешно';
+if ($addw_worker && $addw_id_product && $addw_description && $addw_sum && $_SESSION['reload'] != 'on') {
+	//Изменяем запись
+    $edit_page = $pages->get('template=product_itm, id=' . $addw_id_product . '');
+    $edit_page->of(false);
+    $edit_page->product_price_buy = $edit_page->product_price_buy + $addw_sum;
+    $edit_page->save();
+
+    $addw_add = $pages->get('template=product_itm, id=' . $addw_id_product . '')->addw_table->getNew();
+    $addw_add->description_operation = $addw_description;
+    $addw_add->sum = $addw_sum;
+    $addw_add->save();
+
+    //Регестрируем операцию расхода в кассу
+    $page_cash = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
+    $pages->add('cash_operation', $page_cash , [
+    'title' => date("Y-m-d H:i") . ' Расход - ' . $addw_sum . ' - ' . $selected_point,
+    'type_operation' => 'Расход',
+    'date' => date("d-m-Y"),
+    'point' => $selected_point,
+    'id_point' => $selected_id_point,
+    'worker' => $addw_worker,
+    'sum' => $addw_sum,
+    'cash_card' => 'Наличный расчет',
+    'note' => 'Расход на дополнительную работу ' . $addw_description . ' к изделию ' . $product_page->title . '. ID изделия: ' . $product_page->id . '',
+    ]);
+    $cash_operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Расход - ' . $addw_sum . ' - ' . $selected_point . '');
+    $cash_operation_id = $cash_operation_page->id;
+
+    //Записываем операцию расхода в кассу в лог
+    $log = '';
+    $log .= date("Y-m-d H:i") . ' Расход - ' . $addw_sum . ' - ' . $selected_point . ' === ';
+    $log .= 'Операция проведена: ' . $addw_worker . ', ID записи: ' . $cash_operation_id . ', Сумма: ' . $addw_sum . ', Вид платежа: Наличный расчет, Описание: Расход на дополнительную работу ' . $addw_description . ' к изделию ' . $product_page->title . '. ID изделия: ' . $product_page->id;
+    file_put_contents(__DIR__ . '/log_cash.txt', $log . PHP_EOL, FILE_APPEND);
+
+    //Изменяем остатки в кассе
+    $edit_page = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
+    $result = $edit_page->sum - $addw_sum;
+    // echo $result;
+    $edit_page->of(false);
+    $edit_page->sum = $result;
+    $edit_page->save();
+
+    //Записываем регистрацию  в лог
+    $log = '';
+    $log .= date("Y-m-d H:i") . ' Внесены изменения в продукт - ' . $product_page->title . '; ';
+    $log .= 'Запись изменена: ' . $addw_worker . ', ID записи: ' . $product_page->id . '; '; 
+    $log .= 'К изделию добавлена работа: ' . $addw_description . '; '; 
+    $log .= 'Сумма добавленной работы: ' . $addw_sum . '; '; 
+    file_put_contents(__DIR__ . '/log_addw_changes.txt', $log . PHP_EOL, FILE_APPEND);
+
+    //Предотвращаем повторную регистрацию
+    $_SESSION['reload'] = 'on';
+} else {
+	$success = 'Работа не добавленна!<br>Ошибка в данных';
+    if ($_SESSION['reload'] == 'on') {
+        $success = 'Повторная отправка данных!';
+    }
 }
 
 if ($operator == 'no_operator' || $selected_point == 'no_point') {
