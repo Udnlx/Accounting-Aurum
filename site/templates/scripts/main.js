@@ -593,13 +593,13 @@ $('#addw_pay').bind('input', function(){
 //     document.onkeydown = resetTimer;
 
 //     function logout() {
-//         alert("You are now logged out.")
-//         //location.href = 'logout.html'
+//         //alert("You are now logged out.")
+//         location.href = '/login/?logout'
 //     }
 
 //     function resetTimer() {
 //         clearTimeout(time);
-//         time = setTimeout(logout, 3000)
+//         time = setTimeout(logout, 1200000)
 //         // 1000 milliseconds = 1 second
 //     }
 // };
