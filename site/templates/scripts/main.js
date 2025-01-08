@@ -584,26 +584,26 @@ $('#addw_pay').bind('input', function(){
 
 
 
-// //Логаут при бездействии
-// var inactivityTime = function () {
-//     var time;
-//     window.onload = resetTimer;
-//     // DOM Events
-//     document.onmousemove = resetTimer;
-//     document.onkeydown = resetTimer;
+//Логаут при бездействии
+var inactivityTime = function () {
+    var time;
+    window.onload = resetTimer;
+    // DOM Events
+    document.onmousemove = resetTimer;
+    document.onkeydown = resetTimer;
 
-//     function logout() {
-//         //alert("You are now logged out.")
-//         location.href = '/login/?logout'
-//     }
+    function logout() {
+        //alert("You are now logged out.")
+        location.href = '/login/?logout'
+    }
 
-//     function resetTimer() {
-//         clearTimeout(time);
-//         time = setTimeout(logout, 1200000)
-//         // 1000 milliseconds = 1 second
-//     }
-// };
+    function resetTimer() {
+        clearTimeout(time);
+        time = setTimeout(logout, 1200000)
+        // 1000 milliseconds = 1 second
+    }
+};
 
-// window.onload = function() {
-//   	inactivityTime();
-// }
+window.onload = function() {
+  	inactivityTime();
+}

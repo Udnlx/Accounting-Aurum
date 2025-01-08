@@ -94,7 +94,17 @@ if ($startday != '' || $actual != '' || $reserv != '') {
             <a class="menu-link ' . $shift_close . '" href="/kassa-tip-operatcii/">Касса</a>
             <a class="menu-link ' . $shift_close . '" href="" uk-toggle="target: #modal-help">Техподдержка</a>
         ';
-    } else {
+    }
+    if ($selected_id_point == 'point2') {
+        $menu_btn = '
+            <a class="menu-link ' . $shift_close . '" href="/skupka-tip-skupki/">Скупка</a>
+            <a class="menu-link ' . $shift_close . '" href="/prodazha-tip-prodazhi/">Продажа</a>
+            <a class="menu-link ' . $shift_close . '" href="/zakrytie-smeny/">Закрытие смены</a>
+            <a class="menu-link ' . $shift_close . '" href="/kassa-tip-operatcii/">Касса</a>
+            <a class="menu-link ' . $shift_close . '" href="" uk-toggle="target: #modal-help">Техподдержка</a>
+        ';
+    }
+    if ($selected_id_point == 'point3' || $selected_id_point == 'point4') {
         $menu_btn = '
             <a class="menu-link ' . $shift_close . '" href="/skupka-tip-skupki/">Скупка</a>
             <a class="menu-link ' . $shift_close . '" href="/zakrytie-smeny/">Закрытие смены</a>
