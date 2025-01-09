@@ -584,6 +584,53 @@ $('#addw_pay').bind('input', function(){
 
 
 
+//Ввод сумм при изменении базовых цен в настройках
+$('#main_price_gold').bind('input', function(){
+	this.value = this.value.replace(/[^0-9\.]/g, '');
+	let count = this.value.split(".").length-1;
+	if (count > 1) {
+		this.value = this.value.substr(0, this.value.lastIndexOf("."));
+	}
+	if (this.value.indexOf(".") != '-1') {
+		this.value = this.value.substring(0, this.value.indexOf(".") + 3);
+	}
+});
+
+$('#main_price_silver').bind('input', function(){
+	this.value = this.value.replace(/[^0-9\.]/g, '');
+	let count = this.value.split(".").length-1;
+	if (count > 1) {
+		this.value = this.value.substr(0, this.value.lastIndexOf("."));
+	}
+	if (this.value.indexOf(".") != '-1') {
+		this.value = this.value.substring(0, this.value.indexOf(".") + 3);
+	}
+});
+
+$('#main_price_platinum').bind('input', function(){
+	this.value = this.value.replace(/[^0-9\.]/g, '');
+	let count = this.value.split(".").length-1;
+	if (count > 1) {
+		this.value = this.value.substr(0, this.value.lastIndexOf("."));
+	}
+	if (this.value.indexOf(".") != '-1') {
+		this.value = this.value.substring(0, this.value.indexOf(".") + 3);
+	}
+});
+
+$('#main_price_palladium').bind('input', function(){
+	this.value = this.value.replace(/[^0-9\.]/g, '');
+	let count = this.value.split(".").length-1;
+	if (count > 1) {
+		this.value = this.value.substr(0, this.value.lastIndexOf("."));
+	}
+	if (this.value.indexOf(".") != '-1') {
+		this.value = this.value.substring(0, this.value.indexOf(".") + 3);
+	}
+});
+
+
+
 //Логаут при бездействии
 var inactivityTime = function () {
     var time;
