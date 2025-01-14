@@ -89,8 +89,10 @@ if ($startday != '' || $actual != '' || $reserv != '') {
             <a class="menu-link ' . $shift_close . '" href="/prodazha-tip-prodazhi/">Продажа</a>
             <a class="menu-link ' . $shift_close . '" href="/rezerv-tip-rezerva/">Резерв</a>
             <a class="menu-link ' . $shift_close . '" href="/affinazh-tip-affinazha/">Аффинаж</a>
-            <a class="menu-link ' . $shift_close . '" style="margin: 0;border-radius: 5px 0 0 5px;" href="/zakrytie-smeny-osnovnaia-otkrytye-zaiavki/">Заявки' . $marker . '</a>
-            <a class="menu-link ' . $shift_close . '" style="border-radius: 0 5px 5px 0;" href="/zakrytie-smeny-osnovnaia/">Закрытие смены</a>
+            <div class="uk-flex">
+            <a class="rqfirst menu-link ' . $shift_close . '" href="/zakrytie-smeny-osnovnaia-otkrytye-zaiavki/">Заявки' . $marker . '</a>
+            <a class="rqlast menu-link ' . $shift_close . '" href="/zakrytie-smeny-osnovnaia/">Закрытие смены</a>
+            </div>
             <a class="menu-link ' . $shift_close . '" href="/kassa-tip-operatcii/">Касса</a>
             <a class="menu-link ' . $shift_close . '" href="" uk-toggle="target: #modal-help">Техподдержка</a>
         ';
