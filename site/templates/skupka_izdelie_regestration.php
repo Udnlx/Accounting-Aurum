@@ -20,8 +20,13 @@ $url_image = !empty($_POST['url_image'])?$_POST['url_image']:NULL;
 
 $success = 'Регистрация скупки прошла успешно';
 if ($worker && $product && $weight && $pay && $cash_card && $_SESSION['reload'] != 'on') {
-    $all_product_itm = count($pages->find('template=product_itm'));
-    $serial_number = $all_product_itm + 1;
+    $all_product_itm = $pages->find('template=product_itm');
+    $array = [];
+    foreach ($all_product_itm as $product_itm) {
+        $array[] = $product_itm->serial_number;
+    }
+    $largest = max($array);
+    $serial_number = $largest + 1;
 	//Регестрируем запись
     $pages->add('product_itm', 1218 , [
     'title' => $product . ' - ' . $weight . 'г - ' . $point . ' - Купленно: ' . date("Y-m-d H:i"),
