@@ -1,5 +1,7 @@
 <?php namespace ProcessWire;
 
+$prod_id = !empty($_GET['prod_id'])?$_GET['prod_id']:NULL;  
+
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
 } else {
@@ -34,6 +36,9 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
     </div>
 <?php    
 } else {
+
+//Получение страницы продукта
+$product_page = $pages->get('id=' . $prod_id . '');
 
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
@@ -84,17 +89,20 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                         <input class="uk-input" id="selected_worker" type="text" name="selected_worker" value="<?php echo $operator; ?>">
                     </div>
 
-                    <div class="uk-margin-small-top">
-                        <input class="uk-input" id="product" type="text" name="product" value="" placeholder="Изделие" autocomplete="off" required>
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="serial_number" type="number" name="serial_number" value="<?php echo $product_page->serial_number; ?>">
                     </div>
                     <div class="uk-margin-small-top">
-                        <input class="uk-input" id="product_description" type="text" name="product_description" value="" placeholder="Описание" autocomplete="off" required>
+                        <input class="uk-input" id="product" type="text" name="product" value="<?php echo $product_page->product_name; ?>" placeholder="Изделие" autocomplete="off" required>
                     </div>
                     <div class="uk-margin-small-top">
-                        <input class="uk-input custom1" id="selected_weight" type="text" name="selected_weight" value="" placeholder="Вес" autocomplete="off" required>
+                        <input class="uk-input" id="product_description" type="text" name="product_description" value="<?php echo $product_page->product_description; ?>" placeholder="Описание" autocomplete="off" required>
                     </div>
                     <div class="uk-margin-small-top">
-                        <input class="uk-input" id="selected_pay" type="text" name="selected_pay" value="" placeholder="Сколько отдали" autocomplete="off" required>
+                        <input class="uk-input custom1" id="selected_weight" type="text" name="selected_weight" value="<?php echo $product_page->weight; ?>" placeholder="Вес" autocomplete="off" required>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input" id="selected_pay" type="text" name="selected_pay" value="<?php echo $product_page->product_price_buy; ?>" placeholder="Сколько отдали" autocomplete="off" required>
                     </div>
                     <div class="uk-margin-small-top">
                         <label for="cash_card">Вид платежа</label>
@@ -124,10 +132,10 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     </div>
 
                     <div class="uk-margin-small-top">
-                        <input class="uk-input" id="url_avito" type="text" name="url_avito" value="" placeholder="URL объявления на Авито" autocomplete="off">
+                        <input class="uk-input" id="url_avito" type="text" name="url_avito" value="<?php echo $product_page->url_avito; ?>" placeholder="URL объявления на Авито" autocomplete="off">
                     </div>
                     <div class="uk-margin-small-top">
-                        <input class="uk-input" id="url_image" type="text" name="url_image" value="" placeholder="URL изображения" autocomplete="off">
+                        <input class="uk-input" id="url_image" type="text" name="url_image" value="<?php echo $product_page->url_image; ?>" placeholder="URL изображения" autocomplete="off">
                     </div>
                     
                     <div class="uk-margin-small-top uk-flex uk-flex-column">
