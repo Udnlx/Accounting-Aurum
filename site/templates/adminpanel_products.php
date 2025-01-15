@@ -75,6 +75,9 @@ foreach ($sell_products_itm as $itm) {
             <p style="font-size:10px;">URL Авито: ' . $itm->url_avito . '</p>
             <p style="font-size:10px;">Оператор скупки: ' . $itm->worker_sell . '</p>
             <p style="font-size:12px; font-weight: 700;">Дата скупки: ' . $itm->product_date_buy . '; Цена скупки: ' . $itm->product_price_buy . '; Дата продажи: ' . $itm->product_date_sell . '; Цена продажи: ' . $itm->product_price_sell . '; Выручка: ' . $receipt . '</p>
+            <div class="product-link">
+                <a class="product-link-lnk" href="/skupka-izdelie-vozvrat-v-prodazhu/?prod_id=' . $itm->id . '">Вернуть в продажу</a>
+            </div>
         </div>
         <div class="list-product-itm-image">
             <img class="list-product-itm-image-img" src="' . $itm->url_image . '" alt="">
