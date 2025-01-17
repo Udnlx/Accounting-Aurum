@@ -29,7 +29,7 @@ $all_users_folder = $pages->get('template=users_system');
 if (count($all_users_folder->children()) > 0) {
     $all_users = $all_users_folder->children();
     foreach ($all_users as $user) {
-        if($user_login === $user->title && $user_password === $user->password) {
+        if($user_login == $user->title && $user_password == $user->password) {
             $login = 'on';
             $_SESSION['point'] = $point;
             $_SESSION['id_point'] = $id_p;

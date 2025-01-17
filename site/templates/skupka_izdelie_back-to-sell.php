@@ -75,7 +75,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-                <form class="uk-flex uk-flex-column" id="select_seat" action="" method="post">
+                <form class="uk-flex uk-flex-column" id="select_seat" action="/skupka-izdelie-vozvrat-v-prodazhu-registratciia/" method="post">
                     <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="selected_date" type="text" name="selected_date" value="<?php echo $today; ?>">
                     </div>
@@ -92,6 +92,10 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="serial_number" type="number" name="serial_number" value="<?php echo $product_page->serial_number; ?>">
                     </div>
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="prod_id" type="number" name="prod_id" value="<?php echo $prod_id; ?>">
+                    </div>
+
                     <div class="uk-margin-small-top">
                         <input class="uk-input" id="product" type="text" name="product" value="<?php echo $product_page->product_name; ?>" placeholder="Изделие" autocomplete="off" required>
                     </div>
