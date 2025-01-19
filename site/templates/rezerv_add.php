@@ -87,11 +87,11 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     <div class="uk-margin-small-top">
                         <label for="selected_proba">Выберите пробу</label>
                         <select class="uk-select" id="selected_proba" name="selected_proba">
+                            <option>585</option>
                             <option>375</option>
                             <option>333</option>
                             <option>417</option>
                             <option>500</option>
-                            <option>585</option>
                             <option>620</option>
                             <option>750</option>
                             <option>800</option>
