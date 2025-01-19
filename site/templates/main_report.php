@@ -450,7 +450,7 @@ $total_income_lom_in585 = 0;
                     <th style="width:14%">ВЕС</th>
                     <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
                     <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
-                    <th style="width:14%">СКОЛЬКО ОТДАЛИ</th>
+                    <th style="width:14%">СУММА ПРОДАЖИ</th>
                     <th style="width:14%">В 585</th>
                 </tr>
             </thead>
@@ -504,7 +504,7 @@ $total_income_lom_in585 = 0;
                     <th style="width:14%">ВЕС</th>
                     <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
                     <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
-                    <th style="width:14%">СКОЛЬКО ОТДАЛИ</th>
+                    <th style="width:14%">СУММА ПРОДАЖИ</th>
                     <th style="width:14%">В 585</th>
                 </tr>
             </thead>
@@ -558,7 +558,7 @@ $total_income_lom_in585 = 0;
                     <th style="width:14%">ВЕС</th>
                     <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
                     <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
-                    <th style="width:14%">СКОЛЬКО ОТДАЛИ</th>
+                    <th style="width:14%">СУММА ПРОДАЖИ</th>
                     <th style="width:14%">В 585</th>
                 </tr>
             </thead>
@@ -612,7 +612,7 @@ $total_income_lom_in585 = 0;
                     <th style="width:14%">ВЕС</th>
                     <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
                     <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
-                    <th style="width:14%">СКОЛЬКО ОТДАЛИ</th>
+                    <th style="width:14%">СУММА ПРОДАЖИ</th>
                     <th style="width:14%">В 585</th>
                 </tr>
             </thead>
@@ -681,7 +681,7 @@ $total_expenses_lom_in585 = 0;
                     <th style="width:14%">ВЕС</th>
                     <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
                     <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
-                    <th style="width:14%">СКОЛЬКО ОТДАЛИ</th>
+                    <th style="width:14%">СУММА СКУПКИ</th>
                     <th style="width:14%">В 585</th>
                 </tr>
             </thead>
@@ -735,7 +735,7 @@ $total_expenses_lom_in585 = 0;
                     <th style="width:14%">ВЕС</th>
                     <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
                     <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
-                    <th style="width:14%">СКОЛЬКО ОТДАЛИ</th>
+                    <th style="width:14%">СУММА СКУПКИ</th>
                     <th style="width:14%">В 585</th>
                 </tr>
             </thead>
@@ -789,7 +789,7 @@ $total_expenses_lom_in585 = 0;
                     <th style="width:14%">ВЕС</th>
                     <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
                     <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
-                    <th style="width:14%">СКОЛЬКО ОТДАЛИ</th>
+                    <th style="width:14%">СУММА СКУПКИ</th>
                     <th style="width:14%">В 585</th>
                 </tr>
             </thead>
@@ -843,7 +843,7 @@ $total_expenses_lom_in585 = 0;
                     <th style="width:14%">ВЕС</th>
                     <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
                     <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
-                    <th style="width:14%">СКОЛЬКО ОТДАЛИ</th>
+                    <th style="width:14%">СУММА СКУПКИ</th>
                     <th style="width:14%">В 585</th>
                 </tr>
             </thead>
