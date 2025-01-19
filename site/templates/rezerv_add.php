@@ -116,7 +116,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     </div>
                     <div class="uk-margin-small-top">
                         <label for="reserv_note">Комментарий</label>
-                        <input class="uk-input" id="reserv_note" type="text" name="reserv_note" value="" autocomplete="off" required>
+                        <input class="uk-input" id="reserv_note" type="text" name="reserv_note" value="" autocomplete="off">
                     </div>
                     
                     <div class="uk-margin-small-top uk-flex uk-flex-column">
