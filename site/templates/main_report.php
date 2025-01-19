@@ -466,7 +466,12 @@ $total_income_lom_in585 = 0;
         if ($item->cash_card == 'Безналичный расчет') {
             $bn_total_income_lom_sum_point1 = $bn_total_income_lom_sum_point1 + $item->pay;
         }
-        $in585 = ($item->weight/585*$item->proba);
+        $in585 = 0;
+        if ($item->proba == 'Ag' || $item->proba == 'Pt' || $item->proba == 'Pd') {
+        //Серебро, Платина и Палладий не считаются
+        } else {
+            $in585 = ($item->weight/585*$item->proba);
+        }
         $total_income_lom_in585_point1 = $total_income_lom_in585_point1 + $in585;
         $income_lom .= '
         <tr>
@@ -520,7 +525,12 @@ $total_income_lom_in585 = 0;
         if ($item->cash_card == 'Безналичный расчет') {
             $bn_total_income_lom_sum_point2 = $bn_total_income_lom_sum_point2 + $item->pay;
         }
-        $in585 = ($item->weight/585*$item->proba);
+        $in585 = 0;
+        if ($item->proba == 'Ag' || $item->proba == 'Pt' || $item->proba == 'Pd') {
+        //Серебро, Платина и Палладий не считаются
+        } else {
+            $in585 = ($item->weight/585*$item->proba);
+        }
         $total_income_lom_in585_point2 = $total_income_lom_in585_point2 + $in585;
         $income_lom .= '
         <tr>
@@ -574,7 +584,12 @@ $total_income_lom_in585 = 0;
         if ($item->cash_card == 'Безналичный расчет') {
             $bn_total_income_lom_sum_point3 = $bn_total_income_lom_sum_point3 + $item->pay;
         }
-        $in585 = ($item->weight/585*$item->proba);
+        $in585 = 0;
+        if ($item->proba == 'Ag' || $item->proba == 'Pt' || $item->proba == 'Pd') {
+        //Серебро, Платина и Палладий не считаются
+        } else {
+            $in585 = ($item->weight/585*$item->proba);
+        }
         $total_income_lom_in585_point3 = $total_income_lom_in585_point3 + $in585;
         $income_lom .= '
         <tr>
@@ -628,7 +643,12 @@ $total_income_lom_in585 = 0;
         if ($item->cash_card == 'Безналичный расчет') {
             $bn_total_income_lom_sum_point4 = $bn_total_income_lom_sum_point4 + $item->pay;
         }
-        $in585 = ($item->weight/585*$item->proba);
+        $in585 = 0;
+        if ($item->proba == 'Ag' || $item->proba == 'Pt' || $item->proba == 'Pd') {
+        //Серебро, Платина и Палладий не считаются
+        } else {
+            $in585 = ($item->weight/585*$item->proba);
+        }
         $total_income_lom_in585_point4 = $total_income_lom_in585_point4 + $in585;
         $income_lom .= '
         <tr>
@@ -697,7 +717,12 @@ $total_expenses_lom_in585 = 0;
         if ($item->cash_card == 'Безналичный расчет') {
             $bn_total_expenses_lom_sum_point1 = $bn_total_expenses_lom_sum_point1 + $item->pay;
         }
-        $in585 = ($item->weight/585*$item->proba);
+        $in585 = 0;
+        if ($item->proba == 'Ag' || $item->proba == 'Pt' || $item->proba == 'Pd') {
+        //Серебро, Платина и Палладий не считаются
+        } else {
+            $in585 = ($item->weight/585*$item->proba);
+        }
         $total_expenses_lom_in585_point1 = $total_expenses_lom_in585_point1 + $in585;
         $expenses_lom .= '
         <tr>
@@ -751,7 +776,12 @@ $total_expenses_lom_in585 = 0;
         if ($item->cash_card == 'Безналичный расчет') {
             $bn_total_expenses_lom_sum_point2 = $bn_total_expenses_lom_sum_point2 + $item->pay;
         }
-        $in585 = ($item->weight/585*$item->proba);
+        $in585 = 0;
+        if ($item->proba == 'Ag' || $item->proba == 'Pt' || $item->proba == 'Pd') {
+        //Серебро, Платина и Палладий не считаются
+        } else {
+            $in585 = ($item->weight/585*$item->proba);
+        }
         $total_expenses_lom_in585_point2 = $total_expenses_lom_in585_point2 + $in585;
         $expenses_lom .= '
         <tr>
@@ -805,7 +835,12 @@ $total_expenses_lom_in585 = 0;
         if ($item->cash_card == 'Безналичный расчет') {
             $bn_total_expenses_lom_sum_point3 = $bn_total_expenses_lom_sum_point3 + $item->pay;
         }
-        $in585 = ($item->weight/585*$item->proba);
+        $in585 = 0;
+        if ($item->proba == 'Ag' || $item->proba == 'Pt' || $item->proba == 'Pd') {
+        //Серебро, Платина и Палладий не считаются
+        } else {
+            $in585 = ($item->weight/585*$item->proba);
+        }
         $total_expenses_lom_in585_point3 = $total_expenses_lom_in585_point3 + $in585;
         $expenses_lom .= '
         <tr>
@@ -859,7 +894,12 @@ $total_expenses_lom_in585 = 0;
         if ($item->cash_card == 'Безналичный расчет') {
             $bn_total_expenses_lom_sum_point4 = $bn_total_expenses_lom_sum_point4 + $item->pay;
         }
-        $in585 = ($item->weight/585*$item->proba);
+        $in585 = 0;
+        if ($item->proba == 'Ag' || $item->proba == 'Pt' || $item->proba == 'Pd') {
+        //Серебро, Платина и Палладий не считаются
+        } else {
+            $in585 = ($item->weight/585*$item->proba);
+        }
         $total_expenses_lom_in585_point4 = $total_expenses_lom_in585_point4 + $in585;
         $expenses_lom .= '
         <tr>

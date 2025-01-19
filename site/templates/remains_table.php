@@ -20,7 +20,7 @@ $remain_tables_startday .= '
 
 $in585 = 0;
 foreach ($startday_items as $itm) {
-    if ($itm->title == '999,9' || $itm->title == 'Ag' || $itm->title == 'Pt' || $itm->title == 'Pd') {
+    if ($itm->title == 'Ag' || $itm->title == 'Pt' || $itm->title == 'Pd') {
         //Серебро, Платина и Палладий не считаются
     } else {
         $in585 = $in585 + ($itm->remain/585*$itm->title);
