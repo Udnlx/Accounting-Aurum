@@ -155,7 +155,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     </div>
 
                     <div class="uk-margin-small-top">
-                        <label for="new_product_description">Сколько отдали</label>
+                        <label for="new_product_description">Сумма продажи</label>
                         <input class="uk-input" id="addw_sum" type="text" name="addw_sum" value="" autocomplete="off" required>
                     </div>
                     

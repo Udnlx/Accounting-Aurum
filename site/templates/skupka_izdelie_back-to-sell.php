@@ -106,7 +106,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                         <input class="uk-input custom1" id="selected_weight" type="text" name="selected_weight" value="<?php echo $product_page->weight; ?>" placeholder="Вес" autocomplete="off" required>
                     </div>
                     <div class="uk-margin-small-top">
-                        <input class="uk-input" id="selected_pay" type="text" name="selected_pay" value="<?php echo $product_page->product_price_buy; ?>" placeholder="Сколько отдали" autocomplete="off" required>
+                        <input class="uk-input" id="selected_pay" type="text" name="selected_pay" value="<?php echo $product_page->product_price_buy; ?>" placeholder="Сумма скупки" autocomplete="off" required>
                     </div>
                     <div class="uk-margin-small-top">
                         <label for="cash_card">Вид платежа</label>
