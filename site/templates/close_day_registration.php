@@ -132,11 +132,11 @@ if ($p375 == '' || $p333 == '' || $p417 == '' || $p500 == '' || $p585 == '' || $
     $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $operation_id; 
     file_put_contents(__DIR__ . '/log_close.txt', $log . PHP_EOL, FILE_APPEND);
 
-    //Устананвливаем статус закрытия смены
-    $shift_status_page = $pages->get('id_point=' . $idpoint . '_startday');
-    $shift_status_page->of(false);
-    $shift_status_page->shift_status = 'Закрыта';
-    $shift_status_page->save();
+    // //Устананвливаем статус закрытия смены
+    // $shift_status_page = $pages->get('id_point=' . $idpoint . '_startday');
+    // $shift_status_page->of(false);
+    // $shift_status_page->shift_status = 'Закрыта';
+    // $shift_status_page->save();
 
     //Предотвращаем повторную регистрацию
     $_SESSION['reload'] = 'on';

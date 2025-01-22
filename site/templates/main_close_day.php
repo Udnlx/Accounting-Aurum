@@ -51,11 +51,21 @@ if (count($all_requests) > 0) {
     $info = '
     <h4 class="uk-card-title uk-margin-remove" style="color:red; text-align:center;">
         Убедитесь, прежде чем закрывать смену, что все операции по дню завершены.<br>
-        После закрытия смены будет создан архив текущего дня, затем текущие остатки перенесутся в остатки на начало дня и операции станут не доступны до следующего дня.
+        После закрытия смены будет создан архив на выбранный день,<br>
+        затем текущие остатки перенесутся в остатки на начало дня.<br>
+        Начнется новая смена.
     </h4>
-    <div class="affinaj-link">
-        <a class="affinaj-link-lnk" href="/zakrytie-smeny-osnovnaia-registratciia/">Закрыть смену</a>
-    </div>
+    <form class="uk-flex uk-flex-column" id="select_seat" action="/zakrytie-smeny-osnovnaia-registratciia/" method="post">
+        <h4 class="uk-card-title uk-margin-remove" style="color:red; text-align:center;">
+            Выберите дату закрытия смены.
+        </h4>
+        <div class="uk-margin-small-top">
+            <input class="uk-input" id="close_date" type="date" name="close_date" value="" required>
+        </div>
+        <div class="uk-margin-small-top uk-flex uk-flex-column">
+            <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Закрыть смену</button>
+        </div>
+    </form>
     ';
 }
 

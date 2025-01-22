@@ -149,7 +149,9 @@ $bn_cash = $cash_page->bn_sum;
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column" style="align-items:center;">
                 <h4 class="uk-card-title uk-margin-remove" style="color:red; text-align:center;">
                     Убедитесь, прежде чем закрывать смену, что все операции по дню завершены.<br>
-                    После закрытия смены будет создан архив текущего дня и операции станут не доступны до следующего дня.
+                    После закрытия смены будет создан архив на выбранный день,<br>
+                    и текущий остаток по металу и кассе будет отправлен в заявку на главную точку.<br>
+                    Начнется новая смена.
                 </h4>
             </div>
         </div>
@@ -159,9 +161,6 @@ $bn_cash = $cash_page->bn_sum;
                 <form class="uk-flex uk-flex-column" id="select_seat" action="/zakrytie-smeny-registratciia/" method="post">
                     <?php echo $open_request; ?>
                     <h4 class="uk-card-title uk-margin-remove">Данные по металлу</h4>
-                    <div class="uk-margin-small-top uk-hidden">
-                        <input class="uk-input" id="close_date" type="text" name="close_date" value="<?php echo $actual_date; ?>">
-                    </div>
                     <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="close_point" type="text" name="close_point" value="<?php echo $selected_point; ?>">
                     </div>
@@ -182,6 +181,12 @@ $bn_cash = $cash_page->bn_sum;
                         <input class="uk-input" id="close_bn_cash" type="text" name="close_bn_cash" value="<?php echo $bn_cash; ?>">
                     </div>
                     <h2 class="uk-card-title uk-margin-remove" style="color: green;font-weight: 700;">В Кассе безнал: <?php echo $bn_cash; ?></h2>
+                    <h4 class="uk-card-title uk-margin-remove" style="color:red; text-align:center;">
+                        Выберите дату закрытия смены.
+                    </h4>
+                    <div class="uk-margin-small-top">
+                        <input class="uk-input" id="close_date" type="date" name="close_date" value="" required>
+                    </div>
                     <div class="uk-margin-small-top uk-flex uk-flex-column">
                         <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Закрыть смену</button>
                     </div>

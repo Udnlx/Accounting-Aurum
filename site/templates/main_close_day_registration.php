@@ -1,6 +1,6 @@
 <?php namespace ProcessWire;
 
-$date = date("d-m-Y");
+$date = !empty($_POST['close_date'])?$_POST['close_date']:NULL;  
 
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
@@ -110,11 +110,11 @@ if ($_SESSION['reload'] == 'on') {
     $log .= 'Смену закрыл: ' . $operator . ''; 
     file_put_contents(__DIR__ . '/log_main_close.txt', $log . PHP_EOL, FILE_APPEND);
 
-    //Устананвливаем статус закрытия смены
-    $shift_status_page = $pages->get('id_point=' . $selected_id_point . '_startday');
-    $shift_status_page->of(false);
-    $shift_status_page->shift_status = 'Закрыта';
-    $shift_status_page->save();
+    // //Устананвливаем статус закрытия смены
+    // $shift_status_page = $pages->get('id_point=' . $selected_id_point . '_startday');
+    // $shift_status_page->of(false);
+    // $shift_status_page->shift_status = 'Закрыта';
+    // $shift_status_page->save();
 
     //Предотвращаем повторную регистрацию
     $_SESSION['reload'] = 'on';
