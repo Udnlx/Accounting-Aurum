@@ -8,7 +8,7 @@ $proba = !empty($_POST['selected_proba'])?$_POST['selected_proba']:NULL;
 $weight = !empty($_POST['selected_weight'])?$_POST['selected_weight']:NULL;  
 $price_gramm = !empty($_POST['price_gramm'])?$_POST['price_gramm']:NULL;  
 $price = !empty($_POST['selected_price'])?$_POST['selected_price']:NULL;  
-$pay = !empty($_POST['selected_pay'])?$_POST['selected_pay']:NULL;  
+$pay = $_POST['selected_pay'];  
 $cash_card = !empty($_POST['cash_card'])?$_POST['cash_card']:NULL;  
 
 $paytype = !empty($_POST['selected_paytype'])?$_POST['selected_paytype']:NULL;  
@@ -17,7 +17,7 @@ $client_passport = !empty($_POST['client_passport'])?$_POST['client_passport']:N
 $client_address = !empty($_POST['client_address'])?$_POST['client_address']:NULL;  
 
 $success = 'Регистрация скупки прошла успешно';
-if ($worker && $proba && $weight && $price_gramm && $price && $pay && $cash_card && $_SESSION['reload'] != 'on') {
+if ($worker && $proba && $weight && $price_gramm && $price && $cash_card && $_SESSION['reload'] != 'on') {
 	//Регестрируем запись
     $pages->add('operation_itm', 1181 , [
     'title' => date("Y-m-d H:i") . ' Скупка - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point,
