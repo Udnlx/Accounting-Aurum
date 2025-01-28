@@ -5,16 +5,18 @@ $idpoint = !empty($_POST['selected_idpoint'])?$_POST['selected_idpoint']:NULL;
 $worker = !empty($_POST['selected_worker'])?$_POST['selected_worker']:NULL;  
 
 $main_price_gold = !empty($_POST['main_price_gold'])?$_POST['main_price_gold']:NULL;
+$main_price_gold_999 = !empty($_POST['main_price_gold_999'])?$_POST['main_price_gold_999']:NULL;
 $main_price_silver = !empty($_POST['main_price_silver'])?$_POST['main_price_silver']:NULL;
 $main_price_platinum = !empty($_POST['main_price_platinum'])?$_POST['main_price_platinum']:NULL;
 $main_price_palladium = !empty($_POST['main_price_palladium'])?$_POST['main_price_palladium']:NULL;
 
 $success = 'Регистрация новых данных прошла успешно';
-if ($point && $idpoint && $worker && $main_price_gold && $main_price_silver && $main_price_platinum && $main_price_palladium) {
+if ($point && $idpoint && $worker && $main_price_gold && $main_price_gold_999 && $main_price_silver && $main_price_platinum && $main_price_palladium) {
 	//Меняем данные
     $edit_page = $main_options = $pages->get('template=main_options');
     $edit_page->of(false);
     $edit_page->main_price_gold = $main_price_gold;
+    $edit_page->main_price_gold_999 = $main_price_gold_999;
     $edit_page->main_price_silver = $main_price_silver;
     $edit_page->main_price_platinum = $main_price_platinum;
     $edit_page->main_price_palladium = $main_price_palladium;
@@ -26,6 +28,8 @@ if ($point && $idpoint && $worker && $main_price_gold && $main_price_silver && $
     $log .= 'Настройки изменены: ' . $worker;
     file_put_contents(__DIR__ . '/log_admin_setup.txt', $log . PHP_EOL, FILE_APPEND);
     $log = 'Цена на золото: ' . $main_price_gold;
+    file_put_contents(__DIR__ . '/log_admin_setup.txt', $log . PHP_EOL, FILE_APPEND);
+    $log = 'Цена на золото 999 пробы: ' . $main_price_gold_999;
     file_put_contents(__DIR__ . '/log_admin_setup.txt', $log . PHP_EOL, FILE_APPEND);
     $log = 'Цена на серебро: ' . $main_price_silver;
     file_put_contents(__DIR__ . '/log_admin_setup.txt', $log . PHP_EOL, FILE_APPEND);
