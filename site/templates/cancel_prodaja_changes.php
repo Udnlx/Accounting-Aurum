@@ -2,6 +2,7 @@
 
 $main_options = $pages->get('template=main_options');
 $main_price_gold = $main_options->main_price_gold;
+$main_price_gold_999 = $main_options->main_price_gold_999;
 $main_price_silver = $main_options->main_price_silver;
 $main_price_platinum = $main_options->main_price_platinum;
 $main_price_palladium = $main_options->main_price_palladium;
@@ -125,6 +126,9 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
                     <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="main_price_gold" type="text" name="main_price_gold" value="<?php echo $main_price_gold; ?>">
+                    </div>
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="main_price_gold_999" type="text" name="main_price_gold_999" value="<?php echo $main_price_gold_999; ?>">
                     </div>
                     <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="main_price_silver" type="text" name="main_price_silver" value="<?php echo $main_price_silver; ?>">
