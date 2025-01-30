@@ -153,7 +153,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                         </select>
                     </div>
                     <div class="uk-margin-small-top">
-                        <label for="description_operation">Описание/Кому продали</label>
+                        <label for="description_operation">Описание</label>
                         <input class="uk-input" id="description_operation" type="text" name="description_operation" autocomplete="off">
                     </div>
                     <div class="uk-margin-small-top">

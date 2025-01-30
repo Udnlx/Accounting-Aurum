@@ -10,6 +10,7 @@ $price_gramm = !empty($_POST['price_gramm'])?$_POST['price_gramm']:NULL;
 $price = !empty($_POST['selected_price'])?$_POST['selected_price']:NULL;  
 $pay = $_POST['selected_pay'];  
 $cash_card = !empty($_POST['cash_card'])?$_POST['cash_card']:NULL;  
+$description_operation = !empty($_POST['description_operation'])?$_POST['description_operation']:NULL;  
 
 $paytype = !empty($_POST['selected_paytype'])?$_POST['selected_paytype']:NULL;  
 $client_name = !empty($_POST['client_name'])?$_POST['client_name']:NULL;  
@@ -33,6 +34,7 @@ if ($worker && $proba && $weight && $price_gramm && $price && $cash_card && $_SE
     'price' => $price,
     'pay' => $pay,
     'cash_card' => $cash_card,
+    'description_operation' => $description_operation,
     'paytype' => $paytype,
     'client_name' => $client_name,
     'client_passport' => $client_passport,
@@ -240,6 +242,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 	        <p class="uk-margin-remove">Итоговая стоимость: <span style="font-weight: 700;"><?php echo $price; ?></span></p>
 	        <p class="uk-margin-remove">Сумма скупки: <span style="font-weight: 700;"><?php echo $pay; ?></span></p>
             <p class="uk-margin-remove">Вид платежа: <span style="font-weight: 700;"><?php echo $cash_card; ?></span></p>
+            <p class="uk-margin-remove">Описание операции: <span style="font-weight: 700;"><?php echo $description_operation; ?></span></p>
 	        <br>
 	        <p class="uk-margin-remove">Квитанция: <span style="font-weight: 700;"><?php echo $paytype; ?></span></p>
 	        <?php echo $info_paytype; ?>
