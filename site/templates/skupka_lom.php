@@ -131,15 +131,26 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                         </select>
                     </div>
                     <div class="uk-margin-small-top">
+                        <label for="price_gramm">
+                            <?php
+                            $base_price = number_format(round(($main_price_gold/585)*585), 2, '.','');
+                            $percent = $base_price*3/100;
+                            $min_price = $base_price - $percent;
+                            ?>
+                            Цена за грамм ( базовая цена: 
+                            <span id="base_price"><?php echo number_format($base_price, 2, '.',''); ?></span> 
+                            - цена за минусом 3%: 
+                            <span id="min_price"><?php echo number_format($min_price, 2, '.',''); ?></span>
+                            )
+                        </label>
+                        <input class="uk-input" id="price_gramm" type="text" name="price_gramm" value="<?php echo number_format(round(($main_price_gold/585)*585), 2, '.',''); ?>" autocomplete="off" required>
+                    </div>
+                    <div class="uk-margin-small-top">
                         <input class="uk-input custom1" id="selected_weight" type="text" name="selected_weight" value="" placeholder="Вес" autocomplete="off" required>
                     </div>
                     <div class="uk-margin-small-top">
-                        <label for="price_gramm">Цена за грамм</label>
-                        <input class="uk-input readonly" id="price_gramm" type="text" name="price_gramm" value="<?php echo number_format(round(($main_price_gold/585)*585), 2, '.',''); ?>" autocomplete="off" required>
-                    </div>
-                    <div class="uk-margin-small-top">
                         <label for="selected_price">Стоимость</label>
-                        <input class="uk-input readonly" id="selected_price" type="text" name="selected_price" value="0.00" autocomplete="off" required>
+                        <input class="uk-input" id="selected_price" type="text" name="selected_price" value="0.00" autocomplete="off" required>
                     </div>
                     <div class="uk-margin-small-top">
                         <input class="uk-input" id="selected_pay" type="text" name="selected_pay" value="" placeholder="Сумма скупки" autocomplete="off" required>
