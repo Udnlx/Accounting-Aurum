@@ -80,8 +80,8 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 		            <div>
 		        		<a class="admpanel-link" href="/adminpanel-vse-dolgi">Все долги</a>
                         <a class="admpanel-link" href="/adminpanel-nastroiki">Настройки</a>
-		        		<a class="admpanel-link" href="/otmena-skupka-lom/">Отмена скупки лома</a>
-		        		<a class="admpanel-link" href="/otmena-prodazha-lom/">Отмена продажи лома</a>
+		        		<a class="admpanel-link" href="">Правки в операциях</a>
+		        		<a class="admpanel-link" href="">Свободная кнопка</a>
 		            </div>
 		        </div>
 		    </div>
