@@ -1,6 +1,6 @@
 <?php namespace ProcessWire;
 
-$date = date("Y-m-d");  
+$date = date("d-m-Y");  
 if(isset($_SESSION['point'])){
     $point = $_SESSION['point'];
 } else {

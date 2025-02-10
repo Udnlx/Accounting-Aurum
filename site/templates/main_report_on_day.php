@@ -1,7 +1,9 @@
 <?php namespace ProcessWire;
 
-$day_for_report = date("d-m-Y");
-//$day_for_report = '26-12-2024';
+$selected_on_date = !empty($_POST['selected_on_date'])?$_POST['selected_on_date']:NULL;
+$selected_on_date = date('d-m-Y', strtotime($selected_on_date));
+
+$day_for_report = $selected_on_date;
 
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
@@ -41,24 +43,24 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $access != 'a
 
 
 
-//Денег на утро
-$cash_on_morning = '';
-$total_cash = 0;
-$bn_total_cash = 0;
-$page_cash = $pages->get('template=cash');
-$all_cash = $page_cash->children();
-foreach ($all_cash as $item) {
-    $cash_on_morning .= '
-        <p class="card-report__info">' . $item->title . ' наличка - <span style="font-weight:700;">' . number_format($item->cash_remain_startday, 2, '.',' ') . '</span></p>
-        <p class="card-report__info">' . $item->title . ' безнал - <span style="font-weight:700;">' . number_format($item->bn_cash_remain_startday, 2, '.',' ') . '</span></p>
-    ';
-    $total_cash = $total_cash + $item->cash_remain_startday;
-    $bn_total_cash = $bn_total_cash + $item->bn_cash_remain_startday;
-}
-$cash_on_morning .= '
-<p class="card-report__info">Всего средств на утро наличка - <span style="color:green;font-weight:700;">' . number_format($total_cash, 2, '.',' ') . '</span></p>
-<p class="card-report__info">Всего средств на утро безнал - <span style="color:green;font-weight:700;">' . number_format($bn_total_cash, 2, '.',' ') . '</span></p>
-';
+// //Денег на утро
+// $cash_on_morning = '';
+// $total_cash = 0;
+// $bn_total_cash = 0;
+// $page_cash = $pages->get('template=cash');
+// $all_cash = $page_cash->children();
+// foreach ($all_cash as $item) {
+//     $cash_on_morning .= '
+//         <p class="card-report__info">' . $item->title . ' наличка - <span style="font-weight:700;">' . number_format($item->cash_remain_startday, 2, '.',' ') . '</span></p>
+//         <p class="card-report__info">' . $item->title . ' безнал - <span style="font-weight:700;">' . number_format($item->bn_cash_remain_startday, 2, '.',' ') . '</span></p>
+//     ';
+//     $total_cash = $total_cash + $item->cash_remain_startday;
+//     $bn_total_cash = $bn_total_cash + $item->bn_cash_remain_startday;
+// }
+// $cash_on_morning .= '
+// <p class="card-report__info">Всего средств на утро наличка - <span style="color:green;font-weight:700;">' . number_format($total_cash, 2, '.',' ') . '</span></p>
+// <p class="card-report__info">Всего средств на утро безнал - <span style="color:green;font-weight:700;">' . number_format($bn_total_cash, 2, '.',' ') . '</span></p>
+// ';
 
 
 
@@ -1370,25 +1372,25 @@ $arrears .= '
 
 
 
-//Формирование таблицы с остатками
-$remain_tables_startday = '';
-$startday = $pages->get('id_point=' . $selected_id_point . '_startday');
-$actual = $pages->get('id_point=' . $selected_id_point . '_actual');
-$reserv = $pages->get('id_point=' . $selected_id_point . '_reserv');
+// //Формирование таблицы с остатками
+// $remain_tables_startday = '';
+// $startday = $pages->get('id_point=' . $selected_id_point . '_startday');
+// $actual = $pages->get('id_point=' . $selected_id_point . '_actual');
+// $reserv = $pages->get('id_point=' . $selected_id_point . '_reserv');
 
-if ($startday != '' || $actual != '' || $reserv != '') {
-$actual_date = $startday->actual_date;
-include 'remains_table_archive.php';
-$remain_tables_startday .= '<h4 class="uk-card-title uk-margin-remove">Дата таблиц: ' . $actual_date . '</h4><hr>';
-}
+// if ($startday != '' || $actual != '' || $reserv != '') {
+// $actual_date = $startday->actual_date;
+// include 'remains_table_archive.php';
+// $remain_tables_startday .= '<h4 class="uk-card-title uk-margin-remove">Дата таблиц: ' . $actual_date . '</h4><hr>';
+// }
 
-if ($startday == '' || $actual == '' || $reserv == '') {
-    $remain_tables_startday .= '
-    <h2 class="uk-margin-remove uk-card-title" style="color:red;font-weight:700;text-align:center;">Произошла ошибка получения остатков!<br>Пожалуйста обратитесь к разработчику!</h2>
-    ';
-} else {
-    include 'remains_table.php';
-}
+// if ($startday == '' || $actual == '' || $reserv == '') {
+//     $remain_tables_startday .= '
+//     <h2 class="uk-margin-remove uk-card-title" style="color:red;font-weight:700;text-align:center;">Произошла ошибка получения остатков!<br>Пожалуйста обратитесь к разработчику!</h2>
+//     ';
+// } else {
+//     include 'remains_table.php';
+// }
 
 ?>
 
@@ -1402,6 +1404,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
                 <a class="menu-link" href="/adminpanel-meniu/">Админ панель</a>
+                <a class="menu-link" href="/osnovnoi-otchet/">Отчет за текущий день</a>
             </div>
         </div>
 
@@ -1447,12 +1450,14 @@ if ($startday == '' || $actual == '' || $reserv == '') {
             </div>
         </div>
 
+        <!--
         <div>
             <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
                 <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Денег на утро</h2>
-                <?php echo $cash_on_morning; ?>
+                <?php //echo $cash_on_morning; ?>
 		    </div>
 		</div>
+        -->
 
         <div class="anchor"><span id="income"></span></div>
         <div>
@@ -1510,12 +1515,14 @@ if ($startday == '' || $actual == '' || $reserv == '') {
             </div>
         </div>
 
+        <!--
         <div>
             <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
                 <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Металл</h2>
                 <?php echo $remain_tables_startday; ?>
             </div>
         </div>
+        -->
         
     </div>
 </div>
