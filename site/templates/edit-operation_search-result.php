@@ -1,0 +1,148 @@
+<?php namespace ProcessWire;
+
+$selected_start_date = !empty($_POST['selected_start_date'])?$_POST['selected_start_date']:NULL;
+$selected_finish_date = !empty($_POST['selected_finish_date'])?$_POST['selected_finish_date']:NULL;
+
+function get_dates($start, $end, $format = 'd.m.Y') {
+    $day = 86400;
+    $start = strtotime($start . ' -1 days');
+    $end = strtotime($end . ' +1 days');
+    $nums = round(($end - $start) / $day); 
+    $days = array();
+    for ($i = 1; $i < $nums; $i++) { 
+        $days[] = date($format, ($start + ($i * $day)));
+    }
+    return $days;
+}
+ 
+$dates = get_dates($selected_start_date, $selected_finish_date);
+//print_r($dates);
+
+$std = date('d-m-Y', strtotime($selected_start_date));
+$fid = date('d-m-Y', strtotime($selected_finish_date));
+
+if(isset($_SESSION['operator'])){
+    $operator = $_SESSION['operator'];
+} else {
+    $operator = 'no_operator';
+}
+
+if(isset($_SESSION['point'])){
+    $selected_point = $_SESSION['point'];
+} else {
+    $selected_point = 'no_point';
+}
+
+if(isset($_SESSION['id_point'])){
+    $selected_id_point = $_SESSION['id_point'];
+} else {
+    $selected_id_point = 'no_id_point';
+}
+
+$access = '';
+if(isset($_SESSION['access'])){
+    $access = $_SESSION['access'];
+}
+
+if ($operator == 'no_operator' || $selected_point == 'no_point' || $access != 'admin') {
+?>
+    <div id="content" style="max-width: 700px;">
+    	<h1 class="uk-heading-hero uk-text-center">Правки в операциях</h1>
+        <h3 class="uk-margin-remove uk-heading-hero uk-text-center">Найденные операции</h3>
+        <h4 class="uk-margin-remove uk-heading-hero uk-text-center">За период с <?php echo $std; ?> по <?php echo $fid; ?></h4>
+        <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
+            <h3 class="uk-card-title">Потеряна сессия или точка, <br>возможно нет прав на эту страницу.</h3>
+            <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
+        </div>
+    </div>
+<?php    
+} else {
+
+//Получение операций
+$null_result = '<h4 class="uk-card-title uk-margin-remove">Операций за этот период не найдено</h4>';
+$all_operations = '';
+$all_operations .= '<div class="scrolling-list" style="max-height: 700px;">';
+foreach ($dates as $day_itm) {
+	$start_day_for_report = date('d-m-Y', strtotime($day_itm));
+	$all_operations_itm = $pages->find('template=operation_itm, date=' . $start_day_for_report . '');
+	foreach ($all_operations_itm as $itm) {
+		$null_result = '';
+	    $all_operations .= '<a class="admin-link-itm" href="/prosmotr-operatcii/?operation_id=' . $itm->id . '">
+	        <p>' . $itm->title . '</p>
+	        <p class="reserv_id_note">Оператор: ' . $itm->worker . '</p>
+	    </a>';
+	}
+}
+$all_operations .= $null_result;
+$all_operations .= '</div>';
+
+//Формирование таблицы с остатками
+$remain_tables_startday = '';
+$startday = $pages->get('id_point=' . $selected_id_point . '_startday');
+$actual = $pages->get('id_point=' . $selected_id_point . '_actual');
+$reserv = $pages->get('id_point=' . $selected_id_point . '_reserv');
+
+if ($startday != '' || $actual != '' || $reserv != '') {
+$actual_date = $startday->actual_date;
+include 'remains_table_archive.php';
+$remain_tables_startday .= '<h4 class="uk-card-title uk-margin-remove">Дата таблиц: ' . $actual_date . '</h4><hr>';
+}
+
+if ($startday == '' || $actual == '' || $reserv == '') {
+    $remain_tables_startday .= '
+    <h2 class="uk-margin-remove uk-card-title" style="color:red;font-weight:700;text-align:center;">Произошла ошибка получения остатков!<br>Пожалуйста обратитесь к разработчику!</h2>
+    ';
+} else {
+    include 'remains_table.php';
+}
+
+?>
+
+<div id="content">
+    	<h1 class="uk-heading-hero uk-text-center">Правки в операциях</h1>
+        <h3 class="uk-margin-remove uk-heading-hero uk-text-center">Найденные операции</h3>
+        <h4 class="uk-margin-remove uk-heading-hero uk-text-center">За период с <?php echo $std; ?> по <?php echo $fid; ?></h4>
+	<div>
+
+        <div>
+            <div class="pagemenu uk-width-1-1 uk-flex">
+                <a class="menu-link" href="/">На главную</a>
+                <a class="menu-link" href="/adminpanel-meniu/">Админ панель</a>
+            </div>
+        </div>
+
+        <div>
+            <h4 class="uk-card-title uk-margin-remove">Укажите период для поиска операций</h4>
+            <div class="filtermenu uk-width-1-1 uk-flex">
+                <form class="form-select-date" id="select_period_date" action="" method="post">
+                    <div class="filtermenu-input">
+                        <input class="uk-input" id="selected_start_date" type="date" name="selected_start_date" required>
+                    </div>
+                    <div class="filtermenu-input">
+                        <input class="uk-input" id="selected_finish_date" type="date" name="selected_finish_date" required>
+                    </div>
+                    <div class="uk-margin-remove">
+                        <button class="uk-margin-remove uk-button uk-button-default" type="submit">Найти</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+		        <?php echo $all_operations; ?>
+		    </div>
+		</div>
+
+        <div>
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                <?php echo $remain_tables_startday; ?>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<?php   
+}
+?>

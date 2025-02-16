@@ -23,10 +23,10 @@ if(isset($_SESSION['access'])){
     $access = $_SESSION['access'];
 }
 
-if ($operator == 'no_operator' || $selected_point == 'no_point') {
+if ($operator == 'no_operator' || $selected_point == 'no_point' || $access != 'admin') {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Панель администратора</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Правки по кассе - Регистрация изменений</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title">Потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -58,35 +58,32 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Панель администратора</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Правки по кассе - Регистрация изменений</h1>
 	<div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
-                <a class="menu-link" href="/osnovnoi-otchet/">Отчет</a>
+                <a class="menu-link" href="/pravki-po-lomu-i-kassam-formy/">Правки по лому и кассам</a>
             </div>
         </div>
 
         <div>
-            <div class="admpanel uk-card uk-card-default uk-card-body">
-		        <div class="uk-grid-medium uk-child-width-1-2@s" uk-grid>
-		        	<div>
-		        		<a class="admpanel-link" href="/adminpanel-vse-operatcii/">Все операции</a>
-		        		<a class="admpanel-link" href="/adminpanel-vse-izdeliia/">Все изделия</a>
-                        <a class="admpanel-link" href="/adminpanel-ves-rezerv/">Весь резерв</a>
-		        		<a class="admpanel-link" href="/adminpanel-ves-affinazh/">Весь аффинаж</a>
-		            </div>
-		            <div>
-		        		<a class="admpanel-link" href="/adminpanel-vse-dolgi">Все долги</a>
-                        <a class="admpanel-link" href="/adminpanel-nastroiki">Настройки</a>
-		        		<a class="admpanel-link" href="/pravka-operatcii-poisk/">Правки в операциях</a>
-		        		<a class="admpanel-link" href="/pravki-po-lomu-i-kassam-formy/">Правки по лому и кассам</a>
-		            </div>
-		        </div>
-		    </div>
-		</div>
+            СКРИПТ В РАЗРАБОТКЕ
+            <!-- <h3 class="uk-card-title"><?php echo $success; ?></h3>
+            <p class="uk-margin-remove">Дата: <span style="font-weight: 700;"><?php echo $date; ?></span></p>
+            <p class="uk-margin-remove">Точка: <span style="font-weight: 700;"><?php echo $point; ?></span></p>
+            <p class="uk-margin-remove">ID точки: <span style="font-weight: 700;"><?php echo $idpoint; ?></span></p>
+            <p class="uk-margin-remove">Сотрудник: <span style="font-weight: 700;"><?php echo $worker; ?></span></p>
+            <br>
+            <p class="uk-margin-remove">Тип операции: <span style="font-weight: 700;">Приход</span></p>
+            <p class="uk-margin-remove">Тип платежа: <span style="font-weight: 700;"><?php echo $cash_card; ?></span></p>
+            <p class="uk-margin-remove">Сумма: <span style="font-weight: 700;"><?php echo $sum; ?></span></p>
+            <p class="uk-margin-remove">Описание: <span style="font-weight: 700;"><?php echo $description; ?></span></p> -->
+        </div>
 
+        <br>
+        
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
                 <?php echo $remain_tables_startday; ?>
