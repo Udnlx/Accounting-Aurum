@@ -1,5 +1,7 @@
 <?php namespace ProcessWire;
 
+$_SESSION['reload'] = 'off';
+
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
 } else {
@@ -96,6 +98,13 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                         </select>
                     </div>
                     <div class="uk-margin-small-top">
+                        <select class="uk-select" id="selected_operation" name="selected_operation" required>
+                            <option value="">Вид операции</option>
+                            <option value="Приход">Приход</option>
+                            <option value="Расход">Расход</option>
+                        </select>
+                    </div>
+                    <div class="uk-margin-small-top">
                         <input class="uk-input custom1" id="selected_weight" type="text" name="selected_weight" value="" placeholder="Вес" autocomplete="off" required>
                     </div>
                     <div class="uk-margin-small-top">
@@ -119,6 +128,13 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                         <select class="uk-select" id="cash_card" name="cash_card">
                             <option>Наличный расчет</option>
                             <option>Безналичный расчет</option>
+                        </select>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <select class="uk-select" id="selected_operation" name="selected_operation" required>
+                            <option value="">Вид операции</option>
+                            <option value="Приход">Приход</option>
+                            <option value="Расход">Расход</option>
                         </select>
                     </div>
                     <div class="uk-margin-small-top">

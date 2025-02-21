@@ -23,6 +23,54 @@ if(isset($_SESSION['access'])){
     $access = $_SESSION['access'];
 }
 
+$cash_card = !empty($_POST['cash_card'])?$_POST['cash_card']:NULL; 
+$selected_operation = !empty($_POST['selected_operation'])?$_POST['selected_operation']:NULL; 
+$sum = !empty($_POST['selected_sum'])?$_POST['selected_sum']:NULL;  
+$edit_cash_note = !empty($_POST['edit_cash_note'])?$_POST['edit_cash_note']:NULL; 
+
+$success = 'Изменение остатков прошло успешно';
+if ($operator != 'no_operator' && $selected_point !== 'no_point' && $cash_card && $sum && $edit_cash_note && $_SESSION['reload'] != 'on') {
+    //Записываем изменения в лог
+    $log = '';
+    $log .= date("Y-m-d H:i") . ' Внесены изменения по кассе - ' . $selected_operation . ' - ' . $cash_card . ' - ' . $sum . 'р - ' . $selected_point . ' === ';
+    $log .= 'Комментарий: ' . $edit_cash_note . ' === ';
+    $log .= 'Оператор: ' . $operator; 
+    file_put_contents(__DIR__ . '/log_edit_lomcash.txt', $log . PHP_EOL, FILE_APPEND);
+
+    //Изменяем остатки
+    $edit_page = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
+    if ($cash_card == 'Наличный расчет') {
+        if ($selected_operation == 'Приход') {
+            $result = $edit_page->sum + $sum;
+        }
+        if ($selected_operation == 'Расход') {
+            $result = $edit_page->sum - $sum;
+        }
+        $edit_page->of(false);
+        $edit_page->sum = $result;
+        $edit_page->save();
+    }
+    if ($cash_card == 'Безналичный расчет') {
+        if ($selected_operation == 'Приход') {
+            $result = $edit_page->bn_sum + $sum;
+        }
+        if ($selected_operation == 'Расход') {
+            $result = $edit_page->bn_sum - $sum;
+        }
+        $edit_page->of(false);
+        $edit_page->bn_sum = $result;
+        $edit_page->save();
+    }
+
+    //Предотвращаем повторную регистрацию
+    $_SESSION['reload'] = 'on';
+} else {
+    $success = 'Изменение остатков не прошли!<br>Ошибка в данных';
+    if ($_SESSION['reload'] == 'on') {
+        $success = 'Повторная отправка данных!<br>Изменения уже внесены, регистрация изменений повторно не проведена';
+    }
+}
+
 if ($operator == 'no_operator' || $selected_point == 'no_point' || $access != 'admin') {
 ?>
     <div id="content" style="max-width: 700px;">
@@ -69,17 +117,16 @@ if ($startday == '' || $actual == '' || $reserv == '') {
         </div>
 
         <div>
-            СКРИПТ В РАЗРАБОТКЕ
-            <!-- <h3 class="uk-card-title"><?php echo $success; ?></h3>
-            <p class="uk-margin-remove">Дата: <span style="font-weight: 700;"><?php echo $date; ?></span></p>
-            <p class="uk-margin-remove">Точка: <span style="font-weight: 700;"><?php echo $point; ?></span></p>
-            <p class="uk-margin-remove">ID точки: <span style="font-weight: 700;"><?php echo $idpoint; ?></span></p>
-            <p class="uk-margin-remove">Сотрудник: <span style="font-weight: 700;"><?php echo $worker; ?></span></p>
+            <h3 class="uk-card-title"><?php echo $success; ?></h3>
+            <p class="uk-margin-remove">Точка: <span style="font-weight: 700;"><?php echo $selected_point; ?></span></p>
+            <p class="uk-margin-remove">ID точки: <span style="font-weight: 700;"><?php echo $selected_id_point; ?></span></p>
+            <p class="uk-margin-remove">Сотрудник: <span style="font-weight: 700;"><?php echo $operator; ?></span></p>
             <br>
-            <p class="uk-margin-remove">Тип операции: <span style="font-weight: 700;">Приход</span></p>
+            <p class="uk-margin-remove">Тип операции: <span style="font-weight: 700;">Изменения по кассе - <?php echo $selected_operation; ?></span></p>
             <p class="uk-margin-remove">Тип платежа: <span style="font-weight: 700;"><?php echo $cash_card; ?></span></p>
-            <p class="uk-margin-remove">Сумма: <span style="font-weight: 700;"><?php echo $sum; ?></span></p>
-            <p class="uk-margin-remove">Описание: <span style="font-weight: 700;"><?php echo $description; ?></span></p> -->
+            <p class="uk-margin-remove">Сумма: <span style="font-weight: 700;"><?php echo $sum; ?> р.</span></p>
+            <p class="uk-margin-remove">Комментарий: <span style="font-weight: 700;"><?php echo $edit_cash_note; ?></span></p>
+            <a class="uk-width-1-1 uk-margin-small-top uk-button uk-button-default" href="/pravki-po-lomu-i-kassam-formy/">Добавить еще правки по лому и кассам</a>
         </div>
 
         <br>
