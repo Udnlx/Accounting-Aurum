@@ -67,7 +67,7 @@ foreach ($dates as $day_itm) {
 	$all_operations_itm = $pages->find('template=operation_itm, date=' . $start_day_for_report . '');
 	foreach ($all_operations_itm as $itm) {
 		$null_result = '';
-	    $all_operations .= '<a class="admin-link-itm" href="/prosmotr-operatcii/?operation_id=' . $itm->id . '">
+	    $all_operations .= '<a class="admin-link-itm" href="/pravka-operatcii-forma/?operation_id=' . $itm->id . '">
 	        <p>' . $itm->title . '</p>
 	        <p class="reserv_id_note">Оператор: ' . $itm->worker . '</p>
 	    </a>';
