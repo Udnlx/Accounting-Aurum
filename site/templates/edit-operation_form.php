@@ -1,5 +1,7 @@
 <?php namespace ProcessWire;
 
+$_SESSION['reload'] = 'off';
+
 $operation_id = !empty($_GET['operation_id'])?$_GET['operation_id']:NULL;  
 
 if(isset($_SESSION['operator'])){
@@ -60,58 +62,6 @@ $client_name = $operation_page->client_name;
 $client_passport = $operation_page->client_passport;  
 $client_address = $operation_page->client_address; 
 
-// //Функционал распечатки квитанции
-// $info_paytype = '';
-// if ($paytype == 'Да') {
-//     $info_paytype = '
-//     <p class="uk-margin-remove">ФИО клиента: <span style="font-weight: 700;">' . $client_name . '</span></p>
-//     <p class="uk-margin-remove">Паспорт клиента: <span style="font-weight: 700;">' . $client_passport . '</span></p>
-//     <p class="uk-margin-remove">Адрес клиента: <span style="font-weight: 700;">' . $client_address . '</span></p>
-//     <form target="_blank" class="uk-flex uk-flex-column" id="print_receipt" action="/raspechatka-kvitantcii/" method="post">
-//         <div class="uk-margin-small-top uk-hidden">
-//             <input class="uk-input" id="operation_id" type="text" name="operation_id" value="' . $operation_id . '">
-//         </div>
-//         <div class="uk-margin-small-top uk-hidden">
-//             <input class="uk-input" id="print_type" type="text" name="print_type" value="' . $type_operation . '">
-//         </div>
-//         <div class="uk-margin-small-top uk-hidden">
-//             <input class="uk-input" id="print_undertype" type="text" name="print_undertype" value="' . $undertype_operation . '">
-//         </div>
-//         <div class="uk-margin-small-top uk-hidden">
-//             <input class="uk-input" id="print_date" type="text" name="print_date" value="' . $date . '">
-//         </div>
-//         <div class="uk-margin-small-top uk-hidden">
-//             <input class="uk-input" id="print_point" type="text" name="print_point" value="' . $point . '">
-//         </div>
-//         <div class="uk-margin-small-top uk-hidden">
-//             <input class="uk-input" id="print_client_name" type="text" name="print_client_name" value="' . $client_name . '">
-//         </div>
-//         <div class="uk-margin-small-top uk-hidden">
-//             <input class="uk-input" id="print_client_passport" type="text" name="print_client_passport" value="' . $client_passport . '">
-//         </div>
-//         <div class="uk-margin-small-top uk-hidden">
-//             <input class="uk-input" id="print_client_address" type="text" name="print_client_address" value="' . $client_address . '">
-//         </div>
-//         <div class="uk-margin-small-top uk-hidden">
-//             <input class="uk-input" id="print_pay" type="text" name="print_pay" value="' . $pay . '">
-//         </div>
-//         <div class="uk-margin-small-top uk-hidden">
-//             <input class="uk-input" id="print_proba" type="text" name="print_proba" value="' . $proba . '">
-//         </div>
-//         <div class="uk-margin-small-top uk-hidden">
-//             <input class="uk-input" id="print_weight" type="text" name="print_weight" value="' . $weight . '">
-//         </div>
-//         <div class="uk-margin-small-top uk-hidden">
-//             <input class="uk-input" id="print_worker" type="text" name="print_worker" value="' . $worker . '">
-//         </div>
-        
-//         <div class="pagemenu uk-width-1-1 uk-flex">
-//             <button class="menu-link" type="submit">Распечатать квитанцию</button>
-//         </div>
-//     </form>
-//     ';
-// }
-
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
 $startday = $pages->get('id_point=' . $selected_id_point . '_startday');
@@ -152,7 +102,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 	        <p class="uk-margin-remove">ID точки: <span style="font-weight: 700;"><?php echo $idpoint; ?></span></p>
 	        <p class="uk-margin-remove">Сотрудник: <span style="font-weight: 700;"><?php echo $worker; ?></span></p>
 	        <br>
-            <form class="uk-flex uk-flex-column" id="select_seat" action="" method="post">
+            <form class="uk-flex uk-flex-column" id="select_seat" action="/pravka-operatcii-registratciia/" method="post">
                 <div class="uk-margin-small-bottom uk-hidden">
                     <input class="uk-input" id="id_edit_operation" type="text" name="id_edit_operation" value="<?php echo $operation_id; ?>">
                 </div>
@@ -182,7 +132,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     <input class="uk-input" id="selected_price" type="text" name="new_selected_price" value="<?php echo $price; ?>" autocomplete="off" required>
                 </div>
 
-    	        <p class="uk-margin-remove">Сколько отдали: <span style="font-weight: 700;"><?php echo $pay; ?></span></p>
+    	        <p class="uk-margin-remove">Сумма скупки: <span style="font-weight: 700;"><?php echo $pay; ?></span></p>
                 <div class="uk-margin-small-bottom uk-hidden">
                     <input class="uk-input" id="old_selected_pay" type="text" name="old_selected_pay" value="<?php echo $pay; ?>" autocomplete="off" required>
                 </div>
@@ -201,11 +151,6 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Внести изменения</button>
                 </div>
             </form>
-	        <br>
-            <!--
-	        <p class="uk-margin-remove">Квитанция: <span style="font-weight: 700;"><?php echo $paytype; ?></span></p>
-	        <?php //echo $info_paytype; ?>
-            -->
         </div>
 
         <br>
