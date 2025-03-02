@@ -56,8 +56,31 @@ if ($id_edit_operation && $_SESSION['reload'] != 'on') {
     }
 
     //Регестрируем изменения в операции
+    $edit_page = $pages->get('template=operation_itm, id=' . $id_edit_operation . '');
+    $changes_desc = '===' . date("Y-m-d H-i") . ': ' . $changed . '. Причина: ' . $description_changes;
+    $edit_page_title = $edit_page->title;
+    $data_array = explode(" - ", $edit_page_title);
+    $new_title = $data_array[0] . ' - ' . $data_array[1] . ' - ' . $data_array[2] . ' - ' . $new_selected_weight . 'г - ' . $data_array[4] . ' - Операция изменялась';
+    $edit_page->of(false);
+    $edit_page->title = $new_title;
+    $edit_page->weight = $new_selected_weight;
+    $edit_page->price_gramm = $new_price_gramm;
+    $edit_page->price = $new_selected_price;
+    $edit_page->pay = $new_selected_pay;
+    $edit_page->changes = $edit_page->changes . $changes_desc;
+    $edit_page->save();
 
     //Заводим новую запись об изменениях в реестре изменений
+    $pages->add('reestr_changes_itm', 4308 , [
+    'title' => date("Y-m-d H:i") . ' Изменения в операции - ' . $id_edit_operation,
+    'date' => $date,
+    'point' => $selected_point,
+    'id_point' => $selected_id_point,
+    'worker' => $operator,
+    'type_operation' => $id_edit_operation,
+    'description_operation' => $description_changes,
+    'changes' => $changed,
+    ]);
 
     //Записываем изменения в лог
     $log = '';
@@ -136,6 +159,9 @@ if ($startday == '' || $actual == '' || $reserv == '') {
             <p class="uk-margin-remove">Операция: <span style="font-weight: 700;"><?php echo $page_edit_operation->title; ?></span></p>
 	        <p class="uk-margin-remove"><span style="font-weight: 700;">Изменения</span> которые были зарегистрированы: </p>
             <?php echo $changed; ?>
+            <br>
+            <p class="uk-margin-remove" style="color:red;"><span style="font-weight: 700;">Внимание!</span> При изменении данных в операции возможно нужно изменить остатки по лому и кассам!</p>
+            <a class="uk-margin-small-top uk-button uk-button-default" href="/pravki-po-lomu-i-kassam-formy/">Правки по лому и кассам</a>
         </div>
 
         <br>
