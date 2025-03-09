@@ -38,7 +38,7 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
 
 //Получение всех изделий в наличии
 $stock_products = '';
-$stock_products_itm = $pages->find('template=product_itm, product_status=в наличии, sort=-sort');
+$stock_products_itm = $pages->find('template=product_itm, product_status=в наличии, sort=-sort, limit=20');
 $stock_products .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($stock_products_itm as $itm) {
     $stock_products .= '
@@ -62,7 +62,7 @@ $stock_products .= '</div>';
 
 //Получение всех проданных изделий
 $sell_products = '';
-$sell_products_itm = $pages->find('template=product_itm, product_status=продано, sort=-sort');
+$sell_products_itm = $pages->find('template=product_itm, product_status=продано, sort=-sort, limit=20');
 $sell_products .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($sell_products_itm as $itm) {
     $receipt = $itm->product_price_sell - $itm->product_price_buy;
@@ -123,10 +123,19 @@ if ($startday == '' || $actual == '' || $reserv == '') {
         </div>
 
         <div>
-            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-                ФИЛЬТР ДЛЯ ВСЕХ ИЗДЕЛИЙ В РАЗРАБОТКЕ<br>
-                ВЫБОР ПЕРИОДА ПО ДАТАМ<br>
-                ВЫБОР ТОЧКИ
+            <h4 class="uk-card-title uk-margin-remove">Последние 20 изделий в наличии и проданные, укажите период для поиска изделий</h4>
+            <div class="filtermenu uk-width-1-1 uk-flex">
+                <form class="form-select-date" id="select_period_date" action="/adminpanel-vse-izdeliia-rezul-tat-poiska/" method="post">
+                    <div class="filtermenu-input">
+                        <input class="uk-input" id="selected_start_date" type="date" name="selected_start_date" required>
+                    </div>
+                    <div class="filtermenu-input">
+                        <input class="uk-input" id="selected_finish_date" type="date" name="selected_finish_date" required>
+                    </div>
+                    <div class="uk-margin-remove">
+                        <button class="uk-margin-remove uk-button uk-button-default" type="submit">Найти</button>
+                    </div>
+                </form>
             </div>
         </div>
 

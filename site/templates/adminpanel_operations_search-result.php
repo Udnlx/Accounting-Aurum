@@ -1,5 +1,26 @@
 <?php namespace ProcessWire;
 
+$selected_start_date = !empty($_POST['selected_start_date'])?$_POST['selected_start_date']:NULL;
+$selected_finish_date = !empty($_POST['selected_finish_date'])?$_POST['selected_finish_date']:NULL;
+
+function get_dates($start, $end, $format = 'd.m.Y') {
+    $day = 86400;
+    $start = strtotime($start . ' -1 days');
+    $end = strtotime($end . ' +1 days');
+    $nums = round(($end - $start) / $day); 
+    $days = array();
+    for ($i = 1; $i < $nums; $i++) { 
+        $days[] = date($format, ($start + ($i * $day)));
+    }
+    return $days;
+}
+ 
+$dates = get_dates($selected_start_date, $selected_finish_date);
+//print_r($dates);
+
+$std = date('d-m-Y', strtotime($selected_start_date));
+$fid = date('d-m-Y', strtotime($selected_finish_date));
+
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
 } else {
@@ -27,8 +48,8 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
     	<h1 class="uk-heading-hero uk-text-center">Панель администратора</h1>
-        <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Все операции</h4>
-        <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
+        <h3 class="uk-margin-remove uk-heading-hero uk-text-center">Найденные операции</h3>
+        <h4 class="uk-margin-remove uk-heading-hero uk-text-center">За период с <?php echo $std; ?> по <?php echo $fid; ?></h4>
             <h3 class="uk-card-title">Потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
         </div>
@@ -36,17 +57,24 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
 <?php    
 } else {
 
-//Получение всех операций
+//Получение операций
+$null_result = '<h4 class="uk-card-title uk-margin-remove">Операций за этот период не найдено</h4>';
 $all_operations = '';
-$all_operations_itm = $pages->find('template=operation_itm, sort=-sort, limit=20');
 $all_operations .= '<div class="scrolling-list" style="max-height: 700px;">';
-foreach ($all_operations_itm as $itm) {
-    // $all_operations .= '<a class="admin-link-itm" href="/prosmotr-operatcii/?operation_id=' . $itm->id . '">' . $itm->title . '</a><br>';
-    $all_operations .= '<a class="admin-link-itm" href="/prosmotr-operatcii/?operation_id=' . $itm->id . '">
-        <p>' . $itm->title . '</p>
-        <p class="reserv_id_note">Оператор: ' . $itm->worker . '</p>
-    </a>';
+
+foreach ($dates as $day_itm) {
+    $start_day_for_report = date('d-m-Y', strtotime($day_itm));
+    $all_operations_itm = $pages->find('template=operation_itm, date=' . $start_day_for_report . '');
+    foreach ($all_operations_itm as $itm) {
+        $null_result = '';
+        $all_operations .= '<a class="admin-link-itm" href="/prosmotr-operatcii/?operation_id=' . $itm->id . '">
+            <p>' . $itm->title . '</p>
+            <p class="reserv_id_note">Оператор: ' . $itm->worker . '</p>
+        </a>';
+    }
 }
+
+$all_operations .= $null_result;
 $all_operations .= '</div>';
 
 //Формирование таблицы с остатками
@@ -72,8 +100,9 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Панель администратора</h1>
-    <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Все операции</h4>
+	<h1 class="uk-heading-hero uk-text-center">Панель администратора</h1>
+    <h3 class="uk-margin-remove uk-heading-hero uk-text-center">Найденные операции</h3>
+    <h4 class="uk-margin-remove uk-heading-hero uk-text-center">За период с <?php echo $std; ?> по <?php echo $fid; ?></h4>
 	<div>
 
         <div>
@@ -84,9 +113,9 @@ if ($startday == '' || $actual == '' || $reserv == '') {
         </div>
 
         <div>
-            <h4 class="uk-card-title uk-margin-remove">Последние 20 операций по лому, укажите период для поиска операций</h4>
+            <h4 class="uk-card-title uk-margin-remove">Укажите период для поиска операций</h4>
             <div class="filtermenu uk-width-1-1 uk-flex">
-                <form class="form-select-date" id="select_period_date" action="/adminpanel-vse-operatcii-rezul-tat-poiska/" method="post">
+                <form class="form-select-date" id="select_period_date" action="" method="post">
                     <div class="filtermenu-input">
                         <input class="uk-input" id="selected_start_date" type="date" name="selected_start_date" required>
                     </div>
