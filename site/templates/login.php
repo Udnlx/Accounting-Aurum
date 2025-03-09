@@ -22,6 +22,9 @@ if ($point == 'Таганка') {
 if ($point == 'Комсомолка') {
     $id_p = 'point4';
 }
+if ($point == 'Митинская 27а') {
+    $id_p = 'point5';
+}
 $user_login = !empty($_POST['user_login'])?$_POST['user_login']:NULL;  
 $user_password = !empty($_POST['user_password'])?$_POST['user_password']:NULL;
 
@@ -78,6 +81,7 @@ if ($login == 'on') {
                         <option value="Тверская 14">Тверская 14</option>
                         <option value="Таганка">Таганка</option>
                         <option value="Комсомолка">Комсомолка</option>
+                        <option value="Митинская 27а">Митинская 27а</option>
                     </select>
                 </div>
                 <div class="uk-margin-small-top">
