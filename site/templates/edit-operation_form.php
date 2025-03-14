@@ -30,7 +30,7 @@ if(isset($_SESSION['access'])){
 if ($operator == 'no_operator' || $selected_point == 'no_point' || $access != 'admin') {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Внесение правок в операцию (в разработке)</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Внесение правок в операцию</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title">Потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -85,7 +85,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Внесение правок в операцию (в разработке)</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Внесение правок в операцию</h1>
 	<div>
 
         <div>
@@ -101,12 +101,46 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 	        <p class="uk-margin-remove">Точка: <span style="font-weight: 700;"><?php echo $point; ?></span></p>
 	        <p class="uk-margin-remove">ID точки: <span style="font-weight: 700;"><?php echo $idpoint; ?></span></p>
 	        <p class="uk-margin-remove">Сотрудник: <span style="font-weight: 700;"><?php echo $worker; ?></span></p>
+            <p class="uk-margin-remove">Тип операции: <span style="font-weight: 700;"><?php echo $type_operation; ?></span></p>
 	        <br>
             <form class="uk-flex uk-flex-column" id="select_seat" action="/pravka-operatcii-registratciia/" method="post">
                 <div class="uk-margin-small-bottom uk-hidden">
                     <input class="uk-input" id="id_edit_operation" type="text" name="id_edit_operation" value="<?php echo $operation_id; ?>">
                 </div>
     	        <p class="uk-margin-remove">Проба: <span style="font-weight: 700;"><?php echo $proba; ?></span></p>
+                <div class="uk-margin-small-bottom uk-hidden">
+                    <input class="uk-input custom1" id="old_selected_proba" type="text" name="old_selected_proba" value="<?php echo $proba; ?>" autocomplete="off" required>
+                </div>
+                <div class="uk-margin-small-bottom">
+                    <select class="uk-select" id="new_selected_proba" name="new_selected_proba">
+                        <option>585</option>
+                        <option>375</option>
+                        <option>333</option>
+                        <option>417</option>
+                        <option>500</option>
+                        <option>620</option>
+                        <option>750</option>
+                        <option>800</option>
+                        <option>850</option>
+                        <option>875</option>
+                        <option>900</option>
+                        <option>916</option>
+                        <option>958</option>
+                        <option>990</option>
+                        <option>999</option>
+                        <option>Ag</option>
+                        <option>Pt</option>
+                        <option>Pd</option>
+                    </select>
+                </div>
+
+                <p class="uk-margin-remove">Цена за грамм: <span style="font-weight: 700;"><?php echo $price_gramm; ?></span></p>
+                <div class="uk-margin-small-bottom uk-hidden">
+                    <input class="uk-input custom1" id="old_price_gramm" type="text" name="old_price_gramm" value="<?php echo $price_gramm; ?>" autocomplete="off" required>
+                </div>
+                <div class="uk-margin-small-bottom">
+                    <input class="uk-input custom1" id="price_gramm" type="text" name="new_price_gramm" value="<?php echo $price_gramm; ?>" autocomplete="off" required>
+                </div>
 
     	        <p class="uk-margin-remove">Вес: <span style="font-weight: 700;"><?php echo $weight; ?></span></p>
                 <div class="uk-margin-small-bottom uk-hidden">
@@ -114,14 +148,6 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                 </div>
                 <div class="uk-margin-small-bottom">
                     <input class="uk-input custom1" id="selected_weight" type="text" name="new_selected_weight" value="<?php echo $weight; ?>" placeholder="Вес" autocomplete="off" required>
-                </div>
-
-    	        <p class="uk-margin-remove">Цена за грамм: <span style="font-weight: 700;"><?php echo $price_gramm; ?></span></p>
-                <div class="uk-margin-small-bottom uk-hidden">
-                    <input class="uk-input custom1" id="old_price_gramm" type="text" name="old_price_gramm" value="<?php echo $price_gramm; ?>" autocomplete="off" required>
-                </div>
-                <div class="uk-margin-small-bottom">
-                    <input class="uk-input custom1" id="price_gramm" type="text" name="new_price_gramm" value="<?php echo $price_gramm; ?>" autocomplete="off" required>
                 </div>
 
     	        <p class="uk-margin-remove">Итоговая стоимость: <span style="font-weight: 700;"><?php echo $price; ?></span></p>
@@ -132,7 +158,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     <input class="uk-input" id="selected_price" type="text" name="new_selected_price" value="<?php echo $price; ?>" autocomplete="off" required>
                 </div>
 
-    	        <p class="uk-margin-remove">Сумма скупки: <span style="font-weight: 700;"><?php echo $pay; ?></span></p>
+    	        <p class="uk-margin-remove">Сумма: <span style="font-weight: 700;"><?php echo $pay; ?></span></p>
                 <div class="uk-margin-small-bottom uk-hidden">
                     <input class="uk-input" id="old_selected_pay" type="text" name="old_selected_pay" value="<?php echo $pay; ?>" autocomplete="off" required>
                 </div>

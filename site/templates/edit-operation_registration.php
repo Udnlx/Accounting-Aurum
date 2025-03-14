@@ -25,6 +25,8 @@ if(isset($_SESSION['access'])){
 
 $date = date("d-m-Y"); 
 $id_edit_operation = !empty($_POST['id_edit_operation'])?$_POST['id_edit_operation']:NULL; 
+$old_selected_proba = !empty($_POST['old_selected_proba'])?$_POST['old_selected_proba']:NULL; 
+$new_selected_proba = !empty($_POST['new_selected_proba'])?$_POST['new_selected_proba']:NULL; 
 $old_selected_weight = !empty($_POST['old_selected_weight'])?$_POST['old_selected_weight']:NULL; 
 $new_selected_weight = !empty($_POST['new_selected_weight'])?$_POST['new_selected_weight']:NULL; 
 $old_price_gramm = !empty($_POST['old_price_gramm'])?$_POST['old_price_gramm']:NULL; 
@@ -42,8 +44,15 @@ if ($id_edit_operation && $_SESSION['reload'] != 'on') {
 
     //Получаем, что было измененно
     $changed = '';
+    $edit_lom = 0;
+    $edit_cash = 0;
+    $cash_operation_id = 0;
+    if ($old_selected_proba != $new_selected_proba) {
+        $changed .= 'Проба изменилась с ' . $old_selected_proba . ' на ' . $new_selected_proba . '; ';
+    }
     if ($old_selected_weight != $new_selected_weight) {
         $changed .= 'Вес изменился с ' . $old_selected_weight . ' на ' . $new_selected_weight . '; ';
+        $edit_lom = $new_selected_weight - $old_selected_weight;
     }
     if ($old_price_gramm != $new_price_gramm) {
         $changed .= 'Цена за грамм изменилась с ' . $old_price_gramm . ' на ' . $new_price_gramm . '; ';
@@ -53,6 +62,50 @@ if ($id_edit_operation && $_SESSION['reload'] != 'on') {
     }
     if ($old_selected_pay != $new_selected_pay) {
         $changed .= 'Сумма скупки изменилась с ' . $old_selected_pay . ' на ' . $new_selected_pay . '; ';
+        $edit_cash = $new_selected_pay - $old_selected_pay;
+        $cash_operation = $pages->get('template=cash_operation, note$=' . $page_edit_operation->id . '');
+        $cash_operation_id = $cash_operation->id;
+    }
+
+    $btn_edit_block = '';
+    if ($old_selected_proba != $new_selected_proba) {
+        $btn_edit_block .= '
+        <p class="uk-margin-remove">Вернуть лом ' . $old_selected_proba . ' пробы в размере ' . $old_selected_weight . 'г.</p>
+        <input class="uk-input" id="edit_return" type="text" name="edit_return" value="' . $old_selected_weight . '">
+        <a id="btn_edit_return" class="uk-margin-small-top uk-button uk-button-default uk-width-1-1">Вернуть</a>
+        <br><br>
+        <p class="uk-margin-remove">Забрать лом ' . $new_selected_proba . ' пробы в размере ' . $new_selected_weight . 'г.</p>
+        <input class="uk-input" id="edit_pick" type="text" name="edit_pick" value="' . $new_selected_weight . '">
+        <a id="btn_edit_pick" class="uk-margin-small-top uk-button uk-button-default uk-width-1-1">Забрать</a>
+        <br><br>
+        ';
+        if ($edit_cash != 0) {
+            $btn_edit_block .= '
+            <p class="uk-margin-remove">Изменить кассу на ' . $edit_cash . 'р.</p>
+            <input class="uk-input" id="id_cash" type="text" name="id_cash" value="' . $cash_operation_id . '">
+            <input class="uk-input" id="edit_cash" type="text" name="edit_cash" value="' . $edit_cash . '">
+            <a id="btn_edit_pick" class="uk-margin-small-top uk-button uk-button-default uk-width-1-1">Изменить</a>
+            <br><br>
+            ';
+        }
+    } else {
+        if ($edit_lom != 0) {
+            $btn_edit_block .= '
+            <p class="uk-margin-remove">Изменить лом на ' . $edit_lom . 'г.</p>
+            <input class="uk-input" id="edit_lom" type="text" name="edit_lom" value="' . $edit_lom . '">
+            <a id="btn_edit_pick" class="uk-margin-small-top uk-button uk-button-default uk-width-1-1">Изменить</a>
+            <br><br>
+            ';
+        }
+        if ($edit_cash != 0) {
+            $btn_edit_block .= '
+            <p class="uk-margin-remove">Изменить кассу на ' . $edit_cash . 'р.</p>
+            <input class="uk-input" id="id_cash" type="text" name="id_cash" value="' . $cash_operation_id . '">
+            <input class="uk-input" id="edit_cash" type="text" name="edit_cash" value="' . $edit_cash . '">
+            <a id="btn_edit_pick" class="uk-margin-small-top uk-button uk-button-default uk-width-1-1">Изменить</a>
+            <br><br>
+            ';
+        }
     }
 
     //Регестрируем изменения в операции
@@ -60,9 +113,10 @@ if ($id_edit_operation && $_SESSION['reload'] != 'on') {
     $changes_desc = '===' . date("Y-m-d H-i") . ': ' . $changed . '. Причина: ' . $description_changes;
     $edit_page_title = $edit_page->title;
     $data_array = explode(" - ", $edit_page_title);
-    $new_title = $data_array[0] . ' - ' . $data_array[1] . ' - ' . $data_array[2] . ' - ' . $new_selected_weight . 'г - ' . $data_array[4] . ' - Операция изменялась';
+    $new_title = $data_array[0] . ' - ' . $data_array[1] . ' - ' . $new_selected_proba . ' - ' . $new_selected_weight . 'г - ' . $data_array[4] . ' - Операция изменялась';
     $edit_page->of(false);
     $edit_page->title = $new_title;
+    $edit_page->proba = $new_selected_proba;
     $edit_page->weight = $new_selected_weight;
     $edit_page->price_gramm = $new_price_gramm;
     $edit_page->price = $new_selected_price;
@@ -97,15 +151,17 @@ if ($id_edit_operation && $_SESSION['reload'] != 'on') {
 } else {
 	$success = 'Регистрация изменений в операции не прошла!<br>Ошибка в данных';
     $changed = '';
+    $btn_edit_block = '';
     if ($_SESSION['reload'] == 'on') {
         $success = 'Повторная отправка данных!<br>Регистрация изменений в операции повторно не проведена';
+        $btn_edit_block = '';
     }
 }
 
 if ($operator == 'no_operator' || $selected_point == 'no_point' || $access != 'admin') {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Внесение правок в операцию - Регистрация (в разработке)</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Внесение правок в операцию - Регистрация</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title">Потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -137,7 +193,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Внесение правок в операцию - Регистрация (в разработке)</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Внесение правок в операцию - Регистрация</h1>
 	<div>
 
         <div>
@@ -160,8 +216,8 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 	        <p class="uk-margin-remove"><span style="font-weight: 700;">Изменения</span> которые были зарегистрированы: </p>
             <?php echo $changed; ?>
             <br>
-            <p class="uk-margin-remove" style="color:red;"><span style="font-weight: 700;">Внимание!</span> При изменении данных в операции возможно нужно изменить остатки по лому и кассам!</p>
-            <a class="uk-margin-small-top uk-button uk-button-default" href="/pravki-po-lomu-i-kassam-formy/">Правки по лому и кассам</a>
+            <p class="uk-margin-remove" style="color:red;"><span style="font-weight: 700;font-size: 20px;">Внимание!</span> При изменении данных в операции возможно нужно изменить остатки по лому и кассам!</p>
+            <?php echo $btn_edit_block; ?>
         </div>
 
         <br>
