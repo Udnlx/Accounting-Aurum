@@ -6,11 +6,18 @@ $(".readonly").keydown(function(e){
 
 $(window).on('load', function() {
 
-	//Получение свободного металла при загрузке страницы по продаже лома
 	let url = window.location.pathname;
+
+	//Получение свободного металла при загрузке страницы по продаже лома
 	if (url == '/prodazha-lom/') {
 		let free = $('#free_375').text();
 		$('#label_free_for_sale').text('Доступно для продажи: '+ free +' грамм');
+	}
+
+	//Установка нужно пробы при внесение правок в операцию
+	if (url == '/pravka-operatcii-forma/') {
+		let proba = $('#proba').text();
+		$('#new_selected_proba option:contains("'+proba+'")').prop('selected', true);
 	}
 
 });
@@ -714,3 +721,137 @@ var inactivityTime = function () {
 window.onload = function() {
   	inactivityTime();
 }
+
+
+
+//Скрипты при изменении данных в операции для изменения остатков по лому и кассам
+
+$('#btn_edit_return').click(function() {
+	//console.log ('Скрипт возврата лома');
+	var id_edit_operation = $('#id_edit_operation').val();
+	var proba_return = $('#proba_return').val();
+	var weight_return = $('#edit_return').val();
+	if (proba_return == '' || weight_return == '') {
+		alert('Заполните пожалуйста все поля возврата лома');
+	} else {
+		$.ajax({
+		    type: "POST",
+		    url: '/edtoper_lom_return.php',
+		    data: {
+		    	'id_edit_operation':id_edit_operation,  
+		    	'proba_return':proba_return, 
+		    	'weight_return':weight_return, 
+		    },
+		    beforeSend: function () {
+		        $('#result_lom_return').html('<p class="messages" style="color: green;">Отправка и обработка данных...</p>');
+		    },
+		    success: function (data) {
+		        $('#result_lom_return').html(data);
+		        $('#edit_return').addClass('uk-hidden');
+		        $('#btn_edit_return').addClass('uk-hidden');
+		    },
+		    error: function (jqXHR, text, error) {
+		        $('#result_lom_return').html(error);
+		    }
+		});
+	return false;  
+	}
+});
+
+$('#btn_edit_pick').click(function() {
+	//console.log ('Скрипт забора лома');
+	var id_edit_operation = $('#id_edit_operation').val();
+	var proba_pick = $('#proba_pick').val();
+	var weight_pick = $('#edit_pick').val();
+	if (proba_pick == '' || weight_pick == '') {
+		alert('Заполните пожалуйста все поля возврата лома');
+	} else {
+		$.ajax({
+		    type: "POST",
+		    url: '/edtoper_lom_pick.php',
+		    data: {
+		    	'id_edit_operation':id_edit_operation,  
+		    	'proba_pick':proba_pick, 
+		    	'weight_pick':weight_pick, 
+		    },
+		    beforeSend: function () {
+		        $('#result_lom_pick').html('<p class="messages" style="color: green;">Отправка и обработка данных...</p>');
+		    },
+		    success: function (data) {
+		        $('#result_lom_pick').html(data);
+		        $('#edit_pick').addClass('uk-hidden');
+		        $('#btn_edit_pick').addClass('uk-hidden');
+		    },
+		    error: function (jqXHR, text, error) {
+		        $('#result_lom_pick').html(error);
+		    }
+		});
+	return false;  
+	}
+});
+
+$('#btn_edit_lom').click(function() {
+	//console.log ('Скрипт изменения лома');
+	var id_edit_operation = $('#id_edit_operation').val();
+	var proba_edit = $('#proba_lom').val();
+	var weight_edit = $('#edit_lom').val();
+	if (proba_edit == '' || weight_edit == '') {
+		alert('Заполните пожалуйста все поля возврата лома');
+	} else {
+		$.ajax({
+		    type: "POST",
+		    url: '/edtoper_lom_edit.php',
+		    data: {
+		    	'id_edit_operation':id_edit_operation,  
+		    	'proba_edit':proba_edit, 
+		    	'weight_edit':weight_edit, 
+		    },
+		    beforeSend: function () {
+		        $('#result_lom_edit').html('<p class="messages" style="color: green;">Отправка и обработка данных...</p>');
+		    },
+		    success: function (data) {
+		        $('#result_lom_edit').html(data);
+		        $('#edit_lom').addClass('uk-hidden');
+		        $('#btn_edit_lom').addClass('uk-hidden');
+		    },
+		    error: function (jqXHR, text, error) {
+		        $('#result_lom_edit').html(error);
+		    }
+		});
+	return false;  
+	}
+});
+
+$('#btn_edit_cash').click(function() {
+	//console.log ('Скрипт изменения кассы');
+	var id_edit_operation = $('#id_edit_operation').val();
+	var id_edit_cash = $('#id_cash').val();
+	var sum_edit = $('#edit_cash').val();
+	if (sum_edit == '') {
+		alert('Заполните пожалуйста все поля изменения в кассе');
+	} else {
+		$.ajax({
+		    type: "POST",
+		    url: '/edtoper_cash.php',
+		    data: {
+		    	'id_edit_operation':id_edit_operation, 
+		    	'id_edit_cash':id_edit_cash,  
+		    	'sum_edit':sum_edit,
+		    },
+		    beforeSend: function () {
+		        $('#result_edit_cash').html('<p class="messages" style="color: green;">Отправка и обработка данных...</p>');
+		    },
+		    success: function (data) {
+		        $('#result_edit_cash').html(data);
+		        $('#edit_cash').addClass('uk-hidden');
+		        $('#btn_edit_cash').addClass('uk-hidden');
+		    },
+		    error: function (jqXHR, text, error) {
+		        $('#result_edit_cash').html(error);
+		    }
+		});
+	return false;  
+	}
+});
+
+//Скрипты при изменении данных в операции для изменения остатков по лому и кассам

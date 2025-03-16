@@ -71,20 +71,25 @@ if ($id_edit_operation && $_SESSION['reload'] != 'on') {
     if ($old_selected_proba != $new_selected_proba) {
         $btn_edit_block .= '
         <p class="uk-margin-remove">Вернуть лом ' . $old_selected_proba . ' пробы в размере ' . $old_selected_weight . 'г.</p>
+        <input class="uk-input uk-hidden" id="proba_return" type="text" name="proba_return" value="' . $old_selected_proba . '">
         <input class="uk-input" id="edit_return" type="text" name="edit_return" value="' . $old_selected_weight . '">
+        <div id="result_lom_return"></div>
         <a id="btn_edit_return" class="uk-margin-small-top uk-button uk-button-default uk-width-1-1">Вернуть</a>
         <br><br>
         <p class="uk-margin-remove">Забрать лом ' . $new_selected_proba . ' пробы в размере ' . $new_selected_weight . 'г.</p>
+        <input class="uk-input uk-hidden" id="proba_pick" type="text" name="proba_pick" value="' . $new_selected_proba . '">
         <input class="uk-input" id="edit_pick" type="text" name="edit_pick" value="' . $new_selected_weight . '">
+        <div id="result_lom_pick"></div>
         <a id="btn_edit_pick" class="uk-margin-small-top uk-button uk-button-default uk-width-1-1">Забрать</a>
         <br><br>
         ';
         if ($edit_cash != 0) {
             $btn_edit_block .= '
             <p class="uk-margin-remove">Изменить кассу на ' . $edit_cash . 'р.</p>
-            <input class="uk-input" id="id_cash" type="text" name="id_cash" value="' . $cash_operation_id . '">
+            <input class="uk-input uk-hidden" id="id_cash" type="text" name="id_cash" value="' . $cash_operation_id . '">
             <input class="uk-input" id="edit_cash" type="text" name="edit_cash" value="' . $edit_cash . '">
-            <a id="btn_edit_pick" class="uk-margin-small-top uk-button uk-button-default uk-width-1-1">Изменить</a>
+            <div id="result_edit_cash"></div>
+            <a id="btn_edit_cash" class="uk-margin-small-top uk-button uk-button-default uk-width-1-1">Изменить</a>
             <br><br>
             ';
         }
@@ -92,17 +97,20 @@ if ($id_edit_operation && $_SESSION['reload'] != 'on') {
         if ($edit_lom != 0) {
             $btn_edit_block .= '
             <p class="uk-margin-remove">Изменить лом на ' . $edit_lom . 'г.</p>
+            <input class="uk-input uk-hidden" id="proba_lom" type="text" name="proba_lom" value="' . $new_selected_proba . '">
             <input class="uk-input" id="edit_lom" type="text" name="edit_lom" value="' . $edit_lom . '">
-            <a id="btn_edit_pick" class="uk-margin-small-top uk-button uk-button-default uk-width-1-1">Изменить</a>
+            <div id="result_lom_edit"></div>
+            <a id="btn_edit_lom" class="uk-margin-small-top uk-button uk-button-default uk-width-1-1">Изменить</a>
             <br><br>
             ';
         }
         if ($edit_cash != 0) {
             $btn_edit_block .= '
             <p class="uk-margin-remove">Изменить кассу на ' . $edit_cash . 'р.</p>
-            <input class="uk-input" id="id_cash" type="text" name="id_cash" value="' . $cash_operation_id . '">
+            <input class="uk-input uk-hidden" id="id_cash" type="text" name="id_cash" value="' . $cash_operation_id . '">
             <input class="uk-input" id="edit_cash" type="text" name="edit_cash" value="' . $edit_cash . '">
-            <a id="btn_edit_pick" class="uk-margin-small-top uk-button uk-button-default uk-width-1-1">Изменить</a>
+            <div id="result_edit_cash"></div>
+            <a id="btn_edit_cash" class="uk-margin-small-top uk-button uk-button-default uk-width-1-1">Изменить</a>
             <br><br>
             ';
         }
@@ -217,6 +225,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
             <?php echo $changed; ?>
             <br>
             <p class="uk-margin-remove" style="color:red;"><span style="font-weight: 700;font-size: 20px;">Внимание!</span> При изменении данных в операции возможно нужно изменить остатки по лому и кассам!</p>
+            <input class="uk-input uk-hidden" id="id_edit_operation" type="text" name="id_edit_operation" value="<?php echo $id_edit_operation; ?>">
             <?php echo $btn_edit_block; ?>
         </div>
 

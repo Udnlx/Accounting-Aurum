@@ -107,7 +107,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                 <div class="uk-margin-small-bottom uk-hidden">
                     <input class="uk-input" id="id_edit_operation" type="text" name="id_edit_operation" value="<?php echo $operation_id; ?>">
                 </div>
-    	        <p class="uk-margin-remove">Проба: <span style="font-weight: 700;"><?php echo $proba; ?></span></p>
+    	        <p class="uk-margin-remove">Проба: <span id="proba" style="font-weight: 700;"><?php echo $proba; ?></span></p>
                 <div class="uk-margin-small-bottom uk-hidden">
                     <input class="uk-input custom1" id="old_selected_proba" type="text" name="old_selected_proba" value="<?php echo $proba; ?>" autocomplete="off" required>
                 </div>
