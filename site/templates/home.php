@@ -67,7 +67,7 @@ if ($startday != '' || $actual != '' || $reserv != '') {
     }
 
     $admin_btn = '';
-    if ($operator == 'admin') {
+    if ($access == 'admin') {
         $admin_btn = '
         <a class="menu-link ' . $shift_close . '" href="/obshchaia-kassa-tip-operatcii/">Общая касса</a>
         <a class="menu-link ' . $shift_close . '" href="/dolgi/">Долги</a>

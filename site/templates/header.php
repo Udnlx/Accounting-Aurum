@@ -23,6 +23,11 @@ if(isset($_SESSION['id_point'])){
     $selected_id_point = 'no_id_point';
 }
 
+$access = '';
+if(isset($_SESSION['access'])){
+    $access = $_SESSION['access'];
+}
+
 $page_cash = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
 $cash = number_format($page_cash->sum, 2, '.',' ');
 
@@ -43,7 +48,7 @@ $title .= $cash_point5->title . ' - ' . number_format($cash_point5->sum, 2, '.',
 $title .= $all_page_cash->title . ' - ' . number_format($all_page_cash->sum, 2, '.',' ') . '; ';
 
 $all_cash = '';
-if ($operator == 'admin') {
+if ($access == 'admin') {
     $all_cash = '
     <p class="uk-margin-remove uk-text-bold" style="cursor: help;" title="' . $title . '">Всего налички: ' . number_format($total_sum, 2, '.',' ') . ';</p>
     ';
