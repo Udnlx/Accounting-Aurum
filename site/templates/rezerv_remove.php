@@ -93,6 +93,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+
                 <form class="uk-flex uk-flex-column" id="select_seat" action="/rezerv-zakrytie-registratciia/" method="post">
                     <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="selected_date" type="text" name="selected_date" value="<?php echo $today; ?>">
@@ -120,9 +121,28 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     </div>
 
                     <div class="uk-margin-small-top uk-flex uk-flex-column">
+                        <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Отменить резерв</button>
+                    </div>
+                </form>
+
+                <form class="uk-flex uk-flex-column" id="select_seat" action="/rezerv-operatciia/" method="post">
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input readonly" id="operation_reserv_id" type="text" name="operation_reserv_id" value="" placeholder="Идентификатор открытого резерва" autocomplete="off" required>
+                    </div>
+                    <div class="uk-margin-small-top uk-hidden">
+                        <label for="selected_proba">Проба</label>
+                        <input class="uk-input readonly" id="operation_selected_proba" type="text" name="operation_selected_proba" value="" autocomplete="off" required>
+                    </div>
+                    <div class="uk-margin-small-top uk-hidden">
+                        <label for="selected_weight">Вес</label>
+                        <input class="uk-input readonly" id="operation_selected_weight" type="text" name="operation_selected_weight" value="" autocomplete="off" required>
+                    </div>
+
+                    <div class="uk-margin-small-top uk-flex uk-flex-column">
                         <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Закрыть резерв</button>
                     </div>
                 </form>
+
             </div>
         </div>
         

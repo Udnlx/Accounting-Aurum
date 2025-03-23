@@ -10,11 +10,76 @@ $(window).on('load', function() {
 
 	//Получение свободного металла при загрузке страницы по продаже лома
 	if (url == '/prodazha-lom/') {
-		let free = $('#free_375').text();
+		let free = $('#free_585').text();
 		$('#label_free_for_sale').text('Доступно для продажи: '+ free +' грамм');
 	}
 
-	//Установка нужно пробы при внесение правок в операцию
+	//Установка нужной пробы и веса, цены за грам и общей цены при закрытии резерва с операцией продажи
+	if (url == '/rezerv-operatciia/') {
+		let proba = $('#proba').text();
+		$('#selected_proba option:contains("'+proba+'")').prop('selected', true);
+
+		let selected_proba = $('#selected_proba option:selected').text();
+		if (selected_proba != 'Ag' && selected_proba != 'Pt' && selected_proba != 'Pd' && selected_proba != '999') {
+			let main_price = $('#main_price_gold').val();
+		    let get_price_gramm = (main_price/585)*selected_proba;
+		    let price_gramm = (Math.round(get_price_gramm * 100) / 100).toFixed(2);
+		    let percent = price_gramm*3/100;
+		    let min_price = (Math.round(price_gramm - percent)).toFixed(2);
+		    $('#price_gramm').val(price_gramm);
+		    $('#base_price').text(price_gramm);
+		    $('#min_price').text(min_price);
+		} else {
+			if (selected_proba == '999') {
+				let main_price = $('#main_price_gold_999').val();
+				let price_gramm = (Math.round(main_price * 100) / 100).toFixed(2);
+				let percent = price_gramm*3/100;
+		    	let min_price = (Math.round(price_gramm - percent)).toFixed(2);
+				$('#price_gramm').val(price_gramm);
+				$('#base_price').text(price_gramm);
+		    	$('#min_price').text(min_price);
+			}
+			if (selected_proba == 'Ag') {
+				let main_price = $('#main_price_silver').val();
+				let price_gramm = (Math.round(main_price * 100) / 100).toFixed(2);
+				let percent = price_gramm*3/100;
+		    	let min_price = (Math.round(price_gramm - percent)).toFixed(2);
+				$('#price_gramm').val(price_gramm);
+				$('#base_price').text(price_gramm);
+		    	$('#min_price').text(min_price);
+			}
+			if (selected_proba == 'Pt') {
+				let main_price = $('#main_price_platinum').val();
+				let price_gramm = (Math.round(main_price * 100) / 100).toFixed(2);
+				let percent = price_gramm*3/100;
+		    	let min_price = (Math.round(price_gramm - percent)).toFixed(2);
+				$('#price_gramm').val(price_gramm);
+				$('#base_price').text(price_gramm);
+		    	$('#min_price').text(min_price);
+			}
+			if (selected_proba == 'Pd') {
+				let main_price = $('#main_price_palladium').val();
+				let price_gramm = (Math.round(main_price * 100) / 100).toFixed(2);
+				let percent = price_gramm*3/100;
+		    	let min_price = (Math.round(price_gramm - percent)).toFixed(2);
+				$('#price_gramm').val(price_gramm);
+				$('#base_price').text(price_gramm);
+		    	$('#min_price').text(min_price);
+			}
+		}
+
+		let weight = $('#weight').text();
+		let price_gramm = $('#price_gramm').val();
+		let selected_price = weight * price_gramm;
+		let price = (Math.round(selected_price * 100) / 100).toFixed(2);
+		if (!price) {
+			price = '';
+		}
+		$('#selected_weight').val(weight);
+		$('#selected_price').val(price);
+	}
+
+	//Установка нужной пробы при внесение правок в операцию
 	if (url == '/pravka-operatcii-forma/') {
 		let proba = $('#proba').text();
 		$('#new_selected_proba option:contains("'+proba+'")').prop('selected', true);
@@ -505,6 +570,10 @@ $('p.reserv_id').click(function() {
     $('#reserv_id').val(edited_reserv);
     $('#selected_proba').val(proba_reserv);
     $('#selected_weight').val(weight_reserv);
+
+    $('#operation_reserv_id').val(edited_reserv);
+    $('#operation_selected_proba').val(proba_reserv);
+    $('#operation_selected_weight').val(weight_reserv);
 });
 
 

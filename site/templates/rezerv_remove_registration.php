@@ -8,23 +8,23 @@ $reserv_id = !empty($_POST['reserv_id'])?$_POST['reserv_id']:NULL;
 $proba = !empty($_POST['selected_proba'])?$_POST['selected_proba']:NULL;  
 $weight = !empty($_POST['selected_weight'])?$_POST['selected_weight']:NULL;   
 
-$success = 'Закрытие резерва прошло успешно';
+$success = 'Отмена резерва прошла успешно';
 if ($worker && $reserv_id && $proba && $weight && $_SESSION['reload'] != 'on') {
-    //Закрываем открытые аффинажы
+    //Отменяем резерв
     $edit_page = $pages->get('template=reserv_itm, id=' . $reserv_id . '');
     $reserv_note = $edit_page->reserv_note;
     $edit_page->of(false);
-    $edit_page->title = $edit_page->title . ' - Закрыт';
-    $edit_page->product_status = 'Закрыт';
+    $edit_page->title = $edit_page->title . ' - Отменен';
+    $edit_page->product_status = 'Отменен';
     $edit_page->save();
 
-    //Записываем закрытие в лог
+    //Записываем отмену в лог
     $log = '';
-    $log .= date("Y-m-d H:i") . ' Резерв - Закрытие - ' . $proba . ' - ' . $weight . 'г - ' . $point . ' === ';
-    $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $reserv_id . ', Комментарий: ' . $reserv_note; 
+    $log .= date("Y-m-d H:i") . ' Резерв - Отмена - ' . $proba . ' - ' . $weight . 'г - ' . $point . ' === ';
+    $log .= 'Отменил резерв: ' . $worker . ', ID резерва: ' . $reserv_id . ', Комментарий резерва: ' . $reserv_note; 
     file_put_contents(__DIR__ . '/log_reserv.txt', $log . PHP_EOL, FILE_APPEND);
 
-    //Изменяем остатки
+    //Меняем таблицу резерва
     $point_actual_table = $pages->get('id_point=' . $idpoint . '_reserv');
     $edit_page = $point_actual_table->get('title=' . $proba . '');
     // echo $edit_page . '<br>';
@@ -39,7 +39,7 @@ if ($worker && $reserv_id && $proba && $weight && $_SESSION['reload'] != 'on') {
     //Предотвращаем повторную регистрацию
     $_SESSION['reload'] = 'on';
 } else {
-	$success = 'Закрытие резерва не прошло!<br>Ошибка в данных';
+	$success = 'Отмена резерва не прошла!<br>Ошибка в данных';
     if ($_SESSION['reload'] == 'on') {
         $success = 'Повторная отправка данных!<br>Запись уже существует, регистрация записи повторно не проведена';
     }
@@ -71,7 +71,7 @@ if(isset($_SESSION['access'])){
 if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Закрытие резерва - Регистрация</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Отмена резерва - Регистрация</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title">Потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -103,7 +103,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Закрытие резерва - Регистрация</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Отмена резерва - Регистрация</h1>
 	<div>
 
         <div>

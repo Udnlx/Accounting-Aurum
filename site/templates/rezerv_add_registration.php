@@ -13,9 +13,8 @@ $success = 'Добавление резерва прошло успешно';
 if ($worker && $proba && $weight  && $reserv_note && $_SESSION['reload'] != 'on') {
 	//Регестрируем запись
     $pages->add('reserv_itm', 1300 , [
-    'title' => date("Y-m-d H:i") . ' Резерв - Добавление - ' . $proba . ' - ' . $weight . 'г - ' . $point,
+    'title' => date("Y-m-d H:i") . ' Резерв - ' . $proba . ' - ' . $weight . 'г - ' . $point,
     'type_operation' => 'Резерв',
-    'undertype_operation' => 'Добавление',
     'date' => $date,
     'point' => $point,
     'id_point' => $idpoint,
@@ -25,16 +24,16 @@ if ($worker && $proba && $weight  && $reserv_note && $_SESSION['reload'] != 'on'
     'description_operation' => $description_operation,
     'reserv_note' => $reserv_note,
     ]);
-    $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Резерв - Добавление - ' . $proba . ' - ' . $weight . 'г - ' . $point . '');
+    $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Резерв - ' . $proba . ' - ' . $weight . 'г - ' . $point . '');
     $operation_id = $operation_page->id;
 
     //Записываем добавление в лог
     $log = '';
     $log .= date("Y-m-d H:i") . ' Резерв - Добавление - ' . $proba . ' - ' . $weight . 'г - ' . $point . ' === ';
-    $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $operation_id . ', Для кого резерв: ' . $description_operation . ', Комментарий: ' . $reserv_note;
+    $log .= 'Добавил резерв: ' . $worker . ', ID резерва: ' . $operation_id . ', Для кого резерв: ' . $description_operation . ', Комментарий резерва: ' . $reserv_note;
     file_put_contents(__DIR__ . '/log_reserv.txt', $log . PHP_EOL, FILE_APPEND);
 
-    //Изменяем остатки
+    //Меняем таблицу резерва
     $point_actual_table = $pages->get('id_point=' . $idpoint . '_reserv');
     $edit_page = $point_actual_table->get('title=' . $proba . '');
     // echo $edit_page . '<br>';
