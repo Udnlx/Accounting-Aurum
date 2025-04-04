@@ -36,6 +36,14 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
 <?php    
 } else {
 
+//Получение всех Юзеров
+$all_users_folder = $pages->get('template=users_system');
+$all_users = $all_users_folder->children();
+$option_workers = '';
+foreach ($all_users as $user) {
+    $option_workers .= '<option value="' . $user->title . '">' . $user->title . '</option>';
+}
+
 //Получение всех операций
 $all_operations = '';
 $all_operations_itm = $pages->find('template=operation_itm, sort=-sort, limit=20');
@@ -48,6 +56,58 @@ foreach ($all_operations_itm as $itm) {
     </a>';
 }
 $all_operations .= '</div>';
+
+//Получение всех изделий в наличии
+$stock_products = '';
+$stock_products_itm = $pages->find('template=product_itm, product_status=в наличии, sort=-sort, limit=20');
+$stock_products .= '<div class="scrolling-list" style="max-height: 700px;">';
+foreach ($stock_products_itm as $itm) {
+    $stock_products .= '
+    <div class="list-product-itm">
+        <div class="list-product-itm-text">
+            <p>' . $itm->title . '</p>
+            <p style="font-size:10px;">Порядковый номер: ' . $itm->serial_number . '</p>
+            <p style="font-size:10px;">' . $itm->product_description . '</p>
+            <p style="font-size:10px;">URL Авито: ' . $itm->url_avito . '</p>
+            <p style="font-size:10px;">Оператор скупки: ' . $itm->worker . '</p>
+            <p style="font-size:12px; font-weight: 700;">Дата скупки: ' . $itm->product_date_buy . '; Цена скупки: ' . $itm->product_price_buy . '</p>
+        </div>
+        <div class="list-product-itm-image">
+            <img class="list-product-itm-image-img" src="' . $itm->url_image . '" alt="">
+        </div>
+    </div>
+    <br>
+    ';
+}
+$stock_products .= '</div>';
+
+//Получение всех проданных изделий
+$sell_products = '';
+$sell_products_itm = $pages->find('template=product_itm, product_status=продано, sort=-sort, limit=20');
+$sell_products .= '<div class="scrolling-list" style="max-height: 700px;">';
+foreach ($sell_products_itm as $itm) {
+    $receipt = $itm->product_price_sell - $itm->product_price_buy;
+    $sell_products .= '
+    <div class="list-product-itm">
+        <div class="list-product-itm-text">
+            <p>' . $itm->title . '</p>
+            <p style="font-size:10px;">Порядковый номер: ' . $itm->serial_number . '</p>
+            <p style="font-size:10px;">' . $itm->product_description . '</p>
+            <p style="font-size:10px;">URL Авито: ' . $itm->url_avito . '</p>
+            <p style="font-size:10px;">Оператор скупки: ' . $itm->worker_sell . '</p>
+            <p style="font-size:12px; font-weight: 700;">Дата скупки: ' . $itm->product_date_buy . '; Цена скупки: ' . $itm->product_price_buy . '; Дата продажи: ' . $itm->product_date_sell . '; Цена продажи: ' . $itm->product_price_sell . '; Выручка: ' . $receipt . '</p>
+            <div class="product-link">
+                <a class="product-link-lnk" href="/skupka-izdelie-vozvrat-v-prodazhu/?prod_id=' . $itm->id . '">Вернуть в продажу</a>
+            </div>
+        </div>
+        <div class="list-product-itm-image">
+            <img class="list-product-itm-image-img" src="' . $itm->url_image . '" alt="">
+        </div>
+    </div>
+    <br>
+    ';
+}
+$sell_products .= '</div>';
 
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
@@ -84,27 +144,87 @@ if ($startday == '' || $actual == '' || $reserv == '') {
         </div>
 
         <div>
-            <h4 class="uk-card-title uk-margin-remove">Последние 20 операций по лому, укажите период для поиска операций</h4>
-            <div class="filtermenu uk-width-1-1 uk-flex">
+            <h4 class="uk-card-title uk-margin-remove">Последние 20 операций по лому, укажите параметры для поиска операций</h4>
+            <div class="filtermenu uk-width-1-1">
                 <form class="form-select-date" id="select_period_date" action="/adminpanel-vse-operatcii-rezul-tat-poiska/" method="post">
-                    <div class="filtermenu-input">
-                        <input class="uk-input" id="selected_start_date" type="date" name="selected_start_date" required>
+                    <p class="uk-margin-remove">Дата</p>
+                    <div class="uk-flex">
+                        <div class="filtermenu-input">
+                            <input class="uk-input" id="selected_start_date" type="date" name="selected_start_date" required>
+                        </div>
+                        <div class="filtermenu-input">
+                            <input class="uk-input" id="selected_finish_date" type="date" name="selected_finish_date" required>
+                        </div>
                     </div>
-                    <div class="filtermenu-input">
-                        <input class="uk-input" id="selected_finish_date" type="date" name="selected_finish_date" required>
+                    <div class="uk-margin-small-top">
+                        <label for="f_point">Точка</label>
+                        <select class="uk-select" id="f_point" name="f_point" required>
+                            <option value="Все точки">Все точки</option>
+                            <option value="Тверская 20">Тверская 20</option>
+                            <option value="Тверская 14">Тверская 14</option>
+                            <option value="Таганка">Таганка</option>
+                            <option value="Комсомолка">Комсомолка</option>
+                            <option value="Митинская 27а">Митинская 27а</option>
+                        </select>
                     </div>
-                    <div class="uk-margin-remove">
-                        <button class="uk-margin-remove uk-button uk-button-default" type="submit">Найти</button>
+                    <div class="uk-margin-small-top">
+                        <label for="f_worker">Оператор</label>
+                        <select class="uk-select" id="f_worker" name="f_worker" required>
+                            <option value="Все операторы">Все операторы</option>
+                            <?php echo $option_workers; ?>
+                        </select>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <label for="f_proba">Проба</label>
+                        <select class="uk-select" id="f_proba" name="f_proba">
+                            <option value="Все пробы">Все пробы</option>
+                            <option value="585">585</option>
+                            <option value="375">375</option>
+                            <option value="333">333</option>
+                            <option value="417">417</option>
+                            <option value="500">500</option>
+                            <option value="620">620</option>
+                            <option value="750">750</option>
+                            <option value="800">800</option>
+                            <option value="850">850</option>
+                            <option value="875">875</option>
+                            <option value="900">900</option>
+                            <option value="916">916</option>
+                            <option value="958">958</option>
+                            <option value="990">990</option>
+                            <option value="999">999</option>
+                            <option value="Ag">Ag</option>
+                            <option value="Pt">Pt</option>
+                            <option value="Pd">Pd</option>
+                        </select>
+                    </div>
+
+                    <div class="uk-margin-small-top uk-width-1-1">
+                        <button class="uk-margin-remove uk-button uk-button-default uk-width-1-1" type="submit">Найти</button>
                     </div>
                 </form>
             </div>
         </div>
 
         <div>
-            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-		        <?php echo $all_operations; ?>
-		    </div>
-		</div>
+            <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+                <li><a href="#">Операции</a></li>
+                <li><a href="#">Изделия в наличии</a></li>
+                <li><a href="#">Проданные изделия</a></li>
+            </ul>
+
+            <div class="uk-switcher uk-margin">
+                <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                    <?php echo $all_operations; ?>
+                </div>
+                <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                    <?php echo $stock_products; ?>
+                </div>
+                <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                    <?php echo $sell_products; ?>
+                </div>
+            </div>
+        </div>
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">

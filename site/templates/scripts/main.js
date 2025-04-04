@@ -85,6 +85,16 @@ $(window).on('load', function() {
 		$('#new_selected_proba option:contains("'+proba+'")').prop('selected', true);
 	}
 
+	//Установка параметров в поиске по операциям
+	if (url == '/adminpanel-vse-operatcii-rezul-tat-poiska/') {
+		let f_point = $('#post_point').text();
+		let f_worker = $('#post_worker').text();
+		let f_proba = $('#post_proba').text();
+		$('#f_point option:contains("'+f_point+'")').prop('selected',true);
+		$('#f_worker option:contains("'+f_worker+'")').prop('selected', true);
+		$('#f_proba option:contains("'+f_proba+'")').prop('selected', true);
+	}
+
 });
 
 
