@@ -54,7 +54,6 @@ foreach ($open_arrears_itm as $itm) {
             </div>
         </div>
     </div>
-    <br>
     ';
 }
 $open_arrears .= '</div>';

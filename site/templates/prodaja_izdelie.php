@@ -61,7 +61,6 @@ foreach ($stock_products_itm as $itm) {
             <img class="list-product-itm-image-img" src="' . $itm->url_image . '" alt="">
         </div>
     </div>
-    <br>
     ';
 }
 $stock_products .= '</div>';

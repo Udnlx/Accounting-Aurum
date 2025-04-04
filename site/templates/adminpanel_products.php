@@ -55,7 +55,6 @@ foreach ($stock_products_itm as $itm) {
             <img class="list-product-itm-image-img" src="' . $itm->url_image . '" alt="">
         </div>
     </div>
-    <br>
     ';
 }
 $stock_products .= '</div>';
@@ -83,7 +82,6 @@ foreach ($sell_products_itm as $itm) {
             <img class="list-product-itm-image-img" src="' . $itm->url_image . '" alt="">
         </div>
     </div>
-    <br>
     ';
 }
 $sell_products .= '</div>';
@@ -124,16 +122,19 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <h4 class="uk-card-title uk-margin-remove">Последние 20 изделий в наличии и проданные, укажите период для поиска изделий</h4>
-            <div class="filtermenu uk-width-1-1 uk-flex">
+            <div class="filtermenu uk-width-1-1">
                 <form class="form-select-date" id="select_period_date" action="/adminpanel-vse-izdeliia-rezul-tat-poiska/" method="post">
-                    <div class="filtermenu-input">
-                        <input class="uk-input" id="selected_start_date" type="date" name="selected_start_date" required>
+                    <div class="uk-flex">
+                        <div class="filtermenu-input">
+                            <input class="uk-input" id="selected_start_date" type="date" name="selected_start_date" required>
+                        </div>
+                        <div class="filtermenu-input">
+                            <input class="uk-input" id="selected_finish_date" type="date" name="selected_finish_date" required>
+                        </div>
                     </div>
-                    <div class="filtermenu-input">
-                        <input class="uk-input" id="selected_finish_date" type="date" name="selected_finish_date" required>
-                    </div>
-                    <div class="uk-margin-remove">
-                        <button class="uk-margin-remove uk-button uk-button-default" type="submit">Найти</button>
+                    
+                    <div class="uk-margin-small-top uk-width-1-1">
+                        <button class="uk-margin-remove uk-button uk-button-default uk-width-1-1" type="submit">Найти</button>
                     </div>
                 </form>
             </div>

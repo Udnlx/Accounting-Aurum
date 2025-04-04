@@ -206,7 +206,7 @@ table {
     font-weight: 700;}
 
 .list-operation-itm {
-    margin: 0 0 5px 0;
+    margin: 0 0 10px 0;
     padding: 7px;
     border: 1px solid #bcbcbc;
     display: flex;
@@ -214,6 +214,7 @@ table {
     align-items: center;}
 
 .list-product-itm {
+    margin: 0 0 10px 0;
     padding: 7px;
     border: 1px solid #bcbcbc;
     display: flex;

@@ -50,10 +50,14 @@ $all_operations_itm = $pages->find('template=operation_itm, sort=-sort, limit=20
 $all_operations .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($all_operations_itm as $itm) {
     // $all_operations .= '<a class="admin-link-itm" href="/prosmotr-operatcii/?operation_id=' . $itm->id . '">' . $itm->title . '</a><br>';
-    $all_operations .= '<a class="admin-link-itm" href="/prosmotr-operatcii/?operation_id=' . $itm->id . '">
+    $all_operations .= '
+    <div class="list-operation-itm">
+    <a class="admin-link-itm" href="/prosmotr-operatcii/?operation_id=' . $itm->id . '">
         <p>' . $itm->title . '</p>
         <p class="reserv_id_note">Оператор: ' . $itm->worker . '</p>
-    </a>';
+    </a>
+    </div>
+    ';
 }
 $all_operations .= '</div>';
 
@@ -76,7 +80,6 @@ foreach ($stock_products_itm as $itm) {
             <img class="list-product-itm-image-img" src="' . $itm->url_image . '" alt="">
         </div>
     </div>
-    <br>
     ';
 }
 $stock_products .= '</div>';
@@ -104,7 +107,6 @@ foreach ($sell_products_itm as $itm) {
             <img class="list-product-itm-image-img" src="' . $itm->url_image . '" alt="">
         </div>
     </div>
-    <br>
     ';
 }
 $sell_products .= '</div>';

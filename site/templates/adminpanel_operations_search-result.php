@@ -179,7 +179,6 @@ foreach ($dates as $day_itm) {
                 <img class="list-product-itm-image-img" src="' . $itm->url_image . '" alt="">
             </div>
         </div>
-        <br>
         ';
     }
 }
@@ -215,7 +214,6 @@ foreach ($dates as $day_itm) {
                 <img class="list-product-itm-image-img" src="' . $itm->url_image . '" alt="">
             </div>
         </div>
-        <br>
         ';
     }
 }

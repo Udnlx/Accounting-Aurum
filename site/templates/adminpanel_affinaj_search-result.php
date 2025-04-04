@@ -69,8 +69,12 @@ foreach ($dates as $day_itm) {
     foreach ($all_operations_itm as $itm) {
         $null_result = '';
         $all_operations .= '
-            <p>' . $itm->title . '</p>
-            <p class="reserv_id_note">Оператор: ' . $itm->worker . '</p>
+        <div class="list-operation-itm">
+            <div>
+                <p>' . $itm->title . '</p>
+                <p class="reserv_id_note">Оператор: ' . $itm->worker . '</p>
+            </div>
+        </div>
         ';
     }
 }
@@ -115,16 +119,19 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <h4 class="uk-card-title uk-margin-remove">Укажите период для поиска аффинажа</h4>
-            <div class="filtermenu uk-width-1-1 uk-flex">
+            <div class="filtermenu uk-width-1-1">
                 <form class="form-select-date" id="select_period_date" action="" method="post">
-                    <div class="filtermenu-input">
-                        <input class="uk-input" id="selected_start_date" type="date" name="selected_start_date" required>
+                    <div class="uk-flex">
+                        <div class="filtermenu-input">
+                            <input class="uk-input" id="selected_start_date" type="date" name="selected_start_date" required>
+                        </div>
+                        <div class="filtermenu-input">
+                            <input class="uk-input" id="selected_finish_date" type="date" name="selected_finish_date" required>
+                        </div>
                     </div>
-                    <div class="filtermenu-input">
-                        <input class="uk-input" id="selected_finish_date" type="date" name="selected_finish_date" required>
-                    </div>
-                    <div class="uk-margin-remove">
-                        <button class="uk-margin-remove uk-button uk-button-default" type="submit">Найти</button>
+
+                    <div class="uk-margin-small-top uk-width-1-1">
+                        <button class="uk-margin-remove uk-button uk-button-default uk-width-1-1" type="submit">Найти</button>
                     </div>
                 </form>
             </div>

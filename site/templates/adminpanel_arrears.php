@@ -42,10 +42,14 @@ $all_arrears_itm = $pages->find('template=arrears_itm, sort=-sort, limit=20');
 $all_arrears .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($all_arrears_itm as $itm) {
     $all_arrears .= '
+    <div class="list-operation-itm">
+        <div>
         <p>' . $itm->title . '</p>
         <p class="reserv_id_note" style="margin:0!important;">Описание долга: ' . $itm->description_operation . '</p>
         <p class="reserv_id_note" style="margin:0!important;">Статус: ' . $itm->product_status . '</p>
         <p class="reserv_id_note">Оператор: ' . $itm->worker . '</p>
+        </div>
+    </div>
     ';
 }
 $all_arrears .= '</div>';
@@ -86,16 +90,19 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <h4 class="uk-card-title uk-margin-remove">Последние 20 долгов, укажите период для поиска долга</h4>
-            <div class="filtermenu uk-width-1-1 uk-flex">
+            <div class="filtermenu uk-width-1-1">
                 <form class="form-select-date" id="select_period_date" action="/adminpanel-vse-dolgi-rezul-tat-poiska/" method="post">
-                    <div class="filtermenu-input">
-                        <input class="uk-input" id="selected_start_date" type="date" name="selected_start_date" required>
+                    <div class="uk-flex">
+                        <div class="filtermenu-input">
+                            <input class="uk-input" id="selected_start_date" type="date" name="selected_start_date" required>
+                        </div>
+                        <div class="filtermenu-input">
+                            <input class="uk-input" id="selected_finish_date" type="date" name="selected_finish_date" required>
+                        </div>
                     </div>
-                    <div class="filtermenu-input">
-                        <input class="uk-input" id="selected_finish_date" type="date" name="selected_finish_date" required>
-                    </div>
-                    <div class="uk-margin-remove">
-                        <button class="uk-margin-remove uk-button uk-button-default" type="submit">Найти</button>
+
+                    <div class="uk-margin-small-top uk-width-1-1">
+                        <button class="uk-margin-remove uk-button uk-button-default uk-width-1-1" type="submit">Найти</button>
                     </div>
                 </form>
             </div>
