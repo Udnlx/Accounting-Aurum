@@ -82,6 +82,13 @@ if ($startday == '' || $actual == '' || $reserv == '') {
     include 'remains_table.php';
 }
 
+//Получение списка касс
+$list_cash = '';
+$all_cash = $pages->find('template=cash_itm, sort=sort');
+foreach ($all_cash as $cash_itm) {
+    $list_cash .= '<option>' . $cash_itm->title . '</option>';
+}
+
 ?>
 
 <div id="content">
@@ -133,6 +140,21 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     </div>
                     <div class="uk-margin-small-top">
                         <input class="uk-input" id="cash_description" type="text" name="cash_description" value="" placeholder="Описание" autocomplete="off" required>
+                    </div>
+
+                    <div class="uk-margin-small-top">
+                        <label for="to_cash">Перевод на кассу</label>
+                        <select class="uk-select" id="to_cash" name="to_cash">
+                            <option></option>
+                            <?php echo $list_cash; ?>
+                        </select>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <label for="coming_cash_card">Вид прихода</label>
+                        <select class="uk-select" id="coming_cash_card" name="coming_cash_card">
+                            <option>Наличный расчет</option>
+                            <option>Безналичный расчет</option>
+                        </select>
                     </div>
                     
                     <div class="uk-margin-small-top uk-flex uk-flex-column">

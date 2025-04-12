@@ -29,56 +29,161 @@ $idpoint = !empty($_POST['selected_idpoint'])?$_POST['selected_idpoint']:NULL;
 $worker = !empty($_POST['selected_worker'])?$_POST['selected_worker']:NULL;  
 $sum = !empty($_POST['selected_sum'])?$_POST['selected_sum']:NULL;  
 $cash_card = !empty($_POST['cash_card'])?$_POST['cash_card']:NULL; 
-$description = !empty($_POST['cash_description'])?$_POST['cash_description']:NULL;  
+$description = !empty($_POST['cash_description'])?$_POST['cash_description']:NULL;
 
-$success = 'Операция расхода проведена';
-if ($worker && $sum && $description && $_SESSION['reload'] != 'on') {
-	//Регестрируем запись
-    $page_cash = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
-    $pages->add('cash_operation', $page_cash , [
-    'title' => date("Y-m-d H:i") . ' Расход - ' . $sum . ' - ' . $point,
-    'type_operation' => 'Расход',
-    'date' => $date,
-    'point' => $point,
-    'id_point' => $idpoint,
-    'worker' => $worker,
-    'sum' => $sum,
-    'cash_card' => $cash_card,
-    'note' => $description,
-    ]);
-    $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Расход - ' . $sum . ' - ' . $point . '');
-    $operation_id = $operation_page->id;
+$to_cash = $_POST['to_cash'];
+$coming_cash_card = !empty($_POST['coming_cash_card'])?$_POST['coming_cash_card']:NULL; 
 
-    //Записываем добавление в лог
-    $log = '';
-    $log .= date("Y-m-d H:i") . ' Расход - ' . $sum . ' - ' . $point . ' === ';
-    $log .= 'Операция проведена: ' . $worker . ', ID записи: ' . $operation_id . ', Сумма: ' . $sum . ', Вид платежа: ' . $cash_card . ', Описание: ' . $description;
-    file_put_contents(__DIR__ . '/log_cash.txt', $log . PHP_EOL, FILE_APPEND);
+if ($to_cash) {
 
-    //Изменяем остатки
-    $edit_page = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
-    if ($cash_card == 'Наличный расчет') {
-        $result = $edit_page->sum - $sum;
-        // echo $result;
-        $edit_page->of(false);
-        $edit_page->sum = $result;
-        $edit_page->save();
+    //echo 'Делаем перевод между кассами';
+    $success = 'Операция перевода между кассами проведена';
+    if ($worker && $sum && $description && $_SESSION['reload'] != 'on') {
+        //Регестрируем запись расхода
+        $page_cash = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
+        $pages->add('cash_operation', $page_cash , [
+        'title' => date("Y-m-d H:i") . ' Расход - ' . $sum . ' - ' . $point,
+        'type_operation' => 'Расход',
+        'date' => $date,
+        'point' => $point,
+        'id_point' => $idpoint,
+        'worker' => $worker,
+        'sum' => $sum,
+        'cash_card' => $cash_card,
+        'note' => $description,
+        ]);
+        $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Расход - ' . $sum . ' - ' . $point . '');
+        $operation_id = $operation_page->id;
+
+        //Записываем добавление в лог при расходе
+        $log = '';
+        $log .= date("Y-m-d H:i") . ' Расход - ' . $sum . ' - ' . $point . ' === ';
+        $log .= 'Операция проведена: ' . $worker . ', ID записи: ' . $operation_id . ', Сумма: ' . $sum . ', Вид платежа: ' . $cash_card . ', Описание: ' . $description;
+        file_put_contents(__DIR__ . '/log_cash.txt', $log . PHP_EOL, FILE_APPEND);
+
+        //Изменяем остатки при расходе
+        $edit_page = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
+        if ($cash_card == 'Наличный расчет') {
+            $result = $edit_page->sum - $sum;
+            // echo $result;
+            $edit_page->of(false);
+            $edit_page->sum = $result;
+            $edit_page->save();
+        }
+        if ($cash_card == 'Безналичный расчет') {
+            $result = $edit_page->bn_sum - $sum;
+            // echo $result;
+            $edit_page->of(false);
+            $edit_page->bn_sum = $result;
+            $edit_page->save();
+        }
+
+        //Регестрируем запись прихода
+        $to_idpoint = $pages->get('template=cash_archive_group, title=' . $to_cash . '')->id_point;
+        $to_description = 'Автоматическая операция прихода при перводе между кассами по операции ' . $operation_id . ': ' . $description;
+
+        $page_cash = $pages->get('template=cash_itm, title=' . $to_cash . '');
+        $pages->add('cash_operation', $page_cash , [
+        'title' => date("Y-m-d H:i") . ' Приход - ' . $sum . ' - ' . $to_cash,
+        'type_operation' => 'Приход',
+        'date' => $date,
+        'point' => $to_cash,
+        'id_point' => $to_idpoint,
+        'worker' => $worker,
+        'sum' => $sum,
+        'cash_card' => $coming_cash_card,
+        'note' => $to_description,
+        ]);
+        $to_operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Приход - ' . $sum . ' - ' . $to_cash . '');
+        $to_operation_id = $to_operation_page->id;
+
+        //Записываем добавление в лог при приходе
+        $log = '';
+        $log .= date("Y-m-d H:i") . ' Приход - ' . $sum . ' - ' . $to_cash . ' === ';
+        $log .= 'Операция проведена: ' . $worker . ', ID записи: ' . $to_operation_id . ', Сумма: ' . $sum . ', Вид платежа: ' . $coming_cash_card . ', Описание: ' . $to_description;
+        file_put_contents(__DIR__ . '/log_cash.txt', $log . PHP_EOL, FILE_APPEND);
+
+        //Изменяем остатки при приходе
+        $edit_page = $pages->get('template=cash_itm, title=' . $to_cash . '');
+        if ($coming_cash_card == 'Наличный расчет') {
+            $result = $edit_page->sum + $sum;
+            // echo $result;
+            $edit_page->of(false);
+            $edit_page->sum = $result;
+            $edit_page->save();
+        }
+        if ($coming_cash_card == 'Безналичный расчет') {
+            $result = $edit_page->bn_sum + $sum;
+            // echo $result;
+            $edit_page->of(false);
+            $edit_page->bn_sum = $result;
+            $edit_page->save();
+        }
+        
+        //Предотвращаем повторную регистрацию
+        $_SESSION['reload'] = 'on';
+    } else {
+        $success = 'Операция перевода между кассами не проведена!<br>Ошибка в данных';
+        if ($_SESSION['reload'] == 'on') {
+            $success = 'Повторная отправка данных!<br>Запись уже существует, операция повторно не проведена';
+        }
     }
-    if ($cash_card == 'Безналичный расчет') {
-        $result = $edit_page->bn_sum - $sum;
-        // echo $result;
-        $edit_page->of(false);
-        $edit_page->bn_sum = $result;
-        $edit_page->save();
-    }
-    
-    //Предотвращаем повторную регистрацию
-    $_SESSION['reload'] = 'on';
+    //echo 'Делаем перевод между кассами';
+
 } else {
-	$success = 'Операция расхода не проведена!<br>Ошибка в данных';
-    if ($_SESSION['reload'] == 'on') {
-        $success = 'Повторная отправка данных!<br>Запись уже существует, операция повторно не проведена';
+
+    //echo 'Делаем операцию расхода';
+    $success = 'Операция расхода проведена';
+    if ($worker && $sum && $description && $_SESSION['reload'] != 'on') {
+        //Регестрируем запись
+        $page_cash = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
+        $pages->add('cash_operation', $page_cash , [
+        'title' => date("Y-m-d H:i") . ' Расход - ' . $sum . ' - ' . $point,
+        'type_operation' => 'Расход',
+        'date' => $date,
+        'point' => $point,
+        'id_point' => $idpoint,
+        'worker' => $worker,
+        'sum' => $sum,
+        'cash_card' => $cash_card,
+        'note' => $description,
+        ]);
+        $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Расход - ' . $sum . ' - ' . $point . '');
+        $operation_id = $operation_page->id;
+
+        //Записываем добавление в лог
+        $log = '';
+        $log .= date("Y-m-d H:i") . ' Расход - ' . $sum . ' - ' . $point . ' === ';
+        $log .= 'Операция проведена: ' . $worker . ', ID записи: ' . $operation_id . ', Сумма: ' . $sum . ', Вид платежа: ' . $cash_card . ', Описание: ' . $description;
+        file_put_contents(__DIR__ . '/log_cash.txt', $log . PHP_EOL, FILE_APPEND);
+
+        //Изменяем остатки
+        $edit_page = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
+        if ($cash_card == 'Наличный расчет') {
+            $result = $edit_page->sum - $sum;
+            // echo $result;
+            $edit_page->of(false);
+            $edit_page->sum = $result;
+            $edit_page->save();
+        }
+        if ($cash_card == 'Безналичный расчет') {
+            $result = $edit_page->bn_sum - $sum;
+            // echo $result;
+            $edit_page->of(false);
+            $edit_page->bn_sum = $result;
+            $edit_page->save();
+        }
+        
+        //Предотвращаем повторную регистрацию
+        $_SESSION['reload'] = 'on';
+    } else {
+        $success = 'Операция расхода не проведена!<br>Ошибка в данных';
+        if ($_SESSION['reload'] == 'on') {
+            $success = 'Повторная отправка данных!<br>Запись уже существует, операция повторно не проведена';
+        }
     }
+    //echo 'Делаем операцию расхода';
+
 }
 
 if ($operator == 'no_operator' || $selected_point == 'no_point') {
