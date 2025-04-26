@@ -96,6 +96,19 @@ if ($startday != '' || $actual != '' || $reserv != '') {
             <a class="menu-link ' . $shift_close . '" href="/kassa-tip-operatcii/">Касса</a>
             <a class="menu-link ' . $shift_close . '" href="" uk-toggle="target: #modal-help">Техподдержка</a>
         ';
+        if ($access == 'receiver') {
+            $menu_btn = '
+            <a class="menu-link ' . $shift_close . '" href="/skupka-tip-skupki/">Скупка</a>
+            <a class="menu-link ' . $shift_close . '" href="/kassa-tip-operatcii/">Касса</a>
+            <a class="menu-link ' . $shift_close . '" href="" uk-toggle="target: #modal-help">Техподдержка</a>
+            ';
+        }
+        if ($access == 'seller') {
+            $menu_btn = '
+            <a class="menu-link ' . $shift_close . '" href="/prodazha-izdelie/">Изделия в наличии</a>
+            <a class="menu-link ' . $shift_close . '" href="" uk-toggle="target: #modal-help">Техподдержка</a>
+            ';
+        }
     }
     if ($selected_id_point == 'point2') {
         $menu_btn = '
@@ -105,14 +118,40 @@ if ($startday != '' || $actual != '' || $reserv != '') {
             <a class="menu-link ' . $shift_close . '" href="/kassa-tip-operatcii/">Касса</a>
             <a class="menu-link ' . $shift_close . '" href="" uk-toggle="target: #modal-help">Техподдержка</a>
         ';
+        if ($access == 'receiver') {
+            $menu_btn = '
+            <a class="menu-link ' . $shift_close . '" href="/skupka-tip-skupki/">Скупка</a>
+            <a class="menu-link ' . $shift_close . '" href="/kassa-tip-operatcii/">Касса</a>
+            <a class="menu-link ' . $shift_close . '" href="" uk-toggle="target: #modal-help">Техподдержка</a>
+            ';
+        }
+        if ($access == 'seller') {
+            $menu_btn = '
+            <a class="menu-link ' . $shift_close . '" href="/prodazha-izdelie/">Изделия в наличии</a>
+            <a class="menu-link ' . $shift_close . '" href="" uk-toggle="target: #modal-help">Техподдержка</a>
+            ';
+        }
     }
-    if ($selected_id_point == 'point3' || $selected_id_point == 'point4') {
+    if ($selected_id_point == 'point3' || $selected_id_point == 'point4' || $selected_id_point == 'point5') {
         $menu_btn = '
             <a class="menu-link ' . $shift_close . '" href="/skupka-tip-skupki/">Скупка</a>
             <a class="menu-link ' . $shift_close . '" href="/zakrytie-smeny/">Закрытие смены</a>
             <a class="menu-link ' . $shift_close . '" href="/kassa-tip-operatcii/">Касса</a>
             <a class="menu-link ' . $shift_close . '" href="" uk-toggle="target: #modal-help">Техподдержка</a>
         ';
+        if ($access == 'receiver') {
+            $menu_btn = '
+            <a class="menu-link ' . $shift_close . '" href="/skupka-tip-skupki/">Скупка</a>
+            <a class="menu-link ' . $shift_close . '" href="/kassa-tip-operatcii/">Касса</a>
+            <a class="menu-link ' . $shift_close . '" href="" uk-toggle="target: #modal-help">Техподдержка</a>
+            ';
+        }
+        if ($access == 'seller') {
+            $menu_btn = '
+            <a class="menu-link ' . $shift_close . '" href="/prodazha-izdelie/">Изделия в наличии</a>
+            <a class="menu-link ' . $shift_close . '" href="" uk-toggle="target: #modal-help">Техподдержка</a>
+            ';
+        }
     }
 
     $menu = '

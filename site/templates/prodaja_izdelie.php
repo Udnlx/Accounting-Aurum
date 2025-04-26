@@ -25,6 +25,11 @@ if(isset($_SESSION['access'])){
     $access = $_SESSION['access'];
 }
 
+$role_menu = '';
+if ($access != 'seller') {
+    $role_menu = '<a class="menu-link" href="/prodazha-tip-prodazhi/">Выбрать другой тип продажи</a>';
+}
+
 if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
@@ -52,10 +57,16 @@ foreach ($stock_products_itm as $itm) {
             <p style="font-size:10px;">URL Авито: ' . $itm->url_avito . '</p>
             <p style="font-size:10px;">Оператор скупки: ' . $itm->worker . '</p>
             <p style="font-size:12px; font-weight: 700;">Дата скупки: ' . $itm->product_date_buy . '; Цена скупки: ' . $itm->product_price_buy . '</p>
+    ';
+    if ($access != 'seller') {
+       $stock_products .= '
             <div class="product-link">
                 <a class="product-link-lnk" href="/prodazha-izdelie-prodat/?prod_id=' . $itm->id . '">Продать</a>
                 <a class="product-link-lnk" href="/prodazha-izdelie-vnesti-izmeneniia/?prod_id=' . $itm->id . '">Внести изменения</a>
             </div>
+       '; 
+    }
+    $stock_products .= '
         </div>
         <div class="list-product-itm-image">
             <img class="list-product-itm-image-img" src="' . $itm->url_image . '" alt="">
@@ -94,7 +105,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
-                <a class="menu-link" href="/prodazha-tip-prodazhi/">Выбрать другой тип продажи</a>
+                <?php echo $role_menu; ?>
             </div>
         </div>
 
