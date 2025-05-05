@@ -51,7 +51,7 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $access != 'a
         <h3 class="uk-margin-remove uk-heading-hero uk-text-center">Найденные операции</h3>
         <h4 class="uk-margin-remove uk-heading-hero uk-text-center">За период с <?php echo $std; ?> по <?php echo $fid; ?></h4>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
-            <h3 class="uk-card-title">Потеряна сессия или точка, <br>возможно нет прав на эту страницу.</h3>
+            <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
         </div>
     </div>
