@@ -50,7 +50,7 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $access != 'a
     	<h1 class="uk-heading-hero uk-text-center">Отчет</h1>
         <!-- <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Все операции</h4> -->
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
-            <h3 class="uk-card-title">Потеряна сессия или точка, <br>возможно нет прав на эту страницу.</h3>
+            <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
         </div>
     </div>
@@ -1881,29 +1881,35 @@ $arrears .= '
         </div>
 
         <div>
-            <div class="filtermenu uk-width-1-1 uk-flex">
+            <div class="filtermenu uk-width-1-1">
                 <form class="form-select-date" id="select_date" action="/otchet-za-den/" method="post">
-                    <div class="filtermenu-input">
-                        <input class="uk-input" id="selected_on_date" type="date" name="selected_on_date" required>
+                    <div class="uk-flex">
+                        <div class="filtermenu-input">
+                            <input class="uk-input" id="selected_on_date" type="date" name="selected_on_date" required>
+                        </div>
                     </div>
-                    <div class="uk-margin-remove">
-                        <button class="uk-margin-remove uk-button uk-button-default" type="submit">Отчет за дату</button>
+
+                    <div class="uk-margin-small-top uk-width-1-1">
+                        <button class="uk-margin-remove uk-button uk-button-default uk-width-1-1" type="submit">Отчет за дату</button>
                     </div>
                 </form>
             </div>
         </div>
 
         <div>
-            <div class="filtermenu uk-width-1-1 uk-flex">
+            <div class="filtermenu uk-width-1-1">
                 <form class="form-select-date" id="select_period_date" action="/otchet-za-period/" method="post">
-                    <div class="filtermenu-input">
-                        <input class="uk-input" id="selected_start_date" type="date" name="selected_start_date" required>
+                    <div class="uk-flex">
+                        <div class="filtermenu-input">
+                            <input class="uk-input" id="selected_start_date" type="date" name="selected_start_date" required>
+                        </div>
+                        <div class="filtermenu-input">
+                            <input class="uk-input" id="selected_finish_date" type="date" name="selected_finish_date" required>
+                        </div>
                     </div>
-                    <div class="filtermenu-input">
-                        <input class="uk-input" id="selected_finish_date" type="date" name="selected_finish_date" required>
-                    </div>
-                    <div class="uk-margin-remove">
-                        <button class="uk-margin-remove uk-button uk-button-default" type="submit">Отчет за период</button>
+                    
+                    <div class="uk-margin-small-top uk-width-1-1">
+                        <button class="uk-margin-remove uk-button uk-button-default uk-width-1-1" type="submit">Отчет за период</button>
                     </div>
                 </form>
             </div>
