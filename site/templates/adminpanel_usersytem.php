@@ -28,7 +28,8 @@ include 'adminpanel_access.php';
 if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access == false) {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Панель администратора</h1>
+        <h1 class="uk-heading-hero uk-text-center">Панель администратора</h1>
+        <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Пользователи системы</h4>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -36,6 +37,25 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access 
     </div>
 <?php    
 } else {
+
+//Получение всех пользователей
+$users = '';
+$all_users = $pages->find('template=users_system_item, access!=1, sort=access');
+$users .= '<div class="scrolling-list" style="max-height: 700px;">';
+foreach ($all_users as $itm) {
+    $users .= '
+    <div class="list-product-itm">
+        <div class="list-product-itm-text">
+            <p style="font-weight:bold;">' . $itm->title . '</p>
+            <p class="uk-text-warning" style="font-size:14px;">Роль доступа: ' . $itm->access->title . '</p>
+            <div class="product-link">
+                <a class="product-link-lnk" href="/adminpanel-pol-zovateli-sistemy-forma/?user_id=' . $itm->id . '">Внести изменения</a>
+            </div>
+        </div>
+    </div>
+    ';
+}
+$users .= '</div>';
 
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
@@ -60,36 +80,29 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Панель администратора</h1>
-	<div>
+    <h1 class="uk-margin-remove uk-heading-hero uk-text-center">Панель администратора</h1>
+    <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Пользователи системы</h4>
+    <div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
-                <a class="menu-link" href="/osnovnoi-otchet/">Отчет</a>
+                <a class="menu-link" href="/adminpanel-meniu/">Админ панель</a>
             </div>
         </div>
 
         <div>
-            <div class="admpanel uk-card uk-card-default uk-card-body">
-		        <div class="uk-grid-medium uk-child-width-1-2@s" uk-grid>
-		        	<div>
-		        		<a class="admpanel-link" href="/adminpanel-vse-operatcii/">Все операции</a>
-		        		<a class="admpanel-link" href="/adminpanel-vse-izdeliia/">Все изделия</a>
-                        <a class="admpanel-link" href="/adminpanel-ves-rezerv/">Весь резерв</a>
-		        		<a class="admpanel-link" href="/adminpanel-ves-affinazh/">Весь аффинаж</a>
-                        <a class="admpanel-link" href="/adminpanel-vse-dolgi">Все долги</a>
-		            </div>
-		            <div>
-		        		<a class="admpanel-link" href="/pravka-operatcii-poisk/">Правки в операциях</a>
-		        		<a class="admpanel-link" href="/pravki-po-lomu-i-kassam-formy/">Правки по лому и кассам</a>
-                        <a class="admpanel-link" href="/adminpanel-nastroiki">Настройки</a>
-                        <a class="admpanel-link" href="/adminpanel-pol-zovateli-sistemy/">Пользователи системы (в разработке)</a>
-		            </div>
-		        </div>
-		    </div>
-		</div>
-
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                <h4 class="uk-margin-remove uk-heading-hero">Пользователи системы</h4>
+                <p class="uk-margin-remove uk-text-warning uk-text-bold">admin - Полный доступ</p>
+                <p class="uk-margin-remove uk-text-warning uk-text-bold">controller - Доступно: Все кроме Общей кассы, Админ панели и Отчетов</p>
+                <p class="uk-margin-remove uk-text-warning uk-text-bold">receiver - Доступно: Скупки, Касса</p>
+                <p class="uk-margin-remove uk-text-warning uk-text-bold">seller - Доступно: Просмотр металла и изделий</p>
+                <br>
+                <?php echo $users; ?>
+            </div>
+        </div>
+        
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
                 <?php echo $remain_tables_startday; ?>
