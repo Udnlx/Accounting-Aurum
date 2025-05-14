@@ -84,7 +84,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 		        		<a class="admpanel-link" href="/pravka-operatcii-poisk/">Правки в операциях</a>
 		        		<a class="admpanel-link" href="/pravki-po-lomu-i-kassam-formy/">Правки по лому и кассам</a>
                         <a class="admpanel-link" href="/adminpanel-nastroiki">Настройки</a>
-                        <a class="admpanel-link" href="/adminpanel-pol-zovateli-sistemy/">Пользователи системы (в разработке)</a>
+                        <a class="admpanel-link" href="/adminpanel-pol-zovateli-sistemy/">Пользователи системы</a>
 		            </div>
 		        </div>
 		    </div>

@@ -95,14 +95,47 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-                <h4 class="uk-card-title uk-margin-remove">Изменения</h4>
-                <form class="uk-flex uk-flex-column" id="edit_cash" action="" method="post">
-                    <p class="uk-margin-remove uk-text-warning uk-text-bold">admin - Полный доступ</p>
-                    <p class="uk-margin-remove uk-text-warning uk-text-bold">controller - Доступно: Все кроме Общей кассы, Админ панели и Отчетов</p>
-                    <p class="uk-margin-remove uk-text-warning uk-text-bold">receiver - Доступно: Скупки, Касса</p>
-                    <p class="uk-margin-remove uk-text-warning uk-text-bold">seller - Доступно: Просмотр металла и изделий</p>
-                    <br>
-                    ФОРМА ДЛЯ ВНЕСЕНИЯ ИЗМЕНЕНИЙ
+                <h4 class="uk-margin-remove uk-heading-hero">Роли доступа</h4>
+                <br>
+                <p class="uk-margin-remove uk-text-warning uk-text-bold">admin - Полный доступ</p>
+                <p class="uk-margin-remove uk-text-warning uk-text-bold">controller - Доступно: Все кроме Общей кассы, Админ панели и Отчетов</p>
+                <p class="uk-margin-remove uk-text-warning uk-text-bold">receiver - Доступно: Скупки, Касса</p>
+                <p class="uk-margin-remove uk-text-warning uk-text-bold">seller - Доступно: Просмотр металла и изделий</p>
+                <br>
+                <h4 class="uk-margin-remove uk-heading-hero">Изменения</h4>
+                <br>
+                <form class="uk-flex uk-flex-column" id="edit_cash" action="/adminpanel-pol-zovateli-sistemy-registratciia/" method="post">
+                    <div class="uk-margin-small-bottom uk-hidden">
+                        <input class="uk-input" id="edit_operator" type="text" name="edit_operator" value="<?php echo $operator; ?>">
+                    </div>
+                    <div class="uk-margin-small-bottom uk-hidden">
+                        <input class="uk-input" id="user_id" type="text" name="user_id" value="<?php echo $user_id; ?>">
+                    </div>
+                    <div class="uk-margin-small-bottom">
+                        <label for="description_operation">Логин пользователя</label>
+                        <input class="uk-input" id="user_login" type="text" name="user_login" value="<?php echo $user_login; ?>" autocomplete="off" required>
+                    </div>
+                    <div class="uk-margin-small-bottom">
+                        <label for="description_operation">Новый пароль пользователя</label>
+                        <input class="uk-input" id="user_password" type="text" name="user_password" value="" autocomplete="off" required>
+                    </div>
+                    <?php
+                    $field = $fields->get('name=access');
+                    $all_roles = $field->type->getOptions($field);
+                    $roles = '';
+                    foreach ($all_roles as $role) {
+                        $roles .= '
+                        <option value="' . $role->id . '">' . $role->title . '</option>
+                        ';
+                    }
+                    ?>
+                    <div class="uk-margin-small-top">
+                        <label for="user_role">Доступ <span class="uk-text-warning uk-text-bold">(текущая роль: <?php echo $user_access; ?>)</span></label>
+                        <select class="uk-select" id="user_role" name="user_role" required>
+                            <option value="">Выберите роль доступа</option>
+                            <?php echo $roles; ?>
+                        </select>
+                    </div>
                     <div class="uk-margin-small-top uk-flex uk-flex-column">
                         <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Внести изменения</button>
                     </div>
@@ -111,7 +144,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                 <form class="uk-flex uk-flex-column" id="edit_cash" action="" method="post">
                     <p class="uk-margin-remove uk-text-danger uk-text-bold uk-text-center">Внимание! При нажатие на кнопку ниже, пользователь будет заблокирован и больше не сможет войти в систему.</p>
                     <div class="uk-margin-small-top uk-flex uk-flex-column">
-                        <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Заблокировать</button>
+                        <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Заблокировать (в разработке)</button>
                     </div>
                 </form>
             </div>
