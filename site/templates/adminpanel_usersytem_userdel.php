@@ -1,6 +1,30 @@
 <?php namespace ProcessWire;
 
-$_SESSION['reload'] = 'off';
+$del_edit_operator = !empty($_POST['del_edit_operator'])?$_POST['del_edit_operator']:NULL;  
+$del_user_id = !empty($_POST['del_user_id'])?$_POST['del_user_id']:NULL;
+
+$success = 'Удаление пользователя прошло успешно';
+if ($del_edit_operator && $del_user_id && $_SESSION['reload'] != 'on') {
+	//Меняем данные
+    $delete_page = $pages->get('template=users_system_item, id=' . $del_user_id . '');
+    $delete_page->status = $delete_page->status | Page::statusUnpublished; 
+    $delete_page->save();
+
+    //Записываем регистрацию  в лог
+    $log = '';
+    $log .= date("Y-m-d H:i") . ' Было проведено удаление пользователя. ';
+    $log .= 'Удалил: ' . $del_edit_operator . '. ';
+    $log .= 'Удален пользователь ID: ' . $delete_page->id . '; '. $delete_page->title . '; '. $delete_page->access->title;
+    file_put_contents(__DIR__ . '/log_user_setup.txt', $log . PHP_EOL, FILE_APPEND);
+
+    //Предотвращаем повторную регистрацию
+    $_SESSION['reload'] = 'on';
+} else {
+	$success = 'Удаление пользователя не прошло!<br>Ошибка в данных';
+    if ($_SESSION['reload'] == 'on') {
+        $success = 'Повторная отправка данных!<br>Изменения уже занесены, удаление пользователя повторно не проведено';
+    }
+}
 
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
@@ -30,8 +54,7 @@ include 'adminpanel_access.php';
 if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access == false) {
 ?>
     <div id="content" style="max-width: 700px;">
-        <h1 class="uk-heading-hero uk-text-center">Панель администратора</h1>
-        <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Пользователи системы</h4>
+    	<h1 class="uk-heading-hero uk-text-center">Удаление пользователя</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -39,25 +62,6 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access 
     </div>
 <?php    
 } else {
-
-//Получение всех пользователей
-$users = '';
-$all_users = $pages->find('template=users_system_item, sort=title');
-$users .= '<div class="scrolling-list" style="max-height: 700px;">';
-foreach ($all_users as $itm) {
-    $users .= '
-    <div class="list-product-itm">
-        <div class="list-product-itm-text">
-            <p style="font-weight:bold;">' . $itm->title . '</p>
-            <p class="uk-text-warning" style="font-size:14px;">Роль доступа: ' . $itm->access->title . '</p>
-            <div class="product-link">
-                <a class="product-link-lnk" href="/adminpanel-pol-zovateli-sistemy-forma/?user_id=' . $itm->id . '">Внести изменения</a>
-            </div>
-        </div>
-    </div>
-    ';
-}
-$users .= '</div>';
 
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
@@ -82,33 +86,23 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-    <h1 class="uk-margin-remove uk-heading-hero uk-text-center">Панель администратора</h1>
-    <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Пользователи системы</h4>
-    <div>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Удаление пользователя</h1>
+	<div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
                 <a class="menu-link" href="/adminpanel-meniu/">Админ панель</a>
+                <a class="menu-link" href="/adminpanel-pol-zovateli-sistemy/">Пользователи системы</a>
             </div>
         </div>
 
         <div>
-            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-                <h4 class="uk-margin-remove uk-heading-hero">Роли доступа</h4>
-                <br>
-                <p class="uk-margin-remove uk-text-warning uk-text-bold">admin - Полный доступ</p>
-                <p class="uk-margin-remove uk-text-warning uk-text-bold">controller - Доступно: Все кроме Общей кассы, Админ панели и Отчетов</p>
-                <p class="uk-margin-remove uk-text-warning uk-text-bold">receiver - Доступно: Скупки, Касса</p>
-                <p class="uk-margin-remove uk-text-warning uk-text-bold">seller - Доступно: Просмотр металла и изделий</p>
-                <br>
-                <a class="uk-margin-small uk-button uk-button-default" href="/adminpanel-novyi-pol-zovatel-forma/">Добавить нового пользователя</a>
-                <br>
-                <h4 class="uk-margin-remove uk-heading-hero">Пользователи системы</h4>
-                <br>
-                <?php echo $users; ?>
-            </div>
+            <h3 class="uk-card-title"><?php echo $success; ?></h3>
+            <a class="uk-margin-small uk-button uk-button-default" href="/adminpanel-pol-zovateli-sistemy/">Пользователи системы</a>
         </div>
+
+        <br>
         
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">

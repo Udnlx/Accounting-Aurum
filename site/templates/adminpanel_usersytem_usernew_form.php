@@ -1,7 +1,5 @@
 <?php namespace ProcessWire;
 
-$_SESSION['reload'] = 'off';
-
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
 } else {
@@ -27,11 +25,10 @@ if(isset($_SESSION['access'])){
 
 include 'adminpanel_access.php';
 
-if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access == false) {
+if ($operator == 'no_operator' || $selected_point == 'no_point') {
 ?>
     <div id="content" style="max-width: 700px;">
-        <h1 class="uk-heading-hero uk-text-center">Панель администратора</h1>
-        <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Пользователи системы</h4>
+    	<h1 class="uk-heading-hero uk-text-center">Добавление нового пользователя</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -39,25 +36,6 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access 
     </div>
 <?php    
 } else {
-
-//Получение всех пользователей
-$users = '';
-$all_users = $pages->find('template=users_system_item, sort=title');
-$users .= '<div class="scrolling-list" style="max-height: 700px;">';
-foreach ($all_users as $itm) {
-    $users .= '
-    <div class="list-product-itm">
-        <div class="list-product-itm-text">
-            <p style="font-weight:bold;">' . $itm->title . '</p>
-            <p class="uk-text-warning" style="font-size:14px;">Роль доступа: ' . $itm->access->title . '</p>
-            <div class="product-link">
-                <a class="product-link-lnk" href="/adminpanel-pol-zovateli-sistemy-forma/?user_id=' . $itm->id . '">Внести изменения</a>
-            </div>
-        </div>
-    </div>
-    ';
-}
-$users .= '</div>';
 
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
@@ -82,16 +60,24 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-    <h1 class="uk-margin-remove uk-heading-hero uk-text-center">Панель администратора</h1>
-    <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Пользователи системы</h4>
-    <div>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Добавление нового пользователя</h1>
+	<div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
                 <a class="menu-link" href="/adminpanel-meniu/">Админ панель</a>
+                <a class="menu-link" href="/adminpanel-pol-zovateli-sistemy/">Пользователи системы</a>
             </div>
         </div>
+
+        <div>
+	        <p class="uk-margin-remove">Точка: <span style="font-weight: 700;"><?php echo $selected_point; ?></span></p>
+	        <p class="uk-margin-remove">ID точки: <span style="font-weight: 700;"><?php echo $selected_id_point; ?></span></p>
+	        <p class="uk-margin-remove">Сотрудник: <span style="font-weight: 700;"><?php echo $operator; ?></span></p>
+        </div>
+
+        <br>
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
@@ -102,11 +88,41 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                 <p class="uk-margin-remove uk-text-warning uk-text-bold">receiver - Доступно: Скупки, Касса</p>
                 <p class="uk-margin-remove uk-text-warning uk-text-bold">seller - Доступно: Просмотр металла и изделий</p>
                 <br>
-                <a class="uk-margin-small uk-button uk-button-default" href="/adminpanel-novyi-pol-zovatel-forma/">Добавить нового пользователя</a>
+                <h4 class="uk-margin-remove uk-heading-hero">Данные</h4>
                 <br>
-                <h4 class="uk-margin-remove uk-heading-hero">Пользователи системы</h4>
-                <br>
-                <?php echo $users; ?>
+                <form class="uk-flex uk-flex-column" id="edit_cash" action="/adminpanel-novyi-pol-zovatel-registratciia/" method="post">
+                    <div class="uk-margin-small-bottom uk-hidden">
+                        <input class="uk-input" id="add_operator" type="text" name="add_operator" value="<?php echo $operator; ?>">
+                    </div>
+                    <div class="uk-margin-small-bottom">
+                        <label for="description_operation">Логин пользователя</label>
+                        <input class="uk-input" id="user_login" type="text" name="user_login" value="" autocomplete="off" required>
+                    </div>
+                    <div class="uk-margin-small-bottom">
+                        <label for="description_operation">Пароль пользователя</label>
+                        <input class="uk-input" id="user_password" type="text" name="user_password" value="" autocomplete="off" required>
+                    </div>
+                    <?php
+                    $field = $fields->get('name=access');
+                    $all_roles = $field->type->getOptions($field);
+                    $roles = '';
+                    foreach ($all_roles as $role) {
+                        $roles .= '
+                        <option value="' . $role->id . '">' . $role->title . '</option>
+                        ';
+                    }
+                    ?>
+                    <div class="uk-margin-small-top">
+                        <label for="user_role">Доступ</label>
+                        <select class="uk-select" id="user_role" name="user_role" required>
+                            <option value="">Выберите роль доступа</option>
+                            <?php echo $roles; ?>
+                        </select>
+                    </div>
+                    <div class="uk-margin-small-top uk-flex uk-flex-column">
+                        <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Добавить пользователя</button>
+                    </div>
+                </form>
             </div>
         </div>
         

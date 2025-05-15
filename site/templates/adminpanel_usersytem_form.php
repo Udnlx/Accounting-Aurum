@@ -141,10 +141,16 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     </div>
                 </form>
                 <br>
-                <form class="uk-flex uk-flex-column" id="edit_cash" action="" method="post">
-                    <p class="uk-margin-remove uk-text-danger uk-text-bold uk-text-center">Внимание! При нажатие на кнопку ниже, пользователь будет заблокирован и больше не сможет войти в систему.</p>
+                <form class="uk-flex uk-flex-column" id="edit_cash" action="/adminpanel-pol-zovateli-sistemy-udalenie/" method="post">
+                    <p class="uk-margin-remove uk-text-danger uk-text-bold uk-text-center">Внимание! При нажатие на кнопку ниже, пользователь будет удален и больше не сможет войти в систему.</p>
+                    <div class="uk-margin-small-bottom uk-hidden">
+                        <input class="uk-input" id="del_edit_operator" type="text" name="del_edit_operator" value="<?php echo $operator; ?>">
+                    </div>
+                    <div class="uk-margin-small-bottom uk-hidden">
+                        <input class="uk-input" id="del_user_id" type="text" name="del_user_id" value="<?php echo $user_id; ?>">
+                    </div>
                     <div class="uk-margin-small-top uk-flex uk-flex-column">
-                        <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Заблокировать (в разработке)</button>
+                        <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Удалить пользователя</button>
                     </div>
                 </form>
             </div>
