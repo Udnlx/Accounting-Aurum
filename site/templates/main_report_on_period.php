@@ -80,510 +80,6 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $access != 'a
 
 
 
-//Получение операций дохода по кассам
-$income = '';
-$total_income = 0;
-$bn_total_income = 0;
-
-    //Тверская 20
-    $income .= '<div class="report-table">';
-    $income .= '<p class="card-report__title_cash">Тверская 20</p>';
-    $income .= '
-        <table class="uk-table-striped">
-            <thead>
-                <tr>
-                    <th style="width:25%">ДАТА</th>
-                    <th style="width:25%">СУММА</th>
-                    <th style="width:50%">ОПИСАНИЕ</th>
-                </tr>
-            </thead>
-            <tbody>
-    ';
-    $total_income_point1 = 0;
-    $bn_total_income_point1 = 0;
-    foreach ($dates as $day_itm) {
-        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
-        $page_cash = $pages->get('template=cash_itm, id_point=point1_cash');
-        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Приход, date=' . $start_day_for_report . '');
-        foreach ($all_operation_cash_ondate as $item) {
-            if ($item->cash_card == 'Наличный расчет') {
-                $total_income_point1 = $total_income_point1 + $item->sum;
-            }
-            if ($item->cash_card == 'Безналичный расчет') {
-                $bn_total_income_point1 = $bn_total_income_point1 + $item->sum;
-            }
-            $income .= '
-            <tr>
-                <td>' . $item->date . '</td>
-                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
-                <td>' . $item->note . '</td>
-            </tr>
-            ';
-        }
-    }
-    $income .= '
-            </tbody>
-        </table>
-    ';
-    $income .= '</div>';
-    $income .= '
-        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_point1, 2, '.', ' ') . '</span></p>
-        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_point1, 2, '.', ' ') . '</span></p>
-        <br>
-        ';
-    //Тверская 20
-
-    //Тверская 14
-    $income .= '<div class="report-table">';
-    $income .= '<p class="card-report__title_cash">Тверская 14</p>';
-    $income .= '
-        <table class="uk-table-striped">
-            <thead>
-                <tr>
-                    <th style="width:25%">ДАТА</th>
-                    <th style="width:25%">СУММА</th>
-                    <th style="width:50%">ОПИСАНИЕ</th>
-                </tr>
-            </thead>
-            <tbody>
-    ';
-    $total_income_point2 = 0;
-    $bn_total_income_point2 = 0;
-    foreach ($dates as $day_itm) {
-        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
-        $page_cash = $pages->get('template=cash_itm, id_point=point2_cash');
-        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Приход, date=' . $start_day_for_report . '');
-        foreach ($all_operation_cash_ondate as $item) {
-            if ($item->cash_card == 'Наличный расчет') {
-                $total_income_point2 = $total_income_point2 + $item->sum;
-            }
-            if ($item->cash_card == 'Безналичный расчет') {
-                $bn_total_income_point2 = $bn_total_income_point2 + $item->sum;
-            }
-            $income .= '
-            <tr>
-                <td>' . $item->date . '</td>
-                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
-                <td>' . $item->note . '</td>
-            </tr>
-            ';
-        }
-    }
-    $income .= '
-            </tbody>
-        </table>
-    ';
-    $income .= '</div>';
-    $income .= '
-        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_point2, 2, '.', ' ') . '</span></p>
-        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_point2, 2, '.', ' ') . '</span></p>
-        <br>
-        ';
-    //Тверская 14
-
-    //Таганка
-    $income .= '<div class="report-table">';
-    $income .= '<p class="card-report__title_cash">Таганка</p>';
-    $income .= '
-        <table class="uk-table-striped">
-            <thead>
-                <tr>
-                    <th style="width:25%">ДАТА</th>
-                    <th style="width:25%">СУММА</th>
-                    <th style="width:50%">ОПИСАНИЕ</th>
-                </tr>
-            </thead>
-            <tbody>
-    ';
-    $total_income_point3 = 0;
-    $bn_total_income_point3 = 0;
-    foreach ($dates as $day_itm) {
-        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
-        $page_cash = $pages->get('template=cash_itm, id_point=point3_cash');
-        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Приход, date=' . $start_day_for_report . '');
-        foreach ($all_operation_cash_ondate as $item) {
-            if ($item->cash_card == 'Наличный расчет') {
-                $total_income_point3 = $total_income_point3 + $item->sum;
-            }
-            if ($item->cash_card == 'Безналичный расчет') {
-                $bn_total_income_point3 = $bn_total_income_point3 + $item->sum;
-            }
-            $income .= '
-            <tr>
-                <td>' . $item->date . '</td>
-                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
-                <td>' . $item->note . '</td>
-            </tr>
-            ';
-        }
-    }
-    $income .= '
-            </tbody>
-        </table>
-    ';
-    $income .= '</div>';
-    $income .= '
-        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_point3, 2, '.', ' ') . '</span></p>
-        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_point3, 2, '.', ' ') . '</span></p>
-        <br>
-        ';
-    //Таганка
-
-    //Комсомолка
-    $income .= '<div class="report-table">';
-    $income .= '<p class="card-report__title_cash">Комсомолка</p>';
-    $income .= '
-        <table class="uk-table-striped">
-            <thead>
-                <tr>
-                    <th style="width:25%">ДАТА</th>
-                    <th style="width:25%">СУММА</th>
-                    <th style="width:50%">ОПИСАНИЕ</th>
-                </tr>
-            </thead>
-            <tbody>
-    ';
-    $total_income_point4 = 0;
-    $bn_total_income_point4 = 0;
-    foreach ($dates as $day_itm) {
-        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
-        $page_cash = $pages->get('template=cash_itm, id_point=point4_cash');
-        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Приход, date=' . $start_day_for_report . '');
-        foreach ($all_operation_cash_ondate as $item) {
-            if ($item->cash_card == 'Наличный расчет') {
-                $total_income_point4 = $total_income_point4 + $item->sum;
-            }
-            if ($item->cash_card == 'Безналичный расчет') {
-                $bn_total_income_point4 = $bn_total_income_point4 + $item->sum;
-            }
-            $income .= '
-            <tr>
-                <td>' . $item->date . '</td>
-                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
-                <td>' . $item->note . '</td>
-            </tr>
-            ';
-        }
-    }
-    $income .= '
-            </tbody>
-        </table>
-    ';
-    $income .= '</div>';
-    $income .= '
-        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_point4, 2, '.', ' ') . '</span></p>
-        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_point4, 2, '.', ' ') . '</span></p>
-        <br>
-        ';
-    //Комсомолка
-
-    //Митинская 27а
-    $income .= '<div class="report-table">';
-    $income .= '<p class="card-report__title_cash">Митинская 27а</p>';
-    $income .= '
-        <table class="uk-table-striped">
-            <thead>
-                <tr>
-                    <th style="width:25%">ДАТА</th>
-                    <th style="width:25%">СУММА</th>
-                    <th style="width:50%">ОПИСАНИЕ</th>
-                </tr>
-            </thead>
-            <tbody>
-    ';
-    $total_income_point5 = 0;
-    $bn_total_income_point5 = 0;
-    foreach ($dates as $day_itm) {
-        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
-        $page_cash = $pages->get('template=cash_itm, id_point=point5_cash');
-        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Приход, date=' . $start_day_for_report . '');
-        foreach ($all_operation_cash_ondate as $item) {
-            if ($item->cash_card == 'Наличный расчет') {
-                $total_income_point5 = $total_income_point5 + $item->sum;
-            }
-            if ($item->cash_card == 'Безналичный расчет') {
-                $bn_total_income_point5 = $bn_total_income_point5 + $item->sum;
-            }
-            $income .= '
-            <tr>
-                <td>' . $item->date . '</td>
-                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
-                <td>' . $item->note . '</td>
-            </tr>
-            ';
-        }
-    }
-    $income .= '
-            </tbody>
-        </table>
-    ';
-    $income .= '</div>';
-    $income .= '
-        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_point5, 2, '.', ' ') . '</span></p>
-        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_point5, 2, '.', ' ') . '</span></p>
-        <br>
-        ';
-    //Митинская 27а
-
-$total_income = $total_income_point1 + $total_income_point2 + $total_income_point3 + $total_income_point4 + $total_income_point5;
-$bn_total_income = $bn_total_income_point1 + $bn_total_income_point2 + $bn_total_income_point3 + $bn_total_income_point4 + $bn_total_income_point5;
-$income .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД ПО ВСЕМ ТОЧКАМ НАЛИЧКА: <span style="color: green;">' . number_format($total_income, 2, '.', ' ') . '</span></p>';
-$income .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income, 2, '.', ' ') . '</span></p>';
-
-
-
-//Получение операций расхода по кассам
-$expenses = '';
-$total_expenses = 0;
-$bn_total_expenses = 0;
-
-    //Тверская 20
-    $expenses .= '<div class="report-table">';
-    $expenses .= '<p class="card-report__title_cash">Тверская 20</p>';
-    $expenses .= '
-        <table class="uk-table-striped">
-            <thead>
-                <tr>
-                    <th style="width:25%">ДАТА</th>
-                    <th style="width:25%">СУММА</th>
-                    <th style="width:50%">ОПИСАНИЕ</th>
-                </tr>
-            </thead>
-            <tbody>
-    ';
-    $total_expenses_point1 = 0;
-    $bn_total_expenses_point1 = 0;
-    foreach ($dates as $day_itm) {
-        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
-        $page_cash = $pages->get('template=cash_itm, id_point=point1_cash');
-        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Расход, date=' . $start_day_for_report . '');
-        foreach ($all_operation_cash_ondate as $item) {
-            if ($item->cash_card == 'Наличный расчет') {
-                $total_expenses_point1 = $total_expenses_point1 + $item->sum;
-            }
-            if ($item->cash_card == 'Безналичный расчет') {
-                $bn_total_expenses_point1 = $bn_total_expenses_point1 + $item->sum;
-            }
-            $expenses .= '
-            <tr>
-                <td>' . $item->date . '</td>
-                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
-                <td>' . $item->note . '</td>
-            </tr>
-            ';
-        }
-    }
-    $expenses .= '
-            </tbody>
-        </table>
-    ';
-    $expenses .= '</div>';
-    $expenses .= '
-        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_point1, 2, '.', ' ') . '</span></p>
-        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_point1, 2, '.', ' ') . '</span></p>
-        <br>
-        ';
-    //Тверская 20
-
-    //Тверская 14
-    $expenses .= '<div class="report-table">';
-    $expenses .= '<p class="card-report__title_cash">Тверская 14</p>';
-    $expenses .= '
-        <table class="uk-table-striped">
-            <thead>
-                <tr>
-                    <th style="width:25%">ДАТА</th>
-                    <th style="width:25%">СУММА</th>
-                    <th style="width:50%">ОПИСАНИЕ</th>
-                </tr>
-            </thead>
-            <tbody>
-    ';
-    $total_expenses_point2 = 0;
-    $bn_total_expenses_point2 = 0;
-    foreach ($dates as $day_itm) {
-        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
-        $page_cash = $pages->get('template=cash_itm, id_point=point2_cash');
-        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Расход, date=' . $start_day_for_report . '');
-        foreach ($all_operation_cash_ondate as $item) {
-            if ($item->cash_card == 'Наличный расчет') {
-                $total_expenses_point2 = $total_expenses_point2 + $item->sum;
-            }
-            if ($item->cash_card == 'Безналичный расчет') {
-                $bn_total_expenses_point2 = $bn_total_expenses_point2 + $item->sum;
-            }
-            $expenses .= '
-            <tr>
-                <td>' . $item->date . '</td>
-                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
-                <td>' . $item->note . '</td>
-            </tr>
-            ';
-        }
-    }
-    $expenses .= '
-            </tbody>
-        </table>
-    ';
-    $expenses .= '</div>';
-    $expenses .= '
-        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_point2, 2, '.', ' ') . '</span></p>
-        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_point2, 2, '.', ' ') . '</span></p>
-        <br>
-        ';
-    //Тверская 14
-
-    //Таганка
-    $expenses .= '<div class="report-table">';
-    $expenses .= '<p class="card-report__title_cash">Таганка</p>';
-    $expenses .= '
-        <table class="uk-table-striped">
-            <thead>
-                <tr>
-                    <th style="width:25%">ДАТА</th>
-                    <th style="width:25%">СУММА</th>
-                    <th style="width:50%">ОПИСАНИЕ</th>
-                </tr>
-            </thead>
-            <tbody>
-    ';
-    $total_expenses_point3 = 0;
-    $bn_total_expenses_point3 = 0;
-    foreach ($dates as $day_itm) {
-        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
-        $page_cash = $pages->get('template=cash_itm, id_point=point3_cash');
-        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Расход, date=' . $start_day_for_report . '');
-        foreach ($all_operation_cash_ondate as $item) {
-            if ($item->cash_card == 'Наличный расчет') {
-                $total_expenses_point3 = $total_expenses_point3 + $item->sum;
-            }
-            if ($item->cash_card == 'Безналичный расчет') {
-                $bn_total_expenses_point3 = $bn_total_expenses_point3 + $item->sum;
-            }
-            $expenses .= '
-            <tr>
-                <td>' . $item->date . '</td>
-                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
-                <td>' . $item->note . '</td>
-            </tr>
-            ';
-        }
-    }
-    $expenses .= '
-            </tbody>
-        </table>
-    ';
-    $expenses .= '</div>';
-    $expenses .= '
-        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_point3, 2, '.', ' ') . '</span></p>
-        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_point3, 2, '.', ' ') . '</span></p>
-        <br>
-        ';
-    //Таганка
-
-    //Комсомолка
-    $expenses .= '<div class="report-table">';
-    $expenses .= '<p class="card-report__title_cash">Комсомолка</p>';
-    $expenses .= '
-        <table class="uk-table-striped">
-            <thead>
-                <tr>
-                    <th style="width:25%">ДАТА</th>
-                    <th style="width:25%">СУММА</th>
-                    <th style="width:50%">ОПИСАНИЕ</th>
-                </tr>
-            </thead>
-            <tbody>
-    ';
-    $total_expenses_point4 = 0;
-    $bn_total_expenses_point4 = 0;
-    foreach ($dates as $day_itm) {
-        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
-        $page_cash = $pages->get('template=cash_itm, id_point=point4_cash');
-        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Расход, date=' . $start_day_for_report . '');
-        foreach ($all_operation_cash_ondate as $item) {
-            if ($item->cash_card == 'Наличный расчет') {
-                $total_expenses_point4 = $total_expenses_point4 + $item->sum;
-            }
-            if ($item->cash_card == 'Безналичный расчет') {
-                $bn_total_expenses_point4 = $bn_total_expenses_point4 + $item->sum;
-            }
-            $expenses .= '
-            <tr>
-                <td>' . $item->date . '</td>
-                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
-                <td>' . $item->note . '</td>
-            </tr>
-            ';
-        }
-    }
-    $expenses .= '
-            </tbody>
-        </table>
-    ';
-    $expenses .= '</div>';
-    $expenses .= '
-        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_point4, 2, '.', ' ') . '</span></p>
-        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_point4, 2, '.', ' ') . '</span></p>
-        <br>
-        ';
-    //Комсомолка
-
-    //Митинская 27а
-    $expenses .= '<div class="report-table">';
-    $expenses .= '<p class="card-report__title_cash">Митинская 27а</p>';
-    $expenses .= '
-        <table class="uk-table-striped">
-            <thead>
-                <tr>
-                    <th style="width:25%">ДАТА</th>
-                    <th style="width:25%">СУММА</th>
-                    <th style="width:50%">ОПИСАНИЕ</th>
-                </tr>
-            </thead>
-            <tbody>
-    ';
-    $total_expenses_point5 = 0;
-    $bn_total_expenses_point5 = 0;
-    foreach ($dates as $day_itm) {
-        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
-        $page_cash = $pages->get('template=cash_itm, id_point=point5_cash');
-        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Расход, date=' . $start_day_for_report . '');
-        foreach ($all_operation_cash_ondate as $item) {
-            if ($item->cash_card == 'Наличный расчет') {
-                $total_expenses_point5 = $total_expenses_point5 + $item->sum;
-            }
-            if ($item->cash_card == 'Безналичный расчет') {
-                $bn_total_expenses_point5 = $bn_total_expenses_point5 + $item->sum;
-            }
-            $expenses .= '
-            <tr>
-                <td>' . $item->date . '</td>
-                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
-                <td>' . $item->note . '</td>
-            </tr>
-            ';
-        }
-    }
-    $expenses .= '
-            </tbody>
-        </table>
-    ';
-    $expenses .= '</div>';
-    $expenses .= '
-        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_point5, 2, '.', ' ') . '</span></p>
-        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_point5, 2, '.', ' ') . '</span></p>
-        <br>
-        ';
-    //Митинская 27а
-
-$total_expenses = $total_expenses_point1 + $total_expenses_point2 + $total_expenses_point3 + $total_expenses_point4 + $total_expenses_point5;
-$bn_total_expenses = $bn_total_expenses_point1 + $bn_total_expenses_point2 + $bn_total_expenses_point3 + $bn_total_expenses_point4 + $bn_total_expenses_point5;
-$expenses .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД ПО ВСЕМ ТОЧКАМ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses, 2, '.', ' ') . '</span></p>';
-$expenses .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses, 2, '.', ' ') . '</span></p>';
-
-
-
 //Получение операций по продажам металла
 $income_lom = '';
 $total_income_lom_sum = 0;
@@ -1823,6 +1319,510 @@ $expenses_izdelie .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД
 
 
 
+//Получение операций дохода по кассам
+$income = '';
+$total_income = 0;
+$bn_total_income = 0;
+
+    //Тверская 20
+    $income .= '<div class="report-table">';
+    $income .= '<p class="card-report__title_cash">Тверская 20</p>';
+    $income .= '
+        <table class="uk-table-striped">
+            <thead>
+                <tr>
+                    <th style="width:25%">ДАТА</th>
+                    <th style="width:25%">СУММА</th>
+                    <th style="width:50%">ОПИСАНИЕ</th>
+                </tr>
+            </thead>
+            <tbody>
+    ';
+    $total_income_point1 = 0;
+    $bn_total_income_point1 = 0;
+    foreach ($dates as $day_itm) {
+        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
+        $page_cash = $pages->get('template=cash_itm, id_point=point1_cash');
+        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Приход, date=' . $start_day_for_report . '');
+        foreach ($all_operation_cash_ondate as $item) {
+            if ($item->cash_card == 'Наличный расчет') {
+                $total_income_point1 = $total_income_point1 + $item->sum;
+            }
+            if ($item->cash_card == 'Безналичный расчет') {
+                $bn_total_income_point1 = $bn_total_income_point1 + $item->sum;
+            }
+            $income .= '
+            <tr>
+                <td>' . $item->date . '</td>
+                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
+                <td>' . $item->note . '</td>
+            </tr>
+            ';
+        }
+    }
+    $income .= '
+            </tbody>
+        </table>
+    ';
+    $income .= '</div>';
+    $income .= '
+        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_point1, 2, '.', ' ') . '</span></p>
+        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_point1, 2, '.', ' ') . '</span></p>
+        <br>
+        ';
+    //Тверская 20
+
+    //Тверская 14
+    $income .= '<div class="report-table">';
+    $income .= '<p class="card-report__title_cash">Тверская 14</p>';
+    $income .= '
+        <table class="uk-table-striped">
+            <thead>
+                <tr>
+                    <th style="width:25%">ДАТА</th>
+                    <th style="width:25%">СУММА</th>
+                    <th style="width:50%">ОПИСАНИЕ</th>
+                </tr>
+            </thead>
+            <tbody>
+    ';
+    $total_income_point2 = 0;
+    $bn_total_income_point2 = 0;
+    foreach ($dates as $day_itm) {
+        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
+        $page_cash = $pages->get('template=cash_itm, id_point=point2_cash');
+        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Приход, date=' . $start_day_for_report . '');
+        foreach ($all_operation_cash_ondate as $item) {
+            if ($item->cash_card == 'Наличный расчет') {
+                $total_income_point2 = $total_income_point2 + $item->sum;
+            }
+            if ($item->cash_card == 'Безналичный расчет') {
+                $bn_total_income_point2 = $bn_total_income_point2 + $item->sum;
+            }
+            $income .= '
+            <tr>
+                <td>' . $item->date . '</td>
+                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
+                <td>' . $item->note . '</td>
+            </tr>
+            ';
+        }
+    }
+    $income .= '
+            </tbody>
+        </table>
+    ';
+    $income .= '</div>';
+    $income .= '
+        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_point2, 2, '.', ' ') . '</span></p>
+        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_point2, 2, '.', ' ') . '</span></p>
+        <br>
+        ';
+    //Тверская 14
+
+    //Таганка
+    $income .= '<div class="report-table">';
+    $income .= '<p class="card-report__title_cash">Таганка</p>';
+    $income .= '
+        <table class="uk-table-striped">
+            <thead>
+                <tr>
+                    <th style="width:25%">ДАТА</th>
+                    <th style="width:25%">СУММА</th>
+                    <th style="width:50%">ОПИСАНИЕ</th>
+                </tr>
+            </thead>
+            <tbody>
+    ';
+    $total_income_point3 = 0;
+    $bn_total_income_point3 = 0;
+    foreach ($dates as $day_itm) {
+        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
+        $page_cash = $pages->get('template=cash_itm, id_point=point3_cash');
+        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Приход, date=' . $start_day_for_report . '');
+        foreach ($all_operation_cash_ondate as $item) {
+            if ($item->cash_card == 'Наличный расчет') {
+                $total_income_point3 = $total_income_point3 + $item->sum;
+            }
+            if ($item->cash_card == 'Безналичный расчет') {
+                $bn_total_income_point3 = $bn_total_income_point3 + $item->sum;
+            }
+            $income .= '
+            <tr>
+                <td>' . $item->date . '</td>
+                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
+                <td>' . $item->note . '</td>
+            </tr>
+            ';
+        }
+    }
+    $income .= '
+            </tbody>
+        </table>
+    ';
+    $income .= '</div>';
+    $income .= '
+        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_point3, 2, '.', ' ') . '</span></p>
+        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_point3, 2, '.', ' ') . '</span></p>
+        <br>
+        ';
+    //Таганка
+
+    //Комсомолка
+    $income .= '<div class="report-table">';
+    $income .= '<p class="card-report__title_cash">Комсомолка</p>';
+    $income .= '
+        <table class="uk-table-striped">
+            <thead>
+                <tr>
+                    <th style="width:25%">ДАТА</th>
+                    <th style="width:25%">СУММА</th>
+                    <th style="width:50%">ОПИСАНИЕ</th>
+                </tr>
+            </thead>
+            <tbody>
+    ';
+    $total_income_point4 = 0;
+    $bn_total_income_point4 = 0;
+    foreach ($dates as $day_itm) {
+        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
+        $page_cash = $pages->get('template=cash_itm, id_point=point4_cash');
+        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Приход, date=' . $start_day_for_report . '');
+        foreach ($all_operation_cash_ondate as $item) {
+            if ($item->cash_card == 'Наличный расчет') {
+                $total_income_point4 = $total_income_point4 + $item->sum;
+            }
+            if ($item->cash_card == 'Безналичный расчет') {
+                $bn_total_income_point4 = $bn_total_income_point4 + $item->sum;
+            }
+            $income .= '
+            <tr>
+                <td>' . $item->date . '</td>
+                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
+                <td>' . $item->note . '</td>
+            </tr>
+            ';
+        }
+    }
+    $income .= '
+            </tbody>
+        </table>
+    ';
+    $income .= '</div>';
+    $income .= '
+        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_point4, 2, '.', ' ') . '</span></p>
+        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_point4, 2, '.', ' ') . '</span></p>
+        <br>
+        ';
+    //Комсомолка
+
+    //Митинская 27а
+    $income .= '<div class="report-table">';
+    $income .= '<p class="card-report__title_cash">Митинская 27а</p>';
+    $income .= '
+        <table class="uk-table-striped">
+            <thead>
+                <tr>
+                    <th style="width:25%">ДАТА</th>
+                    <th style="width:25%">СУММА</th>
+                    <th style="width:50%">ОПИСАНИЕ</th>
+                </tr>
+            </thead>
+            <tbody>
+    ';
+    $total_income_point5 = 0;
+    $bn_total_income_point5 = 0;
+    foreach ($dates as $day_itm) {
+        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
+        $page_cash = $pages->get('template=cash_itm, id_point=point5_cash');
+        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Приход, date=' . $start_day_for_report . '');
+        foreach ($all_operation_cash_ondate as $item) {
+            if ($item->cash_card == 'Наличный расчет') {
+                $total_income_point5 = $total_income_point5 + $item->sum;
+            }
+            if ($item->cash_card == 'Безналичный расчет') {
+                $bn_total_income_point5 = $bn_total_income_point5 + $item->sum;
+            }
+            $income .= '
+            <tr>
+                <td>' . $item->date . '</td>
+                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
+                <td>' . $item->note . '</td>
+            </tr>
+            ';
+        }
+    }
+    $income .= '
+            </tbody>
+        </table>
+    ';
+    $income .= '</div>';
+    $income .= '
+        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_point5, 2, '.', ' ') . '</span></p>
+        <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_point5, 2, '.', ' ') . '</span></p>
+        <br>
+        ';
+    //Митинская 27а
+
+$total_income = $total_income_point1 + $total_income_point2 + $total_income_point3 + $total_income_point4 + $total_income_point5;
+$bn_total_income = $bn_total_income_point1 + $bn_total_income_point2 + $bn_total_income_point3 + $bn_total_income_point4 + $bn_total_income_point5;
+$income .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД ПО ВСЕМ ТОЧКАМ НАЛИЧКА: <span style="color: green;">' . number_format($total_income, 2, '.', ' ') . '</span></p>';
+$income .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income, 2, '.', ' ') . '</span></p>';
+
+
+
+//Получение операций расхода по кассам
+$expenses = '';
+$total_expenses = 0;
+$bn_total_expenses = 0;
+
+    //Тверская 20
+    $expenses .= '<div class="report-table">';
+    $expenses .= '<p class="card-report__title_cash">Тверская 20</p>';
+    $expenses .= '
+        <table class="uk-table-striped">
+            <thead>
+                <tr>
+                    <th style="width:25%">ДАТА</th>
+                    <th style="width:25%">СУММА</th>
+                    <th style="width:50%">ОПИСАНИЕ</th>
+                </tr>
+            </thead>
+            <tbody>
+    ';
+    $total_expenses_point1 = 0;
+    $bn_total_expenses_point1 = 0;
+    foreach ($dates as $day_itm) {
+        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
+        $page_cash = $pages->get('template=cash_itm, id_point=point1_cash');
+        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Расход, date=' . $start_day_for_report . '');
+        foreach ($all_operation_cash_ondate as $item) {
+            if ($item->cash_card == 'Наличный расчет') {
+                $total_expenses_point1 = $total_expenses_point1 + $item->sum;
+            }
+            if ($item->cash_card == 'Безналичный расчет') {
+                $bn_total_expenses_point1 = $bn_total_expenses_point1 + $item->sum;
+            }
+            $expenses .= '
+            <tr>
+                <td>' . $item->date . '</td>
+                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
+                <td>' . $item->note . '</td>
+            </tr>
+            ';
+        }
+    }
+    $expenses .= '
+            </tbody>
+        </table>
+    ';
+    $expenses .= '</div>';
+    $expenses .= '
+        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_point1, 2, '.', ' ') . '</span></p>
+        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_point1, 2, '.', ' ') . '</span></p>
+        <br>
+        ';
+    //Тверская 20
+
+    //Тверская 14
+    $expenses .= '<div class="report-table">';
+    $expenses .= '<p class="card-report__title_cash">Тверская 14</p>';
+    $expenses .= '
+        <table class="uk-table-striped">
+            <thead>
+                <tr>
+                    <th style="width:25%">ДАТА</th>
+                    <th style="width:25%">СУММА</th>
+                    <th style="width:50%">ОПИСАНИЕ</th>
+                </tr>
+            </thead>
+            <tbody>
+    ';
+    $total_expenses_point2 = 0;
+    $bn_total_expenses_point2 = 0;
+    foreach ($dates as $day_itm) {
+        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
+        $page_cash = $pages->get('template=cash_itm, id_point=point2_cash');
+        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Расход, date=' . $start_day_for_report . '');
+        foreach ($all_operation_cash_ondate as $item) {
+            if ($item->cash_card == 'Наличный расчет') {
+                $total_expenses_point2 = $total_expenses_point2 + $item->sum;
+            }
+            if ($item->cash_card == 'Безналичный расчет') {
+                $bn_total_expenses_point2 = $bn_total_expenses_point2 + $item->sum;
+            }
+            $expenses .= '
+            <tr>
+                <td>' . $item->date . '</td>
+                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
+                <td>' . $item->note . '</td>
+            </tr>
+            ';
+        }
+    }
+    $expenses .= '
+            </tbody>
+        </table>
+    ';
+    $expenses .= '</div>';
+    $expenses .= '
+        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_point2, 2, '.', ' ') . '</span></p>
+        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_point2, 2, '.', ' ') . '</span></p>
+        <br>
+        ';
+    //Тверская 14
+
+    //Таганка
+    $expenses .= '<div class="report-table">';
+    $expenses .= '<p class="card-report__title_cash">Таганка</p>';
+    $expenses .= '
+        <table class="uk-table-striped">
+            <thead>
+                <tr>
+                    <th style="width:25%">ДАТА</th>
+                    <th style="width:25%">СУММА</th>
+                    <th style="width:50%">ОПИСАНИЕ</th>
+                </tr>
+            </thead>
+            <tbody>
+    ';
+    $total_expenses_point3 = 0;
+    $bn_total_expenses_point3 = 0;
+    foreach ($dates as $day_itm) {
+        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
+        $page_cash = $pages->get('template=cash_itm, id_point=point3_cash');
+        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Расход, date=' . $start_day_for_report . '');
+        foreach ($all_operation_cash_ondate as $item) {
+            if ($item->cash_card == 'Наличный расчет') {
+                $total_expenses_point3 = $total_expenses_point3 + $item->sum;
+            }
+            if ($item->cash_card == 'Безналичный расчет') {
+                $bn_total_expenses_point3 = $bn_total_expenses_point3 + $item->sum;
+            }
+            $expenses .= '
+            <tr>
+                <td>' . $item->date . '</td>
+                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
+                <td>' . $item->note . '</td>
+            </tr>
+            ';
+        }
+    }
+    $expenses .= '
+            </tbody>
+        </table>
+    ';
+    $expenses .= '</div>';
+    $expenses .= '
+        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_point3, 2, '.', ' ') . '</span></p>
+        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_point3, 2, '.', ' ') . '</span></p>
+        <br>
+        ';
+    //Таганка
+
+    //Комсомолка
+    $expenses .= '<div class="report-table">';
+    $expenses .= '<p class="card-report__title_cash">Комсомолка</p>';
+    $expenses .= '
+        <table class="uk-table-striped">
+            <thead>
+                <tr>
+                    <th style="width:25%">ДАТА</th>
+                    <th style="width:25%">СУММА</th>
+                    <th style="width:50%">ОПИСАНИЕ</th>
+                </tr>
+            </thead>
+            <tbody>
+    ';
+    $total_expenses_point4 = 0;
+    $bn_total_expenses_point4 = 0;
+    foreach ($dates as $day_itm) {
+        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
+        $page_cash = $pages->get('template=cash_itm, id_point=point4_cash');
+        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Расход, date=' . $start_day_for_report . '');
+        foreach ($all_operation_cash_ondate as $item) {
+            if ($item->cash_card == 'Наличный расчет') {
+                $total_expenses_point4 = $total_expenses_point4 + $item->sum;
+            }
+            if ($item->cash_card == 'Безналичный расчет') {
+                $bn_total_expenses_point4 = $bn_total_expenses_point4 + $item->sum;
+            }
+            $expenses .= '
+            <tr>
+                <td>' . $item->date . '</td>
+                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
+                <td>' . $item->note . '</td>
+            </tr>
+            ';
+        }
+    }
+    $expenses .= '
+            </tbody>
+        </table>
+    ';
+    $expenses .= '</div>';
+    $expenses .= '
+        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_point4, 2, '.', ' ') . '</span></p>
+        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_point4, 2, '.', ' ') . '</span></p>
+        <br>
+        ';
+    //Комсомолка
+
+    //Митинская 27а
+    $expenses .= '<div class="report-table">';
+    $expenses .= '<p class="card-report__title_cash">Митинская 27а</p>';
+    $expenses .= '
+        <table class="uk-table-striped">
+            <thead>
+                <tr>
+                    <th style="width:25%">ДАТА</th>
+                    <th style="width:25%">СУММА</th>
+                    <th style="width:50%">ОПИСАНИЕ</th>
+                </tr>
+            </thead>
+            <tbody>
+    ';
+    $total_expenses_point5 = 0;
+    $bn_total_expenses_point5 = 0;
+    foreach ($dates as $day_itm) {
+        $start_day_for_report = date('d-m-Y', strtotime($day_itm));
+        $page_cash = $pages->get('template=cash_itm, id_point=point5_cash');
+        $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Расход, date=' . $start_day_for_report . '');
+        foreach ($all_operation_cash_ondate as $item) {
+            if ($item->cash_card == 'Наличный расчет') {
+                $total_expenses_point5 = $total_expenses_point5 + $item->sum;
+            }
+            if ($item->cash_card == 'Безналичный расчет') {
+                $bn_total_expenses_point5 = $bn_total_expenses_point5 + $item->sum;
+            }
+            $expenses .= '
+            <tr>
+                <td>' . $item->date . '</td>
+                <td>' . number_format($item->sum, 2, '.', ' ') . '</td>
+                <td>' . $item->note . '</td>
+            </tr>
+            ';
+        }
+    }
+    $expenses .= '
+            </tbody>
+        </table>
+    ';
+    $expenses .= '</div>';
+    $expenses .= '
+        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_point5, 2, '.', ' ') . '</span></p>
+        <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_point5, 2, '.', ' ') . '</span></p>
+        <br>
+        ';
+    //Митинская 27а
+
+$total_expenses = $total_expenses_point1 + $total_expenses_point2 + $total_expenses_point3 + $total_expenses_point4 + $total_expenses_point5;
+$bn_total_expenses = $bn_total_expenses_point1 + $bn_total_expenses_point2 + $bn_total_expenses_point3 + $bn_total_expenses_point4 + $bn_total_expenses_point5;
+$expenses .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД ПО ВСЕМ ТОЧКАМ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses, 2, '.', ' ') . '</span></p>';
+$expenses .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses, 2, '.', ' ') . '</span></p>';
+
+
+
 //Долги
 $arrears = '';
 $total_arrears = 0;
@@ -1918,12 +1918,12 @@ $arrears .= '
         <div uk-sticky="sel-target: .flipmenu; cls-active: uk-navbar-sticky; offset: 0;">
             <div class="flipmenu pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="#start">Начало</a>
-                <a class="menu-link" href="#income">Доходы</a>
-                <a class="menu-link" href="#expenses">Расходы</a>
                 <a class="menu-link" href="#income_lom">Продажи металла</a>
                 <a class="menu-link" href="#expenses_lom">Скупки металла</a>
                 <a class="menu-link" href="#income_izdelie">Продажа изделий</a>
                 <a class="menu-link" href="#expenses_izdelie">Скупки изделий</a>
+                <a class="menu-link" href="#income">Доходы</a>
+                <a class="menu-link" href="#expenses">Расходы</a>
                 <a class="menu-link" href="#arrears">Долги</a>
             </div>
         </div>
@@ -1936,22 +1936,6 @@ $arrears .= '
 		    </div>
 		</div>
         -->
-
-        <div class="anchor"><span id="income"></span></div>
-        <div>
-            <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
-                <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Доходы</h2>
-                <?php echo $income; ?>
-            </div>
-        </div>
-
-        <div class="anchor"><span id="expenses"></span></div>
-        <div>
-            <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
-                <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Расходы</h2>
-                <?php echo $expenses; ?>
-            </div>
-        </div>
 
         <div class="anchor"><span id="income_lom"></span></div>
         <div>
@@ -1982,6 +1966,22 @@ $arrears .= '
             <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
                 <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Скупки изделий</h2>
                 <?php echo $expenses_izdelie; ?>
+            </div>
+        </div>
+
+        <div class="anchor"><span id="income"></span></div>
+        <div>
+            <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
+                <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Доходы</h2>
+                <?php echo $income; ?>
+            </div>
+        </div>
+
+        <div class="anchor"><span id="expenses"></span></div>
+        <div>
+            <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
+                <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Расходы</h2>
+                <?php echo $expenses; ?>
             </div>
         </div>
 
