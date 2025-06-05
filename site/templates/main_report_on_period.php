@@ -1915,6 +1915,35 @@ $arrears .= '
             </div>
         </div>
 
+        <div>
+            <div class="filtermenu uk-width-1-1">
+                <form class="form-select-date" id="select_period_date" action="/otchet-po-tochke/" method="post">
+                    <div class="uk-flex">
+                        <div class="filtermenu-input">
+                            <input class="uk-input" id="point_start_date" type="date" name="point_start_date" required>
+                        </div>
+                        <div class="filtermenu-input">
+                            <input class="uk-input" id="point_finish_date" type="date" name="point_finish_date" required>
+                        </div>
+                        <div class="filtermenu-input">
+                            <select class="uk-select" id="report_point" name="report_point" required>
+                                <option></option>
+                                <option value="point1">Тверская 20</option>
+                                <option value="point2">Тверская 14</option>
+                                <option value="point3">Таганка</option>
+                                <option value="point4">Комсомолка</option>
+                                <option value="point5">Митинская 27а</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="uk-margin-small-top uk-width-1-1">
+                        <button class="uk-margin-remove uk-button uk-button-default uk-width-1-1" type="submit">Отчет по точке</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <div uk-sticky="sel-target: .flipmenu; cls-active: uk-navbar-sticky; offset: 0;">
             <div class="flipmenu pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="#start">Начало</a>
