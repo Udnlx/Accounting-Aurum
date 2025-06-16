@@ -2,10 +2,20 @@
 
 namespace ProcessWire;
 
+$addw_page = !empty($_POST['addw_page'])?$_POST['addw_page']:NULL; 
 $addw_worker = !empty($_POST['addw_worker'])?$_POST['addw_worker']:NULL; 
 $addw_id_product = !empty($_POST['addw_id_product'])?$_POST['addw_id_product']:NULL; 
 $addw_description = !empty($_POST['addw_description'])?$_POST['addw_description']:NULL; 
 $addw_sum = !empty($_POST['addw_sum'])?$_POST['addw_sum']:NULL; 
+
+$back_button = '
+    <a class="uk-margin-small uk-button uk-button-default" href="/prodazha-izdelie-vnesti-izmeneniia/?prod_id=' . $addw_id_product. '">Вернутся к изделию</a>
+    ';
+if ($addw_page == 'adminpanel') {
+    $back_button = '
+    <a class="uk-margin-small uk-button uk-button-default" href="/adminpanel-izdelie-vnesti-izmeneniia/?prod_id=' . $addw_id_product. '">Вернутся к изделию</a>
+    ';
+}
 
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
@@ -147,7 +157,8 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 	        <p class="uk-margin-remove">ID записи изделия: <span style="font-weight: 700;"><?php echo $product_page->id; ?></span></p>
 	        <p class="uk-margin-remove">Наименование: <span style="font-weight: 700;"><?php echo $product_page->title; ?></span></p>
 	        <p class="uk-margin-remove">Измененная текущая цена: <span style="font-weight: 700;"><?php echo number_format($product_page->product_price_buy, 2, '.',' '); ?></span></p>
-	        <a class="uk-margin-small uk-button uk-button-default" href="/prodazha-izdelie-vnesti-izmeneniia/?prod_id=<?php echo $addw_id_product; ?>">Вернутся к изделию</a>
+	        <!-- <a class="uk-margin-small uk-button uk-button-default" href="/prodazha-izdelie-vnesti-izmeneniia/?prod_id=<?php echo $addw_id_product; ?>">Вернутся к изделию</a> -->
+            <?php echo $back_button; ?>
         </div>
 
         <br>
