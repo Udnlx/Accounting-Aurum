@@ -68,6 +68,7 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $access != 'a
 $income_lom = '';
 $total_income_lom_sum = 0;
 $bn_total_income_lom_sum = 0;
+$total_income_profit = 0;
 $total_income_lom_in585 = 0;
 
     //Тверская 20
@@ -79,19 +80,21 @@ $total_income_lom_in585 = 0;
         <table class="uk-table-striped">
             <thead>
                 <tr>
-                    <th style="width:14%">ОПЕРАТОР</th>
-                    <th style="width:14%">ПРОБА</th>
-                    <th style="width:14%">ВЕС</th>
-                    <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
-                    <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
-                    <th style="width:14%">СУММА ПРОДАЖИ</th>
-                    <th style="width:14%">В 585</th>
+                    <th style="width:12%">ОПЕРАТОР</th>
+                    <th style="width:12%">ПРОБА</th>
+                    <th style="width:12%">ВЕС</th>
+                    <th style="width:12%">ЦЕНА ЗА ГРАММ</th>
+                    <th style="width:12%">ЦЕНА ЗА ВСЕ</th>
+                    <th style="width:12%">СУММА ПРОДАЖИ</th>
+                    <th style="width:12%">ПРОФИТ</th>
+                    <th style="width:12%">В 585</th>
                 </tr>
             </thead>
             <tbody>
     ';
     $total_income_lom_sum_point1 = 0;
     $bn_total_income_lom_sum_point1 = 0;
+    $total_income_profit_point1 = 0;
     $total_income_lom_in585_point1 = 0;
     foreach ($all_operation_lom_onpoint as $item) {
         if ($item->cash_card == 'Наличный расчет') {
@@ -100,6 +103,8 @@ $total_income_lom_in585 = 0;
         if ($item->cash_card == 'Безналичный расчет') {
             $bn_total_income_lom_sum_point1 = $bn_total_income_lom_sum_point1 + $item->pay;
         }
+        $profit = $item->pay - $item->price;
+        $total_income_profit_point1 = $total_income_profit_point1 + $profit;
         $in585 = 0;
         if ($item->proba == 'Ag' || $item->proba == 'Pt' || $item->proba == 'Pd') {
         //Серебро, Платина и Палладий не считаются
@@ -115,6 +120,7 @@ $total_income_lom_in585 = 0;
             <td>' . number_format($item->price_gramm, 2, '.', ' ') . '</td>
             <td>' . number_format($item->price, 2, '.', ' ') . '</td>
             <td>' . number_format($item->pay, 2, '.', ' ') . '</td>
+            <td>' . number_format($profit, 2, '.', ' ') . '</td>
             <td>' . number_format($in585, 2, '.', ' ') . '</td>
         </tr>
         ';
@@ -126,6 +132,7 @@ $total_income_lom_in585 = 0;
     $income_lom .= '</div>';
     $income_lom .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_lom_sum_point1, 2, '.', ' ') . '</span></p>';
     $income_lom .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_lom_sum_point1, 2, '.', ' ') . '</span></p>';
+    $income_lom .= '<p class="card-report__title_cash">ПРОФИТ ПО ТОЧКЕ: <span style="color: green;">' . number_format($total_income_profit_point1, 2, '.', ' ') . '</span></p>';
     $income_lom .= '<p class="card-report__title_cash">ПРОДАННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: green;">' . number_format($total_income_lom_in585_point1, 2, '.', ' ') . '</span></p><br>';
     //Тверская 20
 
@@ -138,19 +145,21 @@ $total_income_lom_in585 = 0;
         <table class="uk-table-striped">
             <thead>
                 <tr>
-                    <th style="width:14%">ОПЕРАТОР</th>
-                    <th style="width:14%">ПРОБА</th>
-                    <th style="width:14%">ВЕС</th>
-                    <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
-                    <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
-                    <th style="width:14%">СУММА ПРОДАЖИ</th>
-                    <th style="width:14%">В 585</th>
+                    <th style="width:12%">ОПЕРАТОР</th>
+                    <th style="width:12%">ПРОБА</th>
+                    <th style="width:12%">ВЕС</th>
+                    <th style="width:12%">ЦЕНА ЗА ГРАММ</th>
+                    <th style="width:12%">ЦЕНА ЗА ВСЕ</th>
+                    <th style="width:12%">СУММА ПРОДАЖИ</th>
+                    <th style="width:12%">ПРОФИТ</th>
+                    <th style="width:12%">В 585</th>
                 </tr>
             </thead>
             <tbody>
     ';
     $total_income_lom_sum_point2 = 0;
     $bn_total_income_lom_sum_point2 = 0;
+    $total_income_profit_point2 = 0;
     $total_income_lom_in585_point2 = 0;
     foreach ($all_operation_lom_onpoint as $item) {
         if ($item->cash_card == 'Наличный расчет') {
@@ -159,6 +168,8 @@ $total_income_lom_in585 = 0;
         if ($item->cash_card == 'Безналичный расчет') {
             $bn_total_income_lom_sum_point2 = $bn_total_income_lom_sum_point2 + $item->pay;
         }
+        $profit = $item->pay - $item->price;
+        $total_income_profit_point2 = $total_income_profit_point2 + $profit;
         $in585 = 0;
         if ($item->proba == 'Ag' || $item->proba == 'Pt' || $item->proba == 'Pd') {
         //Серебро, Платина и Палладий не считаются
@@ -174,6 +185,7 @@ $total_income_lom_in585 = 0;
             <td>' . number_format($item->price_gramm, 2, '.', ' ') . '</td>
             <td>' . number_format($item->price, 2, '.', ' ') . '</td>
             <td>' . number_format($item->pay, 2, '.', ' ') . '</td>
+            <td>' . number_format($profit, 2, '.', ' ') . '</td>
             <td>' . number_format($in585, 2, '.', ' ') . '</td>
         </tr>
         ';
@@ -185,6 +197,7 @@ $total_income_lom_in585 = 0;
     $income_lom .= '</div>';
     $income_lom .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_lom_sum_point2, 2, '.', ' ') . '</span></p>';
     $income_lom .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_lom_sum_point2, 2, '.', ' ') . '</span></p>';
+    $income_lom .= '<p class="card-report__title_cash">ПРОФИТ ПО ТОЧКЕ: <span style="color: green;">' . number_format($total_income_profit_point2, 2, '.', ' ') . '</span></p>';
     $income_lom .= '<p class="card-report__title_cash">ПРОДАННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: green;">' . number_format($total_income_lom_in585_point2, 2, '.', ' ') . '</span></p><br>';
     //Тверская 14
 
@@ -197,19 +210,21 @@ $total_income_lom_in585 = 0;
         <table class="uk-table-striped">
             <thead>
                 <tr>
-                    <th style="width:14%">ОПЕРАТОР</th>
-                    <th style="width:14%">ПРОБА</th>
-                    <th style="width:14%">ВЕС</th>
-                    <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
-                    <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
-                    <th style="width:14%">СУММА ПРОДАЖИ</th>
-                    <th style="width:14%">В 585</th>
+                    <th style="width:12%">ОПЕРАТОР</th>
+                    <th style="width:12%">ПРОБА</th>
+                    <th style="width:12%">ВЕС</th>
+                    <th style="width:12%">ЦЕНА ЗА ГРАММ</th>
+                    <th style="width:12%">ЦЕНА ЗА ВСЕ</th>
+                    <th style="width:12%">СУММА ПРОДАЖИ</th>
+                    <th style="width:12%">ПРОФИТ</th>
+                    <th style="width:12%">В 585</th>
                 </tr>
             </thead>
             <tbody>
     ';
     $total_income_lom_sum_point3 = 0;
     $bn_total_income_lom_sum_point3 = 0;
+    $total_income_profit_point3 = 0;
     $total_income_lom_in585_point3 = 0;
     foreach ($all_operation_lom_onpoint as $item) {
         if ($item->cash_card == 'Наличный расчет') {
@@ -218,6 +233,8 @@ $total_income_lom_in585 = 0;
         if ($item->cash_card == 'Безналичный расчет') {
             $bn_total_income_lom_sum_point3 = $bn_total_income_lom_sum_point3 + $item->pay;
         }
+        $profit = $item->pay - $item->price;
+        $total_income_profit_point3 = $total_income_profit_point3 + $profit;
         $in585 = 0;
         if ($item->proba == 'Ag' || $item->proba == 'Pt' || $item->proba == 'Pd') {
         //Серебро, Платина и Палладий не считаются
@@ -233,6 +250,7 @@ $total_income_lom_in585 = 0;
             <td>' . number_format($item->price_gramm, 2, '.', ' ') . '</td>
             <td>' . number_format($item->price, 2, '.', ' ') . '</td>
             <td>' . number_format($item->pay, 2, '.', ' ') . '</td>
+            <td>' . number_format($profit, 2, '.', ' ') . '</td>
             <td>' . number_format($in585, 2, '.', ' ') . '</td>
         </tr>
         ';
@@ -244,6 +262,7 @@ $total_income_lom_in585 = 0;
     $income_lom .= '</div>';
     $income_lom .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_lom_sum_point3, 2, '.', ' ') . '</span></p>';
     $income_lom .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_lom_sum_point3, 2, '.', ' ') . '</span></p>';
+    $income_lom .= '<p class="card-report__title_cash">ПРОФИТ ПО ТОЧКЕ: <span style="color: green;">' . number_format($total_income_profit_point3, 2, '.', ' ') . '</span></p>';
     $income_lom .= '<p class="card-report__title_cash">ПРОДАННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: green;">' . number_format($total_income_lom_in585_point3, 2, '.', ' ') . '</span></p><br>';
     //Таганка
 
@@ -262,6 +281,7 @@ $total_income_lom_in585 = 0;
                     <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
                     <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
                     <th style="width:14%">СУММА ПРОДАЖИ</th>
+                    <th style="width:12%">ПРОФИТ</th>
                     <th style="width:14%">В 585</th>
                 </tr>
             </thead>
@@ -269,6 +289,7 @@ $total_income_lom_in585 = 0;
     ';
     $total_income_lom_sum_point4 = 0;
     $bn_total_income_lom_sum_point4 = 0;
+    $total_income_profit_point4 = 0;
     $total_income_lom_in585_point4 = 0;
     foreach ($all_operation_lom_onpoint as $item) {
         if ($item->cash_card == 'Наличный расчет') {
@@ -277,6 +298,8 @@ $total_income_lom_in585 = 0;
         if ($item->cash_card == 'Безналичный расчет') {
             $bn_total_income_lom_sum_point4 = $bn_total_income_lom_sum_point4 + $item->pay;
         }
+        $profit = $item->pay - $item->price;
+        $total_income_profit_point4 = $total_income_profit_point4 + $profit;
         $in585 = 0;
         if ($item->proba == 'Ag' || $item->proba == 'Pt' || $item->proba == 'Pd') {
         //Серебро, Платина и Палладий не считаются
@@ -292,6 +315,7 @@ $total_income_lom_in585 = 0;
             <td>' . number_format($item->price_gramm, 2, '.', ' ') . '</td>
             <td>' . number_format($item->price, 2, '.', ' ') . '</td>
             <td>' . number_format($item->pay, 2, '.', ' ') . '</td>
+            <td>' . number_format($profit, 2, '.', ' ') . '</td>
             <td>' . number_format($in585, 2, '.', ' ') . '</td>
         </tr>
         ';
@@ -303,6 +327,7 @@ $total_income_lom_in585 = 0;
     $income_lom .= '</div>';
     $income_lom .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_lom_sum_point4, 2, '.', ' ') . '</span></p>';
     $income_lom .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_lom_sum_point4, 2, '.', ' ') . '</span></p>';
+    $income_lom .= '<p class="card-report__title_cash">ПРОФИТ ПО ТОЧКЕ: <span style="color: green;">' . number_format($total_income_profit_point4, 2, '.', ' ') . '</span></p>';
     $income_lom .= '<p class="card-report__title_cash">ПРОДАННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: green;">' . number_format($total_income_lom_in585_point4, 2, '.', ' ') . '</span></p><br>';
     //Комсомолка
 
@@ -315,19 +340,21 @@ $total_income_lom_in585 = 0;
         <table class="uk-table-striped">
             <thead>
                 <tr>
-                    <th style="width:14%">ОПЕРАТОР</th>
-                    <th style="width:14%">ПРОБА</th>
-                    <th style="width:14%">ВЕС</th>
-                    <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
-                    <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
-                    <th style="width:14%">СУММА ПРОДАЖИ</th>
-                    <th style="width:14%">В 585</th>
+                    <th style="width:12%">ОПЕРАТОР</th>
+                    <th style="width:12%">ПРОБА</th>
+                    <th style="width:12%">ВЕС</th>
+                    <th style="width:12%">ЦЕНА ЗА ГРАММ</th>
+                    <th style="width:12%">ЦЕНА ЗА ВСЕ</th>
+                    <th style="width:12%">СУММА ПРОДАЖИ</th>
+                    <th style="width:12%">ПРОФИТ</th>
+                    <th style="width:12%">В 585</th>
                 </tr>
             </thead>
             <tbody>
     ';
     $total_income_lom_sum_point5 = 0;
     $bn_total_income_lom_sum_point5 = 0;
+    $total_income_profit_point5 = 0;
     $total_income_lom_in585_point5 = 0;
     foreach ($all_operation_lom_onpoint as $item) {
         if ($item->cash_card == 'Наличный расчет') {
@@ -336,6 +363,8 @@ $total_income_lom_in585 = 0;
         if ($item->cash_card == 'Безналичный расчет') {
             $bn_total_income_lom_sum_point5 = $bn_total_income_lom_sum_point5 + $item->pay;
         }
+        $profit = $item->pay - $item->price;
+        $total_income_profit_point5 = $total_income_profit_point5 + $profit;
         $in585 = 0;
         if ($item->proba == 'Ag' || $item->proba == 'Pt' || $item->proba == 'Pd') {
         //Серебро, Платина и Палладий не считаются
@@ -351,6 +380,7 @@ $total_income_lom_in585 = 0;
             <td>' . number_format($item->price_gramm, 2, '.', ' ') . '</td>
             <td>' . number_format($item->price, 2, '.', ' ') . '</td>
             <td>' . number_format($item->pay, 2, '.', ' ') . '</td>
+            <td>' . number_format($profit, 2, '.', ' ') . '</td>
             <td>' . number_format($in585, 2, '.', ' ') . '</td>
         </tr>
         ';
@@ -362,14 +392,17 @@ $total_income_lom_in585 = 0;
     $income_lom .= '</div>';
     $income_lom .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_lom_sum_point5, 2, '.', ' ') . '</span></p>';
     $income_lom .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_lom_sum_point5, 2, '.', ' ') . '</span></p>';
+    $income_lom .= '<p class="card-report__title_cash">ПРОФИТ ПО ТОЧКЕ: <span style="color: green;">' . number_format($total_income_profit_point5, 2, '.', ' ') . '</span></p>';
     $income_lom .= '<p class="card-report__title_cash">ПРОДАННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: green;">' . number_format($total_income_lom_in585_point5, 2, '.', ' ') . '</span></p><br>';
     //Митинская 27а
 
 $total_income_lom_sum = $total_income_lom_sum_point1 + $total_income_lom_sum_point2 + $total_income_lom_sum_point3 + $total_income_lom_sum_point4 + $total_income_lom_sum_point5;
 $bn_total_income_lom_sum = $bn_total_income_lom_sum_point1 + $bn_total_income_lom_sum_point2 + $bn_total_income_lom_sum_point3 + $bn_total_income_lom_sum_point4 + $bn_total_income_lom_sum_point5;
+$total_income_profit = $total_income_profit_point1 + $total_income_profit_point2 + $total_income_profit_point3 + $total_income_profit_point4 + $total_income_profit_point5;
 $total_income_lom_in585 = $total_income_lom_in585_point1 + $total_income_lom_in585_point2 + $total_income_lom_in585_point3 + $total_income_lom_in585_point4 + $total_income_lom_in585_point5;
 $income_lom .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ВСЕМ ТОЧКАМ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_lom_sum, 2, '.', ' ') . '</span></p>';
 $income_lom .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_lom_sum, 2, '.', ' ') . '</span></p>';
+$income_lom .= '<p class="card-report__title_cash">ОБЩИЙ ПРОФИТ ПО ВСЕМ ТОЧКАМ: <span style="color: green;">' . number_format($total_income_profit, 2, '.', ' ') . '</span></p>';
 $income_lom .= '<p class="card-report__title_cash">ОБЩАЯ ПРОДАЖА МЕТАЛЛА ПО ВСЕМ ТОЧКАМ В 585 ПРОБЕ: <span style="color: green;">' . number_format($total_income_lom_in585, 2, '.', ' ') . '</span></p>';
 
 
@@ -378,6 +411,7 @@ $income_lom .= '<p class="card-report__title_cash">ОБЩАЯ ПРОДАЖА М�
 $expenses_lom = '';
 $total_expenses_lom_sum = 0;
 $bn_total_expenses_lom_sum = 0;
+$total_expenses_profit = 0;
 $total_expenses_lom_in585 = 0;
 
     //Тверская 20
@@ -389,19 +423,21 @@ $total_expenses_lom_in585 = 0;
         <table class="uk-table-striped">
             <thead>
                 <tr>
-                    <th style="width:14%">ОПЕРАТОР</th>
-                    <th style="width:14%">ПРОБА</th>
-                    <th style="width:14%">ВЕС</th>
-                    <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
-                    <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
-                    <th style="width:14%">СУММА СКУПКИ</th>
-                    <th style="width:14%">В 585</th>
+                    <th style="width:12%">ОПЕРАТОР</th>
+                    <th style="width:12%">ПРОБА</th>
+                    <th style="width:12%">ВЕС</th>
+                    <th style="width:12%">ЦЕНА ЗА ГРАММ</th>
+                    <th style="width:12%">ЦЕНА ЗА ВСЕ</th>
+                    <th style="width:12%">СУММА СКУПКИ</th>
+                    <th style="width:12%">ПРОФИТ</th>
+                    <th style="width:12%">В 585</th>
                 </tr>
             </thead>
             <tbody>
     ';
     $total_expenses_lom_sum_point1 = 0;
     $bn_total_expenses_lom_sum_point1 = 0;
+    $total_expenses_profit_point1 = 0;
     $total_expenses_lom_in585_point1 = 0;
     foreach ($all_operation_lom_onpoint as $item) {
         if ($item->cash_card == 'Наличный расчет') {
@@ -410,6 +446,8 @@ $total_expenses_lom_in585 = 0;
         if ($item->cash_card == 'Безналичный расчет') {
             $bn_total_expenses_lom_sum_point1 = $bn_total_expenses_lom_sum_point1 + $item->pay;
         }
+        $profit = $item->price - $item->pay;
+        $total_expenses_profit_point1 = $total_expenses_profit_point1 + $profit;
         $in585 = 0;
         if ($item->proba == 'Ag' || $item->proba == 'Pt' || $item->proba == 'Pd') {
         //Серебро, Платина и Палладий не считаются
@@ -425,6 +463,7 @@ $total_expenses_lom_in585 = 0;
             <td>' . number_format($item->price_gramm, 2, '.', ' ') . '</td>
             <td>' . number_format($item->price, 2, '.', ' ') . '</td>
             <td>' . number_format($item->pay, 2, '.', ' ') . '</td>
+            <td>' . number_format($profit, 2, '.', ' ') . '</td>
             <td>' . number_format($in585, 2, '.', ' ') . '</td>
         </tr>
         ';
@@ -436,6 +475,7 @@ $total_expenses_lom_in585 = 0;
     $expenses_lom .= '</div>';
     $expenses_lom .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_lom_sum_point1, 2, '.', ' ') . '</span></p>';
     $expenses_lom .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_lom_sum_point1, 2, '.', ' ') . '</span></p>';
+    $expenses_lom .= '<p class="card-report__title_cash">ПРОФИТ ПО ТОЧКЕ: <span style="color: red;">' . number_format($total_expenses_profit_point1, 2, '.', ' ') . '</span></p>';
     $expenses_lom .= '<p class="card-report__title_cash">КУПЛЕННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: red;">' . number_format($total_expenses_lom_in585_point1, 2, '.', ' ') . '</span></p><br>';
     //Тверская 20
 
@@ -448,19 +488,21 @@ $total_expenses_lom_in585 = 0;
         <table class="uk-table-striped">
             <thead>
                 <tr>
-                    <th style="width:14%">ОПЕРАТОР</th>
-                    <th style="width:14%">ПРОБА</th>
-                    <th style="width:14%">ВЕС</th>
-                    <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
-                    <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
-                    <th style="width:14%">СУММА СКУПКИ</th>
-                    <th style="width:14%">В 585</th>
+                    <th style="width:12%">ОПЕРАТОР</th>
+                    <th style="width:12%">ПРОБА</th>
+                    <th style="width:12%">ВЕС</th>
+                    <th style="width:12%">ЦЕНА ЗА ГРАММ</th>
+                    <th style="width:12%">ЦЕНА ЗА ВСЕ</th>
+                    <th style="width:12%">СУММА СКУПКИ</th>
+                    <th style="width:12%">ПРОФИТ</th>
+                    <th style="width:12%">В 585</th>
                 </tr>
             </thead>
             <tbody>
     ';
     $total_expenses_lom_sum_point2 = 0;
     $bn_total_expenses_lom_sum_point2 = 0;
+    $total_expenses_profit_point2 = 0;
     $total_expenses_lom_in585_point2 = 0;
     foreach ($all_operation_lom_onpoint as $item) {
         if ($item->cash_card == 'Наличный расчет') {
@@ -469,6 +511,8 @@ $total_expenses_lom_in585 = 0;
         if ($item->cash_card == 'Безналичный расчет') {
             $bn_total_expenses_lom_sum_point2 = $bn_total_expenses_lom_sum_point2 + $item->pay;
         }
+        $profit = $item->price - $item->pay;
+        $total_expenses_profit_point2 = $total_expenses_profit_point2 + $profit;
         $in585 = 0;
         if ($item->proba == 'Ag' || $item->proba == 'Pt' || $item->proba == 'Pd') {
         //Серебро, Платина и Палладий не считаются
@@ -484,6 +528,7 @@ $total_expenses_lom_in585 = 0;
             <td>' . number_format($item->price_gramm, 2, '.', ' ') . '</td>
             <td>' . number_format($item->price, 2, '.', ' ') . '</td>
             <td>' . number_format($item->pay, 2, '.', ' ') . '</td>
+            <td>' . number_format($profit, 2, '.', ' ') . '</td>
             <td>' . number_format($in585, 2, '.', ' ') . '</td>
         </tr>
         ';
@@ -495,6 +540,7 @@ $total_expenses_lom_in585 = 0;
     $expenses_lom .= '</div>';
     $expenses_lom .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_lom_sum_point2, 2, '.', ' ') . '</span></p>';
     $expenses_lom .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_lom_sum_point2, 2, '.', ' ') . '</span></p>';
+    $expenses_lom .= '<p class="card-report__title_cash">ПРОФИТ ПО ТОЧКЕ: <span style="color: red;">' . number_format($total_expenses_profit_point2, 2, '.', ' ') . '</span></p>';
     $expenses_lom .= '<p class="card-report__title_cash">КУПЛЕННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: red;">' . number_format($total_expenses_lom_in585_point2, 2, '.', ' ') . '</span></p><br>';
     //Тверская 14
 
@@ -507,19 +553,21 @@ $total_expenses_lom_in585 = 0;
         <table class="uk-table-striped">
             <thead>
                 <tr>
-                    <th style="width:14%">ОПЕРАТОР</th>
-                    <th style="width:14%">ПРОБА</th>
-                    <th style="width:14%">ВЕС</th>
-                    <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
-                    <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
-                    <th style="width:14%">СУММА СКУПКИ</th>
-                    <th style="width:14%">В 585</th>
+                    <th style="width:12%">ОПЕРАТОР</th>
+                    <th style="width:12%">ПРОБА</th>
+                    <th style="width:12%">ВЕС</th>
+                    <th style="width:12%">ЦЕНА ЗА ГРАММ</th>
+                    <th style="width:12%">ЦЕНА ЗА ВСЕ</th>
+                    <th style="width:12%">СУММА СКУПКИ</th>
+                    <th style="width:12%">ПРОФИТ</th>
+                    <th style="width:12%">В 585</th>
                 </tr>
             </thead>
             <tbody>
     ';
     $total_expenses_lom_sum_point3 = 0;
     $bn_total_expenses_lom_sum_point3 = 0;
+    $total_expenses_profit_point3 = 0;
     $total_expenses_lom_in585_point3 = 0;
     foreach ($all_operation_lom_onpoint as $item) {
         if ($item->cash_card == 'Наличный расчет') {
@@ -528,6 +576,8 @@ $total_expenses_lom_in585 = 0;
         if ($item->cash_card == 'Безналичный расчет') {
             $bn_total_expenses_lom_sum_point3 = $bn_total_expenses_lom_sum_point3 + $item->pay;
         }
+        $profit = $item->price - $item->pay;
+        $total_expenses_profit_point3 = $total_expenses_profit_point3 + $profit;
         $in585 = 0;
         if ($item->proba == 'Ag' || $item->proba == 'Pt' || $item->proba == 'Pd') {
         //Серебро, Платина и Палладий не считаются
@@ -543,6 +593,7 @@ $total_expenses_lom_in585 = 0;
             <td>' . number_format($item->price_gramm, 2, '.', ' ') . '</td>
             <td>' . number_format($item->price, 2, '.', ' ') . '</td>
             <td>' . number_format($item->pay, 2, '.', ' ') . '</td>
+            <td>' . number_format($profit, 2, '.', ' ') . '</td>
             <td>' . number_format($in585, 2, '.', ' ') . '</td>
         </tr>
         ';
@@ -554,6 +605,7 @@ $total_expenses_lom_in585 = 0;
     $expenses_lom .= '</div>';
     $expenses_lom .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_lom_sum_point3, 2, '.', ' ') . '</span></p>';
     $expenses_lom .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_lom_sum_point3, 2, '.', ' ') . '</span></p>';
+    $expenses_lom .= '<p class="card-report__title_cash">ПРОФИТ ПО ТОЧКЕ: <span style="color: red;">' . number_format($total_expenses_profit_point3, 2, '.', ' ') . '</span></p>';
     $expenses_lom .= '<p class="card-report__title_cash">КУПЛЕННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: red;">' . number_format($total_expenses_lom_in585_point3, 2, '.', ' ') . '</span></p><br>';
     //Таганка
 
@@ -566,19 +618,21 @@ $total_expenses_lom_in585 = 0;
         <table class="uk-table-striped">
             <thead>
                 <tr>
-                    <th style="width:14%">ОПЕРАТОР</th>
-                    <th style="width:14%">ПРОБА</th>
-                    <th style="width:14%">ВЕС</th>
-                    <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
-                    <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
-                    <th style="width:14%">СУММА СКУПКИ</th>
-                    <th style="width:14%">В 585</th>
+                    <th style="width:12%">ОПЕРАТОР</th>
+                    <th style="width:12%">ПРОБА</th>
+                    <th style="width:12%">ВЕС</th>
+                    <th style="width:12%">ЦЕНА ЗА ГРАММ</th>
+                    <th style="width:12%">ЦЕНА ЗА ВСЕ</th>
+                    <th style="width:12%">СУММА СКУПКИ</th>
+                    <th style="width:12%">ПРОФИТ</th>
+                    <th style="width:12%">В 585</th>
                 </tr>
             </thead>
             <tbody>
     ';
     $total_expenses_lom_sum_point4 = 0;
     $bn_total_expenses_lom_sum_point4 = 0;
+    $total_expenses_profit_point4 = 0;
     $total_expenses_lom_in585_point4 = 0;
     foreach ($all_operation_lom_onpoint as $item) {
         if ($item->cash_card == 'Наличный расчет') {
@@ -587,6 +641,8 @@ $total_expenses_lom_in585 = 0;
         if ($item->cash_card == 'Безналичный расчет') {
             $bn_total_expenses_lom_sum_point4 = $bn_total_expenses_lom_sum_point4 + $item->pay;
         }
+        $profit = $item->price - $item->pay;
+        $total_expenses_profit_point4 = $total_expenses_profit_point4 + $profit;
         $in585 = 0;
         if ($item->proba == 'Ag' || $item->proba == 'Pt' || $item->proba == 'Pd') {
         //Серебро, Платина и Палладий не считаются
@@ -602,6 +658,7 @@ $total_expenses_lom_in585 = 0;
             <td>' . number_format($item->price_gramm, 2, '.', ' ') . '</td>
             <td>' . number_format($item->price, 2, '.', ' ') . '</td>
             <td>' . number_format($item->pay, 2, '.', ' ') . '</td>
+            <td>' . number_format($profit, 2, '.', ' ') . '</td>
             <td>' . number_format($in585, 2, '.', ' ') . '</td>
         </tr>
         ';
@@ -613,6 +670,7 @@ $total_expenses_lom_in585 = 0;
     $expenses_lom .= '</div>';
     $expenses_lom .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_lom_sum_point4, 2, '.', ' ') . '</span></p>';
     $expenses_lom .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_lom_sum_point4, 2, '.', ' ') . '</span></p>';
+    $expenses_lom .= '<p class="card-report__title_cash">ПРОФИТ ПО ТОЧКЕ: <span style="color: red;">' . number_format($total_expenses_profit_point4, 2, '.', ' ') . '</span></p>';
     $expenses_lom .= '<p class="card-report__title_cash">КУПЛЕННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: red;">' . number_format($total_expenses_lom_in585_point4, 2, '.', ' ') . '</span></p><br>';
     //Комсомолка
 
@@ -625,19 +683,21 @@ $total_expenses_lom_in585 = 0;
         <table class="uk-table-striped">
             <thead>
                 <tr>
-                    <th style="width:14%">ОПЕРАТОР</th>
-                    <th style="width:14%">ПРОБА</th>
-                    <th style="width:14%">ВЕС</th>
-                    <th style="width:14%">ЦЕНА ЗА ГРАММ</th>
-                    <th style="width:14%">ЦЕНА ЗА ВСЕ</th>
-                    <th style="width:14%">СУММА СКУПКИ</th>
-                    <th style="width:14%">В 585</th>
+                    <th style="width:12%">ОПЕРАТОР</th>
+                    <th style="width:12%">ПРОБА</th>
+                    <th style="width:12%">ВЕС</th>
+                    <th style="width:12%">ЦЕНА ЗА ГРАММ</th>
+                    <th style="width:12%">ЦЕНА ЗА ВСЕ</th>
+                    <th style="width:12%">СУММА СКУПКИ</th>
+                    <th style="width:12%">ПРОФИТ</th>
+                    <th style="width:12%">В 585</th>
                 </tr>
             </thead>
             <tbody>
     ';
     $total_expenses_lom_sum_point5 = 0;
     $bn_total_expenses_lom_sum_point5 = 0;
+    $total_expenses_profit_point5 = 0;
     $total_expenses_lom_in585_point5 = 0;
     foreach ($all_operation_lom_onpoint as $item) {
         if ($item->cash_card == 'Наличный расчет') {
@@ -646,6 +706,8 @@ $total_expenses_lom_in585 = 0;
         if ($item->cash_card == 'Безналичный расчет') {
             $bn_total_expenses_lom_sum_point5 = $bn_total_expenses_lom_sum_point5 + $item->pay;
         }
+        $profit = $item->price - $item->pay;
+        $total_expenses_profit_point5 = $total_expenses_profit_point5 + $profit;
         $in585 = 0;
         if ($item->proba == 'Ag' || $item->proba == 'Pt' || $item->proba == 'Pd') {
         //Серебро, Платина и Палладий не считаются
@@ -661,6 +723,7 @@ $total_expenses_lom_in585 = 0;
             <td>' . number_format($item->price_gramm, 2, '.', ' ') . '</td>
             <td>' . number_format($item->price, 2, '.', ' ') . '</td>
             <td>' . number_format($item->pay, 2, '.', ' ') . '</td>
+            <td>' . number_format($profit, 2, '.', ' ') . '</td>
             <td>' . number_format($in585, 2, '.', ' ') . '</td>
         </tr>
         ';
@@ -672,14 +735,17 @@ $total_expenses_lom_in585 = 0;
     $expenses_lom .= '</div>';
     $expenses_lom .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_lom_sum_point5, 2, '.', ' ') . '</span></p>';
     $expenses_lom .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_lom_sum_point5, 2, '.', ' ') . '</span></p>';
+    $expenses_lom .= '<p class="card-report__title_cash">ПРОФИТ ПО ТОЧКЕ: <span style="color: red;">' . number_format($total_expenses_profit_point5, 2, '.', ' ') . '</span></p>';
     $expenses_lom .= '<p class="card-report__title_cash">КУПЛЕННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: red;">' . number_format($total_expenses_lom_in585_point5, 2, '.', ' ') . '</span></p><br>';
     //Митинская 27а
 
 $total_expenses_lom_sum = $total_expenses_lom_sum_point1 + $total_expenses_lom_sum_point2 + $total_expenses_lom_sum_point3 + $total_expenses_lom_sum_point4 + $total_expenses_lom_sum_point5;
 $bn_total_expenses_lom_sum = $bn_total_expenses_lom_sum_point1 + $bn_total_expenses_lom_sum_point2 + $bn_total_expenses_lom_sum_point3 + $bn_total_expenses_lom_sum_point4 + $bn_total_expenses_lom_sum_point5;
+$total_expenses_profit = $total_expenses_profit_point1 + $total_expenses_profit_point2 + $total_expenses_profit_point3 + $total_expenses_profit_point4 + $total_expenses_profit_point5;
 $total_expenses_lom_in585 = $total_expenses_lom_in585_point1 + $total_expenses_lom_in585_point2 + $total_expenses_lom_in585_point3 + $total_expenses_lom_in585_point4 + $total_expenses_lom_in585_point5;
 $expenses_lom .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ВСЕМ ТОЧКАМ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_lom_sum, 2, '.', ' ') . '</span></p>';
 $expenses_lom .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_lom_sum, 2, '.', ' ') . '</span></p>';
+$expenses_lom .= '<p class="card-report__title_cash">ОБЩИЙ ПРОФИТ ПО ВСЕМ ТОЧКАМ: <span style="color: red;">' . number_format($total_expenses_profit, 2, '.', ' ') . '</span></p>';
 $expenses_lom .= '<p class="card-report__title_cash">ОБЩАЯ СКУПКА МЕТАЛЛА ПО ВСЕМ ТОЧКАМ В 585 ПРОБЕ: <span style="color: red;">' . number_format($total_expenses_lom_in585, 2, '.', ' ') . '</span></p>';
 
 
