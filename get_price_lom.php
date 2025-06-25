@@ -70,6 +70,12 @@ if (isset($gPrice)) {
     echo '<p style="margin: 0; color: red; font-weight: bold;">ОШИБКА! НЕТ ЦЕНЫ НА ЗОЛОТО' . '</p><br>';
     die ();
 }
+if (isset($gPrice)) { 
+    echo '<p style="margin: 0; color: blue; font-weight: bold;">РАСЧИТАННАЯ ЦЕНА НА ЗОЛОТО 999 - ' . ceil($gPrice/585*999.9) . '</p><br>';
+} else {
+    echo '<p style="margin: 0; color: red; font-weight: bold;">ОШИБКА! НЕТ ЦЕНЫ НА ЗОЛОТО' . '</p><br>';
+    die ();
+}
 if (isset($sPrice)) { 
     echo '<p style="margin: 0; color: blue; font-weight: bold;">ПРИШЕДШАЯ ЦЕНА НА СЕРЕБРО - ' . $sPrice . '</p><br>';
 } else {
@@ -93,7 +99,8 @@ if ($gPrice <= 0 || $sPrice <= 0 || $platPrice <= 0 || $palladPrice <= 0) {
 	echo '<p class="text-error">Обновление цен не прошло,<br> в одном из полей было обноруженно нулевое или отрицательное значение!</p>';
 } else {
 	$main_price_gold = $gPrice;
-	$main_price_gold_999 = $gPrice;
+	// $main_price_gold_999 = ceil(($gPrice/585*999.9)/10)*10;
+	$main_price_gold_999 = ceil($gPrice/585*999.9);
 	$main_price_silver = $sPrice;
 	$main_price_platinum = $platPrice;
 	$main_price_palladium = $palladPrice;
@@ -110,7 +117,7 @@ if ($gPrice <= 0 || $sPrice <= 0 || $platPrice <= 0 || $palladPrice <= 0) {
 
     //Записываем регистрацию  в лог
     $log = '';
-    $log .= date("Y-m-d H:i") . ' Были внесены изменения в настройки через zot.moscow . ';
+    $log .= date("Y-m-d H:i") . ' Были внесены изменения в настройки через zot.moscow.';
     file_put_contents(__DIR__ . '/site/templates/log_admin_setup.txt', $log . PHP_EOL, FILE_APPEND);
     $log = 'Цена на золото: ' . $main_price_gold;
     file_put_contents(__DIR__ . '/site/templates/log_admin_setup.txt', $log . PHP_EOL, FILE_APPEND);
