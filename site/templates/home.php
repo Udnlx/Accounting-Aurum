@@ -89,10 +89,12 @@ if ($startday != '' || $actual != '' || $reserv != '') {
             <a class="menu-link ' . $shift_close . '" href="/prodazha-tip-prodazhi/">Продажа</a>
             <a class="menu-link ' . $shift_close . '" href="/rezerv-tip-rezerva/">Резерв</a>
             <a class="menu-link ' . $shift_close . '" href="/affinazh-tip-affinazha/">Аффинаж</a>
-            <div class="uk-flex">
-            <a class="rqfirst menu-link ' . $shift_close . '" href="/zakrytie-smeny-osnovnaia-otkrytye-zaiavki/">Заявки' . $marker . '</a>
-            <a class="rqlast menu-link ' . $shift_close . '" href="/zakrytie-smeny-osnovnaia/">Закрытие смены</a>
-            </div>
+                <!--
+                <div class="uk-flex">
+                <a class="rqfirst menu-link ' . $shift_close . '" href="/zakrytie-smeny-osnovnaia-otkrytye-zaiavki/">Заявки' . $marker . '</a>
+                <a class="rqlast menu-link ' . $shift_close . '" href="/zakrytie-smeny-osnovnaia/">Закрытие смены</a>
+                </div>
+                -->
             <a class="menu-link ' . $shift_close . '" href="/kassa-tip-operatcii/">Касса</a>
             <a class="menu-link ' . $shift_close . '" href="" uk-toggle="target: #modal-help">Техподдержка</a>
         ';
@@ -114,7 +116,9 @@ if ($startday != '' || $actual != '' || $reserv != '') {
         $menu_btn = '
             <a class="menu-link ' . $shift_close . '" href="/skupka-tip-skupki/">Скупка</a>
             <a class="menu-link ' . $shift_close . '" href="/prodazha-tip-prodazhi/">Продажа</a>
-            <a class="menu-link ' . $shift_close . '" href="/zakrytie-smeny/">Закрытие смены</a>
+                <!--
+                <a class="menu-link ' . $shift_close . '" href="/zakrytie-smeny/">Закрытие смены</a>
+                -->
             <a class="menu-link ' . $shift_close . '" href="/kassa-tip-operatcii/">Касса</a>
             <a class="menu-link ' . $shift_close . '" href="" uk-toggle="target: #modal-help">Техподдержка</a>
         ';
@@ -135,7 +139,9 @@ if ($startday != '' || $actual != '' || $reserv != '') {
     if ($selected_id_point == 'point3' || $selected_id_point == 'point4' || $selected_id_point == 'point5') {
         $menu_btn = '
             <a class="menu-link ' . $shift_close . '" href="/skupka-tip-skupki/">Скупка</a>
-            <a class="menu-link ' . $shift_close . '" href="/zakrytie-smeny/">Закрытие смены</a>
+                <!--
+                <a class="menu-link ' . $shift_close . '" href="/zakrytie-smeny/">Закрытие смены</a>
+                -->
             <a class="menu-link ' . $shift_close . '" href="/kassa-tip-operatcii/">Касса</a>
             <a class="menu-link ' . $shift_close . '" href="" uk-toggle="target: #modal-help">Техподдержка</a>
         ';
