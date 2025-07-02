@@ -1,5 +1,8 @@
 <?php namespace ProcessWire;
 
+$lognewday_id = !empty($_GET['lognewday_id'])?$_GET['lognewday_id']:NULL;  
+$page_lognewday = $pages->get('template=new_day_itm, id=' . $lognewday_id . '');
+
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
 } else {
@@ -29,6 +32,8 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access 
 ?>
     <div id="content" style="max-width: 700px;">
     	<h1 class="uk-heading-hero uk-text-center">Панель администратора</h1>
+        <h3 class="uk-margin-remove uk-heading-hero uk-text-center">Просмотр лога нового дня</h3>
+        <h4 class="uk-margin-remove uk-heading-hero uk-text-center">За день <?php echo $page_lognewday->title; ?></h4>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -36,6 +41,36 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access 
     </div>
 <?php    
 } else {
+//Формирование лога
+$log = '';
+$log .= '<h4 class="uk-card-title uk-margin-remove">Остатки перед приходом с второстепенных точек</h4>';
+$data_archive = $page_lognewday->data_archive;
+$arr_data_archive = explode(';', $data_archive);
+foreach ($arr_data_archive as $data_archive_itm) {
+    $log .= $data_archive_itm . '<br>';
+}
+
+$log .= '<h4 class="uk-card-title uk-margin-remove">Приход с второстепенных точек</h4>';
+$data_coming = $page_lognewday->data_coming;
+$main_data_coming = explode('///', $data_coming);
+$main_data_coming = array_filter($main_data_coming); 
+foreach ($main_data_coming as $main) {
+    $coming_point = explode('===', $main);
+    $log .= '<p class="uk-margin-remove uk-text-bold">' . $coming_point[0] . '</p>';
+    $arr_data_coming = explode(';', $coming_point[1]);
+    foreach ($arr_data_coming as $data_coming_itm) {
+        $log .= $data_coming_itm . '<br>';
+    }
+}
+
+$log .= '<h4 class="uk-card-title uk-margin-remove">Остатки наначало ' . $page_lognewday->title . ' дня</h4>';
+$data_actual = $page_lognewday->data_actual;
+$arr_data_actual = explode(';', $data_actual);
+foreach ($arr_data_actual as $data_actual_itm) {
+    $log .= $data_actual_itm . '<br>';
+}
+
+
 
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
@@ -61,33 +96,21 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
 <div id="content">
 	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Панель администратора</h1>
+    <h3 class="uk-margin-remove uk-heading-hero uk-text-center">Просмотр лога нового дня</h3>
+    <h4 class="uk-margin-remove uk-heading-hero uk-text-center">За день <?php echo $page_lognewday->title; ?></h4>
 	<div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
-                <a class="menu-link" href="/osnovnoi-otchet/">Отчет</a>
+                <a class="menu-link" href="/adminpanel-meniu/">Админ панель</a>
+                <a class="menu-link" href="/adminpanel-log-novogo-dnia/">Выбрать другой день</a>
             </div>
         </div>
 
         <div>
-            <div class="admpanel uk-card uk-card-default uk-card-body">
-		        <div class="uk-grid-medium uk-child-width-1-2@s" uk-grid>
-		        	<div>
-		        		<a class="admpanel-link" href="/adminpanel-vse-operatcii/">Все операции</a>
-		        		<a class="admpanel-link" href="/adminpanel-vse-izdeliia/">Все изделия</a>
-                        <a class="admpanel-link" href="/adminpanel-ves-rezerv/">Весь резерв</a>
-		        		<a class="admpanel-link" href="/adminpanel-ves-affinazh/">Весь аффинаж</a>
-                        <a class="admpanel-link" href="/adminpanel-vse-dolgi">Все долги</a>
-		            </div>
-		            <div>
-		        		<a class="admpanel-link" href="/pravka-operatcii-poisk/">Правки в операциях</a>
-		        		<a class="admpanel-link" href="/pravki-po-lomu-i-kassam-formy/">Правки по лому и кассам</a>
-                        <a class="admpanel-link" href="/adminpanel-nastroiki">Настройки</a>
-                        <a class="admpanel-link" href="/adminpanel-pol-zovateli-sistemy/">Пользователи системы</a>
-                        <a class="admpanel-link" href="/adminpanel-log-novogo-dnia/">Лог нового дня</a>
-		            </div>
-		        </div>
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+		        <?php echo $log; ?>
 		    </div>
 		</div>
 

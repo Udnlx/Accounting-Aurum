@@ -1,5 +1,9 @@
 <?php namespace ProcessWire;
 
+$selected_date = !empty($_POST['selected_date'])?$_POST['selected_date']:NULL;
+
+$sd = date('d-m-Y', strtotime($selected_date));
+
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
 } else {
@@ -29,6 +33,8 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access 
 ?>
     <div id="content" style="max-width: 700px;">
     	<h1 class="uk-heading-hero uk-text-center">Панель администратора</h1>
+        <h3 class="uk-margin-remove uk-heading-hero uk-text-center">Найденный лог</h3>
+        <h4 class="uk-margin-remove uk-heading-hero uk-text-center">За день <?php echo $sd; ?></h4>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -36,6 +42,26 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access 
     </div>
 <?php    
 } else {
+
+//Получение всех долгов
+$null_result = '<h4 class="uk-card-title uk-margin-remove">Логов за этот день не найдено</h4>';
+$all_logs = '';
+$all_logs_itm = $pages->find('template=new_day_itm, title=' . $sd . '');
+$all_logs .= '<div class="scrolling-list" style="max-height: 700px;">';
+foreach ($all_logs_itm as $itm) {
+    $null_result = '';
+    $all_logs .= '
+    <a class="link_new_day" href="/adminpanel-log-novogo-dnia-prosmotr/?lognewday_id=' . $itm->id . '">
+    <div class="list-operation-itm">
+        <div>
+        <p>' . $itm->title . '</p>
+        </div>
+    </div>
+    </a>
+    ';
+}
+$all_logs .= $null_result;
+$all_logs .= '</div>';
 
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
@@ -61,33 +87,37 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
 <div id="content">
 	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Панель администратора</h1>
+    <h3 class="uk-margin-remove uk-heading-hero uk-text-center">Найденный лог</h3>
+    <h4 class="uk-margin-remove uk-heading-hero uk-text-center">За день <?php echo $sd; ?></h4>
 	<div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
-                <a class="menu-link" href="/osnovnoi-otchet/">Отчет</a>
+                <a class="menu-link" href="/adminpanel-meniu/">Админ панель</a>
             </div>
         </div>
 
         <div>
-            <div class="admpanel uk-card uk-card-default uk-card-body">
-		        <div class="uk-grid-medium uk-child-width-1-2@s" uk-grid>
-		        	<div>
-		        		<a class="admpanel-link" href="/adminpanel-vse-operatcii/">Все операции</a>
-		        		<a class="admpanel-link" href="/adminpanel-vse-izdeliia/">Все изделия</a>
-                        <a class="admpanel-link" href="/adminpanel-ves-rezerv/">Весь резерв</a>
-		        		<a class="admpanel-link" href="/adminpanel-ves-affinazh/">Весь аффинаж</a>
-                        <a class="admpanel-link" href="/adminpanel-vse-dolgi">Все долги</a>
-		            </div>
-		            <div>
-		        		<a class="admpanel-link" href="/pravka-operatcii-poisk/">Правки в операциях</a>
-		        		<a class="admpanel-link" href="/pravki-po-lomu-i-kassam-formy/">Правки по лому и кассам</a>
-                        <a class="admpanel-link" href="/adminpanel-nastroiki">Настройки</a>
-                        <a class="admpanel-link" href="/adminpanel-pol-zovateli-sistemy/">Пользователи системы</a>
-                        <a class="admpanel-link" href="/adminpanel-log-novogo-dnia/">Лог нового дня</a>
-		            </div>
-		        </div>
+            <h4 class="uk-card-title uk-margin-remove">Укажите дату для получения лога</h4>
+            <div class="filtermenu uk-width-1-1">
+                <form class="form-select-date" id="select_period_date" action="" method="post">
+                    <div class="uk-flex">
+                        <div class="filtermenu-input">
+                            <input class="uk-input" id="selected_date" type="date" name="selected_date" required>
+                        </div>
+                    </div>
+
+                    <div class="uk-margin-small-top uk-width-1-1">
+                        <button class="uk-margin-remove uk-button uk-button-default uk-width-1-1" type="submit">Найти</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+		        <?php echo $all_logs; ?>
 		    </div>
 		</div>
 

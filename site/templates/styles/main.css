@@ -226,6 +226,12 @@ table {
 .list-product-itm-image-img {
     height: 100%;
     width: auto;}
+.link_new_day {
+    text-decoration: none;
+    color: #000000;
+    font-weight: 700;}
+.link_new_day:hover {
+    text-decoration: none;}
 
 @media (max-width: 550px) {
 .list-product-itm {
