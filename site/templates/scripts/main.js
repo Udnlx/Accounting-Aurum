@@ -804,7 +804,6 @@ window.onload = function() {
 
 
 //Скрипты при изменении данных в операции для изменения остатков по лому и кассам
-
 $('#btn_edit_return').click(function() {
 	//console.log ('Скрипт возврата лома');
 	var id_edit_operation = $('#id_edit_operation').val();
@@ -932,5 +931,21 @@ $('#btn_edit_cash').click(function() {
 	return false;  
 	}
 });
-
 //Скрипты при изменении данных в операции для изменения остатков по лому и кассам
+
+
+
+
+
+
+
+
+
+//Формирование отчета за период для скачивания
+$('#download_period').click(function() {
+	let download_start_date = $('#download_start_date').val();;
+	let download_finish_date = $('#download_finish_date').val();;
+	console.log (download_start_date + download_finish_date);
+	window.location.replace("/otchet-za-period-skachat/?download_start_date=" + download_start_date + "&download_finish_date=" + download_finish_date);
+});
+//Формирование отчета за период для скачивания
