@@ -943,9 +943,17 @@ $('#btn_edit_cash').click(function() {
 
 //Формирование отчета за период для скачивания
 $('#download_period').click(function() {
-	let download_start_date = $('#download_start_date').val();;
-	let download_finish_date = $('#download_finish_date').val();;
+	let download_start_date = $('#download_start_date').val();
+	let download_finish_date = $('#download_finish_date').val();
 	console.log (download_start_date + download_finish_date);
 	window.location.replace("/otchet-za-period-skachat/?download_start_date=" + download_start_date + "&download_finish_date=" + download_finish_date);
 });
 //Формирование отчета за период для скачивания
+
+//Формирование отчета за день для скачивания
+$('#download_day').click(function() {
+	let download_date = $('#download_date').val();
+	console.log (download_date);
+	window.location.replace("/otchet-za-den-skachat/?download_date=" + download_date);
+});
+//Формирование отчета за день для скачивания
