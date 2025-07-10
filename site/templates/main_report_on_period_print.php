@@ -724,7 +724,6 @@ $xlsx_report[] = [''];
 
 
 //Долги
-$xlsx_report[] = [''];
 $arrears = '';
 $total_arrears = 0;
 foreach ($dates as $day_itm) {

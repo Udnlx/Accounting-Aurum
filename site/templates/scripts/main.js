@@ -957,3 +957,13 @@ $('#download_day').click(function() {
 	window.location.replace("/otchet-za-den-skachat/?download_date=" + download_date);
 });
 //Формирование отчета за день для скачивания
+
+//Формирование отчета за период по точке для скачивания
+$('#download_period_point').click(function() {
+	let download_start_date = $('#download_start_date').val();
+	let download_finish_date = $('#download_finish_date').val();
+	let download_report_point = $('#download_report_point').val();
+	console.log (download_start_date + download_finish_date + download_report_point);
+	window.location.replace("/otchet-po-tochke-skachat/?download_start_date=" + download_start_date + "&download_finish_date=" + download_finish_date + "&download_report_point=" + download_report_point);
+});
+//Формирование отчета за период по точке для скачивания
