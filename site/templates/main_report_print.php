@@ -1,6 +1,12 @@
-<?php namespace ProcessWire;
+<?php
 
-$day_for_report = date("d-m-Y");
+include_once __DIR__ . '/SimpleXLSXGen/SimpleXLSXGen.php';
+$xlsx_report = [];
+
+$selected_on_date = $_GET['download_date'];
+$selected_on_date = date('d-m-Y', strtotime($selected_on_date));
+
+$day_for_report = $selected_on_date;
 //$day_for_report = '26-12-2024';
 
 if(isset($_SESSION['operator'])){
@@ -29,7 +35,7 @@ if(isset($_SESSION['access'])){
 if ($operator == 'no_operator' || $selected_point == 'no_point' || $access != 'admin') {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Отчет</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Скачивание отчета</h1>
         <!-- <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Все операции</h4> -->
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
@@ -63,6 +69,8 @@ $cash_on_morning .= '
 
 
 //Получение операций по продажам металла
+$xlsx_report[] = ['<b><style bgcolor="#969696" font-size="24">Продажи металла</style></b>'];
+$xlsx_report[] = [''];
 $income_lom = '';
 $total_income_lom_sum = 0;
 $bn_total_income_lom_sum = 0;
@@ -78,6 +86,7 @@ foreach ($points as $point) {
     $all_operation_lom_onpoint = $all_operation_lom_ondate->find('id_point=' . $point);
     $income_lom .= '<div class="report-table">';
     $income_lom .= '<p class="card-report__title_cash">' . $point_title . '</p>';
+    $xlsx_report[] = ['<b><style font-size="14">Продажи металла на точке ' . $point_title . '</style></b>'];
     $income_lom .= '
         <table class="uk-table-striped">
             <thead>
@@ -94,6 +103,16 @@ foreach ($points as $point) {
             </thead>
             <tbody>
     ';
+    $xlsx_report[] = [
+        '<b>ОПЕРАТОР</b>',
+        '<b>ПРОБА</b>',
+        '<b>ВЕС</b>',
+        '<b>ЦЕНА ЗА ГРАММ</b>',
+        '<b>ЦЕНА ЗА ВСЕ</b>',
+        '<b>СУММА ПРОДАЖИ</b>',
+        '<b>ПРОФИТ</b>',
+        '<b>В 585</b>'
+    ];
     $total_income_lom_sum_point = 0;
     $bn_total_income_lom_sum_point = 0;
     $total_income_profit_point = 0;
@@ -126,6 +145,16 @@ foreach ($points as $point) {
             <td>' . number_format($in585, 2, '.', ' ') . '</td>
         </tr>
         ';
+        $xlsx_report[] = [
+            '<left>' . $item->worker . '</left>', 
+            '<left>' . $item->proba . '</left>', 
+            '<left>' . $item->weight . '</left>', 
+            '<left>' . $item->price_gramm . '</left>', 
+            '<left>' . $item->price . '</left>', 
+            '<left>' . $item->pay . '</left>', 
+            '<left>' . $profit . '</left>',
+            '<left>' . number_format($in585, 2, '.', ' ') . '</left>'
+        ];
     }
     $income_lom .= '
             </tbody>
@@ -136,6 +165,15 @@ foreach ($points as $point) {
     $income_lom .= '<p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_lom_sum_point, 2, '.', ' ') . '</span></p>';
     $income_lom .= '<p class="card-report__title_cash">ПРОФИТ ПО ТОЧКЕ: <span style="color: green;">' . number_format($total_income_profit_point, 2, '.', ' ') . '</span></p>';
     $income_lom .= '<p class="card-report__title_cash">ПРОДАННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: green;">' . number_format($total_income_lom_in585_point, 2, '.', ' ') . '</span></p><br>';
+
+    $xlsx_report[] = [''];
+    $xlsx_report[] = ['<b><style font-size="10">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ НАЛИЧКА: ' . number_format($total_income_lom_sum_point, 2, '.', ' ') . '</style></b>'];
+    $xlsx_report[] = ['<b><style font-size="10">ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ТОЧКЕ БЕЗНАЛ: ' . number_format($bn_total_income_lom_sum_point, 2, '.', ' ') . '</style></b>'];
+    $xlsx_report[] = ['<b><style font-size="10">ПРОФИТ ПО ТОЧКЕ: ' . number_format($total_income_profit_point, 2, '.', ' ') . '</style></b>'];
+    $xlsx_report[] = ['<b><style font-size="10">ПРОДАННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: ' . number_format($total_income_lom_in585_point, 2, '.', ' ') . '</style></b>'];
+    $xlsx_report[] = [''];
+    $xlsx_report[] = [''];
+    $xlsx_report[] = [''];
     //Точка
 
     $total_income_lom_sum = $total_income_lom_sum + $total_income_lom_sum_point;
@@ -148,9 +186,19 @@ $income_lom .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД НА П
 $income_lom .= '<p class="card-report__title_cash">ОБЩИЙ ПРОФИТ ПО ВСЕМ ТОЧКАМ: <span style="color: green;">' . number_format($total_income_profit, 2, '.', ' ') . '</span></p>';
 $income_lom .= '<p class="card-report__title_cash">ОБЩАЯ ПРОДАЖА МЕТАЛЛА ПО ВСЕМ ТОЧКАМ В 585 ПРОБЕ: <span style="color: green;">' . number_format($total_income_lom_in585, 2, '.', ' ') . '</span></p>';
 
+$xlsx_report[] = ['<b><style font-size="10">ОБЩИЙ ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ВСЕМ ТОЧКАМ НАЛИЧКА: ' . number_format($total_income_lom_sum, 2, '.', ' ') . '</style></b>'];
+$xlsx_report[] = ['<b><style font-size="10">ОБЩИЙ ДОХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: ' . number_format($bn_total_income_lom_sum, 2, '.', ' ') . '</style></b>'];
+$xlsx_report[] = ['<b><style font-size="10">ОБЩИЙ ПРОФИТ ПО ВСЕМ ТОЧКАМ: ' . number_format($total_income_profit, 2, '.', ' ') . '</style></b>'];
+$xlsx_report[] = ['<b><style font-size="10">ОБЩАЯ ПРОДАЖА МЕТАЛЛА ПО ВСЕМ ТОЧКАМ В 585 ПРОБЕ: ' . number_format($total_income_lom_in585, 2, '.', ' ') . '</style></b>'];
+$xlsx_report[] = [''];
+$xlsx_report[] = [''];
+$xlsx_report[] = [''];
+
 
 
 //Получение операций по скупкам металла
+$xlsx_report[] = ['<b><style bgcolor="#969696" font-size="24">Скупки металла</style></b>'];
+$xlsx_report[] = [''];
 $expenses_lom = '';
 $total_expenses_lom_sum = 0;
 $bn_total_expenses_lom_sum = 0;
@@ -166,6 +214,7 @@ foreach ($points as $point) {
     $all_operation_lom_onpoint = $all_operation_lom_ondate->find('id_point=' . $point);
     $expenses_lom .= '<div class="report-table">';
     $expenses_lom .= '<p class="card-report__title_cash">' . $point_title . '</p>';
+    $xlsx_report[] = ['<b><style font-size="14">Скупки металла на точке ' . $point_title . '</style></b>'];
     $expenses_lom .= '
         <table class="uk-table-striped">
             <thead>
@@ -182,6 +231,16 @@ foreach ($points as $point) {
             </thead>
             <tbody>
     ';
+    $xlsx_report[] = [
+        '<b>ОПЕРАТОР</b>',
+        '<b>ПРОБА</b>',
+        '<b>ВЕС</b>',
+        '<b>ЦЕНА ЗА ГРАММ</b>',
+        '<b>ЦЕНА ЗА ВСЕ</b>',
+        '<b>СУММА СКУПКИ</b>',
+        '<b>ПРОФИТ</b>',
+        '<b>В 585</b>'
+    ];
     $total_expenses_lom_sum_point = 0;
     $bn_total_expenses_lom_sum_point = 0;
     $total_expenses_profit_point = 0;
@@ -214,6 +273,16 @@ foreach ($points as $point) {
             <td>' . number_format($in585, 2, '.', ' ') . '</td>
         </tr>
         ';
+        $xlsx_report[] = [
+            '<left>' . $item->worker . '</left>', 
+            '<left>' . $item->proba . '</left>', 
+            '<left>' . $item->weight . '</left>', 
+            '<left>' . $item->price_gramm . '</left>', 
+            '<left>' . $item->price . '</left>', 
+            '<left>' . $item->pay . '</left>', 
+            '<left>' . $profit . '</left>',
+            '<left>' . number_format($in585, 2, '.', ' ') . '</left>'
+        ];
     }
     $expenses_lom .= '
             </tbody>
@@ -224,6 +293,15 @@ foreach ($points as $point) {
     $expenses_lom .= '<p class="card-report__title_cash">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_lom_sum_point, 2, '.', ' ') . '</span></p>';
     $expenses_lom .= '<p class="card-report__title_cash">ПРОФИТ ПО ТОЧКЕ: <span style="color: red;">' . number_format($total_expenses_profit_point, 2, '.', ' ') . '</span></p>';
     $expenses_lom .= '<p class="card-report__title_cash">КУПЛЕННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: <span style="color: red;">' . number_format($total_expenses_lom_in585_point, 2, '.', ' ') . '</span></p><br>';
+
+    $xlsx_report[] = [''];
+    $xlsx_report[] = ['<b><style font-size="10">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ НАЛИЧКА: ' . number_format($total_expenses_lom_sum_point, 2, '.', ' ') . '</style></b>'];
+    $xlsx_report[] = ['<b><style font-size="10">РАСХОД НА СКУПКАХ МЕТАЛЛА ПО ТОЧКЕ БЕЗНАЛ: ' . number_format($bn_total_expenses_lom_sum_point, 2, '.', ' ') . '</style></b>'];
+    $xlsx_report[] = ['<b><style font-size="10">ПРОФИТ ПО ТОЧКЕ: ' . number_format($total_expenses_profit_point, 2, '.', ' ') . '</style></b>'];
+    $xlsx_report[] = ['<b><style font-size="10">КУПЛЕННО МЕТАЛЛА НА ТОЧКЕ В 585 ПРОБЕ: ' . number_format($total_expenses_lom_in585_point, 2, '.', ' ') . '</style></b>'];
+    $xlsx_report[] = [''];
+    $xlsx_report[] = [''];
+    $xlsx_report[] = [''];
     //Точка
 
     $total_expenses_lom_sum = $total_expenses_lom_sum + $total_expenses_lom_sum_point;
@@ -236,9 +314,19 @@ $expenses_lom .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД Н�
 $expenses_lom .= '<p class="card-report__title_cash">ОБЩИЙ ПРОФИТ ПО ВСЕМ ТОЧКАМ: <span style="color: red;">' . number_format($total_expenses_profit, 2, '.', ' ') . '</span></p>';
 $expenses_lom .= '<p class="card-report__title_cash">ОБЩАЯ СКУПКА МЕТАЛЛА ПО ВСЕМ ТОЧКАМ В 585 ПРОБЕ: <span style="color: red;">' . number_format($total_expenses_lom_in585, 2, '.', ' ') . '</span></p>';
 
+$xlsx_report[] = ['<b><style font-size="10">ОБЩИЙ РАСХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ВСЕМ ТОЧКАМ НАЛИЧКА: ' . number_format($total_expenses_lom_sum, 2, '.', ' ') . '</style></b>'];
+$xlsx_report[] = ['<b><style font-size="10">ОБЩИЙ РАСХОД НА ПРОДАЖАХ МЕТАЛЛА ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: ' . number_format($bn_total_expenses_lom_sum, 2, '.', ' ') . '</style></b>'];
+$xlsx_report[] = ['<b><style font-size="10">ОБЩИЙ ПРОФИТ ПО ВСЕМ ТОЧКАМ: ' . number_format($total_expenses_profit, 2, '.', ' ') . '</style></b>'];
+$xlsx_report[] = ['<b><style font-size="10">ОБЩАЯ СКУПКА МЕТАЛЛА ПО ВСЕМ ТОЧКАМ В 585 ПРОБЕ: ' . number_format($total_expenses_lom_in585, 2, '.', ' ') . '</style></b>'];
+$xlsx_report[] = [''];
+$xlsx_report[] = [''];
+$xlsx_report[] = [''];
+
 
 
 //Получение операций по продажам изделий
+$xlsx_report[] = ['<b><style bgcolor="#969696" font-size="24">Продажа изделий</style></b>'];
+$xlsx_report[] = [''];
 $income_izdelie = '';
 $total_income_izdelie_sum = 0;
 $bn_total_income_izdelie_sum = 0;
@@ -252,6 +340,7 @@ foreach ($points as $point) {
     $all_operation_izdelie_onpoint = $all_operation_izdelie_ondate->find('id_point=' . $point);
     $income_izdelie .= '<div class="report-table">';
     $income_izdelie .= '<p class="card-report__title_cash">' . $point_title . '</p>';
+    $xlsx_report[] = ['<b><style font-size="14">Продажа изделий на точке ' . $point_title . '</style></b>'];
     $income_izdelie .= '
         <table class="uk-table-striped">
             <thead>
@@ -265,6 +354,13 @@ foreach ($points as $point) {
             </thead>
             <tbody>
     ';
+    $xlsx_report[] = [
+        '<b>ОПЕРАТОР ПРОДАЖИ</b>',
+        '<b>ЦЕНА СКУПКИ</b>',
+        '<b>ЦЕНА ПРОДАЖИ</b>',
+        '<b>НАИМЕНОВАНИЕ</b>',
+        '<b>ВЕС</b>',
+    ];
     $total_income_izdelie_sum_point = 0;
     $bn_total_income_izdelie_sum_point = 0;
     foreach ($all_operation_izdelie_onpoint as $item) {
@@ -283,6 +379,13 @@ foreach ($points as $point) {
             <td>' . number_format($item->weight, 2, '.', ' ') . '</td>
         </tr>
         ';
+        $xlsx_report[] = [
+            '<left>' . $item->worker_sell . '</left>', 
+            '<left>' . $item->product_price_buy . '</left>', 
+            '<left>' . $item->product_price_sell . '</left>', 
+            '<left><wraptext>' . $item->product_name . ' ' . $item->product_description . '</wraptext></left>', 
+            '<left>' . $item->weight . '</left>', 
+        ];
     }
     $income_izdelie .= '
             </tbody>
@@ -294,6 +397,13 @@ foreach ($points as $point) {
         <p class="card-report__title_cash">ДОХОД НА ПРОДАЖАХ ИЗДЕЛИЙ ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_izdelie_sum_point, 2, '.', ' ') . '</span></p>
         <br>
         ';
+
+    $xlsx_report[] = [''];
+    $xlsx_report[] = ['<b><style font-size="10">ДОХОД НА ПРОДАЖАХ ИЗДЕЛИЙ ПО ТОЧКЕ НАЛИЧКА: ' . number_format($total_income_izdelie_sum_point, 2, '.', ' ') . '</style></b>'];
+    $xlsx_report[] = ['<b><style font-size="10">ДОХОД НА ПРОДАЖАХ ИЗДЕЛИЙ ПО ТОЧКЕ БЕЗНАЛ: ' . number_format($bn_total_income_izdelie_sum_point, 2, '.', ' ') . '</style></b>'];
+    $xlsx_report[] = [''];
+    $xlsx_report[] = [''];
+    $xlsx_report[] = [''];
     //Точка
 
     $total_income_izdelie_sum = $total_income_izdelie_sum + $total_income_izdelie_sum_point;
@@ -302,9 +412,17 @@ foreach ($points as $point) {
 $income_izdelie .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД НА ПРОДАЖАХ ИЗДЕЛИЙ ПО ВСЕМ ТОЧКАМ НАЛИЧКА: <span style="color: green;">' . number_format($total_income_izdelie_sum, 2, '.', ' ') . '</span></p>';
 $income_izdelie .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД НА ПРОДАЖАХ ИЗДЕЛИЙ ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_izdelie_sum, 2, '.', ' ') . '</span></p>';
 
+$xlsx_report[] = ['<b><style font-size="10">ОБЩИЙ ДОХОД НА ПРОДАЖАХ ИЗДЕЛИЙ ПО ВСЕМ ТОЧКАМ НАЛИЧКА: ' . number_format($total_income_izdelie_sum, 2, '.', ' ') . '</style></b>'];
+$xlsx_report[] = ['<b><style font-size="10">ОБЩИЙ ДОХОД НА ПРОДАЖАХ ИЗДЕЛИЙ ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: ' . number_format($bn_total_income_izdelie_sum, 2, '.', ' ') . '</style></b>'];
+$xlsx_report[] = [''];
+$xlsx_report[] = [''];
+$xlsx_report[] = [''];
+
 
 
 //Получение операций по скупкам изделий
+$xlsx_report[] = ['<b><style bgcolor="#969696" font-size="24">Скупка изделий</style></b>'];
+$xlsx_report[] = [''];
 $expenses_izdelie = '';
 $total_expenses_izdelie_sum = 0;
 $bn_total_expenses_izdelie_sum = 0;
@@ -318,6 +436,7 @@ foreach ($points as $point) {
     $all_operation_izdelie_onpoint = $all_operation_izdelie_ondate->find('id_point=' . $point);
     $expenses_izdelie .= '<div class="report-table">';
     $expenses_izdelie .= '<p class="card-report__title_cash">' . $point_title . '</p>';
+    $xlsx_report[] = ['<b><style font-size="14">Скупка изделий на точке ' . $point_title . '</style></b>'];
     $expenses_izdelie .= '
         <table class="uk-table-striped">
             <thead>
@@ -332,6 +451,14 @@ foreach ($points as $point) {
             </thead>
             <tbody>
     ';
+    $xlsx_report[] = [
+        '<b>ОПЕРАТОР СКУПКИ</b>',
+        '<b>ЦЕНА СКУПКИ</b>',
+        '<b>СТАТУС</b>',
+        '<b>ЦЕНА ПРОДАЖИ</b>',
+        '<b>НАИМЕНОВАНИЕ</b>',
+        '<b>ВЕС</b>',
+    ];
     $total_expenses_izdelie_sum_point = 0;
     $bn_total_expenses_izdelie_sum_point = 0;
     foreach ($all_operation_izdelie_onpoint as $item) {
@@ -351,6 +478,14 @@ foreach ($points as $point) {
             <td>' . number_format($item->weight, 2, '.', ' ') . '</td>
         </tr>
         ';
+        $xlsx_report[] = [
+            '<left>' . $item->worker . '</left>', 
+            '<left>' . $item->product_price_buy . '</left>', 
+            '<left>' . $item->product_status . '</left>',
+            '<left>' . $item->product_price_sell . '</left>', 
+            '<left><wraptext>' . $item->product_name . ' ' . $item->product_description . '</wraptext></left>', 
+            '<left>' . $item->weight . '</left>', 
+        ];
     }
     $expenses_izdelie .= '
             </tbody>
@@ -361,6 +496,13 @@ foreach ($points as $point) {
         <p class="card-report__title_cash">РАСХОД НА СКУПКАХ ИЗДЕЛИЙ ПО ТОЧКЕ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_izdelie_sum_point, 2, '.', ' ') . '</span></p>
         <p class="card-report__title_cash">РАСХОД НА СКУПКАХ ИЗДЕЛИЙ ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_izdelie_sum_point, 2, '.', ' ') . '</span></p>
         <br>';
+
+    $xlsx_report[] = [''];
+    $xlsx_report[] = ['<b><style font-size="10">РАСХОД НА СКУПКАХ ИЗДЕЛИЙ ПО ТОЧКЕ НАЛИЧКА: ' . number_format($total_expenses_izdelie_sum_point, 2, '.', ' ') . '</style></b>'];
+    $xlsx_report[] = ['<b><style font-size="10">РАСХОД НА СКУПКАХ ИЗДЕЛИЙ ПО ТОЧКЕ БЕЗНАЛ: ' . number_format($bn_total_expenses_izdelie_sum_point, 2, '.', ' ') . '</style></b>'];
+    $xlsx_report[] = [''];
+    $xlsx_report[] = [''];
+    $xlsx_report[] = [''];
     //Точка
 
     $total_expenses_izdelie_sum = $total_expenses_izdelie_sum + $total_expenses_izdelie_sum_point;
@@ -369,9 +511,17 @@ foreach ($points as $point) {
 $expenses_izdelie .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД НА СКУПКАХ ИЗДЕЛИЙ ПО ВСЕМ ТОЧКАМ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses_izdelie_sum, 2, '.', ' ') . '</span></p>';
 $expenses_izdelie .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД НА СКУПКАХ ИЗДЕЛИЙ ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_izdelie_sum, 2, '.', ' ') . '</span></p>';
 
+$xlsx_report[] = ['<b><style font-size="10">ОБЩИЙ РАСХОД НА СКУПКАХ ИЗДЕЛИЙ ПО ВСЕМ ТОЧКАМ НАЛИЧКА: ' . number_format($total_expenses_izdelie_sum, 2, '.', ' ') . '</style></b>'];
+$xlsx_report[] = ['<b><style font-size="10">ОБЩИЙ РАСХОД НА СКУПКАХ ИЗДЕЛИЙ ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: ' . number_format($bn_total_expenses_izdelie_sum, 2, '.', ' ') . '</style></b>'];
+$xlsx_report[] = [''];
+$xlsx_report[] = [''];
+$xlsx_report[] = [''];
+
 
 
 //Получение операций дохода по кассам
+$xlsx_report[] = ['<b><style bgcolor="#969696" font-size="24">Доход по кассам</style></b>'];
+$xlsx_report[] = [''];
 $income = '';
 $total_income = 0;
 $bn_total_income = 0;
@@ -385,6 +535,7 @@ foreach ($points as $point) {
     $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Приход, date=' . $day_for_report . '');
     $income .= '<div class="report-table">';
     $income .= '<p class="card-report__title_cash">' . $point_title . '</p>';
+    $xlsx_report[] = ['<b><style font-size="14">Доход по кассам на точке ' . $point_title . '</style></b>'];
     $income .= '
         <table class="uk-table-striped">
             <thead>
@@ -395,6 +546,10 @@ foreach ($points as $point) {
             </thead>
             <tbody>
     ';
+    $xlsx_report[] = [
+        '<b>СУММА</b>',
+        '<b>ОПИСАНИЕ</b>',
+    ];
     $total_income_point = 0;
     $bn_total_income_point = 0;
     foreach ($all_operation_cash_ondate as $item) {
@@ -410,6 +565,10 @@ foreach ($points as $point) {
             <td>' . $item->note . '</td>
         </tr>
         ';
+        $xlsx_report[] = [
+            '<left>' . $item->sum . '</left>', 
+            '<left><wraptext>' . $item->note . '</wraptext></left>', 
+        ];
     }
     $income .= '
             </tbody>
@@ -421,6 +580,13 @@ foreach ($points as $point) {
         <p class="card-report__title_cash">ИТОГО ДОХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income_point, 2, '.', ' ') . '</span></p>
         <br>
         ';
+
+    $xlsx_report[] = [''];
+    $xlsx_report[] = ['<b><style font-size="10">ИТОГО ДОХОД ПО ТОЧКЕ НАЛИЧКА: ' . number_format($total_income_point, 2, '.', ' ') . '</style></b>'];
+    $xlsx_report[] = ['<b><style font-size="10">ИТОГО ДОХОД ПО ТОЧКЕ БЕЗНАЛ: ' . number_format($bn_total_income_point, 2, '.', ' ') . '</style></b>'];
+    $xlsx_report[] = [''];
+    $xlsx_report[] = [''];
+    $xlsx_report[] = [''];
     //Точка
 
     $total_income = $total_income + $total_income_point;
@@ -429,9 +595,17 @@ foreach ($points as $point) {
 $income .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД ПО ВСЕМ ТОЧКАМ НАЛИЧКА: <span style="color: green;">' . number_format($total_income, 2, '.', ' ') . '</span></p>';
 $income .= '<p class="card-report__title_cash">ОБЩИЙ ДОХОД ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: <span style="color: green;">' . number_format($bn_total_income, 2, '.', ' ') . '</span></p>';
 
+$xlsx_report[] = ['<b><style font-size="10">ОБЩИЙ ДОХОД ПО ВСЕМ ТОЧКАМ НАЛИЧКА: ' . number_format($total_income, 2, '.', ' ') . '</style></b>'];
+$xlsx_report[] = ['<b><style font-size="10">ОБЩИЙ ДОХОД ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: ' . number_format($bn_total_income, 2, '.', ' ') . '</style></b>'];
+$xlsx_report[] = [''];
+$xlsx_report[] = [''];
+$xlsx_report[] = [''];
+
 
 
 //Получение операций расхода по кассам
+$xlsx_report[] = ['<b><style bgcolor="#969696" font-size="24">Расход по кассам</style></b>'];
+$xlsx_report[] = [''];
 $expenses = '';
 $total_expenses = 0;
 $bn_total_expenses = 0;
@@ -445,6 +619,7 @@ foreach ($points as $point) {
     $all_operation_cash_ondate = $page_cash->find('template=cash_operation, type_operation=Расход, date=' . $day_for_report . '');
     $expenses .= '<div class="report-table">';
     $expenses .= '<p class="card-report__title_cash">' . $point_title . '</p>';
+    $xlsx_report[] = ['<b><style font-size="14">Расход по кассам на точке ' . $point_title . '</style></b>'];
     $expenses .= '
         <table class="uk-table-striped">
             <thead>
@@ -455,6 +630,10 @@ foreach ($points as $point) {
             </thead>
             <tbody>
     ';
+    $xlsx_report[] = [
+        '<b>СУММА</b>',
+        '<b>ОПИСАНИЕ</b>',
+    ];
     $total_expenses_point = 0;
     $bn_total_expenses_point = 0;
     foreach ($all_operation_cash_ondate as $item) {
@@ -470,6 +649,11 @@ foreach ($points as $point) {
             <td>' . $item->note . '</td>
         </tr>
         ';
+        $xlsx_report[] = [
+            '<left>' . $item->date . '</left>', 
+            '<left>' . $item->sum . '</left>', 
+            '<left><wraptext>' . $item->note . '</wraptext></left>', 
+        ];
     }
     $expenses .= '
             </tbody>
@@ -481,6 +665,13 @@ foreach ($points as $point) {
         <p class="card-report__title_cash">ИТОГО РАСХОД ПО ТОЧКЕ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses_point, 2, '.', ' ') . '</span></p>
         <br>
         ';
+
+    $xlsx_report[] = [''];
+    $xlsx_report[] = ['<b><style font-size="10">ИТОГО РАСХОД ПО ТОЧКЕ НАЛИЧКА: ' . number_format($total_expenses_point, 2, '.', ' ') . '</style></b>'];
+    $xlsx_report[] = ['<b><style font-size="10">ИТОГО РАСХОД ПО ТОЧКЕ БЕЗНАЛ: ' . number_format($bn_total_expenses_point, 2, '.', ' ') . '</style></b>'];
+    $xlsx_report[] = [''];
+    $xlsx_report[] = [''];
+    $xlsx_report[] = [''];
     //Точка
 
     $total_expenses = $total_expenses + $total_expenses_point;
@@ -488,6 +679,12 @@ foreach ($points as $point) {
 }
 $expenses .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД ПО ВСЕМ ТОЧКАМ НАЛИЧКА: <span style="color: red;">' . number_format($total_expenses, 2, '.', ' ') . '</span></p>';
 $expenses .= '<p class="card-report__title_cash">ОБЩИЙ РАСХОД ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: <span style="color: red;">' . number_format($bn_total_expenses, 2, '.', ' ') . '</span></p>';
+
+$xlsx_report[] = ['<b><style font-size="10">ОБЩИЙ РАСХОД ПО ВСЕМ ТОЧКАМ НАЛИЧКА: ' . number_format($total_expenses, 2, '.', ' ') . '</style></b>'];
+$xlsx_report[] = ['<b><style font-size="10">ОБЩИЙ РАСХОД ПО ВСЕМ ТОЧКАМ БЕЗНАЛ: ' . number_format($bn_total_expenses, 2, '.', ' ') . '</style></b>'];
+$xlsx_report[] = [''];
+$xlsx_report[] = [''];
+$xlsx_report[] = [''];
 
 
 
@@ -509,31 +706,21 @@ $arrears .= '
 
 
 
-//Формирование таблицы с остатками
-$remain_tables_startday = '';
-$startday = $pages->get('id_point=' . $selected_id_point . '_startday');
-$actual = $pages->get('id_point=' . $selected_id_point . '_actual');
-$reserv = $pages->get('id_point=' . $selected_id_point . '_reserv');
-
-if ($startday != '' || $actual != '' || $reserv != '') {
-$actual_date = $startday->actual_date;
-include 'remains_table_archive.php';
-$remain_tables_startday .= '<h4 class="uk-card-title uk-margin-remove">Дата таблиц: ' . $actual_date . '</h4><hr>';
-}
-
-if ($startday == '' || $actual == '' || $reserv == '') {
-    $remain_tables_startday .= '
-    <h2 class="uk-margin-remove uk-card-title" style="color:red;font-weight:700;text-align:center;">Произошла ошибка получения остатков!<br>Пожалуйста обратитесь к разработчику!</h2>
-    ';
-} else {
-    include 'remains_table.php';
-}
-
+//Выводим в xlsx 
+// $xlsx_report = [
+//     ['ISBN', 'title', 'author', 'publisher', 'ctry' ],
+//     [618260307, 'The Hobbit', 'J. R. R. Tolkien', 'Houghton Mifflin', 'USA'],
+//     [908606664, 'Slinky Malinki', 'Lynley Dodd', 'Mallinson Rendel', 'NZ']
+// ];
+$xlsx = Shuchkin\SimpleXLSXGen::fromArray( $xlsx_report );
+$xlsx->downloadAs('Отчет.xlsx');
+//$xlsx->saveAs('Отчет.xlsx');
+//Выводим в xlsx 
 ?>
 
 <div id="content">
     <div id="start"></div>
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Отчет</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Скачивание отчета</h1>
     <h4 class="uk-margin-remove uk-heading-hero uk-text-center">За дату <?php echo $day_for_report; ?></h4>
 	<div>
 
@@ -541,85 +728,6 @@ if ($startday == '' || $actual == '' || $reserv == '') {
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
                 <a class="menu-link" href="/adminpanel-meniu/">Админ панель</a>
-            </div>
-        </div>
-
-        <div>
-            <div class="filtermenu uk-width-1-1">
-                <form class="form-select-date" id="select_date" action="/otchet-za-den/" method="post">
-                    <div class="uk-flex">
-                        <div class="filtermenu-input">
-                            <input class="uk-input" id="selected_on_date" type="date" name="selected_on_date" required>
-                        </div>
-                    </div>
-
-                    <div class="uk-margin-small-top uk-width-1-1">
-                        <button class="uk-margin-remove uk-button uk-button-default uk-width-1-1" type="submit">Отчет за дату</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div>
-            <div class="filtermenu uk-width-1-1">
-                <form class="form-select-date" id="select_period_date" action="/otchet-za-period/" method="post">
-                    <div class="uk-flex">
-                        <div class="filtermenu-input">
-                            <input class="uk-input" id="selected_start_date" type="date" name="selected_start_date" required>
-                        </div>
-                        <div class="filtermenu-input">
-                            <input class="uk-input" id="selected_finish_date" type="date" name="selected_finish_date" required>
-                        </div>
-                    </div>
-                    
-                    <div class="uk-margin-small-top uk-width-1-1">
-                        <button class="uk-margin-remove uk-button uk-button-default uk-width-1-1" type="submit">Отчет за период</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div>
-            <div class="filtermenu uk-width-1-1">
-                <form class="form-select-date" id="select_period_date" action="/otchet-po-tochke/" method="post">
-                    <div class="uk-flex">
-                        <div class="filtermenu-input">
-                            <input class="uk-input" id="point_start_date" type="date" name="point_start_date" required>
-                        </div>
-                        <div class="filtermenu-input">
-                            <input class="uk-input" id="point_finish_date" type="date" name="point_finish_date" required>
-                        </div>
-                        <div class="filtermenu-input">
-                            <select class="uk-select" id="report_point" name="report_point" required>
-                                <option></option>
-                                <option value="point1">Тверская 20</option>
-                                <option value="point2">Тверская 14</option>
-                                <option value="point3">Таганка</option>
-                                <option value="point4">Комсомолка</option>
-                                <option value="point5">Митинская 27а</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="uk-margin-small-top uk-width-1-1">
-                        <button class="uk-margin-remove uk-button uk-button-default uk-width-1-1" type="submit">Отчет по точке</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div uk-sticky="sel-target: .flipmenu; cls-active: uk-navbar-sticky; offset: 0;">
-            <input class="uk-input uk-hidden" id="download_date" type="text" name="download_date" value="<?php echo $day_for_report; ?>">
-            <div class="flipmenu pagemenu uk-width-1-1 uk-flex">
-                <a class="menu-link" href="#start">Начало</a>
-                <a class="menu-link" href="#income_lom">Продажи металла</a>
-                <a class="menu-link" href="#expenses_lom">Скупки металла</a>
-                <a class="menu-link" href="#income_izdelie">Продажа изделий</a>
-                <a class="menu-link" href="#expenses_izdelie">Скупки изделий</a>
-                <a class="menu-link" href="#income">Доходы</a>
-                <a class="menu-link" href="#expenses">Расходы</a>
-                <a class="menu-link" href="#arrears">Долги</a>
-                <a id="download_main" class="menu-link" >Скачать</a>
             </div>
         </div>
 
@@ -683,13 +791,6 @@ if ($startday == '' || $actual == '' || $reserv == '') {
             <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
                 <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Долги</h2>
                 <?php echo $arrears; ?>
-            </div>
-        </div>
-
-        <div>
-            <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
-                <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Металл</h2>
-                <?php echo $remain_tables_startday; ?>
             </div>
         </div>
         
