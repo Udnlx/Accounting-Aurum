@@ -20,7 +20,7 @@ $(window).on('load', function() {
 		$('#selected_proba option:contains("'+proba+'")').prop('selected', true);
 
 		let selected_proba = $('#selected_proba option:selected').text();
-		if (selected_proba != 'Ag' && selected_proba != 'Pt' && selected_proba != 'Pd' && selected_proba != '999') {
+		if (selected_proba != 'Ag' && selected_proba != 'Ag-875' && selected_proba != 'Ag-925' && selected_proba != 'Ag-999' && selected_proba != 'Pt' && selected_proba != 'Pd' && selected_proba != '999') {
 			let main_price = $('#main_price_gold').val();
 		    let get_price_gramm = (main_price/585)*selected_proba;
 		    let price_gramm = (Math.round(get_price_gramm * 100) / 100).toFixed(2);
@@ -42,6 +42,36 @@ $(window).on('load', function() {
 			if (selected_proba == 'Ag') {
 				let main_price = $('#main_price_silver').val();
 				let price_gramm = (Math.round(main_price * 100) / 100).toFixed(2);
+				let percent = price_gramm*3/100;
+		    	let min_price = (Math.round(price_gramm - percent)).toFixed(2);
+				$('#price_gramm').val(price_gramm);
+				$('#base_price').text(price_gramm);
+		    	$('#min_price').text(min_price);
+			}
+			if (selected_proba == 'Ag-875') {
+				let main_price = $('#main_price_silver').val();
+				let get_price_gramm = (main_price/925)*875;
+				let price_gramm = (Math.round(get_price_gramm * 100) / 100).toFixed(2);
+				let percent = price_gramm*3/100;
+		    	let min_price = (Math.round(price_gramm - percent)).toFixed(2);
+				$('#price_gramm').val(price_gramm);
+				$('#base_price').text(price_gramm);
+		    	$('#min_price').text(min_price);
+			}
+			if (selected_proba == 'Ag-925') {
+				let main_price = $('#main_price_silver').val();
+				let get_price_gramm = (main_price/925)*925;
+				let price_gramm = (Math.round(get_price_gramm * 100) / 100).toFixed(2);
+				let percent = price_gramm*3/100;
+		    	let min_price = (Math.round(price_gramm - percent)).toFixed(2);
+				$('#price_gramm').val(price_gramm);
+				$('#base_price').text(price_gramm);
+		    	$('#min_price').text(min_price);
+			}
+			if (selected_proba == 'Ag-999') {
+				let main_price = $('#main_price_silver').val();
+				let get_price_gramm = (main_price/925)*999;
+				let price_gramm = (Math.round(get_price_gramm * 100) / 100).toFixed(2);
 				let percent = price_gramm*3/100;
 		    	let min_price = (Math.round(price_gramm - percent)).toFixed(2);
 				$('#price_gramm').val(price_gramm);
@@ -103,7 +133,7 @@ $(window).on('load', function() {
 $('#selected_proba').change( function() {
 	let selected_proba = $('#selected_proba option:selected').text();
 
-	if (selected_proba != 'Ag' && selected_proba != 'Pt' && selected_proba != 'Pd' && selected_proba != '999') {
+	if (selected_proba != 'Ag' && selected_proba != 'Ag-875' && selected_proba != 'Ag-925' && selected_proba != 'Ag-999' && selected_proba != 'Pt' && selected_proba != 'Pd' && selected_proba != '999') {
 		let main_price = $('#main_price_gold').val();
 	    let get_price_gramm = (main_price/585)*selected_proba;
 	    let price_gramm = (Math.round(get_price_gramm * 100) / 100).toFixed(2);
@@ -125,6 +155,36 @@ $('#selected_proba').change( function() {
 		if (selected_proba == 'Ag') {
 			let main_price = $('#main_price_silver').val();
 			let price_gramm = (Math.round(main_price * 100) / 100).toFixed(2);
+			let percent = price_gramm*3/100;
+	    	let min_price = (Math.round(price_gramm - percent)).toFixed(2);
+			$('#price_gramm').val(price_gramm);
+			$('#base_price').text(price_gramm);
+	    	$('#min_price').text(min_price);
+		}
+		if (selected_proba == 'Ag-875') {
+			let main_price = $('#main_price_silver').val();
+			let get_price_gramm = (main_price/925)*875;
+			let price_gramm = (Math.round(get_price_gramm * 100) / 100).toFixed(2);
+			let percent = price_gramm*3/100;
+	    	let min_price = (Math.round(price_gramm - percent)).toFixed(2);
+			$('#price_gramm').val(price_gramm);
+			$('#base_price').text(price_gramm);
+	    	$('#min_price').text(min_price);
+		}
+		if (selected_proba == 'Ag-925') {
+			let main_price = $('#main_price_silver').val();
+			let get_price_gramm = (main_price/925)*925;
+			let price_gramm = (Math.round(get_price_gramm * 100) / 100).toFixed(2);
+			let percent = price_gramm*3/100;
+	    	let min_price = (Math.round(price_gramm - percent)).toFixed(2);
+			$('#price_gramm').val(price_gramm);
+			$('#base_price').text(price_gramm);
+	    	$('#min_price').text(min_price);
+		}
+		if (selected_proba == 'Ag-999') {
+			let main_price = $('#main_price_silver').val();
+			let get_price_gramm = (main_price/925)*999;
+			let price_gramm = (Math.round(get_price_gramm * 100) / 100).toFixed(2);
 			let percent = price_gramm*3/100;
 	    	let min_price = (Math.round(price_gramm - percent)).toFixed(2);
 			$('#price_gramm').val(price_gramm);

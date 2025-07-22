@@ -129,7 +129,7 @@ foreach ($points as $point) {
             $profit = $item->pay - $item->price;
             $total_income_profit_point = $total_income_profit_point + $profit;
             $in585 = 0;
-            if ($item->proba == 'Ag' || $itm->title == 'Ag-875' || $itm->title == 'Ag-925' || $itm->title == 'Ag-999' || $item->proba == 'Pt' || $item->proba == 'Pd') {
+            if ($item->proba == 'Ag' || $item->proba == 'Ag-875' || $item->proba == 'Ag-925' || $item->proba == 'Ag-999' || $item->proba == 'Pt' || $item->proba == 'Pd') {
             //Серебро, Платина и Палладий не считаются
             } else {
                 $in585 = ($item->weight/585*$item->proba);
@@ -222,7 +222,7 @@ foreach ($points as $point) {
             $profit = $item->price - $item->pay;
             $total_expenses_profit_point = $total_expenses_profit_point + $profit;
             $in585 = 0;
-            if ($item->proba == 'Ag' || $itm->title == 'Ag-875' || $itm->title == 'Ag-925' || $itm->title == 'Ag-999' || $item->proba == 'Pt' || $item->proba == 'Pd') {
+            if ($item->proba == 'Ag' || $item->proba == 'Ag-875' || $item->proba == 'Ag-925' || $item->proba == 'Ag-999' || $item->proba == 'Pt' || $item->proba == 'Pd') {
             //Серебро, Платина и Палладий не считаются
             } else {
                 $in585 = ($item->weight/585*$item->proba);
