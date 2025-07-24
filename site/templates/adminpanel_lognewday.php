@@ -40,7 +40,7 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access 
 
 //Получение всех логов
 $all_logs = '';
-$all_logs_itm = $pages->find('template=new_day_itm, sort=-sort, limit=20');
+$all_logs_itm = $pages->find('template=new_day_itm, sort=-created, limit=20');
 $all_logs .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($all_logs_itm as $itm) {
     $all_logs .= '

@@ -29,7 +29,8 @@ if ($actual_date == $today) {
 
 	$actual_date = $today;
 	include 'remains_table_newday.php';
-	$pages->add('new_day_itm', 4521 , [
+	$page_newday = $pages->get('template=new_day');
+	$pages->add('new_day_itm', $page_newday , [
 		    'title' => $actual_date,
 		    'data_archive' => $data_archive,
 		    'data_coming' => $data_coming,
