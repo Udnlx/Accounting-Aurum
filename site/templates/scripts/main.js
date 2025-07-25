@@ -17,7 +17,10 @@ $(window).on('load', function() {
 	//Установка нужной пробы и веса, цены за грам и общей цены при закрытии резерва с операцией продажи
 	if (url == '/rezerv-operatciia/') {
 		let proba = $('#proba').text();
-		$('#selected_proba option:contains("'+proba+'")').prop('selected', true);
+		// $('#selected_proba option:contains("'+proba+'")').prop('selected', true);
+		$('#selected_proba option').filter(function() {
+		    return $.trim($(this).text()) === proba;
+		}).prop('selected', true).parent().change();
 
 		let selected_proba = $('#selected_proba option:selected').text();
 		if (selected_proba != 'Ag' && selected_proba != 'Ag-875' && selected_proba != 'Ag-925' && selected_proba != 'Ag-999' && selected_proba != 'Pt' && selected_proba != 'Pd' && selected_proba != '999') {
