@@ -115,7 +115,10 @@ $(window).on('load', function() {
 	//Установка нужной пробы при внесение правок в операцию
 	if (url == '/pravka-operatcii-forma/') {
 		let proba = $('#proba').text();
-		$('#new_selected_proba option:contains("'+proba+'")').prop('selected', true);
+		// $('#new_selected_proba option:contains("'+proba+'")').prop('selected', true);
+		$('#new_selected_proba option').filter(function() {
+		    return $.trim($(this).text()) === proba;
+		}).prop('selected', true).parent().change();
 	}
 
 	//Установка параметров в поиске по операциям
