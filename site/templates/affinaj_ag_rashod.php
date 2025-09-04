@@ -28,7 +28,7 @@ include 'affinaj_access.php';
 if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access == false) {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Аффинаж Au расход</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Аффинаж Ag расход</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -37,35 +37,35 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access 
 <?php    
 } else {
 
-//Получение всех открытых и отпраленных аффинажей по золоту
-$all_notend_affinaj = '';
-$all_notend_affinaj_itm = $pages->find('template=affinaj_itm, id_point=' . $selected_id_point . ', sort=-id');
-$all_notend_affinaj .= '<div class="scrolling-list" style="max-height: 700px;">';
-foreach ($all_notend_affinaj_itm as $itm) {
+//Получение всех открытых и отпраленных аффинажей по серебру
+$all_notend_affinaj_ag = '';
+$all_notend_affinaj_ag_itm = $pages->find('template=affinaj_itm_ag, id_point=' . $selected_id_point . ', sort=-id');
+$all_notend_affinaj_ag .= '<div class="scrolling-list" style="max-height: 700px;">';
+foreach ($all_notend_affinaj_ag_itm as $itm) {
     if ($itm->product_status == 'Открыт') {
-        $all_notend_affinaj .= '<p>' . $itm->title . '</p>';
-        $all_notend_affinaj .= '<p style="font-size:10px;">ID аффинажа: ' . $itm->id . '</p>';
-        $all_notend_affinaj .= '<p style="font-size:14px;font-weight:700;">Статус: ' . $itm->product_status . '</p>';
-        $all_notend_affinaj .= '
+        $all_notend_affinaj_ag .= '<p>' . $itm->title . '</p>';
+        $all_notend_affinaj_ag .= '<p style="font-size:10px;">ID аффинажа: ' . $itm->id . '</p>';
+        $all_notend_affinaj_ag .= '<p style="font-size:14px;font-weight:700;">Статус: ' . $itm->product_status . '</p>';
+        $all_notend_affinaj_ag .= '
         <div class="affinaj-link">
-            <a class="affinaj-link-lnk" href="/affinazh-raskhod-otpravka/?id=' . $itm->id . '">Отправить</a>
-            <a class="affinaj-link-lnk" href="/affinazh-raskhod-vnesti-izmeneniia/?prod_id=' . $itm->id . '">Внести изменения</a>
+            <a class="affinaj-link-lnk" href="/affinazh_ag-raskhod-otpravka/?id=' . $itm->id . '">Отправить</a>
+            <a class="affinaj-link-lnk" href="/affinazh_ag-raskhod-vnesti-izmeneniia/?prod_id=' . $itm->id . '">Внести изменения</a>
         </div><hr>
         ';
     }
     if ($itm->product_status == 'Отправлен') {
-        $all_notend_affinaj .= '<p>' . $itm->title . '</p>';
-        $all_notend_affinaj .= '<p style="font-size:10px;">ID аффинажа: ' . $itm->id . '</p>';
-        $all_notend_affinaj .= '<p style="font-size:14px;font-weight:700;">Статус: ' . $itm->product_status . '</p>';
-        $all_notend_affinaj .= '
+        $all_notend_affinaj_ag .= '<p>' . $itm->title . '</p>';
+        $all_notend_affinaj_ag .= '<p style="font-size:10px;">ID аффинажа: ' . $itm->id . '</p>';
+        $all_notend_affinaj_ag .= '<p style="font-size:14px;font-weight:700;">Статус: ' . $itm->product_status . '</p>';
+        $all_notend_affinaj_ag .= '
         <div class="affinaj-link">
-            <a class="affinaj-link-lnk" href="/affinazh-prikhod-zakrytie/?id=' . $itm->id . '">Закрыть</a>
-            <a class="affinaj-link-lnk" href="/affinazh-raskhod-vnesti-izmeneniia/?prod_id=' . $itm->id . '">Внести изменения</a>
+            <a class="affinaj-link-lnk" href="/affinazh_ag-prikhod-zakrytie/?id=' . $itm->id . '">Закрыть</a>
+            <a class="affinaj-link-lnk" href="/affinazh_ag-raskhod-vnesti-izmeneniia/?prod_id=' . $itm->id . '">Внести изменения</a>
         </div><hr>
         ';
     }
 }
-$all_notend_affinaj .= '</div>';
+$all_notend_affinaj_ag .= '</div>';
 
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
@@ -90,24 +90,24 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Аффинаж Au расход</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Аффинаж Ag расход</h1>
 	<div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
-                <a class="menu-link" href="/affinazh-tip-affinazha/">Выбрать другой тип аффинажа</a>
+                <a class="menu-link" href="/affinazh-ag-tip-affinazha/">Выбрать другой тип аффинажа</a>
             </div>
         </div>
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-                <h4 class="uk-card-title uk-margin-remove">Открытые и отправленные аффинажи по золоту</h4>
+                <h4 class="uk-card-title uk-margin-remove">Открытые и отправленные аффинажи по серебру</h4>
                 <hr>
                 <div id="all_open_affinaj">
-                    <?php echo $all_notend_affinaj; ?>
+                    <?php echo $all_notend_affinaj_ag; ?>
                 </div> 
-                <a class="uk-margin-small uk-button uk-button-default" href="/affinazh-raskhod-sozdanie-novogo/">Новый аффинаж</a>      
+                <a class="uk-margin-small uk-button uk-button-default" href="/affinazh-ag-raskhod-sozdanie-novogo/">Новый аффинаж</a>      
             </div>
         </div>
         
