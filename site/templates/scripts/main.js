@@ -331,7 +331,7 @@ $('.selected_weight_affinaj').bind('input', function(){
 
 
 
-//Добавление нового аффинажа
+//Добавление нового аффинажа по золоту
 $('#reg_new_affinaj').click(function() {
 	var affinaj_date = $('#affinaj_date').val();
 	var affinaj_point = $('#affinaj_point').val();
@@ -442,7 +442,67 @@ $.ajax({
 });
 return false;    
 });
-//Добавление нового аффинажа
+//Добавление нового аффинажа по золоту
+
+
+
+//Добавление нового аффинажа по серебру
+$('#reg_new_affinaj_ag').click(function() {
+	var affinaj_ag_date = $('#affinaj_ag_date').val();
+	var affinaj_ag_point = $('#affinaj_ag_point').val();
+	var affinaj_ag_idpoint = $('#affinaj_ag_idpoint').val();
+	var affinaj_ag_worker = $('#affinaj_ag_worker').val();
+	//console.log(affinaj_date,affinaj_point,affinaj_idpoint,affinaj_worker);
+
+	var fag = $('#free_for_affinaj_Ag').text();
+	var fag875 = $('#free_for_affinaj_Ag-875').text();
+	var fag925 = $('#free_for_affinaj_Ag-925').text();
+	//console.log(fag,fag875,fag925);
+
+    var pag = $('#weight_affinaj_Ag').val();
+    var pag875 = $('#weight_affinaj_Ag-875').val();
+    var pag925 = $('#weight_affinaj_Ag-925').val();
+    //console.log(pag,pag875,pag925);
+$.ajax({
+    type: "POST",
+    url: '/add_new_affinaj_ag.php',
+    data: { 
+    	'affinaj_ag_date':affinaj_ag_date, 
+    	'affinaj_ag_point':affinaj_ag_point, 
+    	'affinaj_ag_idpoint':affinaj_ag_idpoint, 
+    	'affinaj_ag_worker':affinaj_ag_worker, 
+
+    	'fag':fag, 
+        'fag875':fag875,
+        'fag925':fag925,
+
+        'pag':pag, 
+        'pag875':pag875,
+        'pag925':pag925,
+    },
+    beforeSend: function () {
+        $('#result_new_affinaj_ag').html('<p class="messages" style="color: green;">Отправка и обработка данных...</p>');
+    },
+    success: function (data) {
+        $('#result_new_affinaj_ag').html(data);
+        let result_add = $('#result_add').text();
+        if (result_add == 'Аффинаж зарегестрирован') {
+        	$('#reg_new_affinaj_ag').addClass('uk-hidden');
+        	$('#weight_affinaj_Ag').attr("disabled", true);
+        	$('#weight_affinaj_Ag-875').attr("disabled", true);
+        	$('#weight_affinaj_Ag-925').attr("disabled", true);
+        	let operation_id = $('#operation_id').text();
+        	console.log (operation_id);
+        	window.location.replace("/affinazh-ag-raskhod-uspeshnaia-registratciia/?id=" + operation_id);
+        }
+    },
+    error: function (jqXHR, text, error) {
+        $('#result_new_affinaj_ag').html(error);
+    }
+});
+return false;    
+});
+//Добавление нового аффинажа по серебру
 
 
 
