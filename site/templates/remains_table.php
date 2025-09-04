@@ -204,7 +204,7 @@ include 'remains_table_sending_affinaj.php';
 
 
 
-//Таблица свободного металла для аффинажа
+//Таблица свободного металла для аффинажа по золоту
 $affinaj_table_start = '';
 $actual_items = $actual->children();
 $reserv_items = $reserv->children();
@@ -225,7 +225,7 @@ $affinaj_table_start .= '
 
 $i = 1;
 foreach ($actual_items as $itm) {
-    if ($itm->title=='999' || $itm->title=='Ag' || $itm->title=='Pt' || $itm->title=='Pd') {
+    if ($itm->title=='999' || $itm->title=='Ag' || $itm->title=='Ag-875' || $itm->title=='Ag-925' || $itm->title=='Ag-999' || $itm->title=='Pt' || $itm->title=='Pd') {
     //echo 'Не выводим значения';
     } else {
     $met_act_name = $itm->title;
@@ -258,6 +258,55 @@ foreach ($actual_items as $itm) {
 }
 
 $affinaj_table_start .= '
+        </tbody>
+    </table>
+</div>
+';
+
+
+
+//Таблица свободного металла для аффинажа по серебру
+$affinaj_ag_table_start = '';
+$actual_items = $actual->children();
+$reserv_items = $reserv->children();
+$affinaj_ag_table_start .= '
+<div>
+    <table class="uk-table-striped">
+        <thead>
+            <tr>
+                <th style="width:20%">По пробам</th>
+                <th style="width:20%">Должно быть</th>
+                <th style="width:20%">По факту</th>
+            </tr>
+        </thead>
+        <tbody>
+';
+
+$i = 1;
+foreach ($actual_items as $itm) {
+    if ($itm->title=='375' || $itm->title=='333' || $itm->title=='417' || $itm->title=='500' || $itm->title=='585' || $itm->title=='620' || $itm->title=='750' || $itm->title=='800' || $itm->title=='850' || $itm->title=='875' || $itm->title=='900' || $itm->title=='916' || $itm->title=='958' || $itm->title=='990' || $itm->title=='999' || $itm->title=='Ag-999' || $itm->title=='Pt' || $itm->title=='Pd') {
+    //echo 'Не выводим значения';
+    } else {
+    $met_act_name = $itm->title;
+    $met_res_item = $reserv_items->get('title=' . $itm->title . '');
+    $met_act_weight = $itm->remain;
+    $met_res_weight = $met_res_item->remain;
+    $free_metal = $met_act_weight - $met_res_weight;
+
+    $affinaj_ag_table_start .= '
+    <tr>
+        <td>' . $itm->title . '</td>
+        <td id="free_for_affinaj_' . $itm->title . '">' . number_format($free_metal, 2, '.', ' ') . '</td>
+        <td id="edit_for_affinaj_' . $itm->title . '">
+            <input class="uk-input selected_weight_affinaj" id="weight_affinaj_' . $itm->title . '" type="text" name="weight_for_affinaj_' . $itm->title . '" value="1">
+        </td>
+    </tr>
+    ';
+    $i++;
+    }
+}
+
+$affinaj_ag_table_start .= '
         </tbody>
     </table>
 </div>
