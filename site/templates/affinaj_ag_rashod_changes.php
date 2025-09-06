@@ -28,7 +28,7 @@ include 'affinaj_access.php';
 if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access == false) {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Аффинаж по золоту внесение изменений</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Аффинаж по серебру внесение изменений</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -39,46 +39,25 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access 
 
 //Формирование таблицы для редактирования
 $prod_id = !empty($_GET['prod_id'])?$_GET['prod_id']:NULL;  
-$affinaj_page = $pages->get('id=' . $prod_id . '');
-$affinaj_table = '';
-$affinaj_table .= '
+$affinaj_ag_page = $pages->get('id=' . $prod_id . '');
+$affinaj_ag_table = '';
+$affinaj_ag_table .= '
 <div>
     <table class="uk-table-striped">
         <thead>
             <tr>
-                <th style="width:16,6%">По пробам</th>
-                <th style="width:16,6%">Должно быть</th>
-                <th style="width:16,6%">По факту<br>старое значение</th>
-                <th style="width:16,6%">По факту<br>новое значение</th>
-                <th style="width:16,6%">В 585 должно быть</th>
-                <th style="width:16,6%">В 585 по факту<br>старое значение</th>
+                <th style="width:25%">По пробам</th>
+                <th style="width:25%">Должно быть</th>
+                <th style="width:25%">По факту<br>старое значение</th>
+                <th style="width:25%">По факту<br>новое значение</th>
             </tr>
         </thead>
         <tbody>
 ';
 
-$fin585 = 0;
-foreach ($affinaj_page->affinaj_table as $itm) {
-    $fin585 = $fin585 + ($itm->fweight/585*$itm->proba);
-}
-$actual_fin585 = round($fin585, 2);
-
-$in585 = 0;
-foreach ($affinaj_page->affinaj_table as $itm) {
-    $in585 = $in585 + ($itm->weight/585*$itm->proba);
-}
-$actual_in585 = round($in585, 2);
-
 $i = 1;
-foreach ($affinaj_page->affinaj_table as $itm) {
-    $sum585 = '';
-    if ($i == 1) {
-        $sum585 = '
-        <td rowspan="14" align="center">' . $actual_fin585 . '</td>
-        <td rowspan="14" align="center">' . $actual_in585 . '</td>
-        ';
-    }
-    $affinaj_table .= '
+foreach ($affinaj_ag_page->affinaj_table as $itm) {
+    $affinaj_ag_table .= '
     <tr>
         <td>' . $itm->proba . '</td>
         <td id="free_for_affinaj_' . $itm->proba . '">' . $itm->fweight . '</td>
@@ -86,12 +65,11 @@ foreach ($affinaj_page->affinaj_table as $itm) {
         <td id="new_for_affinaj_' . $itm->proba . '">
             <input class="uk-input edit_weight_affinaj" id="new_weight_affinaj_' . $itm->proba . '" type="text" name="new_weight_for_affinaj_' . $itm->proba . '" value="' . $itm->weight . '">
         </td>
-        ' . $sum585 . '
     </tr>
     ';
     $i++;
 }
-$affinaj_table .= '
+$affinaj_ag_table .= '
         </tbody>
     </table>
 </div>
@@ -120,40 +98,40 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Аффинаж по золоту внесение изменений</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Аффинаж по серебру внесение изменений</h1>
 	<div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
-                <a class="menu-link" href="/affinazh-raskhod/">Выбрать другой аффинаж</a>
+                <a class="menu-link" href="/affinazh-ag-raskhod/">Выбрать другой аффинаж</a>
             </div>
         </div>
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
                 <h4 class="uk-card-title uk-margin-remove">Внесение изменений</h4>
-                <p class="uk-margin-remove"><strong>Аффинаж: </strong><?php echo $affinaj_page->title; ?></p>
+                <p class="uk-margin-remove"><strong>Аффинаж: </strong><?php echo $affinaj_ag_page->title; ?></p>
                 <p class="uk-margin-remove"><strong>ID аффинажа: </strong><?php echo $prod_id; ?></p>
                 <div class="uk-margin-small-top uk-hidden">
-                    <input class="uk-input" id="affinaj_date" type="text" name="affinaj_date" value="<?php echo $today; ?>">
+                    <input class="uk-input" id="affinaj_ag_date" type="text" name="affinaj_ag_date" value="<?php echo $today; ?>">
                 </div>
                 <div class="uk-margin-small-top uk-hidden">
-                    <input class="uk-input" id="affinaj_point" type="text" name="affinaj_point" value="<?php echo $selected_point; ?>">
+                    <input class="uk-input" id="affinaj_ag_point" type="text" name="affinaj_ag_point" value="<?php echo $selected_point; ?>">
                 </div>
                 <div class="uk-margin-small-top uk-hidden">
-                 <input class="uk-input" id="affinaj_idpoint" type="text" name="affinaj_idpoint" value="<?php echo $selected_id_point; ?>">
+                 <input class="uk-input" id="affinaj_ag_idpoint" type="text" name="affinaj_ag_idpoint" value="<?php echo $selected_id_point; ?>">
                 </div>
                 <div class="uk-margin-small-top uk-hidden">
-                    <input class="uk-input" id="affinaj_worker" type="text" name="affinaj_worker" value="<?php echo $operator; ?>">
+                    <input class="uk-input" id="affinaj_ag_worker" type="text" name="affinaj_ag_worker" value="<?php echo $operator; ?>">
                 </div>
                 <div class="uk-margin-small-top uk-hidden">
-                    <input class="uk-input" id="affinaj_id" type="text" name="affinaj_id" value="<?php echo $prod_id; ?>">
+                    <input class="uk-input" id="affinaj_ag_id" type="text" name="affinaj_ag_id" value="<?php echo $prod_id; ?>">
                 </div>
-                <?php echo $affinaj_table; ?>
-                <a id="edit_affinaj" class="uk-margin-small uk-button uk-button-default">Внести изменения</a>
+                <?php echo $affinaj_ag_table; ?>
+                <a id="edit_affinaj_ag" class="uk-margin-small uk-button uk-button-default">Внести изменения</a>
             </div>
-            <div id="result_edit_affinaj" class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column" style="padding: 0 40px;">
+            <div id="result_edit_affinaj_ag" class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column" style="padding: 0 40px;">
                 <p id="result_add" class="messages" style="color: green;"></p>
             </div>
         </div>

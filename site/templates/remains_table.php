@@ -274,9 +274,9 @@ $affinaj_ag_table_start .= '
     <table class="uk-table-striped">
         <thead>
             <tr>
-                <th style="width:20%">По пробам</th>
-                <th style="width:20%">Должно быть</th>
-                <th style="width:20%">По факту</th>
+                <th style="width:33%">По пробам</th>
+                <th style="width:33%">Должно быть</th>
+                <th style="width:33%">По факту</th>
             </tr>
         </thead>
         <tbody>

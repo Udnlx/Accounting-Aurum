@@ -452,7 +452,7 @@ $('#reg_new_affinaj_ag').click(function() {
 	var affinaj_ag_point = $('#affinaj_ag_point').val();
 	var affinaj_ag_idpoint = $('#affinaj_ag_idpoint').val();
 	var affinaj_ag_worker = $('#affinaj_ag_worker').val();
-	//console.log(affinaj_date,affinaj_point,affinaj_idpoint,affinaj_worker);
+	//console.log(affinaj_ag_date,affinaj_ag_point,affinaj_ag_idpoint,affinaj_ag_worker);
 
 	var fag = $('#free_for_affinaj_Ag').text();
 	var fag875 = $('#free_for_affinaj_Ag-875').text();
@@ -520,7 +520,7 @@ $('.edit_weight_affinaj').bind('input', function(){
 
 
 
-//Редактирование аффинажа
+//Редактирование аффинажа по золоту
 $('#edit_affinaj').click(function() {
 	var affinaj_date = $('#affinaj_date').val();
 	var affinaj_point = $('#affinaj_point').val();
@@ -633,7 +633,69 @@ $.ajax({
 });
 return false;    
 });
-//Редактирование аффинажа
+//Редактирование аффинажа по золоту
+
+
+
+//Редактирование аффинажа по серебпу
+$('#edit_affinaj_ag').click(function() {
+	var affinaj_ag_date = $('#affinaj_ag_date').val();
+	var affinaj_ag_point = $('#affinaj_ag_point').val();
+	var affinaj_ag_idpoint = $('#affinaj_ag_idpoint').val();
+	var affinaj_ag_worker = $('#affinaj_ag_worker').val();
+	var affinaj_ag_id = $('#affinaj_ag_id').val();
+	console.log(affinaj_ag_date,affinaj_ag_point,affinaj_ag_idpoint,affinaj_ag_worker,affinaj_ag_id);
+
+	var oag = $('#old_for_affinaj_Ag').text();
+	var oag875 = $('#old_for_affinaj_Ag-875').text();
+	var oag925 = $('#old_for_affinaj_Ag-925').text();
+	console.log(oag,oag875,oag925);
+
+    var nag = $('#new_weight_affinaj_Ag').val();
+    var nag875 = $('#new_weight_affinaj_Ag-875').val();
+    var nag925 = $('#new_weight_affinaj_Ag-925').val();
+    console.log(nag,nag875,nag925);
+$.ajax({
+    type: "POST",
+    url: '/edit_affinaj_ag.php',
+    data: { 
+    	'affinaj_ag_date':affinaj_ag_date, 
+    	'affinaj_ag_point':affinaj_ag_point, 
+    	'affinaj_ag_idpoint':affinaj_ag_idpoint, 
+    	'affinaj_ag_worker':affinaj_ag_worker, 
+    	'affinaj_ag_id':affinaj_ag_id,
+
+    	'oag':oag, 
+        'oag875':oag875,
+        'oag925':oag925,
+
+        'nag':nag, 
+        'nag875':nag875,
+        'nag925':nag925,
+    },
+    beforeSend: function () {
+        $('#result_edit_affinaj_ag').html('<p class="messages" style="color: green;">Отправка и обработка данных...</p>');
+    },
+    success: function (data) {
+        $('#result_edit_affinaj_ag').html(data);
+        let result_add = $('#result_add').text();
+        if (result_add == 'Аффинаж изменен') {
+        	$('#edit_affinaj_ag').addClass('uk-hidden');
+        	$('#new_weight_affinaj_Ag').attr("disabled", true);
+        	$('#new_weight_affinaj_Ag-875').attr("disabled", true);
+        	$('#new_weight_affinaj_Ag-925').attr("disabled", true);
+        	let affinaj_ag_id = $('#affinaj_ag_id').val();
+        	console.log (affinaj_ag_id);
+        	window.location.replace("/affinazh-ag-raskhod-vnesti-izmeneniia-uspeshno/?id=" + affinaj_ag_id);
+        }
+    },
+    error: function (jqXHR, text, error) {
+        $('#result_edit_affinaj_ag').html(error);
+    }
+});
+return false;    
+});
+//Редактирование аффинажа по серебру
 
 
 
