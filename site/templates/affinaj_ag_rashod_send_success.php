@@ -28,7 +28,7 @@ include 'affinaj_access.php';
 if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access == false) {
 ?>
     <div id="content" style="max-width: 700px;">
-        <h1 class="uk-heading-hero uk-text-center">Аффинаж по золоту на отправку</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Аффинаж по серебру отправлен</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -37,11 +37,24 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access 
 <?php    
 } else {
 
+//Изменяем статус на Отправлен
+$id = $_GET['id'];
+$edit_ag_page = $pages->get('template=affinaj_itm_ag, id=' . $id . '');
+$edit_ag_page->of(false);
+$edit_ag_page->product_status = 'Отправлен';
+$edit_ag_page->save();
+
+//Записываем в лог
+$log = '';
+$log .= date("Y-m-d H:i") . ' Отправлен аффинаж по серебру: ' . $edit_ag_page->title . ' === ';
+$log .= 'Оператор: ' . $operator . ', ID записи: ' . $id; 
+file_put_contents(__DIR__ . '/log_affinaj.txt', $log . PHP_EOL, FILE_APPEND);
+
 //Формирование данных аффинажа
 $id = $_GET['id'];
-$affinaj_page = $pages->get('id=' . $id . '');
-$affinaj_table = '';
-$affinaj_table = '
+$affinaj_ag_page = $pages->get('id=' . $id . '');
+$affinaj_ag_table = '';
+$affinaj_ag_table = '
 <div>
     <table class="uk-table-striped">
         <thead>
@@ -49,47 +62,24 @@ $affinaj_table = '
                 <th style="width:20%">По пробам</th>
                 <th style="width:20%">Должно быть</th>
                 <th style="width:20%">По факту</th>
-                <th style="width:20%">В 585 должно быть</th>
-                <th style="width:20%">В 585 по факту</th>
             </tr>
         </thead>
         <tbody>
 ';
 
-$fin585 = 0;
-foreach ($affinaj_page->affinaj_table as $itm) {
-    $fin585 = $fin585 + ($itm->fweight/585*$itm->proba);
-}
-$actual_fin585 = round($fin585, 2);
-
-$in585 = 0;
-foreach ($affinaj_page->affinaj_table as $itm) {
-    $in585 = $in585 + ($itm->weight/585*$itm->proba);
-}
-$actual_in585 = round($in585, 2);
-
 $i = 1;
-foreach ($affinaj_page->affinaj_table as $itm) {
-    $sum585 = '';
-    if ($i == 1) {
-        $sum585 = '
-        <td rowspan="14" align="center">' . $actual_fin585 . '</td>
-        <td rowspan="14" align="center">' . $actual_in585 . '</td>
-        ';
-    }
-
-    $affinaj_table .= '
+foreach ($affinaj_ag_page->affinaj_table as $itm) {
+    $affinaj_ag_table .= '
     <tr>
         <td>' . $itm->proba . '</td>
         <td>' . $itm->fweight . '</td>
         <td>' . $itm->weight . '</td>
-        ' . $sum585 . '
     </tr>
     ';
     $i++;
 }
 
-$affinaj_table .= '
+$affinaj_ag_table .= '
         </tbody>
     </table>
 </div>
@@ -119,27 +109,27 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-    <h1 class="uk-margin-remove uk-heading-hero uk-text-center">Аффинаж по золоту на отправку</h1>
-    <div>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Аффинаж по серебру отправлен</h1>
+	<div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
-                <a class="menu-link" href="/affinazh-raskhod/">Открытые и отправленные аффинажи</a>
+                <a class="menu-link" href="/affinazh-ag-raskhod/">Открытые и отправленные аффинажи</a>
             </div>
         </div>
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
                 <h4 class="uk-card-title uk-margin-remove">Данные аффинажа</h4>  
-                <p class="uk-margin-remove" style="color: green;"><strong>Аффинаж готов к отправке</strong></p>
+                <p class="uk-margin-remove" style="color: green;"><strong>Аффинаж успешно отправлен</strong></p>
                 <p class="uk-margin-remove"><strong>ID: </strong><?php echo $id; ?></p>
-                <p class="uk-margin-remove"><strong>Дата: </strong><?php echo $affinaj_page->date; ?></p>
-                <p class="uk-margin-remove"><strong>Точка: </strong><?php echo $affinaj_page->point; ?></p>
-                <p class="uk-margin-remove"><strong>Оператор: </strong><?php echo $affinaj_page->worker; ?></p>
-                <p class="uk-margin-remove"><strong>Cтатус: </strong><?php echo $affinaj_page->product_status; ?></p>
-                <?php echo $affinaj_table; ?>
-                <a class="uk-margin-small uk-button uk-button-default" href="/affinazh-raskhod-otpravka-uspeshno/?id=<?php echo $id; ?>">Отправить</a>
+                <p class="uk-margin-remove"><strong>Дата: </strong><?php echo $affinaj_ag_page->date; ?></p>
+                <p class="uk-margin-remove"><strong>Точка: </strong><?php echo $affinaj_ag_page->point; ?></p>
+                <p class="uk-margin-remove"><strong>Оператор: </strong><?php echo $affinaj_ag_page->worker; ?></p>
+                <p class="uk-margin-remove"><strong>Cтатус: </strong><?php echo $affinaj_ag_page->product_status; ?></p>
+                <?php echo $affinaj_ag_table; ?>
+                <a class="uk-margin-small uk-button uk-button-default" href="/affinazh-ag-raskhod/">Открытые и отправленные аффинажи</a>
             </div>
         </div>
         
@@ -151,6 +141,13 @@ if ($startday == '' || $actual == '' || $reserv == '') {
         
     </div>
 </div>
+
+<script>
+document.onkeydown = function (e) {
+    if (e.keyCode === 116) {
+    return false;
+}};
+</script>
 
 <?php   
 }

@@ -28,7 +28,7 @@ include 'affinaj_access.php';
 if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access == false) {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Аффинаж отправлен</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Аффинаж по золоту отправлен</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -46,7 +46,7 @@ $edit_page->save();
 
 //Записываем в лог
 $log = '';
-$log .= date("Y-m-d H:i") . ' Отправлен аффинаж: ' . $edit_page->title . ' === ';
+$log .= date("Y-m-d H:i") . ' Отправлен аффинаж по золоту: ' . $edit_page->title . ' === ';
 $log .= 'Оператор: ' . $operator . ', ID записи: ' . $id; 
 file_put_contents(__DIR__ . '/log_affinaj.txt', $log . PHP_EOL, FILE_APPEND);
 
@@ -132,7 +132,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Аффинаж отправлен</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Аффинаж по золоту отправлен</h1>
 	<div>
 
         <div>
