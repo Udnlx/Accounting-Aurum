@@ -713,7 +713,7 @@ $('.close_weight_affinaj').bind('input', function(){
 
 
 
-//Закрытие аффинажа
+//Закрытие аффинажа по золоту
 $('#close_affinaj').click(function() {
 	var affinaj_date = $('#affinaj_date').val();
 	var affinaj_point = $('#affinaj_point').val();
@@ -756,7 +756,54 @@ $('#close_affinaj').click(function() {
 	});
 	return false;  
 });
-//Закрытие аффинажа
+//Закрытие аффинажа по золоту
+
+
+
+//Закрытие аффинажа по серебру
+$('#close_affinaj_ag').click(function() {
+	var affinaj_ag_date = $('#affinaj_ag_date').val();
+	var affinaj_ag_point = $('#affinaj_ag_point').val();
+	var affinaj_ag_idpoint = $('#affinaj_ag_idpoint').val();
+	var affinaj_ag_worker = $('#affinaj_ag_worker').val();
+	var affinaj_ag_id = $('#affinaj_ag_id').val();
+	console.log(affinaj_ag_date,affinaj_ag_point,affinaj_ag_idpoint,affinaj_ag_worker,affinaj_ag_id);
+
+	var proba999 = $('#close_weight_affinaj_ag').val();
+	console.log(proba999);
+	$.ajax({
+	    type: "POST",
+	    url: '/close_affinaj_ag.php',
+	    data: { 
+	    	'affinaj_ag_date':affinaj_ag_date, 
+	    	'affinaj_ag_point':affinaj_ag_point, 
+	    	'affinaj_ag_idpoint':affinaj_ag_idpoint, 
+	    	'affinaj_ag_worker':affinaj_ag_worker, 
+	    	'affinaj_ag_id':affinaj_ag_id,
+
+	    	'proba999':proba999, 
+	    },
+	    beforeSend: function () {
+	        $('#result_close_affinaj_ag').html('<p class="messages" style="color: green;">Отправка и обработка данных...</p>');
+	    },
+	    success: function (data) {
+	        $('#result_close_affinaj_ag').html(data);
+	        let result_add = $('#result_add').text();
+	        if (result_add == 'Аффинаж закрыт') {
+	        	$('#close_affinaj_ag').addClass('uk-hidden');
+	        	$('#close_weight_affinaj_ag').attr("disabled", true);
+	        	let affinaj_ag_id = $('#affinaj_ag_id').val();
+	        	console.log (affinaj_ag_id);
+	        	window.location.replace("/affinazh-ag-prikhod-zakrytie-uspeshno/?id=" + affinaj_ag_id);
+	        }
+	    },
+	    error: function (jqXHR, text, error) {
+	        $('#result_close_affinaj_ag').html(error);
+	    }
+	});
+	return false;  
+});
+//Закрытие аффинажа по серебру
 
 
 

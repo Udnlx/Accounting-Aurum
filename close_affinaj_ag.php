@@ -8,11 +8,11 @@ require_once 'index.php';
 
 
 
-$date = $_POST['affinaj_date'];
-$point = $_POST['affinaj_point'];
-$idpoint = $_POST['affinaj_idpoint'];
-$worker = $_POST['affinaj_worker'];
-$affinaj_id = $_POST['affinaj_id'];
+$date = $_POST['affinaj_ag_date'];
+$point = $_POST['affinaj_ag_point'];
+$idpoint = $_POST['affinaj_ag_idpoint'];
+$worker = $_POST['affinaj_ag_worker'];
+$affinaj_id = $_POST['affinaj_ag_id'];
 
 $proba999 = $_POST['proba999'];
 
@@ -23,12 +23,12 @@ if ($proba999 <= 0) {
 	//Записываем изменения в лог
 	$affedt = $pages->get('id=' . $affinaj_id . '');
 	$log = '';
-    $log .= date("Y-m-d H:i") . ' Закрыт аффинаж Au: ' . $affedt->title . ' === ';
+    $log .= date("Y-m-d H:i") . ' Закрыт аффинаж Ag: ' . $affedt->title . ' === ';
     $log .= 'Закрыл: ' . $worker . ', ID записи: ' . $affinaj_id; 
     file_put_contents(__DIR__ . '/site/templates/log_affinaj.txt', $log . PHP_EOL, FILE_APPEND);
 
 	//Изменяем статус на Отправлен
-	$edit_page = $pages->get('template=affinaj_itm, id=' . $affinaj_id . '');
+	$edit_page = $pages->get('template=affinaj_itm_ag, id=' . $affinaj_id . '');
 	$edit_page->of(false);
 	$edit_page->product_status = 'Закрыт';
 	$edit_page->weight = $proba999;
@@ -36,7 +36,7 @@ if ($proba999 <= 0) {
 
     //Изменяем остатки
     $point_actual_table = $pages->get('id_point=' . $idpoint . '_actual');
-    $edit_page = $point_actual_table->get('title=999');
+    $edit_page = $point_actual_table->get('title=Ag-999');
     // echo $edit_page . '<br>';
     // echo $edit_page->remain . '<br>';
     // echo $weight . '<br>';
@@ -51,5 +51,5 @@ if ($proba999 <= 0) {
 	echo '<p id="affinaj_id" class="messages uk-margin-remove">' . $affinaj_id . '</p>';
 	echo '<p class="messages uk-margin-remove">ID: ' . $affinaj_id . '</p>';
 	echo '<p class="messages uk-margin-remove">Cтатус: Закрыт</p>';
-	echo '<a class="uk-margin-small uk-button uk-button-default" href="/affinazh-raskhod/">Открытые и отправленные аффинажи</a>';
+	echo '<a class="uk-margin-small uk-button uk-button-default" href="/affinazh-ag-raskhod/">Открытые и отправленные аффинажи</a>';
 }

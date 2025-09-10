@@ -28,7 +28,7 @@ include 'affinaj_access.php';
 if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access == false) {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Аффинаж по серебру на закрытие</h1>
+        <h1 class="uk-heading-hero uk-text-center">Аффинаж по серебру закрыт</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -72,6 +72,7 @@ $affinaj_ag_table .= '
 </div>
 ';
 
+
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
 $startday = $pages->get('id_point=' . $selected_id_point . '_startday');
@@ -95,8 +96,8 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Аффинаж по серебру на закрытие</h1>
-	<div>
+    <h1 class="uk-margin-remove uk-heading-hero uk-text-center">Аффинаж по серебру закрыт</h1>
+    <div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
@@ -108,36 +109,14 @@ if ($startday == '' || $actual == '' || $reserv == '') {
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
                 <h4 class="uk-card-title uk-margin-remove">Данные аффинажа</h4>  
-                <p class="uk-margin-remove" style="color: green;"><strong>Аффинаж готов к закрытию</strong></p>
+                <p class="uk-margin-remove" style="color: green;"><strong>Аффинаж успешно закрыт</strong></p>
                 <p class="uk-margin-remove"><strong>ID: </strong><?php echo $id; ?></p>
                 <p class="uk-margin-remove"><strong>Дата: </strong><?php echo $affinaj_ag_page->date; ?></p>
                 <p class="uk-margin-remove"><strong>Точка: </strong><?php echo $affinaj_ag_page->point; ?></p>
                 <p class="uk-margin-remove"><strong>Оператор: </strong><?php echo $affinaj_ag_page->worker; ?></p>
                 <p class="uk-margin-remove"><strong>Cтатус: </strong><?php echo $affinaj_ag_page->product_status; ?></p>
-                <div class="uk-margin-small-top uk-hidden">
-                    <input class="uk-input" id="affinaj_ag_date" type="text" name="affinaj_ag_date" value="<?php echo $today; ?>">
-                </div>
-                <div class="uk-margin-small-top uk-hidden">
-                    <input class="uk-input" id="affinaj_ag_point" type="text" name="affinaj_ag_point" value="<?php echo $selected_point; ?>">
-                </div>
-                <div class="uk-margin-small-top uk-hidden">
-                 <input class="uk-input" id="affinaj_ag_idpoint" type="text" name="affinaj_ag_idpoint" value="<?php echo $selected_id_point; ?>">
-                </div>
-                <div class="uk-margin-small-top uk-hidden">
-                    <input class="uk-input" id="affinaj_ag_worker" type="text" name="affinaj_ag_worker" value="<?php echo $operator; ?>">
-                </div>
-                <div class="uk-margin-small-top uk-hidden">
-                    <input class="uk-input" id="affinaj_ag_id" type="text" name="affinaj_ag_id" value="<?php echo $id; ?>">
-                </div>
                 <?php echo $affinaj_ag_table; ?>
-                <div class="uk-margin-small-top">
-                    <label for="price_gramm">Пришедший вес 999 пробы после аффинажа</label>
-                    <input class="uk-input close_weight_affinaj" id="close_weight_affinaj_ag" type="text" name="close_weight_affinaj_ag" value="" placeholder="Внесите вес при закрытии аффинажа, обязательное поле" autocomplete="off" required>
-                </div>
-                <a id="close_affinaj_ag" class="uk-margin-small uk-button uk-button-default">Закрыть</a>
-            </div>
-            <div id="result_close_affinaj_ag" class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column" style="padding: 0 40px;">
-                <p id="result_add" class="messages" style="color: green;"></p>
+                <a class="uk-margin-small uk-button uk-button-default" href="/affinazh-ag-raskhod/">Открытые и отправленные аффинажи</a>
             </div>
         </div>
         
