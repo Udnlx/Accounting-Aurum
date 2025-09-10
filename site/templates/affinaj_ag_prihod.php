@@ -28,7 +28,7 @@ include 'affinaj_access.php';
 if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access == false) {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Тип аффинажа Ag</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Аффинаж Ag приход</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -36,6 +36,19 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access 
     </div>
 <?php    
 } else {
+
+//Получение всех открытых и отпраленных аффинажей по серебру
+$all_close_affinaj_ag = '';
+$all_close_affinaj_ag_itm = $pages->find('template=affinaj_itm_ag, id_point=' . $selected_id_point . ', product_status=Закрыт, sort=-id');
+$all_close_affinaj_ag .= '<div class="scrolling-list" style="max-height: 700px;">';
+foreach ($all_close_affinaj_ag_itm as $itm) {
+    $all_close_affinaj_ag .= '<p>' . $itm->title . '</p>';
+    $all_close_affinaj_ag .= '<p style="font-size:10px;">ID аффинажа: ' . $itm->id . '</p>';
+    $all_close_affinaj_ag .= '<p style="font-size:14px;font-weight:700;">Статус: ' . $itm->product_status . '</p>';
+    $all_close_affinaj_ag .= '<p>Приход по 999 пробе: ' . $itm->weight . '</p>';
+    $all_close_affinaj_ag .= '<hr>';
+}
+$all_close_affinaj_ag .= '</div>';
 
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
@@ -60,19 +73,28 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Тип аффинажа Ag</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Аффинаж Ag приход</h1>
 	<div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
-                <a class="menu-link" href="/affinazh-ag-raskhod/">Аффинаж расход</a>
-                <a class="menu-link" href="/affinazh-ag-prikhod/">Аффинаж приход</a>
+                <a class="menu-link" href="/affinazh-ag-tip-affinazha/">Выбрать другой тип аффинажа</a>
+            </div>
+        </div>
+
+        <div>
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                <h4 class="uk-card-title uk-margin-remove">Закрытые аффинажи</h4>
+                <hr>
+                <div id="all_open_affinaj">
+                    <?php echo $all_close_affinaj_ag; ?>
+                </div> 
             </div>
         </div>
         
         <div>
-            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+            <div id="remain_tables" class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
                 <?php echo $remain_tables_startday; ?>
             </div>
         </div>

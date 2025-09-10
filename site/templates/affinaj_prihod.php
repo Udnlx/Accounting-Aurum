@@ -28,7 +28,7 @@ include 'affinaj_access.php';
 if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access == false) {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Аффинаж приход</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Аффинаж Au приход</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -37,7 +37,7 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access 
 <?php    
 } else {
 
-//Получение всех открытых и отпраленных аффинажей
+//Получение всех открытых и отпраленных аффинажей по золоту
 $all_close_affinaj = '';
 $all_close_affinaj_itm = $pages->find('template=affinaj_itm, id_point=' . $selected_id_point . ', product_status=Закрыт, sort=-id');
 $all_close_affinaj .= '<div class="scrolling-list" style="max-height: 700px;">';
@@ -73,7 +73,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Аффинаж приход</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Аффинаж Au приход</h1>
 	<div>
 
         <div>
