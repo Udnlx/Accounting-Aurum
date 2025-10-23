@@ -12,7 +12,7 @@ if ($report_point == 'point3') {
     $name_point = 'Таганка';
 }
 if ($report_point == 'point4') {
-    $name_point = 'Комсомолка';
+    $name_point = 'Новослободская';
 }
 if ($report_point == 'point5') {
     $name_point = 'Митинская 27а';
@@ -593,7 +593,7 @@ $arrears .= '
                                 <option></option>
                                 <option value="point1">Тверская 14</option>
                                 <option value="point3">Таганка</option>
-                                <option value="point4">Комсомолка</option>
+                                <option value="point4">Новослободская</option>
                                 <option value="point5">Митинская 27а</option>
                             </select>
                         </div>

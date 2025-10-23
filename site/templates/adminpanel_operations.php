@@ -166,7 +166,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                             <option value="Все точки">Все точки</option>
                             <option value="Тверская 14">Тверская 14</option>
                             <option value="Таганка">Таганка</option>
-                            <option value="Комсомолка">Комсомолка</option>
+                            <option value="Новослободская">Новослободская</option>
                             <option value="Митинская 27а">Митинская 27а</option>
                         </select>
                     </div>

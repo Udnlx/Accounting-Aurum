@@ -16,7 +16,7 @@ if ($point == 'Тверская 14') {
 if ($point == 'Таганка') {
     $id_p = 'point3';
 }
-if ($point == 'Комсомолка') {
+if ($point == 'Новослободская') {
     $id_p = 'point4';
 }
 if ($point == 'Митинская 27а') {
@@ -76,7 +76,7 @@ if ($login == 'on') {
                         <option></option>
                         <option value="Тверская 14">Тверская 14</option>
                         <option value="Таганка">Таганка</option>
-                        <option value="Комсомолка">Комсомолка</option>
+                        <option value="Новослободская">Новослободская</option>
                         <option value="Митинская 27а">Митинская 27а</option>
                     </select>
                 </div>

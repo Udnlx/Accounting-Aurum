@@ -15,7 +15,7 @@ if ($report_point == 'point3') {
     $name_point = 'Таганка';
 }
 if ($report_point == 'point4') {
-    $name_point = 'Комсомолка';
+    $name_point = 'Новослободская';
 }
 if ($report_point == 'point5') {
     $name_point = 'Митинская 27а';
