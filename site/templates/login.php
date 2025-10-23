@@ -10,11 +10,8 @@ $_SESSION['operator'] = 'no_operator';
 
 $point = !empty($_POST['point'])?$_POST['point']:NULL;  
 $id_p = '';
-if ($point == 'Тверская 20') {
-    $id_p = 'point1';
-}
 if ($point == 'Тверская 14') {
-    $id_p = 'point2';
+    $id_p = 'point1';
 }
 if ($point == 'Таганка') {
     $id_p = 'point3';
@@ -77,7 +74,6 @@ if ($login == 'on') {
                     <label for="point">Точка</label>
                     <select class="uk-select" id="point" name="point" required>
                         <option></option>
-                        <option value="Тверская 20">Тверская 20</option>
                         <option value="Тверская 14">Тверская 14</option>
                         <option value="Таганка">Таганка</option>
                         <option value="Комсомолка">Комсомолка</option>

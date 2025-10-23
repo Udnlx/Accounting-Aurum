@@ -6,9 +6,6 @@ $report_point = !empty($_POST['report_point'])?$_POST['report_point']:NULL;
 $name_point = '';
 
 if ($report_point == 'point1') {
-    $name_point = 'Тверская 20';
-}
-if ($report_point == 'point2') {
     $name_point = 'Тверская 14';
 }
 if ($report_point == 'point3') {
@@ -594,8 +591,7 @@ $arrears .= '
                         <div class="filtermenu-input">
                             <select class="uk-select" id="report_point" name="report_point" required>
                                 <option></option>
-                                <option value="point1">Тверская 20</option>
-                                <option value="point2">Тверская 14</option>
+                                <option value="point1">Тверская 14</option>
                                 <option value="point3">Таганка</option>
                                 <option value="point4">Комсомолка</option>
                                 <option value="point5">Митинская 27а</option>

@@ -592,8 +592,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                         <div class="filtermenu-input">
                             <select class="uk-select" id="report_point" name="report_point" required>
                                 <option></option>
-                                <option value="point1">Тверская 20</option>
-                                <option value="point2">Тверская 14</option>
+                                <option value="point1">Тверская 14</option>
                                 <option value="point3">Таганка</option>
                                 <option value="point4">Комсомолка</option>
                                 <option value="point5">Митинская 27а</option>

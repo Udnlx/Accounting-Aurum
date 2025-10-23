@@ -9,9 +9,6 @@ $report_point = $_GET['download_report_point'];;
 $name_point = '';
 
 if ($report_point == 'point1') {
-    $name_point = 'Тверская 20';
-}
-if ($report_point == 'point2') {
     $name_point = 'Тверская 14';
 }
 if ($report_point == 'point3') {

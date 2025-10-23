@@ -164,7 +164,6 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                         <label for="f_point">Точка</label>
                         <select class="uk-select" id="f_point" name="f_point" required>
                             <option value="Все точки">Все точки</option>
-                            <option value="Тверская 20">Тверская 20</option>
                             <option value="Тверская 14">Тверская 14</option>
                             <option value="Таганка">Таганка</option>
                             <option value="Комсомолка">Комсомолка</option>
