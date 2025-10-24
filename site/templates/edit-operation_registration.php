@@ -133,7 +133,7 @@ if ($id_edit_operation && $_SESSION['reload'] != 'on') {
     $edit_page->save();
 
     //Заводим новую запись об изменениях в реестре изменений
-    $pages->add('reestr_changes_itm', 4308 , [
+    $pages->add('reestr_changes_itm', 6452 , [
     'title' => date("Y-m-d H:i") . ' Изменения в операции - ' . $id_edit_operation,
     'date' => $date,
     'point' => $selected_point,

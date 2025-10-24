@@ -42,6 +42,14 @@ if ($operator == 'no_operator' || $selected_point == 'no_point') {
 //Получение страницы продукта
 $operation_page = $pages->get('id=' . $operation_id . '');
 
+$desc_operation = '';
+if ($operation_page->type_operation == 'Продажа') {
+    $desc_operation = 'Сколько взяли';
+}
+if ($operation_page->type_operation == 'Скупка') {
+    $desc_operation = 'Сколько отдали';
+}
+
 //Получение данных о продукте
 $type_operation = $operation_page->type_operation;  
 $undertype_operation = $operation_page->undertype_operation;  
@@ -158,7 +166,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 	        <p class="uk-margin-remove">Вес: <span style="font-weight: 700;"><?php echo $weight; ?></span></p>
 	        <p class="uk-margin-remove">Цена за грамм: <span style="font-weight: 700;"><?php echo $price_gramm; ?></span></p>
 	        <p class="uk-margin-remove">Итоговая стоимость: <span style="font-weight: 700;"><?php echo $price; ?></span></p>
-	        <p class="uk-margin-remove">Сколько отдали: <span style="font-weight: 700;"><?php echo $pay; ?></span></p>
+	        <p class="uk-margin-remove"><?php echo $desc_operation; ?>: <span style="font-weight: 700;"><?php echo $pay; ?></span></p>
             <p class="uk-margin-remove">Вид платежа: <span style="font-weight: 700;"><?php echo $cash_card; ?></span></p>
             <p class="uk-margin-remove">Описание операции: <span style="font-weight: 700;"><?php echo $description_operation; ?></span></p>
 	        <br>
