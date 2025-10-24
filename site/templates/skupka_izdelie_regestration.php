@@ -18,6 +18,8 @@ $client_address = !empty($_POST['client_address'])?$_POST['client_address']:NULL
 $url_avito = !empty($_POST['url_avito'])?$_POST['url_avito']:NULL;  
 $url_image = !empty($_POST['url_image'])?$_POST['url_image']:NULL;  
 
+$product = str_replace(',', '.', $product);  
+
 $success = 'Регистрация скупки прошла успешно';
 if ($worker && $product && $weight && $pay && $cash_card && $_SESSION['reload'] != 'on') {
     $all_product_itm = $pages->find('template=product_itm');
