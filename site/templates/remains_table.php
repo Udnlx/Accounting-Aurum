@@ -22,6 +22,8 @@ $in585 = 0;
 foreach ($startday_items as $itm) {
     if ($itm->title == 'Ag' || $itm->title == 'Ag-875' || $itm->title == 'Ag-925' || $itm->title == 'Ag-999' || $itm->title == 'Pt' || $itm->title == 'Pd') {
         //Серебро, Платина и Палладий не считаются
+    } elseif ($itm->title == '999') {
+        $in585 = $in585 + ($itm->remain/585*999.9);
     } else {
         $in585 = $in585 + ($itm->remain/585*$itm->title);
     }
