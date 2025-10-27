@@ -24,6 +24,8 @@ $dates = get_dates($selected_start_date, $selected_finish_date);
 $std = date('d-m-Y', strtotime($selected_start_date));
 $fid = date('d-m-Y', strtotime($selected_finish_date));
 
+$points = ['point1','point3','point4','point5'];
+
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
 } else {
@@ -71,7 +73,6 @@ $bn_total_income_lom_sum = 0;
 $total_income_profit = 0;
 $total_income_lom_in585 = 0;
 
-$points = ['point1','point2','point3','point4','point5'];
 foreach ($points as $point) {
     //Точка
     $point_page = $pages->get('template=remains_point, id_point=' . $point . '_startday');
@@ -206,7 +207,6 @@ $bn_total_expenses_lom_sum = 0;
 $total_expenses_profit = 0;
 $total_expenses_lom_in585 = 0;
 
-$points = ['point1','point2','point3','point4','point5'];
 foreach ($points as $point) {
     //Точка
     $point_page = $pages->get('template=remains_point, id_point=' . $point . '_startday');
@@ -339,7 +339,6 @@ $income_izdelie = '';
 $total_income_izdelie_sum = 0;
 $bn_total_income_izdelie_sum = 0;
 
-$points = ['point1','point2','point3','point4','point5'];
 foreach ($points as $point) {
     //Точка
     $point_page = $pages->get('template=remains_point, id_point=' . $point . '_startday');
@@ -442,7 +441,6 @@ $expenses_izdelie = '';
 $total_expenses_izdelie_sum = 0;
 $bn_total_expenses_izdelie_sum = 0;
 
-$points = ['point1','point2','point3','point4','point5'];
 foreach ($points as $point) {
     //Точка
     $point_page = $pages->get('template=remains_point, id_point=' . $point . '_startday');
@@ -548,7 +546,6 @@ $income = '';
 $total_income = 0;
 $bn_total_income = 0;
 
-$points = ['point1','point2','point3','point4','point5'];
 foreach ($points as $point) {
     //Точка
     $point_page = $pages->get('template=remains_point, id_point=' . $point . '_startday');
@@ -639,7 +636,6 @@ $expenses = '';
 $total_expenses = 0;
 $bn_total_expenses = 0;
 
-$points = ['point1','point2','point3','point4','point5'];
 foreach ($points as $point) {
     //Точка
     $point_page = $pages->get('template=remains_point, id_point=' . $point . '_startday');
