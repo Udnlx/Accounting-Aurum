@@ -64,11 +64,16 @@ foreach ($stock_products_itm as $itm) {
             <p style="font-size:10px;">Оператор скупки: ' . $itm->worker . '</p>
             <p style="font-size:12px; font-weight: 700;">Дата скупки: ' . $itm->product_date_buy . '; Цена скупки: ' . $itm->product_price_buy . '</p>
     ';
+    $btn_del = '';
+    if ($access == 'admin') {
+        $btn_del = '<a class="product-link-lnk" href="/prodazha-izdelie-udalit/?prod_id=' . $itm->id . '">Удалить</a>';
+    }
     if ($access != 'seller') {
        $stock_products .= '
             <div class="product-link">
                 <a class="product-link-lnk" href="/prodazha-izdelie-prodat/?prod_id=' . $itm->id . '">Продать</a>
                 <a class="product-link-lnk" href="/prodazha-izdelie-vnesti-izmeneniia/?prod_id=' . $itm->id . '">Внести изменения</a>
+                ' . $btn_del . '
             </div>
        '; 
     }

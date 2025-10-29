@@ -4,6 +4,8 @@ $worker = !empty($_POST['worker'])?$_POST['worker']:NULL;
 $id_product_changes = !empty($_POST['id_product_changes'])?$_POST['id_product_changes']:NULL;  
 $old_product_description = !empty($_POST['old_product_description'])?$_POST['old_product_description']:NULL;  
 $new_product_description = !empty($_POST['new_product_description'])?$_POST['new_product_description']:NULL;  
+$old_product_date_buy = !empty($_POST['old_product_date_buy'])?$_POST['old_product_date_buy']:NULL;  
+$new_product_date_buy = !empty($_POST['new_product_date_buy'])?$_POST['new_product_date_buy']:NULL;  
 $old_product_url_avito = !empty($_POST['old_product_url_avito'])?$_POST['old_product_url_avito']:NULL;  
 $new_product_url_avito = !empty($_POST['new_product_url_avito'])?$_POST['new_product_url_avito']:NULL; 
 $old_product_url_image = !empty($_POST['old_product_url_image'])?$_POST['old_product_url_image']:NULL;  
@@ -17,6 +19,7 @@ if ($worker && $id_product_changes && $old_product_description && $new_product_d
 	//Изменяем запись
     $edit_page = $pages->get('template=product_itm, id=' . $product_page->id . '');
     $edit_page->of(false);
+    $edit_page->product_date_buy = $new_product_date_buy;
     $edit_page->product_description = $new_product_description;
     $edit_page->url_avito = $new_product_url_avito;
     $edit_page->url_image = $new_product_url_image;
@@ -26,6 +29,8 @@ if ($worker && $id_product_changes && $old_product_description && $new_product_d
     $log = '';
     $log .= date("Y-m-d H:i") . ' Внесены изменения в продукт - ' . $product_page->title . '; ';
     $log .= 'Запись изменена: ' . $worker . ', ID записи: ' . $product_page->id . '; '; 
+    $log .= 'Старая дата скупки: ' . $old_product_date_buy . '; '; 
+    $log .= 'Новая дата скупки: ' . $new_product_date_buy . '; '; 
     $log .= 'Старое описание: ' . $old_product_description . '; '; 
     $log .= 'Новое описание: ' . $new_product_description . '; '; 
     $log .= 'Старый URL Авито: ' . $old_product_url_avito . '; '; 
@@ -117,6 +122,8 @@ if ($startday == '' || $actual == '' || $reserv == '') {
         <div>
             <h3 class="uk-card-title"><?php echo $success; ?></h3>
 	        <p class="uk-margin-remove">ID записи продукта: <span style="font-weight: 700;"><?php echo $product_page->id; ?></span></p>
+            <p class="uk-margin-remove">Старая дата скупки: <span style="font-weight: 700;"><?php echo $old_product_date_buy; ?></span></p>
+            <p class="uk-margin-remove">Новая дата скупки: <span style="font-weight: 700;"><?php echo $new_product_date_buy; ?></span></p>
             <p class="uk-margin-remove">Старое описание: <span style="font-weight: 700;"><?php echo $old_product_description; ?></span></p>
             <p class="uk-margin-remove">Новое описание: <span style="font-weight: 700;"><?php echo $new_product_description; ?></span></p>
             <p class="uk-margin-remove">Старое URL Авито: <span style="font-weight: 700;"><?php echo $old_product_url_avito; ?></span></p>

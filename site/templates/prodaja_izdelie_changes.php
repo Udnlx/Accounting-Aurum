@@ -105,6 +105,14 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     </div>
 
                     <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="old_product_date_buy" type="text" name="old_product_date_buy" value="<?php echo $product_page->product_date_buy; ?>">
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <label for="new_product_description">Дата скупки изделия !!Строго по маске DD-MM-YYYY!!</label>
+                        <input class="uk-input" id="new_product_date_buy" type="text" name="new_product_date_buy" value="<?php echo $product_page->product_date_buy; ?>">
+                    </div>
+
+                    <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="old_product_description" type="text" name="old_product_description" value="<?php echo $product_page->product_description; ?>">
                     </div>
                     <div class="uk-margin-small-top">
