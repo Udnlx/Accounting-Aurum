@@ -50,7 +50,7 @@ $title .= $all_page_cash->title . ' - ' . number_format($all_page_cash->sum, 2, 
 $all_cash = '';
 if ($access == 'admin') {
     $all_cash = '
-    <p class="uk-margin-remove uk-text-bold" style="cursor: help;" title="' . $title . '">Всего налички: ' . number_format($total_sum, 2, '.',' ') . ';</p>
+    <p class="uk-margin-remove uk-text-bold" style="cursor: help;" title="' . $title . '">В сейфе: ' . number_format($total_sum, 2, '.',' ') . ';</p>
     ';
 }
 
