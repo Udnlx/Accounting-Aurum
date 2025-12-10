@@ -464,6 +464,39 @@ table {
 
 
 
+/*Стили для переключателя точек*/
+button.new_point_btn {
+    cursor: pointer;
+    text-decoration: none;
+    padding: 5px 7px;
+    margin: 0;
+    border: 1px solid #c9c9c9;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000000;
+    font-size: 14px;
+    line-height: 1;
+    text-align: center;
+    transition: 0.5s;}
+button.new_point_btn:hover {
+    background-color: #a7a7a7;
+    transition: 0.5s;}
+select.new_point_select {
+    width: 100%;
+    padding: 0 10px;
+    background: #fff;
+    color: #666;
+    border: 1px solid #1e87f0;
+    height: 40px;
+    vertical-align: middle;
+    display: inline-block;
+    padding-right: 20px;
+    font-size: 16px;}
+
+
+
 
 
 

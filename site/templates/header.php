@@ -48,9 +48,29 @@ $title .= $cash_point5->title . ' - ' . number_format($cash_point5->sum, 2, '.',
 $title .= $all_page_cash->title . ' - ' . number_format($all_page_cash->sum, 2, '.',' ') . '; ';
 
 $all_cash = '';
+$newpoint_menu = '';
 if ($access == 'admin') {
     $all_cash = '
     <p class="uk-margin-remove uk-text-bold" style="cursor: help;" title="' . $title . '">В сейфе: ' . number_format($total_sum, 2, '.',' ') . ';</p>
+    ';
+    $newpoint_menu = '
+    <br><br>
+    <form class="uk-flex uk-flex-column" id="select_nemwpoint" action="/domashniaia-novaia-tochka/" method="post">
+        <div class="uk-margin-small-top">
+            <label for="point">Точка</label>
+            <select class="new_point_select" id="point" name="point" required>
+                <option></option>
+                <option value="Тверская 14">Тверская 14</option>
+                <option value="Таганка">Таганка</option>
+                <option value="Новослободская">Новослободская</option>
+                <option value="Митинская 27а">Митинская 27а</option>
+            </select>
+        </div>
+        
+        <div class="uk-margin-small-top uk-flex uk-flex-column">
+        <button class="new_point_btn" type="submit">Переключиться</button>
+        </div>
+    </form>
     ';
 }
 
@@ -67,6 +87,7 @@ $menu = '
                 <button class="uk-offcanvas-close" type="button" uk-close></button>
                 <br>
                 <a class="uk-margin-small uk-button uk-button-default" href="/">Домашняя страница</a>
+                ' . $newpoint_menu . '
             </div>
         </div>
 
