@@ -48,43 +48,62 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access 
 <?php    
 } else {
 
+//Параметры фильтра
+$name_search = !empty($_POST['name_search'])?$_POST['name_search']:NULL;
+$filter = '';
+if (isset($name_search)) {
+    $filter .= ', title*=' . $sanitizer->text($name_search);
+} else {
+    $filter = '';
+}
+// echo $filter;
+
 //Получение всех изделий в наличии
 $stock_products = '';
 //$stock_products_itm = $pages->find('template=product_itm, id_point=' . $selected_id_point . ', product_status=в наличии, sort=-sort');
-$stock_products_itm = $pages->find('template=product_itm, product_status=в наличии, sort=-sort');
+$stock_products_itm = $pages->find('template=product_itm, product_status=в наличии, sort=-sort' . $filter);
 $stock_products .= '<div class="scrolling-list" style="max-height: 700px;">';
-foreach ($stock_products_itm as $itm) {
+if (count($stock_products_itm) > 0) {
+    foreach ($stock_products_itm as $itm) {
+        $stock_products .= '
+        <div class="list-product-itm">
+            <div class="list-product-itm-text">
+                <p>' . $itm->title . '</p>
+                <p style="font-size:10px;">Порядковый номер: ' . $itm->serial_number . '</p>
+                <p style="font-size:10px;">' . $itm->product_description . '</p>
+                <p style="font-size:10px;">URL Авито: ' . $itm->url_avito . '</p>
+                <p style="font-size:10px;">Оператор скупки: ' . $itm->worker . '</p>
+                <p style="font-size:12px; font-weight: 700;">Дата скупки: ' . $itm->product_date_buy . '; Цена скупки: ' . $itm->product_price_buy . '</p>
+        ';
+        $btn_del = '';
+        if ($access == 'admin') {
+            $btn_del = '<a class="product-link-lnk" href="/prodazha-izdelie-udalit/?prod_id=' . $itm->id . '">Удалить</a>';
+        }
+        if ($access != 'seller') {
+           $stock_products .= '
+                <div class="product-link">
+                    <a class="product-link-lnk" href="/prodazha-izdelie-prodat/?prod_id=' . $itm->id . '">Продать</a>
+                    <a class="product-link-lnk" href="/prodazha-izdelie-vnesti-izmeneniia/?prod_id=' . $itm->id . '">Внести изменения</a>
+                    ' . $btn_del . '
+                </div>
+           '; 
+        }
+        $stock_products .= '
+            </div>
+            <div class="list-product-itm-image">
+                <img class="list-product-itm-image-img" src="' . $itm->url_image . '" alt="">
+            </div>
+        </div>
+        ';
+    }
+} else {
     $stock_products .= '
     <div class="list-product-itm">
-        <div class="list-product-itm-text">
-            <p>' . $itm->title . '</p>
-            <p style="font-size:10px;">Порядковый номер: ' . $itm->serial_number . '</p>
-            <p style="font-size:10px;">' . $itm->product_description . '</p>
-            <p style="font-size:10px;">URL Авито: ' . $itm->url_avito . '</p>
-            <p style="font-size:10px;">Оператор скупки: ' . $itm->worker . '</p>
-            <p style="font-size:12px; font-weight: 700;">Дата скупки: ' . $itm->product_date_buy . '; Цена скупки: ' . $itm->product_price_buy . '</p>
-    ';
-    $btn_del = '';
-    if ($access == 'admin') {
-        $btn_del = '<a class="product-link-lnk" href="/prodazha-izdelie-udalit/?prod_id=' . $itm->id . '">Удалить</a>';
-    }
-    if ($access != 'seller') {
-       $stock_products .= '
-            <div class="product-link">
-                <a class="product-link-lnk" href="/prodazha-izdelie-prodat/?prod_id=' . $itm->id . '">Продать</a>
-                <a class="product-link-lnk" href="/prodazha-izdelie-vnesti-izmeneniia/?prod_id=' . $itm->id . '">Внести изменения</a>
-                ' . $btn_del . '
-            </div>
-       '; 
-    }
-    $stock_products .= '
-        </div>
-        <div class="list-product-itm-image">
-            <img class="list-product-itm-image-img" src="' . $itm->url_image . '" alt="">
-        </div>
+        <p>Ничего не найдено, попробуйте ввести другие параметры, не используйте специальные символы</p>
     </div>
     ';
 }
+
 $stock_products .= '</div>';
 
 //Формирование таблицы с остатками
@@ -117,6 +136,22 @@ if ($startday == '' || $actual == '' || $reserv == '') {
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
                 <?php echo $role_menu; ?>
+            </div>
+        </div>
+
+        <div>
+            <h4 class="uk-card-title uk-margin-remove">Поиск по изделиям</h4>
+            <div class="filtermenu uk-width-1-1">
+                <form class="form-select-date" id="select_period_date" action="" method="post">
+                    <div class="uk-margin-small-top">
+                        <label for="name_search">Поиск по имени</label>
+                        <input class="uk-input" id="name_search" type="text" name="name_search" value="" autocomplete="off">
+                    </div>
+                    
+                    <div class="uk-margin-small-top uk-width-1-1">
+                        <button class="uk-margin-remove uk-button uk-button-default uk-width-1-1" type="submit">Найти</button>
+                    </div>
+                </form>
             </div>
         </div>
 
