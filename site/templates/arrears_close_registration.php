@@ -66,7 +66,29 @@ if ($arrear_point && $arrear_idpoint && $arrear_worker && $arrear_id && $selecte
     $log .= 'Платеж проведен: ' . $arrear_worker . ', ID записи: ' . $arrear_id . ', Описание долга: ' . $arrear_page->description_operation; 
     file_put_contents(__DIR__ . '/log_arrears.txt', $log . PHP_EOL, FILE_APPEND);
 
-    //Заносим изменения в кассу
+    //Регестрируем операцию прихода в кассу
+    $page_cash = $pages->get('template=cash_itm, id_point=' . $arrear_idpoint . '_cash');
+    $pages->add('cash_operation', $page_cash , [
+    'title' => date("Y-m-d H:i") . ' Приход - ' . $sum_part_arrear . ' - ' . $arrear_point,
+    'type_operation' => 'Приход',
+    'date' => date("d-m-Y"),
+    'point' => $arrear_point,
+    'id_point' => $arrear_idpoint,
+    'worker' => $arrear_worker,
+    'sum' => $sum_part_arrear,
+    'cash_card' => $selected_operation,
+    'note' => 'Приход от частичного закрятия долга ID: ' . $arrear_id . ' - ' . $arrear_page->client_name . ' - ' . $arrear_page->description_operation,
+    ]);
+    $cash_operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Приход - ' . $sum_part_arrear . ' - ' . $arrear_point . '');
+    $cash_operation_id = $cash_operation_page->id;
+
+    //Записываем операцию прихода в кассу в лог
+    $log = '';
+    $log .= date("Y-m-d H:i") . ' Приход - ' . $sum_part_arrear . ' - ' . $arrear_point . ' === ';
+    $log .= 'Операция проведена: ' . $arrear_worker . ', ID записи: ' . $cash_operation_id . ', Сумма: ' . $sum_part_arrear . ', Вид платежа: ' . $selected_operation . ', Описание: Приход от частичного закрятия долга ID: ' . $arrear_id . ' - ' . $arrear_page->client_name . ' - ' . $arrear_page->description_operation;
+    file_put_contents(__DIR__ . '/log_cash.txt', $log . PHP_EOL, FILE_APPEND);
+
+    //Изменяем остатки в кассе
     $edit_page = $pages->get('template=cash_itm, id_point=' . $selected_id_point . '_cash');
     if ($selected_operation == 'Наличный расчет') {
         $result = $edit_page->sum + $sum_part_arrear;
