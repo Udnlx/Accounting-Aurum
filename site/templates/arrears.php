@@ -44,6 +44,23 @@ $open_arrears = '';
 $open_arrears_itm = $pages->find('template=arrears_itm, product_status=Открыт, sort=-sort');
 $open_arrears .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($open_arrears_itm as $itm) {
+    $all_payments = '';
+    $total = 0;
+    $remain = 0;
+    foreach ($itm->children() as $child) {
+        $all_payments .= '<p style="font-size:10px;">' . $child->title . '</p>';
+        $total = $total + $child->sum;
+    }
+    $remain = $itm->sum - $total;
+    $remain_title = '';
+    $btn_close = '';
+    if ($remain > 0) {
+        $remain_title = '<p style="font-size:10px;font-weight:700;color:red;">Осталось оплатить: ' . $remain . '</p>';
+    } else {
+        $remain_title = '<p style="font-size:10px;font-weight:700;color:green;">Долг полностью оплачен, подтвердите закрытие долга!</p>';
+        $btn_close = '<a class="product-link-lnk" href="/dolgi-zakrytie/?arrear_id=' . $itm->id . '">Закрыть долг</a>';
+    }
+
     $open_arrears .= '
     <div class="list-product-itm">
         <div class="list-product-itm-text">
@@ -51,8 +68,13 @@ foreach ($open_arrears_itm as $itm) {
             <p style="font-size:10px;">' . $itm->description_operation . '</p>
             <p style="font-size:10px;">Статус: ' . $itm->product_status . '</p>
             <p style="font-size:10px;">Завел долг: ' . $itm->worker . '</p>
+            <p style="font-size:10px;font-weight:700;">Осуществленные платежи:</p>
+            ' . $all_payments . '
+            <p style="font-size:10px;font-weight:700;color:green;">Оплаченно: ' . $total . '</p>
+            ' . $remain_title . '
             <div class="product-link">
-                <a class="product-link-lnk" href="/dolgi-registratciia-zakrytiia/?arrear_id=' . $itm->id . '">Закрыть долг</a>
+                <a class="product-link-lnk" href="/dolgi-pogashenie-dolga/?arrear_id=' . $itm->id . '">Погашение долга</a>
+                ' . $btn_close . '
             </div>
         </div>
     </div>
@@ -126,7 +148,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     <label for="arrear_descript">Описание</label>
                     <input class="uk-input" id="arrear_descript" type="text" name="arrear_descript" value="">
                 </div>
-                <a id="reg_new_arrear" class="uk-margin-small uk-button uk-button-default">Зарегестрировать новый долг</a>
+                <a id="reg_new_arrear" class="uk-margin-small uk-button uk-button-default">Зарегистрировать новый долг</a>
             </div>
             <div id="result_new_arrear" class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column" style="padding: 0 40px;">
                 <p id="result_arrear_add" class="messages" style="color: green;"></p>
