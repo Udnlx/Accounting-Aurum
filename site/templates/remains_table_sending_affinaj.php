@@ -2,6 +2,7 @@
 
 if ($selected_id_point == 'point1') {
 	$all_sending_affinaj = $pages->find('template=affinaj_itm, id_point=' . $selected_id_point . ', product_status=Отправлен, sort=-sort');
+	$all_sending_affinaj_ag = $pages->find('template=affinaj_itm_ag, id_point=' . $selected_id_point . ', product_status=Отправлен, sort=-sort');
 
 	$remain_tables_startday .= '<br><h4 class="uk-card-title uk-margin-remove">Текущий отправленный аффинаж</h4><hr>';
 
@@ -17,6 +18,15 @@ if ($selected_id_point == 'point1') {
 	    	<p class="list-items-title">' . $affinaj_itm->title . '</p>
 			<p class="list-items-options">Оператор: ' . $affinaj_itm->worker . '</p>
 			<p class="list-items-bold-options">В 585 пробе: ' . $actual_in585 . ' г.</p>
+			</div>
+	    ';
+	}
+
+	foreach ($all_sending_affinaj_ag as $affinaj_itm_ag) {
+	    $remain_tables_startday .= '
+	    	<div class="list-items">
+	    	<p class="list-items-title">' . $affinaj_itm_ag->title . '</p>
+			<p class="list-items-options">Оператор: ' . $affinaj_itm_ag->worker . '</p>
 			</div>
 	    ';
 	}

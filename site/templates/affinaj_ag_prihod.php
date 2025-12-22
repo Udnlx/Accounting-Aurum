@@ -1,5 +1,7 @@
 <?php namespace ProcessWire;
 
+error_reporting(E_ERROR | E_PARSE);
+
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
 } else {

@@ -505,6 +505,23 @@ $arrears .= '
 
 
 
+//Закрытый аффинаж
+$affinaj = '';
+$all_affinaj = $pages->find('template=affinaj_itm|affinaj_itm_ag, date_close=' . $day_for_report . ', product_status=Закрыт, sort=-sort');
+foreach ($all_affinaj as $affinaj_itm) {
+    $affinaj .= '
+        <div class="list-items">
+        <p class="list-items-title">' . $affinaj_itm->title . ' <span style="font-weight:700;color:green;">ЗАКРЫТ</span></p>
+        <p class="list-items-options">Оператор: ' . $affinaj_itm->worker . '</p>
+        <p class="list-items-options">Статус: ' . $affinaj_itm->product_status . '</p>
+        <p class="list-items-options">Вес 999 пробы при закрытии аффинажа: ' . $affinaj_itm->weight . ' гр.</p>
+        <p class="list-items-options">Дата закрытия: ' . $affinaj_itm->date_close . '</p>
+        </div>
+    ';
+}
+
+
+
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
 $startday = $pages->get('id_point=' . $selected_id_point . '_startday');
@@ -678,6 +695,13 @@ if ($startday == '' || $actual == '' || $reserv == '') {
             <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
                 <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Долги</h2>
                 <?php echo $arrears; ?>
+            </div>
+        </div>
+
+        <div>
+            <div class="uk-card card-report uk-card-default uk-flex uk-flex-column">
+                <h2 class="uk-card-title uk-margin-remove title-table-mainreport">Закрытый аффинаж</h2>
+                <?php echo $affinaj; ?>
             </div>
         </div>
 

@@ -27,11 +27,12 @@ if ($proba999 <= 0) {
     $log .= 'Закрыл: ' . $worker . ', ID записи: ' . $affinaj_id; 
     file_put_contents(__DIR__ . '/site/templates/log_affinaj.txt', $log . PHP_EOL, FILE_APPEND);
 
-	//Изменяем статус на Отправлен
+	//Изменяем статус на Закрыт
 	$edit_page = $pages->get('template=affinaj_itm_ag, id=' . $affinaj_id . '');
 	$edit_page->of(false);
 	$edit_page->product_status = 'Закрыт';
 	$edit_page->weight = $proba999;
+	$edit_page->date_close = date("d-m-Y");
 	$edit_page->save();
 
     //Изменяем остатки
