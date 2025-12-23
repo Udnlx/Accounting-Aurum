@@ -44,6 +44,19 @@ $all_notend_affinaj_ag = '';
 $all_notend_affinaj_ag_itm = $pages->find('template=affinaj_itm_ag, id_point=' . $selected_id_point . ', sort=-id');
 $all_notend_affinaj_ag .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($all_notend_affinaj_ag_itm as $itm) {
+    $del_btn = '';
+    $null_affinaj = true;
+    foreach ($itm->affinaj_table as $affinaj_table_itm) {
+        if ($affinaj_table_itm->weight > 0) {
+            $null_affinaj = false;
+        }
+    }
+    if ($null_affinaj == true) {
+        $del_btn = '<a class="affinaj-link-lnk" href="/affinazh-ag-udalenie/?prod_id=' . $itm->id . '">Удалить аффинаж</a>';
+    } else {
+        $del_btn = '';
+    }
+
     if ($itm->product_status == 'Открыт') {
         $all_notend_affinaj_ag .= '<p>' . $itm->title . '</p>';
         $all_notend_affinaj_ag .= '<p style="font-size:10px;">ID аффинажа: ' . $itm->id . '</p>';
@@ -52,6 +65,7 @@ foreach ($all_notend_affinaj_ag_itm as $itm) {
         <div class="affinaj-link">
             <a class="affinaj-link-lnk" href="/affinazh-ag-raskhod-otpravka/?id=' . $itm->id . '">Отправить</a>
             <a class="affinaj-link-lnk" href="/affinazh-ag-raskhod-vnesti-izmeneniia/?prod_id=' . $itm->id . '">Внести изменения</a>
+            ' . $del_btn . '
         </div><hr>
         ';
     }
