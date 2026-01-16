@@ -1,0 +1,233 @@
+<?php 
+
+$type = !empty($_POST['print_type'])?$_POST['print_type']:NULL;  
+$undertype = !empty($_POST['print_undertype'])?$_POST['print_undertype']:NULL;  
+$date = !empty($_POST['print_date'])?$_POST['print_date']:NULL;
+$point = !empty($_POST['print_point'])?$_POST['print_point']:NULL;
+$client_name = !empty($_POST['print_client_name'])?$_POST['print_client_name']:NULL;
+$client_passport = !empty($_POST['print_client_passport'])?$_POST['print_client_passport']:NULL;
+$client_address = !empty($_POST['print_client_address'])?$_POST['print_client_address']:NULL;
+$cart = !empty($_POST['print_cart'])?$_POST['print_cart']:NULL;
+
+if(isset($_SESSION['operator'])){
+    $operator = $_SESSION['operator'];
+} else {
+    $operator = 'no_operator';
+}
+
+if(isset($_SESSION['point'])){
+    $selected_point = $_SESSION['point'];
+} else {
+    $selected_point = 'no_point';
+}
+
+if(isset($_SESSION['id_point'])){
+    $selected_id_point = $_SESSION['id_point'];
+} else {
+    $selected_id_point = 'no_id_point';
+}
+
+$access = '';
+if(isset($_SESSION['access'])){
+    $access = $_SESSION['access'];
+}
+
+include 'print_access.php';
+
+if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access == false) {
+?>
+    <div id="content" style="max-width: 700px;">
+        <h1 class="uk-heading-hero uk-text-center">Распечатка мульти квитанции</h1>
+        <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
+            <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
+            <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
+        </div>
+    </div>
+<?php   
+
+} else {
+
+$sum_pay = 0;
+$table_body = '';
+
+$cart_array = explode("===", $cart);
+unset($cart_array[0]);
+foreach ($cart_array as $cart_item) {
+    $cart_item_array = explode(" — ", $cart_item);
+    $proba = $cart_item_array[0];  
+    $weight = $cart_item_array[2];  
+    $price_gramm = $cart_item_array[1];
+    $price = $cart_item_array[3];
+    $pay = $cart_item_array[4];
+    $cash_card = $cart_item_array[5];
+    $description = rtrim($cart_item_array[6], "❌");
+    $description_operation = $description;
+
+    // echo $proba . '<br>';
+    // echo $weight . '<br>';
+    // echo $price_gramm . '<br>';
+    // echo $price . '<br>';
+    // echo $pay . '<br>';
+    // echo $cash_card . '<br>';
+    // echo $description_operation . '<br>';
+
+    $table_body .= '
+        <tr>
+            <td>' . $type . ' - ' . $undertype . '</td>
+            <td>' . $proba . '</td>
+            <td>' . $weight . '</td>
+            <td>' . $pay . '</td>
+        </tr>
+    ';
+
+    $sum_pay = $sum_pay + $pay;
+}
+
+$doc = '
+<div class="doc__header">
+    <div class="doc__header-text">
+        <p>ООО "АУРУМ 24", ИНН 9709082673, КПП 770901001</p>
+        <p>' . $point . '</p>
+        <p style="font-size:20px;font-weight:700;">Скупочная квитанция №</p>
+    </div>
+    <div class="doc__header-code">
+        <div class="doc__header-code-itm">
+            <p class="doc__header-code-itm-txt">Вид услуги</p>
+            <p class="doc__header-code-itm-type">' . $type . '</p>
+        </div>
+        <div class="doc__header-code-itm">
+            <p class="doc__header-code-itm-txt">Дата приема</p>
+            <p class="doc__header-code-itm-date">' . $date . '</p>
+        </div>
+        <div class="doc__header-code-itm">
+            <p class="doc__header-code-itm-txt">ОКПО</p>
+            <p class="doc__header-code-itm-okpo">56653079</p>
+        </div>
+    </div>
+</div>
+
+<div class="doc__body">
+    <div class="doc__body-itm">
+        <p class="doc__body-itm-title">Сдатчик:</p>
+        <p class="doc__body-itm-text">' . $client_name . '</p>
+    </div>
+    <div class="doc__body-itm">
+        <p class="doc__body-itm-title"></p>
+        <p class="doc__body-itm-text">' . $client_passport . '</p>
+    </div>
+    <div class="doc__body-itm">
+        <p class="doc__body-itm-title">Адрес</p>
+        <p class="doc__body-itm-text">' . $client_address . '</p>
+    </div>
+    <div class="doc__body-itm">
+        <p class="doc__body-itm-title">Сумма</p>
+        <p class="doc__body-itm-text">' . $sum_pay . '</p>
+    </div>
+</div>
+
+<div class="doc__table">
+    <table class="uk-table uk-table-striped">
+        <thead>
+            <tr>
+                <th>Наименование и описание вещей (драгоценностей)</th>
+                <th>Проба</th>
+                <th>Вес,  гр.</th>
+                <th>Сумма, руб.</th>
+            </tr>
+        </thead>
+        <tbody>
+            ' . $table_body . '
+        </tbody>
+    </table>
+</div>
+
+<div class="doc__footer">
+    <div class="doc__footer-itm">
+        <p class="doc__footer-itm-text">С описанием вещей и суммой их оценки согласен.</p>
+    </div>
+    <div class="doc__footer-itm">
+        <p class="doc__footer-itm-text">С использованием персональных данных согласен.</p>
+    </div>
+    <div class="doc__footer-itm">
+        <p class="doc__footer-itm-text" style="font-weight:700;">Изделия,  принятые в скупку возврату не подлежат.</p>
+    </div>
+    <br>
+    <div class="doc__footer-itm" style="width: 47%;">
+        <p class="doc__footer-itm-title" style="font-weight:700;">Сдатчик</p>
+        <p class="doc__footer-itm-ultext">' . $client_name . '</p>       
+    </div>
+    <div class="doc__footer-helpitm" style="width: 47%;">
+        <p class="doc__footer-itm-helptitle"></p>
+        <p class="doc__footer-itm-helptext">(расшифровка подписи)</p>      
+        <p class="doc__footer-itm-helptext">(подпись)</p>  
+    </div>
+    <div class="doc__footer-itm">
+        <p class="doc__footer-itm-title">Сумму получил: </p>
+        <p class="doc__footer-itm-ultext">' . $sum_pay . '</p>
+    </div>
+    <br>
+    <div class="signatures">
+        <div class="signature_itm">
+            <div class="doc__footer-itm" style="width: 100%;">
+                <p class="doc__footer-itm-title" style="font-weight:700;">Сдатчик</p>
+                <p class="doc__footer-itm-ultext">' . $client_name . '</p>       
+            </div>
+            <div class="doc__footer-helpitm" style="width: 100%">
+                <p class="doc__footer-itm-helptitle"></p>
+                <p class="doc__footer-itm-helptext">(расшифровка подписи)</p>      
+                <p class="doc__footer-itm-helptext">(подпись)</p>  
+            </div>
+        </div>
+        <div class="signature_itm">
+            <div class="doc__footer-itm" style="width: 100%;">
+                <p class="doc__footer-itm-title" style="font-weight:700;">Кассир</p>
+                <p class="doc__footer-itm-ultext"></p>       
+            </div>
+            <div class="doc__footer-helpitm" style="width: 100%">
+                <p class="doc__footer-itm-helptitle">МП</p>
+                <p class="doc__footer-itm-helptext">(расшифровка подписи)</p>      
+                <p class="doc__footer-itm-helptext">(подпись)</p>  
+            </div>
+        </div>
+    </div>
+</div>
+';
+
+//echo $doc;
+
+$receipt = '
+<style type="text/css">
+* {
+  /*font-family: Helvetica, sans-serif;*/
+  font-family: "DejaVu Sans", sans-serif;
+  font-size: 13px;}
+tr:nth-child(even) {
+    background: #e1e1e1;}
+</style>';
+$receipt .= $doc;
+
+//echo $receipt;
+
+include_once __DIR__ . '/dompdf/autoload.inc.php';
+$dompdf = new Dompdf\Dompdf();
+$dompdf->set_option('isRemoteEnabled', TRUE);
+//$dompdf->setPaper('A4', 'portrait');
+$dompdf->setPaper('A4', 'landscape');
+$dompdf->loadHtml($receipt, 'UTF-8');
+$dompdf->render();
+ 
+// Вывод файла в браузер:
+//$dompdf->stream('Квитанция - ' . $date . ' - ' . $client_name . ''); 
+?>
+
+<div id="content">
+    <br>
+    <div>
+        <?php echo $doc; ?> 
+    </div>
+    <br>
+</div>
+
+<?php   
+}
+?>

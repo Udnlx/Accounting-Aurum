@@ -35,7 +35,7 @@ include 'skupka_access.php';
 if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access == false) {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Скупка лома</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Мульти скупка лома</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -67,33 +67,28 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Скупка лома</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Мульти скупка лома</h1>
 	<div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
-                <a class="menu-link" href="/multi-skupka-lom/">Мульти скупка лома</a>
+                <a class="menu-link" href="/skupka-lom/">Обычная скупка лома</a>
                 <a class="menu-link" href="/skupka-tip-skupki/">Выбрать другой тип скупки</a>
             </div>
         </div>
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-                <form class="uk-flex uk-flex-column" id="select_seat" action="/skupka-lom-registratciia/" method="post">
-                    <div class="uk-margin-small-top uk-hidden">
-                        <input class="uk-input" id="selected_date" type="text" name="selected_date" value="<?php echo $today; ?>">
-                    </div>
-                    <div class="uk-margin-small-top uk-hidden">
-                        <input class="uk-input" id="selected_point" type="text" name="selected_point" value="<?php echo $selected_point; ?>">
-                    </div>
-                    <div class="uk-margin-small-top uk-hidden">
-                        <input class="uk-input" id="selected_idpoint" type="text" name="selected_idpoint" value="<?php echo $selected_id_point; ?>">
-                    </div>
-                    <div class="uk-margin-small-top uk-hidden">
-                        <input class="uk-input" id="selected_worker" type="text" name="selected_worker" value="<?php echo $operator; ?>">
-                    </div>
-
+                <div class="uk-flex uk-flex-column" id="cart_lom">
+                    <h2 class="uk-margin-remove">Корзина</h1>
+                    <br>
+                    <div id="cart_element"></div>
+                </div>
+            </div>
+            <br>
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                <div class="uk-flex uk-flex-column" id="cart_lom_selected">
                     <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="main_price_gold" type="text" name="main_price_gold" value="<?php echo $main_price_gold; ?>">
                     </div>
@@ -172,6 +167,29 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                         <label for="description_operation">Описание</label>
                         <input class="uk-input" id="description_operation" type="text" name="description_operation" autocomplete="off">
                     </div>
+                    <div class="uk-margin-small-top uk-flex uk-flex-column">
+                        <button id="btn_add_lom" class="uk-margin-small-top uk-button uk-button-default">Добавить</button>
+                    </div>
+                </div>
+
+                <form class="uk-flex uk-flex-column" id="select_seat" action="/multi-skupka-lom-registratciia/" method="post">
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="selected_date" type="text" name="selected_date" value="<?php echo $today; ?>">
+                    </div>
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="selected_point" type="text" name="selected_point" value="<?php echo $selected_point; ?>">
+                    </div>
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="selected_idpoint" type="text" name="selected_idpoint" value="<?php echo $selected_id_point; ?>">
+                    </div>
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="selected_worker" type="text" name="selected_worker" value="<?php echo $operator; ?>">
+                    </div>
+
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="selected_cart" type="text" name="selected_cart" value="" required>
+                    </div>
+
                     <div class="uk-margin-small-top">
                         <label for="selected_paytype">Квитанция</label>
                         <select class="uk-select" id="selected_paytype" name="selected_paytype">
@@ -193,7 +211,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     </div>
                     
                     <div class="uk-margin-small-top uk-flex uk-flex-column">
-                        <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Зарегистрировать</button>
+                        <button id="btn_reg" class="uk-margin-small-top uk-button uk-button-default" type="submit">Зарегистрировать</button>
                     </div>
                 </form>
             </div>

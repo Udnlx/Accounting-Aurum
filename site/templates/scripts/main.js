@@ -1170,6 +1170,38 @@ $('#btn_edit_cash').click(function() {
 
 
 
+//Набор корзины в мульти скупке
+$('#btn_add_lom').click(function() {
+	//console.log ('Набор корзины в мульти скупке');
+	if ($('#selected_weight').val() == '' || $('#selected_price').val() == '' || $('#selected_pay').val() == '') {
+		alert('Недостаточно данных для добавления позиции, проверьте заполненность нужных полей');
+	} else {
+		let elem_content = $('#selected_proba').val() + ' — ' + $('#price_gramm').val() + ' — ' + $('#selected_weight').val() + ' — ' + $('#selected_price').val() + ' — ' + $('#selected_pay').val() + ' — ' + $('#cash_card').val() + ' — ' + $('#description_operation').val();
+		$('#cart_element').append('<p class="cart-item uk-margin-remove uk-flex uk-flex-between">' + elem_content + '<span class="del_elem" style="cursor:pointer;">❌</span></p>');
+	}
+});
+//Набор корзины в мульти скупке
+
+//Удаление из корзины в мульти скупке
+$(document).on("click", "span.del_elem", function(){
+	//console.log ('Удаление из корзины в мульти скупке');
+	$(this).parent().remove();
+});
+//Удаление из корзины в мульти скупке
+
+//Отрпавка мультискупки на регистрацию
+$('#btn_reg').hover(function() {
+	let cart_content = '';
+	let cart_items = $('#cart_element');
+    $(cart_items).find('p.cart-item').each(function (){
+        cart_content = cart_content + '===' + $(this).text();
+        $('#selected_cart').val(cart_content);
+    })
+});
+//Отрпавка мультискупки на регистрацию
+
+
+
 
 
 
