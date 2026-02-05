@@ -23,7 +23,7 @@ $(window).on('load', function() {
 		}).prop('selected', true).parent().change();
 
 		let selected_proba = $('#selected_proba option:selected').text();
-		if (selected_proba != 'Ag' && selected_proba != 'Ag-875' && selected_proba != 'Ag-925' && selected_proba != 'Ag-999' && selected_proba != 'Pt' && selected_proba != 'Pd' && selected_proba != '999') {
+		if (selected_proba != 'Ag' && selected_proba != 'Ag-800' && selected_proba != 'Ag-875' && selected_proba != 'Ag-925' && selected_proba != 'Ag-999' && selected_proba != 'Pt' && selected_proba != 'Pd' && selected_proba != '999') {
 			let main_price = $('#main_price_gold').val();
 		    let get_price_gramm = (main_price/585)*selected_proba;
 		    let price_gramm = (Math.round(get_price_gramm * 100) / 100).toFixed(2);
@@ -45,6 +45,16 @@ $(window).on('load', function() {
 			if (selected_proba == 'Ag') {
 				let main_price = $('#main_price_silver').val();
 				let price_gramm = (Math.round(main_price * 100) / 100).toFixed(2);
+				let percent = price_gramm*3/100;
+		    	let min_price = (Math.round(price_gramm - percent)).toFixed(2);
+				$('#price_gramm').val(price_gramm);
+				$('#base_price').text(price_gramm);
+		    	$('#min_price').text(min_price);
+			}
+			if (selected_proba == 'Ag-800') {
+				let main_price = $('#main_price_silver').val();
+				let get_price_gramm = (main_price/925)*800;
+				let price_gramm = (Math.round(get_price_gramm * 100) / 100).toFixed(2);
 				let percent = price_gramm*3/100;
 		    	let min_price = (Math.round(price_gramm - percent)).toFixed(2);
 				$('#price_gramm').val(price_gramm);
@@ -139,7 +149,7 @@ $(window).on('load', function() {
 $('#selected_proba').change( function() {
 	let selected_proba = $('#selected_proba option:selected').text();
 
-	if (selected_proba != 'Ag' && selected_proba != 'Ag-875' && selected_proba != 'Ag-925' && selected_proba != 'Ag-999' && selected_proba != 'Pt' && selected_proba != 'Pd' && selected_proba != '999') {
+	if (selected_proba != 'Ag' && selected_proba != 'Ag-800' && selected_proba != 'Ag-875' && selected_proba != 'Ag-925' && selected_proba != 'Ag-999' && selected_proba != 'Pt' && selected_proba != 'Pd' && selected_proba != '999') {
 		let main_price = $('#main_price_gold').val();
 	    let get_price_gramm = (main_price/585)*selected_proba;
 	    let price_gramm = (Math.round(get_price_gramm * 100) / 100).toFixed(2);
@@ -161,6 +171,16 @@ $('#selected_proba').change( function() {
 		if (selected_proba == 'Ag') {
 			let main_price = $('#main_price_silver').val();
 			let price_gramm = (Math.round(main_price * 100) / 100).toFixed(2);
+			let percent = price_gramm*3/100;
+	    	let min_price = (Math.round(price_gramm - percent)).toFixed(2);
+			$('#price_gramm').val(price_gramm);
+			$('#base_price').text(price_gramm);
+	    	$('#min_price').text(min_price);
+		}
+		if (selected_proba == 'Ag-800') {
+			let main_price = $('#main_price_silver').val();
+			let get_price_gramm = (main_price/925)*800;
+			let price_gramm = (Math.round(get_price_gramm * 100) / 100).toFixed(2);
 			let percent = price_gramm*3/100;
 	    	let min_price = (Math.round(price_gramm - percent)).toFixed(2);
 			$('#price_gramm').val(price_gramm);
@@ -455,11 +475,13 @@ $('#reg_new_affinaj_ag').click(function() {
 	//console.log(affinaj_ag_date,affinaj_ag_point,affinaj_ag_idpoint,affinaj_ag_worker);
 
 	var fag = $('#free_for_affinaj_Ag').text();
+	var fag800 = $('#free_for_affinaj_Ag-800').text();
 	var fag875 = $('#free_for_affinaj_Ag-875').text();
 	var fag925 = $('#free_for_affinaj_Ag-925').text();
 	//console.log(fag,fag875,fag925);
 
     var pag = $('#weight_affinaj_Ag').val();
+    var pag800 = $('#weight_affinaj_Ag-800').val();
     var pag875 = $('#weight_affinaj_Ag-875').val();
     var pag925 = $('#weight_affinaj_Ag-925').val();
     //console.log(pag,pag875,pag925);
@@ -473,10 +495,12 @@ $.ajax({
     	'affinaj_ag_worker':affinaj_ag_worker, 
 
     	'fag':fag, 
+    	'fag800':fag800,
         'fag875':fag875,
         'fag925':fag925,
 
         'pag':pag, 
+        'pag800':pag800,
         'pag875':pag875,
         'pag925':pag925,
     },
@@ -489,6 +513,7 @@ $.ajax({
         if (result_add == 'Аффинаж зарегестрирован') {
         	$('#reg_new_affinaj_ag').addClass('uk-hidden');
         	$('#weight_affinaj_Ag').attr("disabled", true);
+        	$('#weight_affinaj_Ag-800').attr("disabled", true);
         	$('#weight_affinaj_Ag-875').attr("disabled", true);
         	$('#weight_affinaj_Ag-925').attr("disabled", true);
         	let operation_id = $('#operation_id').text();
@@ -647,11 +672,13 @@ $('#edit_affinaj_ag').click(function() {
 	console.log(affinaj_ag_date,affinaj_ag_point,affinaj_ag_idpoint,affinaj_ag_worker,affinaj_ag_id);
 
 	var oag = $('#old_for_affinaj_Ag').text();
+	var oag800 = $('#old_for_affinaj_Ag-800').text();
 	var oag875 = $('#old_for_affinaj_Ag-875').text();
 	var oag925 = $('#old_for_affinaj_Ag-925').text();
 	console.log(oag,oag875,oag925);
 
     var nag = $('#new_weight_affinaj_Ag').val();
+    var nag800 = $('#new_weight_affinaj_Ag-800').val();
     var nag875 = $('#new_weight_affinaj_Ag-875').val();
     var nag925 = $('#new_weight_affinaj_Ag-925').val();
     console.log(nag,nag875,nag925);
@@ -666,10 +693,12 @@ $.ajax({
     	'affinaj_ag_id':affinaj_ag_id,
 
     	'oag':oag, 
+    	'oag800':oag800,
         'oag875':oag875,
         'oag925':oag925,
 
         'nag':nag, 
+        'nag800':nag800,
         'nag875':nag875,
         'nag925':nag925,
     },
@@ -682,6 +711,7 @@ $.ajax({
         if (result_add == 'Аффинаж изменен') {
         	$('#edit_affinaj_ag').addClass('uk-hidden');
         	$('#new_weight_affinaj_Ag').attr("disabled", true);
+        	$('#new_weight_affinaj_Ag-800').attr("disabled", true);
         	$('#new_weight_affinaj_Ag-875').attr("disabled", true);
         	$('#new_weight_affinaj_Ag-925').attr("disabled", true);
         	let affinaj_ag_id = $('#affinaj_ag_id').val();

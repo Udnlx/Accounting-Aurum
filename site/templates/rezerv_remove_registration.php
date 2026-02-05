@@ -13,31 +13,35 @@ if ($worker && $reserv_id && $proba && $weight && $_SESSION['reload'] != 'on') {
     //Отменяем резерв
     $edit_page = $pages->get('template=reserv_itm, id=' . $reserv_id . '');
     $reserv_note = $edit_page->reserv_note;
-    $edit_page->of(false);
-    $edit_page->title = $edit_page->title . ' - Отменен';
-    $edit_page->product_status = 'Отменен';
-    $edit_page->save();
+    if ($edit_page->product_status == 'Отменен') {
+        $success = 'Резерв уже отменен, повторная отмена не требуется';
+    } else {
+        $edit_page->of(false);
+        $edit_page->title = $edit_page->title . ' - Отменен';
+        $edit_page->product_status = 'Отменен';
+        $edit_page->save();
 
-    //Записываем отмену в лог
-    $log = '';
-    $log .= date("Y-m-d H:i") . ' Резерв - Отмена - ' . $proba . ' - ' . $weight . 'г - ' . $point . ' === ';
-    $log .= 'Отменил резерв: ' . $worker . ', ID резерва: ' . $reserv_id . ', Комментарий резерва: ' . $reserv_note; 
-    file_put_contents(__DIR__ . '/log_reserv.txt', $log . PHP_EOL, FILE_APPEND);
+        //Записываем отмену в лог
+        $log = '';
+        $log .= date("Y-m-d H:i") . ' Резерв - Отмена - ' . $proba . ' - ' . $weight . 'г - ' . $point . ' === ';
+        $log .= 'Отменил резерв: ' . $worker . ', ID резерва: ' . $reserv_id . ', Комментарий резерва: ' . $reserv_note; 
+        file_put_contents(__DIR__ . '/log_reserv.txt', $log . PHP_EOL, FILE_APPEND);
 
-    //Меняем таблицу резерва
-    $point_actual_table = $pages->get('id_point=' . $idpoint . '_reserv');
-    $edit_page = $point_actual_table->get('title=' . $proba . '');
-    // echo $edit_page . '<br>';
-    // echo $edit_page->remain . '<br>';
-    // echo $weight . '<br>';
-    $result = $edit_page->remain - $weight;
-    // echo $result;
-    $edit_page->of(false);
-    $edit_page->remain = $result;
-    $edit_page->save();
+        //Меняем таблицу резерва
+        $point_actual_table = $pages->get('id_point=' . $idpoint . '_reserv');
+        $edit_page = $point_actual_table->get('title=' . $proba . '');
+        // echo $edit_page . '<br>';
+        // echo $edit_page->remain . '<br>';
+        // echo $weight . '<br>';
+        $result = $edit_page->remain - $weight;
+        // echo $result;
+        $edit_page->of(false);
+        $edit_page->remain = $result;
+        $edit_page->save();
 
-    //Предотвращаем повторную регистрацию
-    $_SESSION['reload'] = 'on';
+        //Предотвращаем повторную регистрацию
+        $_SESSION['reload'] = 'on';
+    }
 } else {
 	$success = 'Отмена резерва не прошла!<br>Ошибка в данных';
     if ($_SESSION['reload'] == 'on') {
