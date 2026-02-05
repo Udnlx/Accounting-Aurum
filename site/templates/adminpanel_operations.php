@@ -197,6 +197,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                             <option value="990">990</option>
                             <option value="999">999</option>
                             <option value="Ag">Ag</option>
+                            <option value="Ag-800">Ag-800</option>
                             <option value="Ag-875">Ag-875</option>
                             <option value="Ag-925">Ag-925</option>
                             <option value="Ag-999">Ag-999</option>

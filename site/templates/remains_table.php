@@ -20,7 +20,7 @@ $remain_tables_startday .= '
 
 $in585 = 0;
 foreach ($startday_items as $itm) {
-    if ($itm->title == 'Ag' || $itm->title == 'Ag-875' || $itm->title == 'Ag-925' || $itm->title == 'Ag-999' || $itm->title == 'Pt' || $itm->title == 'Pd') {
+    if ($itm->title == 'Ag' || $itm->title == 'Ag-800' || $itm->title == 'Ag-875' || $itm->title == 'Ag-925' || $itm->title == 'Ag-999' || $itm->title == 'Pt' || $itm->title == 'Pd') {
         //Серебро, Платина и Палладий не считаются
     } elseif ($itm->title == '999') {
         $in585 = $in585 + ($itm->remain/585*999.9);
@@ -71,7 +71,7 @@ $remain_tables_startday .= '
 
 $in585 = 0;
 foreach ($actual_items as $itm) {
-    if ($itm->title == 'Ag' || $itm->title == 'Ag-875' || $itm->title == 'Ag-925' || $itm->title == 'Ag-999' || $itm->title == 'Pt' || $itm->title == 'Pd') {
+    if ($itm->title == 'Ag' || $itm->title == 'Ag-800' || $itm->title == 'Ag-875' || $itm->title == 'Ag-925' || $itm->title == 'Ag-999' || $itm->title == 'Pt' || $itm->title == 'Pd') {
         //Серебро, Платина и Палладий не считаются
     } else {
         $in585 = $in585 + ($itm->remain/585*$itm->title);
@@ -120,7 +120,7 @@ $remain_tables_startday .= '
 
 $in585 = 0;
 foreach ($reserv_items as $itm) {
-    if ($itm->title == 'Ag' || $itm->title == 'Ag-875' || $itm->title == 'Ag-925' || $itm->title == 'Ag-999' || $itm->title == 'Pt' || $itm->title == 'Pd') {
+    if ($itm->title == 'Ag' || $itm->title == 'Ag-800' || $itm->title == 'Ag-875' || $itm->title == 'Ag-925' || $itm->title == 'Ag-999' || $itm->title == 'Pt' || $itm->title == 'Pd') {
         //Серебро, Платина и Палладий не считаются
     } else {
         $in585 = $in585 + ($itm->remain/585*$itm->title);
@@ -227,7 +227,7 @@ $affinaj_table_start .= '
 
 $i = 1;
 foreach ($actual_items as $itm) {
-    if ($itm->title=='999' || $itm->title=='Ag' || $itm->title=='Ag-875' || $itm->title=='Ag-925' || $itm->title=='Ag-999' || $itm->title=='Pt' || $itm->title=='Pd') {
+    if ($itm->title=='999' || $itm->title=='Ag' || $itm->title == 'Ag-800' || $itm->title=='Ag-875' || $itm->title=='Ag-925' || $itm->title=='Ag-999' || $itm->title=='Pt' || $itm->title=='Pd') {
     //echo 'Не выводим значения';
     } else {
     $met_act_name = $itm->title;

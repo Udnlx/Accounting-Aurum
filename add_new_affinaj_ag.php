@@ -14,15 +14,18 @@ $idpoint = $_POST['affinaj_ag_idpoint'];
 $worker = $_POST['affinaj_ag_worker'];
 
 $fag = $_POST['fag'];
+$fag800 = $_POST['fag800'];
 $fag875 = $_POST['fag875'];
 $fag925 = $_POST['fag925'];
 
 $pag = $_POST['pag'];
+$pag800 = $_POST['pag800'];
 $pag875 = $_POST['pag875'];
 $pag925 = $_POST['pag925'];
 
 $array = array(
 	'Ag' => $fag . '||' . $pag,
+	'Ag-800' => $fag800 . '||' . $pag800,
 	'Ag-875' => $fag875 . '||' . $pag875,
 	'Ag-925' => $fag925 . '||' . $pag925,
 );

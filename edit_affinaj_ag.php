@@ -15,15 +15,18 @@ $worker = $_POST['affinaj_ag_worker'];
 $affinaj_id = $_POST['affinaj_ag_id'];
 
 $oag = $_POST['oag'];
+$oag875 = $_POST['oag800'];
 $oag875 = $_POST['oag875'];
 $oag925 = $_POST['oag925'];
 
 $nag = $_POST['nag'];
+$nag875 = $_POST['nag800'];
 $nag875 = $_POST['nag875'];
 $nag925 = $_POST['nag925'];
 
 $array = array(
 	'Ag' => $oag . '||' . $nag,
+	'Ag-800' => $oag800 . '||' . $nag800,
 	'Ag-875' => $oag875 . '||' . $nag875,
 	'Ag-925' => $oag925 . '||' . $nag925,
 );
