@@ -15,7 +15,7 @@ foreach ($actual_items as $itm) {
 
 //Получение прихода со всех второстепенных точек
 $data_coming = '';
-$points = ['point2','point3','point4','point5'];
+$points = ['point3','point4','point5'];
 foreach ($points as $point) {
 	$remains_point = $pages->get('template=remains_point, id_point=' . $point . '_actual');
 	$data_coming .= '///' . $remains_point->title . '===';
