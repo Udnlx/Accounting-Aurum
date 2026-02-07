@@ -1,11 +1,18 @@
 <?php namespace ProcessWire;
 
+//Получаем список точек для выбора и отчета
+$all_points = $pages->find('template=points_itm');
+$list_options = '';
+$points = [];
+foreach ($all_points as $point) {
+    $list_options .= '<option value="' . $point->id_point . '">' . $point->title . '</option>';
+    $points[] = $point->id_point;
+}
+
 $selected_on_date = !empty($_POST['selected_on_date'])?$_POST['selected_on_date']:NULL;
 $selected_on_date = date('d-m-Y', strtotime($selected_on_date));
 
 $day_for_report = $selected_on_date;
-
-$points = ['point1','point3','point4','point5'];
 
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
@@ -595,10 +602,7 @@ $arrears .= '
                         <div class="filtermenu-input">
                             <select class="uk-select" id="report_point" name="report_point" required>
                                 <option></option>
-                                <option value="point1">Тверская 14</option>
-                                <option value="point3">Таганка</option>
-                                <option value="point4">Новослободская</option>
-                                <option value="point5">Митинская 27а</option>
+                                <?php echo $list_options; ?>
                             </select>
                         </div>
                     </div>

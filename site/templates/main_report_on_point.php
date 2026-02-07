@@ -1,22 +1,19 @@
 <?php namespace ProcessWire;
 
+//Получаем список точек для выбора
+$all_points = $pages->find('template=points_itm');
+$list_options = '';
+foreach ($all_points as $point) {
+    $list_options .= '<option value="' . $point->id_point . '">' . $point->title . '</option>';
+}
+
 $selected_start_date = !empty($_POST['point_start_date'])?$_POST['point_start_date']:NULL;
 $selected_finish_date = !empty($_POST['point_finish_date'])?$_POST['point_finish_date']:NULL;
 $report_point = !empty($_POST['report_point'])?$_POST['report_point']:NULL;
 $name_point = '';
 
-if ($report_point == 'point1') {
-    $name_point = 'Тверская 14';
-}
-if ($report_point == 'point3') {
-    $name_point = 'Таганка';
-}
-if ($report_point == 'point4') {
-    $name_point = 'Новослободская';
-}
-if ($report_point == 'point5') {
-    $name_point = 'Митинская 27а';
-}
+$point_page = $pages->get('template=points_itm, id_point=' . $report_point);
+$name_point = $point_page->title;
 
 function get_dates($start, $end, $format = 'd.m.Y') {
     $day = 86400;
@@ -591,10 +588,7 @@ $arrears .= '
                         <div class="filtermenu-input">
                             <select class="uk-select" id="report_point" name="report_point" required>
                                 <option></option>
-                                <option value="point1">Тверская 14</option>
-                                <option value="point3">Таганка</option>
-                                <option value="point4">Новослободская</option>
-                                <option value="point5">Митинская 27а</option>
+                                <?php echo $list_options; ?>
                             </select>
                         </div>
                     </div>

@@ -8,18 +8,8 @@ $selected_finish_date = $_GET['download_finish_date'];;
 $report_point = $_GET['download_report_point'];;
 $name_point = '';
 
-if ($report_point == 'point1') {
-    $name_point = 'Тверская 14';
-}
-if ($report_point == 'point3') {
-    $name_point = 'Таганка';
-}
-if ($report_point == 'point4') {
-    $name_point = 'Новослободская';
-}
-if ($report_point == 'point5') {
-    $name_point = 'Митинская 27а';
-}
+$point_page = $pages->get('template=points_itm, id_point=' . $report_point);
+$name_point = $point_page->title;
 
 function get_dates($start, $end, $format = 'd.m.Y') {
     $day = 86400;
