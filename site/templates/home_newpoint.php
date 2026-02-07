@@ -4,18 +4,9 @@ $_SESSION['reload'] = 'off';
 
 $point = !empty($_POST['point'])?$_POST['point']:NULL;  
 $id_p = '';
-if ($point == 'Тверская 14') {
-    $id_p = 'point1';
-}
-if ($point == 'Таганка') {
-    $id_p = 'point3';
-}
-if ($point == 'Новослободская') {
-    $id_p = 'point4';
-}
-if ($point == 'Митинская 27а') {
-    $id_p = 'point5';
-}
+$point_page = $pages->get('template=points_itm, title=' . $point);
+$id_p = $point_page->id_point;
+
 $_SESSION['point'] = $point;
 $_SESSION['id_point'] = $id_p;
 

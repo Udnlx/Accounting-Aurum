@@ -10,18 +10,9 @@ $_SESSION['operator'] = 'no_operator';
 
 $point = !empty($_POST['point'])?$_POST['point']:NULL;  
 $id_p = '';
-if ($point == 'Тверская 14') {
-    $id_p = 'point1';
-}
-if ($point == 'Таганка') {
-    $id_p = 'point3';
-}
-if ($point == 'Новослободская') {
-    $id_p = 'point4';
-}
-if ($point == 'Митинская 27а') {
-    $id_p = 'point5';
-}
+$point_page = $pages->get('template=points_itm, title=' . $point);
+$id_p = $point_page->id_point;
+
 $user_login = !empty($_POST['user_login'])?$_POST['user_login']:NULL;  
 $user_password = !empty($_POST['user_password'])?$_POST['user_password']:NULL;
 
