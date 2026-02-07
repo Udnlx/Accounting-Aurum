@@ -113,6 +113,13 @@ foreach ($sell_products_itm as $itm) {
 }
 $sell_products .= '</div>';
 
+//Получаем список точек для выбора
+$all_points = $pages->find('template=points_itm');
+$list_options = '';
+foreach ($all_points as $point) {
+    $list_options .= '<option value="' . $point->title . '">' . $point->title . '</option>';
+}
+
 //Формирование таблицы с остатками
 $remain_tables_startday = '';
 $startday = $pages->get('id_point=' . $selected_id_point . '_startday');
@@ -164,10 +171,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                         <label for="f_point">Точка</label>
                         <select class="uk-select" id="f_point" name="f_point" required>
                             <option value="Все точки">Все точки</option>
-                            <option value="Тверская 14">Тверская 14</option>
-                            <option value="Таганка">Таганка</option>
-                            <option value="Новослободская">Новослободская</option>
-                            <option value="Митинская 27а">Митинская 27а</option>
+                            <?php echo $list_options; ?>
                         </select>
                     </div>
                     <div class="uk-margin-small-top">

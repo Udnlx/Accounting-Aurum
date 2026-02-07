@@ -1,5 +1,12 @@
 <?php namespace ProcessWire;
 
+//Получаем список точек для выбора
+$all_points = $pages->find('template=points_itm');
+$list_options = '';
+foreach ($all_points as $point) {
+    $list_options .= '<option value="' . $point->title . '">' . $point->title . '</option>';
+}
+
 if(isset($_GET['logout'])) {
     session_unset();
 }
@@ -65,10 +72,7 @@ if ($login == 'on') {
                     <label for="point">Точка</label>
                     <select class="uk-select" id="point" name="point" required>
                         <option></option>
-                        <option value="Тверская 14">Тверская 14</option>
-                        <option value="Таганка">Таганка</option>
-                        <option value="Новослободская">Новослободская</option>
-                        <option value="Митинская 27а">Митинская 27а</option>
+                        ' . $list_options . '
                     </select>
                 </div>
                 <div class="uk-margin-small-top">
