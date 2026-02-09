@@ -1,5 +1,19 @@
 <?php namespace ProcessWire;
 
+$point = !empty($_POST['selected_point'])?$_POST['selected_point']:NULL;  
+$idpoint = !empty($_POST['selected_idpoint'])?$_POST['selected_idpoint']:NULL;  
+$worker = !empty($_POST['selected_worker'])?$_POST['selected_worker']:NULL;  
+
+$newpoint_name = !empty($_POST['newpoint_name'])?$_POST['newpoint_name']:NULL;
+
+$success = 'Регистрация новой точки "' . $newpoint_name . '" прошла успешно';
+if ($newpoint_name) {
+	//Запускаем скрипт по созданию новой точки
+    $success .= '<br>Точка не создана!<br>Скрипт в разработке';
+} else {
+	$success = 'Регистрация новой точки "' . $newpoint_name . '" не прошла!<br>Ошибка в данных';
+}
+
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
 } else {
@@ -28,7 +42,7 @@ include 'adminpanel_access.php';
 if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access == false) {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Панель администратора</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Регистрация новой точки</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -60,38 +74,22 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Панель администратора</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Регистрация новой точки</h1>
 	<div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
-                <a class="menu-link" href="/osnovnoi-otchet/">Отчет</a>
             </div>
         </div>
 
         <div>
-            <div class="admpanel uk-card uk-card-default uk-card-body">
-		        <div class="uk-grid-medium uk-child-width-1-2@s" uk-grid>
-		        	<div>
-		        		<a class="admpanel-link" href="/adminpanel-vse-operatcii/">Все операции</a>
-		        		<a class="admpanel-link" href="/adminpanel-vse-izdeliia/">Все изделия</a>
-                        <a class="admpanel-link" href="/adminpanel-ves-rezerv/">Весь резерв</a>
-		        		<a class="admpanel-link" href="/adminpanel-ves-affinazh/">Весь аффинаж</a>
-                        <a class="admpanel-link" href="/adminpanel-vse-dolgi">Все долги</a>
-		            </div>
-		            <div>
-		        		<a class="admpanel-link" href="/pravka-operatcii-poisk/">Правки в операциях</a>
-		        		<a class="admpanel-link" href="/pravki-po-lomu-i-kassam-formy/">Правки по лому и кассам</a>
-                        <a class="admpanel-link" href="/adminpanel-nastroiki">Настройки</a>
-                        <a class="admpanel-link" href="/adminpanel-pol-zovateli-sistemy/">Пользователи системы</a>
-                        <a class="admpanel-link" href="/adminpanel-log-novogo-dnia/">Лог нового дня</a>
-                        <a class="admpanel-link" href="/adminpanel-novaia-tochka/">Добавить новую точку</a>
-		            </div>
-		        </div>
-		    </div>
-		</div>
+            <h3 class="uk-card-title"><?php echo $success; ?></h3>
+            <a class="uk-margin-small uk-button uk-button-default" href="/">Вернутся на главную страницу</a>
+        </div>
 
+        <br>
+        
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
                 <?php echo $remain_tables_startday; ?>

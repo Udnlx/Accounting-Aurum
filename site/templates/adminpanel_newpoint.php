@@ -1,12 +1,5 @@
 <?php namespace ProcessWire;
 
-$main_options = $pages->get('template=main_options');
-$main_price_gold = $main_options->main_price_gold;
-$main_price_gold_999 = $main_options->main_price_gold_999;
-$main_price_silver = $main_options->main_price_silver;
-$main_price_platinum = $main_options->main_price_platinum;
-$main_price_palladium = $main_options->main_price_palladium;
-
 if(isset($_SESSION['operator'])){
     $operator = $_SESSION['operator'];
 } else {
@@ -36,7 +29,7 @@ if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access 
 ?>
     <div id="content" style="max-width: 700px;">
         <h1 class="uk-heading-hero uk-text-center">Панель администратора</h1>
-        <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Настройки</h4>
+        <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Добавление новой точки</h4>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -69,7 +62,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
 <div id="content">
     <h1 class="uk-margin-remove uk-heading-hero uk-text-center">Панель администратора</h1>
-    <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Настройки</h4>
+    <h4 class="uk-margin-remove uk-heading-hero uk-text-center">Добавление новой точки</h4>
     <div>
 
         <div>
@@ -82,7 +75,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-                <form class="uk-flex uk-flex-column" id="select_seat" action="/adminpanel-registratciia-nastroek/" method="post">
+                <form class="uk-flex uk-flex-column" id="select_seat" action="/adminpanel-registratciia-novoi-tochki/" method="post">
                     <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="selected_point" type="text" name="selected_point" value="<?php echo $selected_point; ?>">
                     </div>
@@ -94,28 +87,13 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     </div>
 
                     <div class="uk-margin-small-top">
-                        <label for="price_gramm">Цена на золото</label>
-                        <input class="uk-input" id="main_price_gold" type="text" name="main_price_gold" value="<?php echo $main_price_gold; ?>">
-                    </div>
-                    <div class="uk-margin-small-top">
-                        <label for="price_gramm">Цена на золото 999 пробы</label>
-                        <input class="uk-input" id="main_price_gold_999" type="text" name="main_price_gold_999" value="<?php echo $main_price_gold_999; ?>">
-                    </div>
-                    <div class="uk-margin-small-top">
-                        <label for="price_gramm">Цена на серебро</label>
-                        <input class="uk-input" id="main_price_silver" type="text" name="main_price_silver" value="<?php echo $main_price_silver; ?>">
-                    </div>
-                    <div class="uk-margin-small-top">
-                        <label for="price_gramm">Цена на платину</label>
-                        <input class="uk-input" id="main_price_platinum" type="text" name="main_price_platinum" value="<?php echo $main_price_platinum; ?>">
-                    </div>
-                    <div class="uk-margin-small-top">
-                        <label for="price_gramm">Цена на палладий</label>
-                        <input class="uk-input" id="main_price_palladium" type="text" name="main_price_palladium" value="<?php echo $main_price_palladium; ?>">
+                        <label for="newpoint_name">Наименование новой точки</label>
+                        <p class="uk-margin-remove">Желательно заполнять только такими вариантами: "Тверская 14" или "Тверская"</p>
+                        <input class="uk-input" id="newpoint_name" type="text" name="newpoint_name" value="" required>
                     </div>
                     
                     <div class="uk-margin-small-top uk-flex uk-flex-column">
-                        <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Внести изменения</button>
+                        <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Добавить точку</button>
                     </div>
                 </form>
             </div>
