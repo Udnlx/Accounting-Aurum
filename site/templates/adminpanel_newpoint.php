@@ -88,7 +88,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
                     <div class="uk-margin-small-top">
                         <label for="newpoint_name">Наименование новой точки</label>
-                        <p class="uk-margin-remove">Желательно заполнять только такими вариантами: "Тверская 14" или "Тверская"</p>
+                        <p class="uk-margin-remove" style="color:red;font-weight:700;">Разрешены только русские буквы, тире, пробелы и цифры, наименование точки начинайте с большой буквы</p>
                         <input class="uk-input" id="newpoint_name" type="text" name="newpoint_name" value="" required>
                     </div>
                     

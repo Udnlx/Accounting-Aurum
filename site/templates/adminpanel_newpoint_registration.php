@@ -6,12 +6,30 @@ $worker = !empty($_POST['selected_worker'])?$_POST['selected_worker']:NULL;
 
 $newpoint_name = !empty($_POST['newpoint_name'])?$_POST['newpoint_name']:NULL;
 
+//Валидация перед созданием точки
+$validation = false;
+$error = '';
+$value = trim($newpoint_name);
+if (!preg_match('/^[А-Яа-яЁё0-9.\- ]+$/u', $value)) {
+    $validation = false;
+    $error = 'Обноружены недопустимые символы в наименовании точки';
+} else {
+    $validation = true;
+}
+$exist_point = $pages->get('template=points_itm, title=' . $newpoint_name);
+if ($exist_point->id) {
+    //echo $exist_point->id;
+    $validation = false;
+    $error = 'Точка с таким наименование уже существует в системе.<br>Обратитесь к администратору системы.';
+}
+
 $success = 'Регистрация новой точки "' . $newpoint_name . '" прошла успешно';
-if ($newpoint_name) {
+if ($newpoint_name && $validation == true) {
 	//Запускаем скрипт по созданию новой точки
     $success .= '<br>Точка не создана!<br>Скрипт в разработке';
 } else {
 	$success = 'Регистрация новой точки "' . $newpoint_name . '" не прошла!<br>Ошибка в данных';
+    $success .= '<br>' . $error;
 }
 
 if(isset($_SESSION['operator'])){
