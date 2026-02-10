@@ -26,6 +26,18 @@ if ($exist_point->id) {
 $success = 'Регистрация новой точки "' . $newpoint_name . '" прошла успешно';
 if ($newpoint_name && $validation == true) {
 	//Запускаем скрипт по созданию новой точки
+    $all_points = $pages->find('template=points_itm, include=all');
+    $num_point = count($all_points);
+    $num_point = $num_point + 1;
+    $id_point = 'point' . $num_point;
+    $parent_point = $pages->get('template=points');
+    $pages->add('points_itm', $parent_point->id , [
+    'title' => $newpoint_name,
+    'id_point' => $id_point,
+    'worker' => $worker,
+    ]);
+
+    //Запускаем скрипт по созданию новой точки
     $success .= '<br>Точка не создана!<br>Скрипт в разработке';
 } else {
 	$success = 'Регистрация новой точки "' . $newpoint_name . '" не прошла!<br>Ошибка в данных';
