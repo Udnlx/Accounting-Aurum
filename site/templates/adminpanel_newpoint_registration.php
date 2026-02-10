@@ -37,8 +37,57 @@ if ($newpoint_name && $validation == true) {
     'worker' => $worker,
     ]);
 
+    $remains_folder = $pages->get('template=remains');   
+    $date_create = date("d-m-Y");
+    $pages->add('remains_point', $remains_folder->id , [
+    'title' => $newpoint_name,
+    'actual_date' => $date_create,
+    'id_point' => $id_point . '_startday',
+    'type_remains' => 'Остаток на начало дня',
+    ]);
+    $pages->add('remains_point', $remains_folder->id , [
+    'title' => $newpoint_name,
+    'actual_date' => $date_create,
+    'id_point' => $id_point . '_actual',
+    'type_remains' => 'Текущий остаток',
+    ]);
+    $pages->add('remains_point', $remains_folder->id , [
+    'title' => $newpoint_name,
+    'actual_date' => $date_create,
+    'id_point' => $id_point . '_reserv',
+    'type_remains' => 'Резерв',
+    ]);
+
+    $remains_point_startday = $pages->get('template=remains_point, id_point=' . $id_point . '_startday');
+    $arr_proba = ['375','333','417','500','585','620','750','800','850','875','900','916','958','990','999','Ag','Ag-800','Ag-875','Ag-925','Ag-999','Pt','Pd'];
+    foreach ($arr_proba as $proba_itm) {
+        //echo $proba_itm . '<br>';
+        $pages->add('remains_point_itm', $remains_point_startday->id , [
+        'title' => $proba_itm,
+        'remain' => 0,
+        ]);
+    }
+
+    $remains_point_actual = $pages->get('template=remains_point, id_point=' . $id_point . '_actual');
+    $arr_proba = ['375','333','417','500','585','620','750','800','850','875','900','916','958','990','999','Ag','Ag-800','Ag-875','Ag-925','Ag-999','Pt','Pd'];
+    foreach ($arr_proba as $proba_itm) {
+        //echo $proba_itm . '<br>';
+        $pages->add('remains_point_itm', $remains_point_actual->id , [
+        'title' => $proba_itm,
+        'remain' => 0,
+        ]);
+    }
+
+    $remains_point_reserv = $pages->get('template=remains_point, id_point=' . $id_point . '_reserv');
+    $arr_proba = ['375','333','417','500','585','620','750','800','850','875','900','916','958','990','999','Ag','Ag-800','Ag-875','Ag-925','Ag-999','Pt','Pd'];
+    foreach ($arr_proba as $proba_itm) {
+        //echo $proba_itm . '<br>';
+        $pages->add('remains_point_itm', $remains_point_reserv->id , [
+        'title' => $proba_itm,
+        'remain' => 0,
+        ]);
+    }
     //Запускаем скрипт по созданию новой точки
-    $success .= '<br>Точка не создана!<br>Скрипт в разработке';
 } else {
 	$success = 'Регистрация новой точки "' . $newpoint_name . '" не прошла!<br>Ошибка в данных';
     $success .= '<br>' . $error;
