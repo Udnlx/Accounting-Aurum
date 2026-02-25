@@ -303,17 +303,65 @@ $('#selected_price').bind('input', function(){
 	}
 });
 
+//Ввод стоимость
+$('#multisum_nal').bind('input', function(){
+	this.value = this.value.replace(/[^0-9\.]/g, '');
+	let count = this.value.split(".").length-1;
+	if (count > 1) {
+		this.value = this.value.substr(0, this.value.lastIndexOf("."));
+	}
+	if (this.value.indexOf(".") != '-1') {
+		this.value = this.value.substring(0, this.value.indexOf(".") + 3);
+	}
+});
+
+//Ввод стоимость
+$('#multisum_beznal').bind('input', function(){
+	this.value = this.value.replace(/[^0-9\.]/g, '');
+	let count = this.value.split(".").length-1;
+	if (count > 1) {
+		this.value = this.value.substr(0, this.value.lastIndexOf("."));
+	}
+	if (this.value.indexOf(".") != '-1') {
+		this.value = this.value.substring(0, this.value.indexOf(".") + 3);
+	}
+});
+
 
 
 //При выборе вида платежа
 $('#cash_card').change( function() {
 	let cash_card = $('#cash_card option:selected').text();
-	if (cash_card== 'Безналичный расчет') {
+	if (cash_card == 'Безналичный расчет' || cash_card == 'Смешанный расчет') {
 		$('#selected_paytype option:contains("Да")').prop('selected', true);
 		$('#data_client').removeClass('uk-hidden');
 		$('#client_name').attr("required", true);
 		$('#client_passport').attr("required", true);
 		$('#client_address').attr("required", true);
+		if (cash_card == 'Смешанный расчет') {
+			$('#multisum').removeClass('uk-hidden');
+			$('#multisum_nal').attr("required", true);
+			$('#multisum_beznal').attr("required", true);
+		} else {
+			$('#multisum').addClass('uk-hidden');
+			$('#multisum_nal').attr("required", false);
+			$('#multisum_beznal').attr("required", false);
+		}
+	} else {
+		$('#selected_paytype option:contains("Нет")').prop('selected', true);
+		$('#data_client').addClass('uk-hidden');
+		$('#client_name').attr("required", false);
+		$('#client_passport').attr("required", false);
+		$('#client_address').attr("required", false);
+		if (cash_card == 'Смешанный расчет') {
+			$('#multisum').removeClass('uk-hidden');
+			$('#multisum_nal').attr("required", true);
+			$('#multisum_beznal').attr("required", true);
+		} else {
+			$('#multisum').addClass('uk-hidden');
+			$('#multisum_nal').attr("required", false);
+			$('#multisum_beznal').attr("required", false);
+		}
 	}
 });
 
