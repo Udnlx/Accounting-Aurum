@@ -10,6 +10,8 @@ $price_gramm = !empty($_POST['price_gramm'])?$_POST['price_gramm']:NULL;
 $price = !empty($_POST['selected_price'])?$_POST['selected_price']:NULL;  
 $pay = $_POST['selected_pay'];  
 $cash_card = !empty($_POST['cash_card'])?$_POST['cash_card']:NULL;  
+$multisum_nal = !empty($_POST['multisum_nal'])?$_POST['multisum_nal']:NULL;  
+$multisum_beznal = !empty($_POST['multisum_beznal'])?$_POST['multisum_beznal']:NULL;  
 $description_operation = !empty($_POST['description_operation'])?$_POST['description_operation']:NULL;  
 
 $paytype = !empty($_POST['selected_paytype'])?$_POST['selected_paytype']:NULL;  
@@ -34,6 +36,8 @@ if ($worker && $proba && $weight && $price_gramm && $price && $cash_card && $_SE
     'price' => $price,
     'pay' => $pay,
     'cash_card' => $cash_card,
+    'multisum_nal' => $multisum_nal,
+    'multisum_beznal' => $multisum_beznal,
     'description_operation' => $description_operation,
     'paytype' => $paytype,
     'client_name' => $client_name,
@@ -72,6 +76,8 @@ if ($worker && $proba && $weight && $price_gramm && $price && $cash_card && $_SE
                 'worker' => $worker,
                 'sum' => $pay,
                 'cash_card' => $cash_card,
+                'multisum_nal' => $multisum_nal,
+                'multisum_beznal' => $multisum_beznal,
                 'note' => 'Расход при скупке лома по операции ID: ' . $operation_id . '',
                 ]);
                 $cash_operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Расход - ' . $pay . ' - ' . $point . '');
@@ -94,6 +100,19 @@ if ($worker && $proba && $weight && $price_gramm && $price && $cash_card && $_SE
                 }
                 if ($cash_card == 'Безналичный расчет') {
                     $result = $edit_page->bn_sum - $pay;
+                    // echo $result;
+                    $edit_page->of(false);
+                    $edit_page->bn_sum = $result;
+                    $edit_page->save();
+                }
+                if ($cash_card == 'Смешанный расчет') {
+                    $result = $edit_page->sum - $multisum_nal;
+                    // echo $result;
+                    $edit_page->of(false);
+                    $edit_page->sum = $result;
+                    $edit_page->save();
+
+                    $result = $edit_page->bn_sum - $multisum_beznal;
                     // echo $result;
                     $edit_page->of(false);
                     $edit_page->bn_sum = $result;
