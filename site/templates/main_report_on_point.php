@@ -213,6 +213,10 @@ $total_expenses_lom_in585 = 0;
             if ($item->cash_card == 'Безналичный расчет') {
                 $bn_total_expenses_lom_sum_point = $bn_total_expenses_lom_sum_point + $item->pay;
             }
+            if ($item->cash_card == 'Смешанный расчет') {
+                $total_expenses_lom_sum_point = $total_expenses_lom_sum_point + $item->multisum_nal;
+                $bn_total_expenses_lom_sum_point = $bn_total_expenses_lom_sum_point + $item->multisum_beznal;
+            }
             $profit = $item->price - $item->pay;
             $total_expenses_profit_point = $total_expenses_profit_point + $profit;
             $in585 = 0;
@@ -459,6 +463,10 @@ $bn_total_expenses = 0;
             }
             if ($item->cash_card == 'Безналичный расчет') {
                 $bn_total_expenses_point = $bn_total_expenses_point + $item->sum;
+            }
+            if ($item->cash_card == 'Смешанный расчет') {
+                $total_expenses_point = $total_expenses_point + $item->multisum_nal;
+                $bn_total_expenses_point = $bn_total_expenses_point + $item->multisum_beznal;
             }
             $expenses .= '
             <tr>
