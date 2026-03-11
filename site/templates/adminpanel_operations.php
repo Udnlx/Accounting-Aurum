@@ -52,14 +52,34 @@ $all_operations_itm = $pages->find('template=operation_itm, sort=-sort, limit=20
 $all_operations .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($all_operations_itm as $itm) {
     // $all_operations .= '<a class="admin-link-itm" href="/prosmotr-operatcii/?operation_id=' . $itm->id . '">' . $itm->title . '</a><br>';
-    $all_operations .= '
-    <div class="list-operation-itm">
-    <a class="admin-link-itm" href="/prosmotr-operatcii/?operation_id=' . $itm->id . '">
-        <p>' . $itm->title . '</p>
-        <p class="reserv_id_note">Оператор: ' . $itm->worker . '</p>
-    </a>
-    </div>
-    ';
+    if ($itm->type_operation = 'Мульти скупка') {
+        $child_operations = $itm->children();
+        $multipart = '';
+        foreach ($child_operations as $child_operation) {
+            $multipart .= '
+            <p style="font-size:12px;">' . $child_operation->title . '</p>
+            ';
+        }
+
+        $all_operations .= '
+        <div class="list-operation-itm">
+        <a class="admin-link-itm" href="/prosmotr-operatcii/?operation_id=' . $itm->id . '">
+            <p>' . $itm->title . '</p>
+            ' . $multipart . '
+            <p class="reserv_id_note">Оператор: ' . $itm->worker . '</p>
+        </a>
+        </div>
+        ';
+    } else {
+        $all_operations .= '
+        <div class="list-operation-itm">
+        <a class="admin-link-itm" href="/prosmotr-operatcii/?operation_id=' . $itm->id . '">
+            <p>' . $itm->title . '</p>
+            <p class="reserv_id_note">Оператор: ' . $itm->worker . '</p>
+        </a>
+        </div>
+        ';
+    }
 }
 $all_operations .= '</div>';
 

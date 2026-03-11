@@ -157,17 +157,6 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     <div class="uk-margin-small-top">
                         <input class="uk-input" id="selected_pay" type="text" name="selected_pay" value="" placeholder="Сумма скупки" autocomplete="off" required>
                     </div>
-                    <div class="uk-margin-small-top">
-                        <label for="cash_card">Вид платежа</label>
-                        <select class="uk-select" id="cash_card" name="cash_card">
-                            <option>Наличный расчет</option>
-                            <option>Безналичный расчет</option>
-                        </select>
-                    </div>
-                    <div class="uk-margin-small-top">
-                        <label for="description_operation">Описание</label>
-                        <input class="uk-input" id="description_operation" type="text" name="description_operation" autocomplete="off">
-                    </div>
                     <div class="uk-margin-small-top uk-flex uk-flex-column">
                         <button id="btn_add_lom" class="uk-margin-small-top uk-button uk-button-default">Добавить</button>
                     </div>
@@ -189,6 +178,22 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
                     <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="selected_cart" type="text" name="selected_cart" value="" required>
+                    </div>
+
+                    <div class="uk-margin-small-top">
+                        <label for="multi_price">Общая стоимость мультискупки</label>
+                        <input class="uk-input" id="multi_price" type="text" name="multi_price" value="0.00" autocomplete="off" readonly>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <label for="cash_card">Вид платежа</label>
+                        <select class="uk-select" id="cash_card" name="cash_card">
+                            <option>Наличный расчет</option>
+                            <option>Безналичный расчет</option>
+                        </select>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <label for="description_operation">Описание</label>
+                        <input class="uk-input" id="description_operation" type="text" name="description_operation" autocomplete="off">
                     </div>
 
                     <div class="uk-margin-small-top">

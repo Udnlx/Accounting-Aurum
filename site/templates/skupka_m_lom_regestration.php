@@ -1,11 +1,16 @@
 <?php namespace ProcessWire;
 
+error_reporting(E_ERROR | E_PARSE);
+
 $date = !empty($_POST['selected_date'])?$_POST['selected_date']:NULL;  
 $point = !empty($_POST['selected_point'])?$_POST['selected_point']:NULL;  
 $idpoint = !empty($_POST['selected_idpoint'])?$_POST['selected_idpoint']:NULL;  
 $worker = !empty($_POST['selected_worker'])?$_POST['selected_worker']:NULL;  
-$cart = !empty($_POST['selected_cart'])?$_POST['selected_cart']:NULL;   
+$cart = !empty($_POST['selected_cart'])?$_POST['selected_cart']:NULL;  
 
+$multi_price = !empty($_POST['multi_price'])?$_POST['multi_price']:NULL; 
+$cash_card = !empty($_POST['cash_card'])?$_POST['cash_card']:NULL;  
+$description_operation = !empty($_POST['description_operation'])?$_POST['description_operation']:NULL;  
 $paytype = !empty($_POST['selected_paytype'])?$_POST['selected_paytype']:NULL;  
 $client_name = !empty($_POST['client_name'])?$_POST['client_name']:NULL;  
 $client_passport = !empty($_POST['client_passport'])?$_POST['client_passport']:NULL;  
@@ -13,6 +18,75 @@ $client_address = !empty($_POST['client_address'])?$_POST['client_address']:NULL
 
 $success = 'Регистрация мульти скупки прошла успешно';
 if ($cart && $_SESSION['reload'] != 'on') {
+    //Регестрируем мульти скупку
+    $pages->add('operation_itm', 1181 , [
+    'title' => date("Y-m-d H:i") . ' Мульти скупка - Лом - ' . $point,
+    'type_operation' => 'Мульти скупка',
+    'undertype_operation' => 'Лом',
+    'date' => $date,
+    'point' => $point,
+    'id_point' => $idpoint,
+    'worker' => $worker,
+    'proba' => '',
+    'weight' => '',
+    'price_gramm' => '',
+    'price' => '',
+    'pay' => $multi_price,
+    'cash_card' => $cash_card,
+    'description_operation' => $description_operation,
+    'paytype' => $paytype,
+    'client_name' => $client_name,
+    'client_passport' => $client_passport,
+    'client_address' => $client_address,
+    ]);
+    $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Мульти скупка - Лом - ' . $point . '');
+    $operation_id = $operation_page->id;
+
+    //Записываем регистрацию  в лог
+    $log = '';
+    $log .= date("Y-m-d H:i") . ' Мульти Скупка - Лом - ' . $point . ' === ';
+    $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $operation_id; 
+    file_put_contents(__DIR__ . '/log_operations.txt', $log . PHP_EOL, FILE_APPEND);
+
+    //Регестрируем операцию расхода в кассу
+    $page_cash = $pages->get('template=cash_itm, id_point=' . $idpoint . '_cash');
+    $pages->add('cash_operation', $page_cash , [
+    'title' => date("Y-m-d H:i") . ' Расход - ' . $multi_price . ' - ' . $point,
+    'type_operation' => 'Расход',
+    'date' => $date,
+    'point' => $point,
+    'id_point' => $idpoint,
+    'worker' => $worker,
+    'sum' => $multi_price,
+    'cash_card' => $cash_card,
+    'note' => 'Расход при мульти скупке лома по операции ID: ' . $operation_id . '',
+    ]);
+    $cash_operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Расход - ' . $pay . ' - ' . $point . '');
+    $cash_operation_id = $cash_operation_page->id;
+
+    //Записываем операцию расхода в кассу в лог
+    $log = '';
+    $log .= date("Y-m-d H:i") . ' Расход - ' . $multi_price . ' - ' . $point . ' === ';
+    $log .= 'Операция проведена: ' . $worker . ', ID записи: ' . $cash_operation_id . ', Сумма: ' . $multi_price . ', Вид платежа: ' . $cash_card . ', Описание: Расход при мульти скупке лома по операции ID: ' . $operation_id;
+    file_put_contents(__DIR__ . '/log_cash.txt', $log . PHP_EOL, FILE_APPEND);
+
+    //Изменяем остатки в кассе
+    $edit_page = $pages->get('template=cash_itm, id_point=' . $idpoint . '_cash');
+    if ($cash_card == 'Наличный расчет') {
+        $result = $edit_page->sum - $multi_price;
+        // echo $result;
+        $edit_page->of(false);
+        $edit_page->sum = $result;
+        $edit_page->save();
+    }
+    if ($cash_card == 'Безналичный расчет') {
+        $result = $edit_page->bn_sum - $multi_price;
+        // echo $result;
+        $edit_page->of(false);
+        $edit_page->bn_sum = $result;
+        $edit_page->save();
+    } 
+
     //Парсим массив
     $cart_array = explode("===", $cart);
     unset($cart_array[0]);
@@ -22,21 +96,16 @@ if ($cart && $_SESSION['reload'] != 'on') {
         $weight = $cart_item_array[2];  
         $price_gramm = $cart_item_array[1];
         $price = $cart_item_array[3];
-        $pay = $cart_item_array[4];
-        $cash_card = $cart_item_array[5];
-        $description = rtrim($cart_item_array[6], "❌");
-        $description_operation = $description;
+        $pay = rtrim($cart_item_array[4], "❌");
 
         // echo $proba . '<br>';
         // echo $weight . '<br>';
         // echo $price_gramm . '<br>';
         // echo $price . '<br>';
         // echo $pay . '<br>';
-        // echo $cash_card . '<br>';
-        // echo $description_operation . '<br>';
 
         //Регестрируем запись
-        $pages->add('operation_itm', 1181 , [
+        $pages->add('operation_itm', $operation_id , [
         'title' => date("Y-m-d H:i") . ' Скупка - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point,
         'type_operation' => 'Скупка',
         'undertype_operation' => 'Лом',
@@ -50,20 +119,12 @@ if ($cart && $_SESSION['reload'] != 'on') {
         'price' => $price,
         'pay' => $pay,
         'cash_card' => $cash_card,
-        'description_operation' => $description_operation,
+        'description_operation' => 'Часть мульти скупки - '. $operation_id,
         'paytype' => $paytype,
         'client_name' => $client_name,
         'client_passport' => $client_passport,
         'client_address' => $client_address,
         ]);
-        $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Скупка - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point . '');
-        $operation_id = $operation_page->id;
-
-        //Записываем регистрацию  в лог
-        $log = '';
-        $log .= date("Y-m-d H:i") . ' Мульти Скупка - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point . ' === ';
-        $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $operation_id; 
-        file_put_contents(__DIR__ . '/log_operations.txt', $log . PHP_EOL, FILE_APPEND);
 
         //Изменяем остатки
         $point_actual_table = $pages->get('id_point=' . $idpoint . '_actual');
@@ -76,45 +137,6 @@ if ($cart && $_SESSION['reload'] != 'on') {
         $edit_page->of(false);
         $edit_page->remain = $result;
         $edit_page->save();
-
-                    //Регестрируем операцию расхода в кассу
-                    $page_cash = $pages->get('template=cash_itm, id_point=' . $idpoint . '_cash');
-                    $pages->add('cash_operation', $page_cash , [
-                    'title' => date("Y-m-d H:i") . ' Расход - ' . $pay . ' - ' . $point,
-                    'type_operation' => 'Расход',
-                    'date' => $date,
-                    'point' => $point,
-                    'id_point' => $idpoint,
-                    'worker' => $worker,
-                    'sum' => $pay,
-                    'cash_card' => $cash_card,
-                    'note' => 'Расход при скупке лома по операции ID: ' . $operation_id . '',
-                    ]);
-                    $cash_operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Расход - ' . $pay . ' - ' . $point . '');
-                    $cash_operation_id = $cash_operation_page->id;
-
-                    //Записываем операцию расхода в кассу в лог
-                    $log = '';
-                    $log .= date("Y-m-d H:i") . ' Расход - ' . $pay . ' - ' . $point . ' === ';
-                    $log .= 'Операция проведена: ' . $worker . ', ID записи: ' . $cash_operation_id . ', Сумма: ' . $pay . ', Вид платежа: ' . $cash_card . ', Описание: Расход при мульти скупке лома по операции ID: ' . $operation_id;
-                    file_put_contents(__DIR__ . '/log_cash.txt', $log . PHP_EOL, FILE_APPEND);
-
-                    //Изменяем остатки в кассе
-                    $edit_page = $pages->get('template=cash_itm, id_point=' . $idpoint . '_cash');
-                    if ($cash_card == 'Наличный расчет') {
-                        $result = $edit_page->sum - $pay;
-                        // echo $result;
-                        $edit_page->of(false);
-                        $edit_page->sum = $result;
-                        $edit_page->save();
-                    }
-                    if ($cash_card == 'Безналичный расчет') {
-                        $result = $edit_page->bn_sum - $pay;
-                        // echo $result;
-                        $edit_page->of(false);
-                        $edit_page->bn_sum = $result;
-                        $edit_page->save();
-                    } 
     }
 
     //Предотвращаем повторную регистрацию

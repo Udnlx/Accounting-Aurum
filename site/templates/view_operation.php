@@ -49,6 +49,9 @@ if ($operation_page->type_operation == 'Продажа') {
 if ($operation_page->type_operation == 'Скупка') {
     $desc_operation = 'Сколько отдали';
 }
+if ($operation_page->type_operation == 'Мульти скупка') {
+    $desc_operation = 'Сколько отдали';
+}
 
 //Получение данных о продукте
 $type_operation = $operation_page->type_operation;  
@@ -68,7 +71,18 @@ $description_operation = $operation_page->description_operation;
 $paytype = $operation_page->paytype;  
 $client_name = $operation_page->client_name;  
 $client_passport = $operation_page->client_passport;  
-$client_address = $operation_page->client_address; 
+$client_address = $operation_page->client_address;
+
+$multipart = '';
+if ($type_operation = 'Мульти скупка') {
+    $child_operations = $operation_page->children();
+    $multipart .= '<h4 class="uk-margin-remove">Мультискупка:</h4>';
+    foreach ($child_operations as $child_operation) {
+        $multipart .= '
+        <p class="uk-margin-remove" style="font-size:12px;">' . $child_operation->title . '</p>
+        ';
+    }
+}
 
 //Функционал распечатки квитанции
 $info_paytype = '';
@@ -169,6 +183,8 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 	        <p class="uk-margin-remove"><?php echo $desc_operation; ?>: <span style="font-weight: 700;"><?php echo $pay; ?></span></p>
             <p class="uk-margin-remove">Вид платежа: <span style="font-weight: 700;"><?php echo $cash_card; ?></span></p>
             <p class="uk-margin-remove">Описание операции: <span style="font-weight: 700;"><?php echo $description_operation; ?></span></p>
+            <br>
+            <?php echo $multipart; ?>
 	        <br>
 	        <p class="uk-margin-remove">Квитанция: <span style="font-weight: 700;"><?php echo $paytype; ?></span></p>
 	        <?php echo $info_paytype; ?>

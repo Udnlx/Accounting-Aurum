@@ -1,5 +1,7 @@
 <?php 
 
+error_reporting(E_ERROR | E_PARSE);
+
 $type = !empty($_POST['print_type'])?$_POST['print_type']:NULL;  
 $undertype = !empty($_POST['print_undertype'])?$_POST['print_undertype']:NULL;  
 $date = !empty($_POST['print_date'])?$_POST['print_date']:NULL;

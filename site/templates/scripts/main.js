@@ -1254,8 +1254,16 @@ $('#btn_add_lom').click(function() {
 	if ($('#selected_weight').val() == '' || $('#selected_price').val() == '' || $('#selected_pay').val() == '') {
 		alert('Недостаточно данных для добавления позиции, проверьте заполненность нужных полей');
 	} else {
-		let elem_content = $('#selected_proba').val() + ' — ' + $('#price_gramm').val() + ' — ' + $('#selected_weight').val() + ' — ' + $('#selected_price').val() + ' — ' + $('#selected_pay').val() + ' — ' + $('#cash_card').val() + ' — ' + $('#description_operation').val();
+		let elem_content = $('#selected_proba').val() + ' — ' + $('#price_gramm').val() + ' — ' + $('#selected_weight').val() + ' — ' + $('#selected_price').val() + ' — ' + $('#selected_pay').val();
 		$('#cart_element').append('<p class="cart-item uk-margin-remove uk-flex uk-flex-between">' + elem_content + '<span class="del_elem" style="cursor:pointer;">❌</span></p>');
+		let multi_price   = parseFloat($('#multi_price').val()) || 0;
+		let selected_pay  = parseFloat($('#selected_pay').val()) || 0
+		let sum_multi_price = multi_price + selected_pay;
+		$('#multi_price').val(sum_multi_price.toFixed(2));
+		//чистим поля после добавления
+		$('#selected_weight').val('');
+		$('#selected_price').val('0.00');
+		$('#selected_pay').val('');
 	}
 });
 //Набор корзины в мульти скупке
@@ -1263,6 +1271,14 @@ $('#btn_add_lom').click(function() {
 //Удаление из корзины в мульти скупке
 $(document).on("click", "span.del_elem", function(){
 	//console.log ('Удаление из корзины в мульти скупке');
+	let item = $(this).closest('.cart-item').text();
+	item = item.slice(0, -1);
+	parts = item.split('—').map(s => s.trim());
+	last = parts.at(-1);
+	console.log (last);
+	let multi_price   = parseFloat($('#multi_price').val()) || 0;
+	let sum_multi_price = multi_price - last;
+	$('#multi_price').val(sum_multi_price.toFixed(2));
 	$(this).parent().remove();
 });
 //Удаление из корзины в мульти скупке
