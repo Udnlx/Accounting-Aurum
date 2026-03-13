@@ -189,7 +189,18 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                         <select class="uk-select" id="cash_card" name="cash_card">
                             <option>Наличный расчет</option>
                             <option>Безналичный расчет</option>
+                            <option>Смешанный расчет</option>
                         </select>
+                    </div>
+                    <div id="multisum" class="uk-flex uk-flex-between uk-child-width-1-2@s uk-hidden" style="margin: 10px 0 0 0;padding: 10px;background-color: #ffc0c0;">
+                        <div style="margin: 0 10px 0 10px;">
+                            <label for="multisum_nal">Наличный расчет</label>
+                            <input class="uk-input" id="multisum_nal" type="text" name="multisum_nal" value="" placeholder="Наличный расчет" autocomplete="off">
+                        </div>
+                        <div style="margin: 0 10px 0 10px;">
+                            <label for="multisum_beznal">Безналичный расчет</label>
+                            <input class="uk-input" id="multisum_beznal" type="text" name="multisum_beznal" value="" placeholder="Безналичный расчет" autocomplete="off">
+                        </div>
                     </div>
                     <div class="uk-margin-small-top">
                         <label for="description_operation">Описание</label>

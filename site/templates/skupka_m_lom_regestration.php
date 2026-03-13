@@ -7,10 +7,12 @@ $point = !empty($_POST['selected_point'])?$_POST['selected_point']:NULL;
 $idpoint = !empty($_POST['selected_idpoint'])?$_POST['selected_idpoint']:NULL;  
 $worker = !empty($_POST['selected_worker'])?$_POST['selected_worker']:NULL;  
 $cart = !empty($_POST['selected_cart'])?$_POST['selected_cart']:NULL;  
-
 $multi_price = !empty($_POST['multi_price'])?$_POST['multi_price']:NULL; 
 $cash_card = !empty($_POST['cash_card'])?$_POST['cash_card']:NULL;  
+$multisum_nal = !empty($_POST['multisum_nal'])?$_POST['multisum_nal']:NULL;  
+$multisum_beznal = !empty($_POST['multisum_beznal'])?$_POST['multisum_beznal']:NULL;  
 $description_operation = !empty($_POST['description_operation'])?$_POST['description_operation']:NULL;  
+
 $paytype = !empty($_POST['selected_paytype'])?$_POST['selected_paytype']:NULL;  
 $client_name = !empty($_POST['client_name'])?$_POST['client_name']:NULL;  
 $client_passport = !empty($_POST['client_passport'])?$_POST['client_passport']:NULL;  
@@ -33,6 +35,8 @@ if ($cart && $_SESSION['reload'] != 'on') {
     'price' => '',
     'pay' => $multi_price,
     'cash_card' => $cash_card,
+    'multisum_nal' => $multisum_nal,
+    'multisum_beznal' => $multisum_beznal,
     'description_operation' => $description_operation,
     'paytype' => $paytype,
     'client_name' => $client_name,
@@ -85,7 +89,20 @@ if ($cart && $_SESSION['reload'] != 'on') {
         $edit_page->of(false);
         $edit_page->bn_sum = $result;
         $edit_page->save();
-    } 
+    }
+    if ($cash_card == 'Смешанный расчет') {
+        $result = $edit_page->sum - $multisum_nal;
+        // echo $result;
+        $edit_page->of(false);
+        $edit_page->sum = $result;
+        $edit_page->save();
+
+        $result = $edit_page->bn_sum - $multisum_beznal;
+        // echo $result;
+        $edit_page->of(false);
+        $edit_page->bn_sum = $result;
+        $edit_page->save();
+    }
 
     //Парсим массив
     $cart_array = explode("===", $cart);
