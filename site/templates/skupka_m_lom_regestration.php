@@ -63,6 +63,8 @@ if ($cart && $_SESSION['reload'] != 'on') {
     'worker' => $worker,
     'sum' => $multi_price,
     'cash_card' => $cash_card,
+    'multisum_nal' => $multisum_nal,
+    'multisum_beznal' => $multisum_beznal,
     'note' => 'Расход при мульти скупке лома по операции ID: ' . $operation_id . '',
     ]);
     $cash_operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Расход - ' . $pay . ' - ' . $point . '');
@@ -123,8 +125,8 @@ if ($cart && $_SESSION['reload'] != 'on') {
 
         //Регестрируем запись
         $pages->add('operation_itm', $operation_id , [
-        'title' => date("Y-m-d H:i") . ' Скупка - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point,
-        'type_operation' => 'Скупка',
+        'title' => date("Y-m-d H:i") . ' Часть мульти скупки - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point,
+        'type_operation' => 'Часть мульти скупки',
         'undertype_operation' => 'Лом',
         'date' => $date,
         'point' => $point,
