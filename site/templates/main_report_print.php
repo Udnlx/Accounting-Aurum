@@ -289,6 +289,7 @@ foreach ($points as $point) {
                 '<left>' . number_format($in585, 2, '.', ' ') . '</left>'
             ];
         }
+        
         if ($item->type_operation == 'Мульти скупка') {
             if ($item->cash_card == 'Наличный расчет') {
             $total_expenses_lom_sum_point = $total_expenses_lom_sum_point + $item->pay;
