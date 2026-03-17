@@ -48,7 +48,7 @@ foreach ($all_users as $user) {
 
 //Получение всех операций
 $all_operations = '';
-$all_operations_itm = $pages->find('template=operation_itm, sort=-sort, limit=20');
+$all_operations_itm = $pages->find('template=operation_itm, sort=-sort, limit=60');
 $all_operations .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($all_operations_itm as $itm) {
     // $all_operations .= '<a class="admin-link-itm" href="/prosmotr-operatcii/?operation_id=' . $itm->id . '">' . $itm->title . '</a><br>';
@@ -85,7 +85,7 @@ $all_operations .= '</div>';
 
 //Получение всех изделий в наличии
 $stock_products = '';
-$stock_products_itm = $pages->find('template=product_itm, product_status=в наличии, sort=-sort, limit=20');
+$stock_products_itm = $pages->find('template=product_itm, product_status=в наличии, sort=-sort, limit=60');
 $stock_products .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($stock_products_itm as $itm) {
     $stock_products .= '
@@ -108,7 +108,7 @@ $stock_products .= '</div>';
 
 //Получение всех проданных изделий
 $sell_products = '';
-$sell_products_itm = $pages->find('template=product_itm, product_status=продано, sort=-sort, limit=20');
+$sell_products_itm = $pages->find('template=product_itm, product_status=продано, sort=-sort, limit=60');
 $sell_products .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($sell_products_itm as $itm) {
     $receipt = $itm->product_price_sell - $itm->product_price_buy;
@@ -175,7 +175,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
         </div>
 
         <div>
-            <h4 class="uk-card-title uk-margin-remove">Последние 20 операций по лому, укажите параметры для поиска операций</h4>
+            <h4 class="uk-card-title uk-margin-remove">Последние 60 операций по лому, укажите параметры для поиска операций</h4>
             <div class="filtermenu uk-width-1-1">
                 <form class="form-select-date" id="select_period_date" action="/adminpanel-vse-operatcii-rezul-tat-poiska/" method="post">
                     <p class="uk-margin-remove">Дата</p>
