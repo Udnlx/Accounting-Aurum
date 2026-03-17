@@ -280,6 +280,7 @@ foreach ($points as $point) {
                     $total_expenses_lom_in585_point = $total_expenses_lom_in585_point + $in585;
                     $expenses_lom .= '
                     <tr>
+                        <td>' . $child_operation->date . '</td>
                         <td>' . $child_operation->worker . '<br>' . $desc_multi . '</td>
                         <td>' . $child_operation->proba . '</td>
                         <td>' . number_format($child_operation->weight, 2, '.', ' ') . '</td>

@@ -301,6 +301,7 @@ $total_expenses_lom_in585 = 0;
                     $total_expenses_lom_in585_point = $total_expenses_lom_in585_point + $in585;
                     $expenses_lom .= '
                     <tr>
+                        <td>' . $child_operation->date . '</td>
                         <td>' . $child_operation->worker . '<br>' . $desc_multi . '</td>
                         <td>' . $child_operation->proba . '</td>
                         <td>' . number_format($child_operation->weight, 2, '.', ' ') . '</td>
@@ -312,6 +313,7 @@ $total_expenses_lom_in585 = 0;
                     </tr>
                     ';
                     $xlsx_report[] = [
+                        '<left>' . $child_operation->date . '</left>', 
                         '<left>' . $child_operation->worker . ' - ' . $desc_multi . '</left>', 
                         '<left>' . $child_operation->proba . '</left>', 
                         '<left>' . $child_operation->weight . '</left>', 
