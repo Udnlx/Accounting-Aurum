@@ -108,7 +108,7 @@ $total_income_lom_in585 = 0;
                 <tr>
                     <th style="width:12%">ДАТА</th>
                     <th style="width:12%">ОПЕРАТОР</th>
-                    <th style="width:12%">ПРОБА</th>
+                    <th style="width:7%">ПРОБА</th>
                     <th style="width:12%">ВЕС</th>
                     <th style="width:12%">ЦЕНА ЗА ГРАММ</th>
                     <th style="width:12%">ЦЕНА ЗА ВСЕ</th>
@@ -187,7 +187,7 @@ $total_expenses_lom_in585 = 0;
                 <tr>
                     <th style="width:12%">ДАТА</th>
                     <th style="width:12%">ОПЕРАТОР</th>
-                    <th style="width:12%">ПРОБА</th>
+                    <th style="width:7%">ПРОБА</th>
                     <th style="width:12%">ВЕС</th>
                     <th style="width:12%">ЦЕНА ЗА ГРАММ</th>
                     <th style="width:12%">ЦЕНА ЗА ВСЕ</th>

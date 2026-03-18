@@ -439,6 +439,16 @@ table {
     padding: 10px;
     border-radius: 10px;
     margin: 10px 0 10px 0;}
+.uk-table-striped {
+  border-collapse: separate; /* часто важно для sticky */
+  border-spacing: 0;
+  width: 100%;}
+.uk-table-striped thead th {
+  position: sticky;
+  top: 45px;
+  z-index: 10;           /* чтобы шапка была поверх строк */
+  background: #fff;      /* обязательно, иначе строки будут просвечивать */
+  box-shadow: 0 1px 0 rgba(0,0,0,.1);}  /* optional */
 
 @media (max-width: 550px) {
 .filtermenu {
