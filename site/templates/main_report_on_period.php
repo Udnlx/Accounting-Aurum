@@ -644,6 +644,7 @@ $arrears .= '
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
                 <a class="menu-link" href="/adminpanel-meniu/">Админ панель</a>
+                <a class="menu-link" href="/analiticheskii-otchet-start/">Аналитический отчет</a>
                 <a class="menu-link" href="/osnovnoi-otchet/">Отчет за текущий день</a>
             </div>
         </div>
