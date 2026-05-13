@@ -30,12 +30,12 @@ if(isset($_SESSION['access'])){
     $access = $_SESSION['access'];
 }
 
-include 'prodaja_access.php';
+include 'skupka_access.php';
 
 if ($operator == 'no_operator' || $selected_point == 'no_point' || $page_access == false) {
 ?>
     <div id="content" style="max-width: 700px;">
-    	<h1 class="uk-heading-hero uk-text-center">Продажа лома</h1>
+    	<h1 class="uk-heading-hero uk-text-center">Мульти продажа лома</h1>
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1 uk-flex uk-flex-column">
             <h3 class="uk-card-title uk-text-center">Нет прав на эту страницу, потеряна сессия или точка, перезайти</h3>
             <a class="uk-margin-small uk-button uk-button-default" href="/login/">Перезайти</a>
@@ -67,33 +67,28 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 ?>
 
 <div id="content">
-	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Продажа лома</h1>
+	<h1 class="uk-margin-remove uk-heading-hero uk-text-center">Мульти продажа лома (в разработке)</h1>
 	<div>
 
         <div>
             <div class="pagemenu uk-width-1-1 uk-flex">
                 <a class="menu-link" href="/">На главную</a>
-                <a class="menu-link" href="/multi-prodazha-lom/">Мульти продажа лома</a>
-                <a class="menu-link" href="/prodazha-tip-prodazhi/">Выбрать другой тип продажи</a>
+                <a class="menu-link" href="/prodazha-lom/">Обычная продажа лома</a>
+                <a class="menu-link" href="/skupka-tip-skupki/">Выбрать другой тип скупки</a>
             </div>
         </div>
 
         <div>
             <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
-                <form class="uk-flex uk-flex-column" id="select_seat" action="/prodazha-lom-registratciia/" method="post">
-                    <div class="uk-margin-small-top uk-hidden">
-                        <input class="uk-input" id="selected_date" type="text" name="selected_date" value="<?php echo $today; ?>">
-                    </div>
-                    <div class="uk-margin-small-top uk-hidden">
-                        <input class="uk-input" id="selected_point" type="text" name="selected_point" value="<?php echo $selected_point; ?>">
-                    </div>
-                    <div class="uk-margin-small-top uk-hidden">
-                        <input class="uk-input" id="selected_idpoint" type="text" name="selected_idpoint" value="<?php echo $selected_id_point; ?>">
-                    </div>
-                    <div class="uk-margin-small-top uk-hidden">
-                        <input class="uk-input" id="selected_worker" type="text" name="selected_worker" value="<?php echo $operator; ?>">
-                    </div>
-
+                <div class="uk-flex uk-flex-column" id="cart_lom">
+                    <h2 class="uk-margin-remove">Корзина</h1>
+                    <br>
+                    <div id="prodaja_cart_element"></div>
+                </div>
+            </div>
+            <br>
+            <div class="uk-card uk-card-default uk-card-body uk-flex uk-flex-column">
+                <div class="uk-flex uk-flex-column" id="cart_lom_selected">
                     <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="main_price_gold" type="text" name="main_price_gold" value="<?php echo $main_price_gold; ?>">
                     </div>
@@ -139,19 +134,20 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     </div>
                     <div class="uk-margin-small-top">
                         <label for="price_gramm">
-                        <?php
-                        $base_price = number_format(round(($main_price_gold/585)*585), 2, '.','');
-                        //$percent = $base_price*3/100;
-                        //$min_price = $base_price - $percent;
-                        ?>
-                        Цена за грамм ( базовая цена: 
-                            <span id="base_price"><?php echo number_format($base_price, 2, '.',''); ?></span>
+                            <?php
+                            $base_price = number_format(round(($main_price_gold/585)*585), 2, '.','');
+                            $percent = $base_price*3/100;
+                            $min_price = $base_price - $percent;
+                            ?>
+                            Цена за грамм ( базовая цена: 
+                            <span id="base_price"><?php echo number_format($base_price, 2, '.',''); ?></span> 
+                            - цена за минусом 3%: 
+                            <span id="min_price"><?php echo number_format($min_price, 2, '.',''); ?></span>
                             )
                         </label>
                         <input class="uk-input" id="price_gramm" type="text" name="price_gramm" value="<?php echo number_format(round(($main_price_gold/585)*585), 2, '.',''); ?>" autocomplete="off" required>
                     </div>
                     <div class="uk-margin-small-top">
-                        <label id="label_free_for_sale" for="selected_weight" style="color:green;font-weight:700;">Доступно для продажи: </label>
                         <input class="uk-input custom1" id="selected_weight" type="text" name="selected_weight" value="" placeholder="Вес" autocomplete="off" required>
                     </div>
                     <div class="uk-margin-small-top">
@@ -161,19 +157,58 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     <div class="uk-margin-small-top">
                         <input class="uk-input" id="selected_pay" type="text" name="selected_pay" value="" placeholder="Сумма продажи" autocomplete="off" required>
                     </div>
+                    <div class="uk-margin-small-top uk-flex uk-flex-column">
+                        <button id="btn_prodaja_add_lom" class="uk-margin-small-top uk-button uk-button-default">Добавить</button>
+                    </div>
+                </div>
+
+                <form class="uk-flex uk-flex-column" id="select_seat" action="" method="post">
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="selected_date" type="text" name="selected_date" value="<?php echo $today; ?>">
+                    </div>
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="selected_point" type="text" name="selected_point" value="<?php echo $selected_point; ?>">
+                    </div>
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="selected_idpoint" type="text" name="selected_idpoint" value="<?php echo $selected_id_point; ?>">
+                    </div>
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="selected_worker" type="text" name="selected_worker" value="<?php echo $operator; ?>">
+                    </div>
+
+                    <div class="uk-margin-small-top uk-hidden">
+                        <input class="uk-input" id="selected_cart" type="text" name="selected_cart" value="" required>
+                    </div>
+
+                    <div class="uk-margin-small-top">
+                        <label for="multi_price">Общая стоимость мультипродажи</label>
+                        <input class="uk-input" id="prodaja_multi_price" type="text" name="prodaja_multi_price" value="0.00" autocomplete="off" readonly>
+                    </div>
                     <div class="uk-margin-small-top">
                         <label for="cash_card">Вид платежа</label>
                         <select class="uk-select" id="cash_card" name="cash_card">
                             <option>Наличный расчет</option>
                             <option>Безналичный расчет</option>
+                            <option>Смешанный расчет</option>
                         </select>
+                    </div>
+                    <div id="multisum" class="uk-flex uk-flex-between uk-child-width-1-2@s uk-hidden" style="margin: 10px 0 0 0;padding: 10px;background-color: #ffc0c0;">
+                        <div style="margin: 0 10px 0 10px;">
+                            <label for="multisum_nal">Наличный расчет</label>
+                            <input class="uk-input" id="multisum_nal" type="text" name="multisum_nal" value="" placeholder="Наличный расчет" autocomplete="off">
+                        </div>
+                        <div style="margin: 0 10px 0 10px;">
+                            <label for="multisum_beznal">Безналичный расчет</label>
+                            <input class="uk-input" id="multisum_beznal" type="text" name="multisum_beznal" value="" placeholder="Безналичный расчет" autocomplete="off">
+                        </div>
                     </div>
                     <div class="uk-margin-small-top">
                         <label for="description_operation">Описание</label>
                         <input class="uk-input" id="description_operation" type="text" name="description_operation" autocomplete="off">
                     </div>
+
                     <div class="uk-margin-small-top">
-                        <label for="selected_proba">Квитанция</label>
+                        <label for="selected_paytype">Квитанция</label>
                         <select class="uk-select" id="selected_paytype" name="selected_paytype">
                             <option>Нет</option>
                             <option>Да</option>
@@ -193,7 +228,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     </div>
                     
                     <div class="uk-margin-small-top uk-flex uk-flex-column">
-                        <button class="uk-margin-small-top uk-button uk-button-default" type="submit">Зарегистрировать</button>
+                        <button id="btn_reg" class="uk-margin-small-top uk-button uk-button-default" type="submit">Зарегистрировать</button>
                     </div>
                 </form>
             </div>
