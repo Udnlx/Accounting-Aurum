@@ -162,7 +162,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
                     </div>
                 </div>
 
-                <form class="uk-flex uk-flex-column" id="select_seat" action="" method="post">
+                <form class="uk-flex uk-flex-column" id="select_seat" action="/multi-prodazha-lom-registratciia/" method="post">
                     <div class="uk-margin-small-top uk-hidden">
                         <input class="uk-input" id="selected_date" type="text" name="selected_date" value="<?php echo $today; ?>">
                     </div>
@@ -182,7 +182,7 @@ if ($startday == '' || $actual == '' || $reserv == '') {
 
                     <div class="uk-margin-small-top">
                         <label for="multi_price">Общая стоимость мультипродажи</label>
-                        <input class="uk-input" id="prodaja_multi_price" type="text" name="prodaja_multi_price" value="0.00" autocomplete="off" readonly>
+                        <input class="uk-input" id="multi_price" type="text" name="multi_price" value="0.00" autocomplete="off" readonly>
                     </div>
                     <div class="uk-margin-small-top">
                         <label for="cash_card">Вид платежа</label>
