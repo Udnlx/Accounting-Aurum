@@ -20,186 +20,186 @@ $client_address = !empty($_POST['client_address'])?$_POST['client_address']:NULL
 
 $success = 'Регистрация мульти продажи прошла успешно';
 if ($cart && $_SESSION['reload'] != 'on') {
-    // //Регестрируем мульти скупку
-    // $pages->add('operation_itm', 1181 , [
-    // 'title' => date("Y-m-d H:i") . ' Мульти скупка - Лом - ' . $point,
-    // 'type_operation' => 'Мульти скупка',
-    // 'undertype_operation' => 'Лом',
-    // 'date' => $date,
-    // 'point' => $point,
-    // 'id_point' => $idpoint,
-    // 'worker' => $worker,
-    // 'proba' => '',
-    // 'weight' => '',
-    // 'price_gramm' => '',
-    // 'price' => '',
-    // 'pay' => $multi_price,
-    // 'cash_card' => $cash_card,
-    // 'multisum_nal' => $multisum_nal,
-    // 'multisum_beznal' => $multisum_beznal,
-    // 'description_operation' => $description_operation,
-    // 'paytype' => $paytype,
-    // 'client_name' => $client_name,
-    // 'client_passport' => $client_passport,
-    // 'client_address' => $client_address,
-    // ]);
-    // $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Мульти скупка - Лом - ' . $point . '');
-    // $operation_id = $operation_page->id;
+    //Регестрируем мульти скупку
+    $pages->add('operation_itm', 1181 , [
+    'title' => date("Y-m-d H:i") . ' Мульти продажа - Лом - ' . $point,
+    'type_operation' => 'Мульти продажа',
+    'undertype_operation' => 'Лом',
+    'date' => $date,
+    'point' => $point,
+    'id_point' => $idpoint,
+    'worker' => $worker,
+    'proba' => '',
+    'weight' => '',
+    'price_gramm' => '',
+    'price' => '',
+    'pay' => $multi_price,
+    'cash_card' => $cash_card,
+    'multisum_nal' => $multisum_nal,
+    'multisum_beznal' => $multisum_beznal,
+    'description_operation' => $description_operation,
+    'paytype' => $paytype,
+    'client_name' => $client_name,
+    'client_passport' => $client_passport,
+    'client_address' => $client_address,
+    ]);
+    $operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Мульти продажа - Лом - ' . $point . '');
+    $operation_id = $operation_page->id;
 
-    // //Записываем регистрацию  в лог
-    // $log = '';
-    // $log .= date("Y-m-d H:i") . ' Мульти Скупка - Лом - ' . $point . ' === ';
-    // $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $operation_id; 
-    // file_put_contents(__DIR__ . '/log_operations.txt', $log . PHP_EOL, FILE_APPEND);
+    //Записываем регистрацию  в лог
+    $log = '';
+    $log .= date("Y-m-d H:i") . ' Мульти Продажа - Лом - ' . $point . ' === ';
+    $log .= 'Запись занесена: ' . $worker . ', ID записи: ' . $operation_id; 
+    file_put_contents(__DIR__ . '/log_operations.txt', $log . PHP_EOL, FILE_APPEND);
 
-    // //Регестрируем операцию расхода в кассу
-    // $page_cash = $pages->get('template=cash_itm, id_point=' . $idpoint . '_cash');
-    // $pages->add('cash_operation', $page_cash , [
-    // 'title' => date("Y-m-d H:i") . ' Расход - ' . $multi_price . ' - ' . $point,
-    // 'type_operation' => 'Расход',
-    // 'date' => $date,
-    // 'point' => $point,
-    // 'id_point' => $idpoint,
-    // 'worker' => $worker,
-    // 'sum' => $multi_price,
-    // 'cash_card' => $cash_card,
-    // 'multisum_nal' => $multisum_nal,
-    // 'multisum_beznal' => $multisum_beznal,
-    // 'note' => 'Расход при мульти скупке лома по операции ID: ' . $operation_id . '',
-    // ]);
-    // $cash_operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Расход - ' . $pay . ' - ' . $point . '');
-    // $cash_operation_id = $cash_operation_page->id;
+    //Регестрируем операцию прихода в кассу
+    $page_cash = $pages->get('template=cash_itm, id_point=' . $idpoint . '_cash');
+    $pages->add('cash_operation', $page_cash , [
+    'title' => date("Y-m-d H:i") . ' Приход - ' . $multi_price . ' - ' . $point,
+    'type_operation' => 'Приход',
+    'date' => $date,
+    'point' => $point,
+    'id_point' => $idpoint,
+    'worker' => $worker,
+    'sum' => $multi_price,
+    'cash_card' => $cash_card,
+    'multisum_nal' => $multisum_nal,
+    'multisum_beznal' => $multisum_beznal,
+    'note' => 'Приход при мульти продаже лома по операции ID: ' . $operation_id . '',
+    ]);
+    $cash_operation_page = $pages->get('title=' . date("Y-m-d H:i") . ' Приход - ' . $pay . ' - ' . $point . '');
+    $cash_operation_id = $cash_operation_page->id;
 
-    // //Записываем операцию расхода в кассу в лог
-    // $log = '';
-    // $log .= date("Y-m-d H:i") . ' Расход - ' . $multi_price . ' - ' . $point . ' === ';
-    // $log .= 'Операция проведена: ' . $worker . ', ID записи: ' . $cash_operation_id . ', Сумма: ' . $multi_price . ', Вид платежа: ' . $cash_card . ', Описание: Расход при мульти скупке лома по операции ID: ' . $operation_id;
-    // file_put_contents(__DIR__ . '/log_cash.txt', $log . PHP_EOL, FILE_APPEND);
+    //Записываем операцию прихода в кассу в лог
+    $log = '';
+    $log .= date("Y-m-d H:i") . ' Приход - ' . $multi_price . ' - ' . $point . ' === ';
+    $log .= 'Операция проведена: ' . $worker . ', ID записи: ' . $cash_operation_id . ', Сумма: ' . $multi_price . ', Вид платежа: ' . $cash_card . ', Описание: Приход при мульти продаже лома по операции ID: ' . $operation_id;
+    file_put_contents(__DIR__ . '/log_cash.txt', $log . PHP_EOL, FILE_APPEND);
 
-    // //Изменяем остатки в кассе
-    // $edit_page = $pages->get('template=cash_itm, id_point=' . $idpoint . '_cash');
-    // if ($cash_card == 'Наличный расчет') {
-    //     $result = $edit_page->sum - $multi_price;
-    //     // echo $result;
-    //     $edit_page->of(false);
-    //     $edit_page->sum = $result;
-    //     $edit_page->save();
-    // }
-    // if ($cash_card == 'Безналичный расчет') {
-    //     $result = $edit_page->bn_sum - $multi_price;
-    //     // echo $result;
-    //     $edit_page->of(false);
-    //     $edit_page->bn_sum = $result;
-    //     $edit_page->save();
-    // }
-    // if ($cash_card == 'Смешанный расчет') {
-    //     $result = $edit_page->sum - $multisum_nal;
-    //     // echo $result;
-    //     $edit_page->of(false);
-    //     $edit_page->sum = $result;
-    //     $edit_page->save();
+    //Изменяем остатки в кассе
+    $edit_page = $pages->get('template=cash_itm, id_point=' . $idpoint . '_cash');
+    if ($cash_card == 'Наличный расчет') {
+        $result = $edit_page->sum + $multi_price;
+        // echo $result;
+        $edit_page->of(false);
+        $edit_page->sum = $result;
+        $edit_page->save();
+    }
+    if ($cash_card == 'Безналичный расчет') {
+        $result = $edit_page->bn_sum + $multi_price;
+        // echo $result;
+        $edit_page->of(false);
+        $edit_page->bn_sum = $result;
+        $edit_page->save();
+    }
+    if ($cash_card == 'Смешанный расчет') {
+        $result = $edit_page->sum + $multisum_nal;
+        // echo $result;
+        $edit_page->of(false);
+        $edit_page->sum = $result;
+        $edit_page->save();
 
-    //     $result = $edit_page->bn_sum - $multisum_beznal;
-    //     // echo $result;
-    //     $edit_page->of(false);
-    //     $edit_page->bn_sum = $result;
-    //     $edit_page->save();
-    // }
+        $result = $edit_page->bn_sum + $multisum_beznal;
+        // echo $result;
+        $edit_page->of(false);
+        $edit_page->bn_sum = $result;
+        $edit_page->save();
+    }
 
-    // //Парсим массив
-    // $cart_array = explode("===", $cart);
-    // unset($cart_array[0]);
-    // foreach ($cart_array as $cart_item) {
-    //     $cart_item_array = explode(" — ", $cart_item);
-    //     $proba = $cart_item_array[0];  
-    //     $weight = $cart_item_array[2];  
-    //     $price_gramm = $cart_item_array[1];
-    //     $price = $cart_item_array[3];
-    //     $pay = rtrim($cart_item_array[4], "❌");
+    //Парсим массив
+    $cart_array = explode("===", $cart);
+    unset($cart_array[0]);
+    foreach ($cart_array as $cart_item) {
+        $cart_item_array = explode(" — ", $cart_item);
+        $proba = $cart_item_array[0];  
+        $weight = $cart_item_array[2];  
+        $price_gramm = $cart_item_array[1];
+        $price = $cart_item_array[3];
+        $pay = rtrim($cart_item_array[4], "❌");
 
-    //     // echo $proba . '<br>';
-    //     // echo $weight . '<br>';
-    //     // echo $price_gramm . '<br>';
-    //     // echo $price . '<br>';
-    //     // echo $pay . '<br>';
+        // echo $proba . '<br>';
+        // echo $weight . '<br>';
+        // echo $price_gramm . '<br>';
+        // echo $price . '<br>';
+        // echo $pay . '<br>';
 
-    //     //Регестрируем запись
-    //     $pages->add('operation_itm', $operation_id , [
-    //     'title' => date("Y-m-d H:i") . ' Часть мульти скупки - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point,
-    //     'type_operation' => 'Часть мульти скупки',
-    //     'undertype_operation' => 'Лом',
-    //     'date' => $date,
-    //     'point' => $point,
-    //     'id_point' => $idpoint,
-    //     'worker' => $worker,
-    //     'proba' => $proba,
-    //     'weight' => $weight,
-    //     'price_gramm' => $price_gramm,
-    //     'price' => $price,
-    //     'pay' => $pay,
-    //     'cash_card' => $cash_card,
-    //     'description_operation' => 'Часть мульти скупки - '. $operation_id,
-    //     'paytype' => $paytype,
-    //     'client_name' => $client_name,
-    //     'client_passport' => $client_passport,
-    //     'client_address' => $client_address,
-    //     ]);
+        //Регестрируем запись
+        $pages->add('operation_itm', $operation_id , [
+        'title' => date("Y-m-d H:i") . ' Часть мульти продажи - Лом - ' . $proba . ' - ' . $weight . 'г - ' . $point,
+        'type_operation' => 'Часть мульти продажи',
+        'undertype_operation' => 'Лом',
+        'date' => $date,
+        'point' => $point,
+        'id_point' => $idpoint,
+        'worker' => $worker,
+        'proba' => $proba,
+        'weight' => $weight,
+        'price_gramm' => $price_gramm,
+        'price' => $price,
+        'pay' => $pay,
+        'cash_card' => $cash_card,
+        'description_operation' => 'Часть мульти продажи - '. $operation_id,
+        'paytype' => $paytype,
+        'client_name' => $client_name,
+        'client_passport' => $client_passport,
+        'client_address' => $client_address,
+        ]);
 
-    //     //Изменяем остатки
-    //     $point_actual_table = $pages->get('id_point=' . $idpoint . '_actual');
-    //     $edit_page = $point_actual_table->get('title=' . $proba . '');
-    //     // echo $edit_page . '<br>';
-    //     // echo $edit_page->remain . '<br>';
-    //     // echo $weight . '<br>';
-    //     $result = $edit_page->remain + $weight;
-    //     // echo $result;
-    //     $edit_page->of(false);
-    //     $edit_page->remain = $result;
-    //     $edit_page->save();
-    // }
+        //Изменяем остатки
+        $point_actual_table = $pages->get('id_point=' . $idpoint . '_actual');
+        $edit_page = $point_actual_table->get('title=' . $proba . '');
+        // echo $edit_page . '<br>';
+        // echo $edit_page->remain . '<br>';
+        // echo $weight . '<br>';
+        $result = $edit_page->remain - $weight;
+        // echo $result;
+        $edit_page->of(false);
+        $edit_page->remain = $result;
+        $edit_page->save();
+    }
 
-    // //Предотвращаем повторную регистрацию
-    // $_SESSION['reload'] = 'on';
+    //Предотвращаем повторную регистрацию
+    $_SESSION['reload'] = 'on';
 
-    // //Функционал распечатки квитанции
-    // $info_paytype = '';
-    // if ($paytype == 'Да') {
-    //     $info_paytype = '
-    //     <p class="uk-margin-remove">ФИО клиента: <span style="font-weight: 700;">' . $client_name . '</span></p>
-    //     <p class="uk-margin-remove">Паспорт клиента: <span style="font-weight: 700;">' . $client_passport . '</span></p>
-    //     <p class="uk-margin-remove">Адрес клиента: <span style="font-weight: 700;">' . $client_address . '</span></p>
-    //     <form class="uk-flex uk-flex-column" id="print_receipt" action="/raspechatka-multi-kvitantcii/" method="post">
-    //         <div class="uk-margin-small-top uk-hidden">
-    //             <input class="uk-input" id="print_type" type="text" name="print_type" value="Скупка">
-    //         </div>
-    //         <div class="uk-margin-small-top uk-hidden">
-    //             <input class="uk-input" id="print_undertype" type="text" name="print_undertype" value="Лом">
-    //         </div>
-    //         <div class="uk-margin-small-top uk-hidden">
-    //             <input class="uk-input" id="print_date" type="text" name="print_date" value="' . $date . '">
-    //         </div>
-    //         <div class="uk-margin-small-top uk-hidden">
-    //             <input class="uk-input" id="print_point" type="text" name="print_point" value="' . $point . '">
-    //         </div>
-    //         <div class="uk-margin-small-top uk-hidden">
-    //             <input class="uk-input" id="print_client_name" type="text" name="print_client_name" value="' . $client_name . '">
-    //         </div>
-    //         <div class="uk-margin-small-top uk-hidden">
-    //             <input class="uk-input" id="print_client_passport" type="text" name="print_client_passport" value="' . $client_passport . '">
-    //         </div>
-    //         <div class="uk-margin-small-top uk-hidden">
-    //             <input class="uk-input" id="print_client_address" type="text" name="print_client_address" value="' . $client_address . '">
-    //         </div>
-    //         <div class="uk-margin-small-top uk-hidden">
-    //             <input class="uk-input" id="print_cart" type="text" name="print_cart" value="' . $cart . '">
-    //         </div>
+    //Функционал распечатки квитанции
+    $info_paytype = '';
+    if ($paytype == 'Да') {
+        $info_paytype = '
+        <p class="uk-margin-remove">ФИО клиента: <span style="font-weight: 700;">' . $client_name . '</span></p>
+        <p class="uk-margin-remove">Паспорт клиента: <span style="font-weight: 700;">' . $client_passport . '</span></p>
+        <p class="uk-margin-remove">Адрес клиента: <span style="font-weight: 700;">' . $client_address . '</span></p>
+        <form class="uk-flex uk-flex-column" id="print_receipt" action="/raspechatka-multi-kvitantcii/" method="post">
+            <div class="uk-margin-small-top uk-hidden">
+                <input class="uk-input" id="print_type" type="text" name="print_type" value="Продажа">
+            </div>
+            <div class="uk-margin-small-top uk-hidden">
+                <input class="uk-input" id="print_undertype" type="text" name="print_undertype" value="Лом">
+            </div>
+            <div class="uk-margin-small-top uk-hidden">
+                <input class="uk-input" id="print_date" type="text" name="print_date" value="' . $date . '">
+            </div>
+            <div class="uk-margin-small-top uk-hidden">
+                <input class="uk-input" id="print_point" type="text" name="print_point" value="' . $point . '">
+            </div>
+            <div class="uk-margin-small-top uk-hidden">
+                <input class="uk-input" id="print_client_name" type="text" name="print_client_name" value="' . $client_name . '">
+            </div>
+            <div class="uk-margin-small-top uk-hidden">
+                <input class="uk-input" id="print_client_passport" type="text" name="print_client_passport" value="' . $client_passport . '">
+            </div>
+            <div class="uk-margin-small-top uk-hidden">
+                <input class="uk-input" id="print_client_address" type="text" name="print_client_address" value="' . $client_address . '">
+            </div>
+            <div class="uk-margin-small-top uk-hidden">
+                <input class="uk-input" id="print_cart" type="text" name="print_cart" value="' . $cart . '">
+            </div>
             
-    //         <div class="pagemenu uk-width-1-1 uk-flex">
-    //             <button class="menu-link" type="submit">Распечатать квитанцию</button>
-    //         </div>
-    //     </form>
-    //     ';
-    // }
+            <div class="pagemenu uk-width-1-1 uk-flex">
+                <button class="menu-link" type="submit">Распечатать квитанцию</button>
+            </div>
+        </form>
+        ';
+    }
 } else {
     $success = 'Регистрация не прошла!<br>Ошибка в данных';
     if ($_SESSION['reload'] == 'on') {
