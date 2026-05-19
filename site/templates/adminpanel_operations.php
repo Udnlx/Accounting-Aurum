@@ -52,7 +52,7 @@ $all_operations_itm = $pages->find('template=operation_itm, sort=-sort, limit=60
 $all_operations .= '<div class="scrolling-list" style="max-height: 700px;">';
 foreach ($all_operations_itm as $itm) {
     // $all_operations .= '<a class="admin-link-itm" href="/prosmotr-operatcii/?operation_id=' . $itm->id . '">' . $itm->title . '</a><br>';
-    if ($itm->type_operation = 'Мульти скупка') {
+    if ($itm->type_operation = 'Мульти скупка' || $itm->type_operation = 'Мульти продажа') {
         $child_operations = $itm->children();
         $multipart = '';
         foreach ($child_operations as $child_operation) {

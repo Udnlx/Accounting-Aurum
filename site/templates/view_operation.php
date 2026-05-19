@@ -52,6 +52,9 @@ if ($operation_page->type_operation == 'Скупка') {
 if ($operation_page->type_operation == 'Мульти скупка') {
     $desc_operation = 'Сколько отдали';
 }
+if ($operation_page->type_operation == 'Мульти продажа') {
+    $desc_operation = 'Сколько отдали';
+}
 
 //Получение данных о продукте
 $type_operation = $operation_page->type_operation;  
@@ -74,9 +77,18 @@ $client_passport = $operation_page->client_passport;
 $client_address = $operation_page->client_address;
 
 $multipart = '';
-if ($type_operation = 'Мульти скупка') {
+if ($type_operation == 'Мульти скупка') {
     $child_operations = $operation_page->children();
     $multipart .= '<h4 class="uk-margin-remove">Мультискупка:</h4>';
+    foreach ($child_operations as $child_operation) {
+        $multipart .= '
+        <p class="uk-margin-remove" style="font-size:12px;">' . $child_operation->title . '</p>
+        ';
+    }
+}
+if ($type_operation == 'Мульти продажа') {
+    $child_operations = $operation_page->children();
+    $multipart .= '<h4 class="uk-margin-remove">Мультипродажа:</h4>';
     foreach ($child_operations as $child_operation) {
         $multipart .= '
         <p class="uk-margin-remove" style="font-size:12px;">' . $child_operation->title . '</p>

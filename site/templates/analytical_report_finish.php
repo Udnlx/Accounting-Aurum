@@ -246,37 +246,80 @@ foreach ($points as $point) {
     $total_income_lom_in585_point = 0;
     foreach ($adates as $day_itm) {
         $start_day_for_report = date('d-m-Y', strtotime($day_itm));
-        $all_operation_lom_ondate = $pages->find('template=operation_itm, type_operation=Продажа, date=' . $start_day_for_report . '');
+        $all_operation_lom_ondate = $pages->find('template=operation_itm, type_operation=Продажа||Мульти продажа, date=' . $start_day_for_report . '');
         $all_operation_lom_onpoint = $all_operation_lom_ondate->find('id_point=' . $point);
         foreach ($all_operation_lom_onpoint as $item) {
-            if ($item->cash_card == 'Наличный расчет') {
-                $total_income_lom_sum_point = $total_income_lom_sum_point + $item->pay;
+            if ($item->type_operation == 'Продажа') {
+                if ($item->cash_card == 'Наличный расчет') {
+                    $total_income_lom_sum_point = $total_income_lom_sum_point + $item->pay;
+                }
+                if ($item->cash_card == 'Безналичный расчет') {
+                    $bn_total_income_lom_sum_point = $bn_total_income_lom_sum_point + $item->pay;
+                }
+                if ($item->cash_card == 'Смешанный расчет') {
+                    $total_income_lom_sum_point = $total_income_lom_sum_point + $item->multisum_nal;
+                    $bn_total_income_lom_sum_point = $bn_total_income_lom_sum_point + $item->multisum_beznal;
+                }
+                $profit = $item->pay - $item->price;
+                $total_income_profit_point = $total_income_profit_point + $profit;
+                $in585 = 0;
+                if ($item->proba == 'Ag' || $item->proba == 'Ag-800' || $item->proba == 'Ag-875' || $item->proba == 'Ag-925' || $item->proba == 'Ag-999' || $item->proba == 'Pt' || $item->proba == 'Pd') {
+                //Серебро, Платина и Палладий не считаются
+                } else {
+                    $in585 = ($item->weight/585*$item->proba);
+                }
+                $total_income_lom_in585_point = $total_income_lom_in585_point + $in585;
+                $income_lom .= '
+                <tr>
+                    <td>' . $item->worker . '</td>
+                    <td>' . $item->proba . '</td>
+                    <td>' . number_format($item->weight, 2, '.', ' ') . '</td>
+                    <td>' . number_format($item->price_gramm, 2, '.', ' ') . '</td>
+                    <td>' . number_format($item->price, 2, '.', ' ') . '</td>
+                    <td>' . number_format($item->pay, 2, '.', ' ') . '</td>
+                    <td>' . number_format($profit, 2, '.', ' ') . '</td>
+                    <td>' . number_format($in585, 2, '.', ' ') . '</td>
+                </tr>
+                ';
             }
-            if ($item->cash_card == 'Безналичный расчет') {
-                $bn_total_income_lom_sum_point = $bn_total_income_lom_sum_point + $item->pay;
+
+            if ($item->type_operation == 'Мульти продажа') {
+                if ($item->cash_card == 'Наличный расчет') {
+                    $total_income_lom_sum_point = $total_income_lom_sum_point + $item->pay;
+                }
+                if ($item->cash_card == 'Безналичный расчет') {
+                    $bn_total_income_lom_sum_point = $bn_total_income_lom_sum_point + $item->pay;
+                }
+                if ($item->cash_card == 'Смешанный расчет') {
+                    $total_income_lom_sum_point = $total_income_lom_sum_point + $item->multisum_nal;
+                    $bn_total_income_lom_sum_point = $bn_total_income_lom_sum_point + $item->multisum_beznal;
+                }
+                $child_operations = $item->children();
+                foreach ($child_operations as $child_operation) {
+                    $desc_multi = '<span style="font-size:9px;">' . $child_operation->description_operation . '</span>';
+                    $profit = $child_operation->pay - $child_operation->price;
+                    $total_income_profit_point = $total_income_profit_point + $profit;
+                    $in585 = 0;
+                    if ($item->proba == 'Ag' || $item->proba == 'Ag-800' || $item->proba == 'Ag-875' || $item->proba == 'Ag-925' || $item->proba == 'Ag-999' || $item->proba == 'Pt' || $item->proba == 'Pd') {
+                    //Серебро, Платина и Палладий не считаются
+                    } else {
+                        $in585 = ($child_operation->weight/585*$child_operation->proba);
+                    }
+                    $total_income_lom_in585_point = $total_income_lom_in585_point + $in585;
+                    $income_lom .= '
+                    <tr>
+                        <td>' . $child_operation->worker . '<br>' . $desc_multi . '</td>
+                        <td>' . $child_operation->proba . '</td>
+                        <td>' . number_format($child_operation->weight, 2, '.', ' ') . '</td>
+                        <td>' . number_format($child_operation->price_gramm, 2, '.', ' ') . '</td>
+                        <td>' . number_format($child_operation->price, 2, '.', ' ') . '</td>
+                        <td>' . number_format($child_operation->pay, 2, '.', ' ') . '</td>
+                        <td>' . number_format($profit, 2, '.', ' ') . '</td>
+                        <td>' . number_format($in585, 2, '.', ' ') . '</td>
+                    </tr>
+                    ';
+                }
             }
-            $profit = $item->pay - $item->price;
-            $total_income_profit_point = $total_income_profit_point + $profit;
-            $in585 = 0;
-            if ($item->proba == 'Ag' || $item->proba == 'Ag-800' || $item->proba == 'Ag-875' || $item->proba == 'Ag-925' || $item->proba == 'Ag-999' || $item->proba == 'Pt' || $item->proba == 'Pd') {
-            //Серебро, Платина и Палладий не считаются
-            } else {
-                $in585 = ($item->weight/585*$item->proba);
-            }
-            $total_income_lom_in585_point = $total_income_lom_in585_point + $in585;
-            $income_lom .= '
-            <tr>
-                <td>' . $item->date . '</td>
-                <td>' . $item->worker . '</td>
-                <td>' . $item->proba . '</td>
-                <td>' . number_format($item->weight, 2, '.', ' ') . '</td>
-                <td>' . number_format($item->price_gramm, 2, '.', ' ') . '</td>
-                <td>' . number_format($item->price, 2, '.', ' ') . '</td>
-                <td>' . number_format($item->pay, 2, '.', ' ') . '</td>
-                <td>' . number_format($profit, 2, '.', ' ') . '</td>
-                <td>' . number_format($in585, 2, '.', ' ') . '</td>
-            </tr>
-            ';
         }
     }
     $income_lom .= '
